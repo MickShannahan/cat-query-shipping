@@ -1,5 +1,6 @@
 import Cat from 'catid'
 import mongoose from 'mongoose'
+import { hashIt } from '../utils/Cryptor'
 import { bool, code, crypto, description, insuredAmount, planet, planetCode, planetNumber, postageCost, postalHistory, postalStation, shippingTier, spaceDate, tracking } from '../utils/Generators'
 const Schema = mongoose.Schema
 
@@ -63,7 +64,7 @@ export const ShipmentSchema = new Schema(
         ret.missingProperties.forEach(p => {
           delete ret[p]
         })
-        delete ret.id
+        ret.id = hashIt(ret._id.toString())
         delete ret._id
         if (ret.missingProperties) delete ret.missingProperties
       }

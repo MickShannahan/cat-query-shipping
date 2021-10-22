@@ -1,16 +1,17 @@
-
-  {
-    "name": "cat-query-shipping",
-    "version": "1.0.0",
-    "scripts": {
-      "build": "npm run setup:server",
-      "setup:app": "npm run setup:server && npm run setup:client",
-      "setup:client": "cd cat-query-shipping.client && npm i",
-      "setup:server": "cd cat-query-shipping && npm i",
-      "start": "node cat-query-shipping/index.js"
-    },
-    "engines": {
-      "node": "^14.17.0"
-    }
+{
+  "name": "cat-query-shipping",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "npm run setup:server",
+    "setup:app": "npm run setup:server && npm run setup:client",
+    "setup:client": "cd cat-query-shipping.client && npm i",
+    "setup:server": "cd cat-query-shipping && npm i",
+    "start": "node cat-query-shipping/index.js"
+  },
+  "engines": {
+    "node": "^14.17.0"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3"
   }
-  
+}

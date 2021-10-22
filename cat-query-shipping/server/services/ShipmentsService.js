@@ -16,8 +16,8 @@ class ShipmentsService {
         query[k] = { $regex: new RegExp(expression[1], expression[2]) }
       }
     })
-    const shipments = await dbContext.Shipments.find(query).limit(100)
-    return shipments
+    const shipments = await dbContext.Shipments.find(query).limit(100).set('-missingProperties')
+    return { hits: shipments.length, results: shipments }
   }
 
   async searchMissingShipments(query) {
@@ -28,8 +28,8 @@ class ShipmentsService {
     }
   }
 
-  async getMissingShipment() {
-    const numberOfShipments = await dbContext.Shipments.count()
+  async getMissingShipment(query = {}) {
+    const numberOfShipments = await dbContext.Shipments.count(query)
     const randShipment = Math.floor(Math.random() * numberOfShipments)
     const shipment = await dbContext.Shipments.find().limit(1).skip(randShipment)
     return shipment[0].toObject()

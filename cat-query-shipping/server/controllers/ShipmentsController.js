@@ -9,22 +9,18 @@ export class ShipmentsController extends BaseController {
     super('api/shipments')
     this.router
       .get('', this.getAll)
-      .get('/missing', this.getMissingShipment)
+      .get('/lost', this.getMissingShipment)
       .get('/search', this.searchMissingShipments)
       .post('/query', this.runQuery)
       .post('/1000', this.createThousand)
       .post('', this.createShipment)
       .use(Auth0Provider.getAuthorizedUserInfo)
-      // .use(generateShipment)
   }
 
   async getAll(req, res, next) {
     try {
       const shipments = await shipmentsService.getAll(req.query)
-      return res.send({
-        unionNotes: '[^  .  ^]',
-        shipments
-      })
+      return res.send(shipments)
     } catch (error) {
       logger.log(error)
       next(error)
@@ -83,17 +79,5 @@ export class ShipmentsController extends BaseController {
     } catch (error) {
       next(error)
     }
-  }
-}
-
-async function generateShipment(req, res, next) {
-  try {
-    const shipment = new RandomShipment()
-    shipment.lostProps(shipment)
-    req.body = shipment
-    return next()
-  } catch (error) {
-    logger.log(error)
-    return next(error)
   }
 }
