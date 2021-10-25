@@ -98,7 +98,7 @@ export default {
     const bozkoBusy = ref(false)
     const bozkoHide = ref(true)
     const chatTree = ref({})
-    let chatSpeed = 30
+    let chatSpeed = 3500
     onMounted(() => {
       chatTree.value = AppState.chatTree
       const dialogue = document.getElementById('dialogueOffCanvas')
@@ -119,12 +119,13 @@ export default {
       bozkoBusy,
       bozkoHide,
       bozkoTalk(string) {
-        let interval = 0
+        let interval = string.length > 50 ? chatSpeed / string.length : 30
+        let count = 0
         bozkoBusy.value = true
         bozkoText.value = ''
-        setTimeout(() => bozkoBusy.value = false, string.length * chatSpeed + 1000)
+        setTimeout(() => bozkoBusy.value = false, interval * string.length + 500)
         string.split('').forEach(c => {
-          setTimeout(() => bozkoText.value += c, interval += chatSpeed)
+          setTimeout(() => bozkoText.value += c, count += interval)
         })
       },
       bozkoChat(option) {

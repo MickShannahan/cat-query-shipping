@@ -14,7 +14,7 @@ export const AppState = reactive({
       branches: {"[GO BACK]":"[GO BACK]"},
     },
     "Who are you?": {
-      text: "Your Post Manager, Bozko Grumpybottom the 3rd. Just call me Bozko. I'm here to watch over you as you dig up lost shipments. Also I am here make sure if you hit a road-block or need assistence, then I can mark it down in your 'efficiency record'.  You can think of me like a score keeper... Oh did someone not leave the door open for you this morning? Don't look so irritated Kiddo.  I help out too.",
+      text: "Your Post Manager, Bozko Grumpybottom the 3rd. Just call me Boz. I'm here to watch over you as you dig up lost shipments. Also I am here make sure if you hit a road-block or need assistence, then I can mark it down in your 'efficiency record'.  You can think of me like a score keeper... Oh did someone not leave the door open for you this morning? Don't look so irritated Kiddo.  I help out too.",
       branches: {"[GO BACK]": "[GO BACK]"},
     },
     "Can you help me?": {
@@ -28,6 +28,10 @@ export const AppState = reactive({
           text:"That's Easy Kid, with the Adam Sandler... Ambulance... Amps-and-sand, you know that thing between the 6 and 7 key, just put that between each query.",
            branches: {"[GO BACK]": "[GO BACK]"}
           },
+          "How Should I format my Query?":{
+            text: "You're lucky Kid, old Boz here is a pro.  I used to be known for stringing together all sorts of 'Mad' queries.  Ah uh well, anyways.  As long as the API you're using supports it like the lost shipment database, they you can search like a pro, getting back only the results you want.  It goes something like this: https://websiteLocation.com/api/collection?query=value.  The query begins after the question mark '?', and you specify the property you are searching by, then follows the value you want that property to have, like: '?planet=Neptune III' or '?insured=true'.",
+          branches: {'[GO BACK]': "[GO BACK]"}
+        },
         '[GO BACK]': "[GO BACK]"
       }
     }
