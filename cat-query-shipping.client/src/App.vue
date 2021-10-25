@@ -5,9 +5,10 @@
   <main>
     <router-view />
   </main>
-  <footer>
+  <footer class="container-fluid">
+    <Dialogue />
     <div class="bg-dark text-light text-center p-4">
-      Made with 💖 by CodeWorks
+      Made with your <i class="mdi mdi-google-podcast"></i> Union Tax Credits
     </div>
   </footer>
 </template>
