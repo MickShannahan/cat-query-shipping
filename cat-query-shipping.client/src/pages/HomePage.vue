@@ -11,6 +11,7 @@
     <div class="container-fluid">
       <LostShipment />
       <Search />
+      <CodeSearch />
       <ShipmentsThread />
     </div>
   </div>

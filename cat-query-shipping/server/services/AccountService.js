@@ -74,5 +74,12 @@ class AccountService {
     )
     return account
   }
+
+  async setLostShipment(userId, shipmentId) {
+    const account = await dbContext.Account.findById(userId)
+    account.lostShipmentId = shipmentId
+    account.currentGuesses = []
+    await account.save()
+  }
 }
 export const accountService = new AccountService()

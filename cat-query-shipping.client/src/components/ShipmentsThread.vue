@@ -9,7 +9,7 @@
         'text-danger': hits > 25 || hits == 0,
       }"
     >
-      Hits {{ hits }} <span v-if="hits == 100">MAX</span>
+      Hits {{ hits }} <span v-if="hits == 50">MAX</span>
     </div>
     <div class="col-12">
       <Shipment v-for="s in shipments" :key="s.id" :shipment="s" />
@@ -24,7 +24,7 @@ export default {
   setup() {
 
     return {
-      shipments: computed(() => AppState.searchResults.results?.map(s => { delete s._id; return s })),
+      shipments: computed(() => AppState.searchResults.results),
       hits: computed(() => AppState.searchResults.hits)
     }
   }

@@ -6,5 +6,6 @@ export const AppState = reactive({
   account: {},
   lostShipment: {},
   baseUrl: 'http://localhost:3000/api/shipments',
-  searchResults: []
+  searchResults: [],
+  currentGuesses: []
 })

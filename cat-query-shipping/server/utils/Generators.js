@@ -1,14 +1,13 @@
-import { logger } from './Logger'
 
 // RegExs
-const codeRx = /[A-Z][A-Z][0-9][0-9][A-Z]/
-const trackingRx = /[A-Z0-9]{3}-[A-Z0-9]{3}-[A-Z0-9]{3}-[A-Z0-9]{3}-[A-Z0-9]{3}[a-z]/
+const codeRx = /[A-Z][1-9][1-9]/
+const trackingRx = /[A-Z0-9]{3}-[A-Z0-9]{3}-[A-Z0-9]{3}-[A-Z0-9]{3}[a-z]/
 const dateRx = /(Sol | Minkow | Tera | Union)[0-9]{4}:[0-9]{2}/
 const dateTypes = ['Sol', 'Minkow', 'Tera', 'Union']
 const cryptos = ['KITCOIN', 'SCRATCH', 'M0nSER4T', 'SAUCER', 'PETCO', 'MOONCHSE', 'CNIP', 'DOMINION']
-const alph = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-const nums = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-const shippingTiers = ['1LTYR', '2LTYR', 'METEOR-FREIGHT', 'GALAXY-EXPRESS', 'TELEPORT+', 'INTERPLANETARY/DOMESTIC', 'STANDARD']
+const alph = ['A', 'B', 'C', 'E', 'F', 'G', 'K', 'M', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z']
+const nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+const shippingTiers = ['1LTYR', '2LTYR', 'METEOR-FREIGHT', 'GALAXY-EXPRESS', 'TELEPORT+', 'INTERPLANETARY/DOMESTIC', 'STANDARD', 'STANDARD+', 'WARP-FREIGHT']
 const planets = [
   'Mercury',
   'Venus',
@@ -444,6 +443,8 @@ export function postageCost(tier) {
       return 25
     case 'STANDARD':
       return 60
+    default:
+      return 70
   }
 }
 
@@ -452,16 +453,16 @@ export function crypto() {
 }
 
 export function spaceDate() {
-  const format = dateTypes[Math.floor(Math.random() * dateTypes.length)] + ':'
   let spaceDate = ''
-  for (let i = 1; i <= 4; i++) {
-    spaceDate += nums[Math.floor(Math.random() * nums.length)]
-  }
-  spaceDate += ':'
+
   for (let i = 1; i <= 2; i++) {
     spaceDate += nums[Math.floor(Math.random() * nums.length)]
   }
-  return format + spaceDate
+  return spaceDate
+}
+
+export function dateFormat() {
+  return dateTypes[Math.floor(Math.random() * dateTypes.length)]
 }
 
 export function postalStation() {
@@ -473,7 +474,6 @@ export function postalHistory() {
 }
 
 export function insuredAmount(insured, pirate, postage) {
-  logger.log(postage)
   if (insured) {
     postage *= 2
   }
@@ -484,7 +484,13 @@ export function insuredAmount(insured, pirate, postage) {
 }
 
 export function code() {
-  const code = alph[Math.floor(Math.random() * alph.length)] + alph[Math.floor(Math.random() * alph.length)] + nums[Math.floor(Math.random() * nums.length)] + nums[Math.floor(Math.random() * nums.length)] + alph[Math.floor(Math.random() * alph.length)]
+  const code = alph[Math.floor(Math.random() * alph.length)] + nums[Math.floor(Math.random() * nums.length)] + nums[Math.floor(Math.random() * nums.length)]
+  return code
+}
+
+export function quadrantCode(hasCode) {
+  if (!hasCode) return false
+  const code = nums[Math.floor(Math.random() * nums.length)] + alph[Math.floor(Math.random() * alph.length)] + alph[Math.floor(Math.random() * alph.length)]
   return code
 }
 
@@ -506,6 +512,46 @@ export function planetCode(planetName) {
   return transcribed.join('').toUpperCase().slice(0, 4)
 }
 
-export function missingProperties() {
+export function missingProperties(schemaObject, chance) {
+  const keys = Object.keys(schemaObject)
+  const missingKeys = keys.map(key => {
+    // eslint-disable-next-line no-mixed-operators
+    if (Math.random() < 0.5) {
+      return key
+    }
+    return null
+  }).filter(n => n)
+  return missingKeys
+}
 
+export function damageProperties(schemaObject, chance) {
+  const dict = {}
+  Object.keys(schemaObject).forEach(k => {
+    if (Math.random() < chance) dict[k] = damageProperty(schemaObject[k])
+  })
+  return dict
+}
+
+export function damageKeys(schemaObject, chance) {
+  const dict = {}
+  Object.keys(schemaObject).forEach(k => {
+    if (Math.random() < chance) { dict[k] = damageProperty(k) }
+  })
+  return dict
+}
+
+export function damageProperty(prop) {
+  switch (typeof prop) {
+    case 'string':
+      const rand1 = Math.floor(Math.random() * (prop.length / 2))
+      const rand2 = Math.floor(Math.random() * (prop.length / 2) + (prop.length / 2))
+      return prop.split('').splice(rand1, rand2, '...').join('')
+    case 'number' :
+      return prop * Math.random()
+    case 'boolean':
+      const answers = ['yes', 'no', 'maybe', 'unsure']
+      return answers[Math.floor(Math.random() * answers.length)]
+    default:
+      return '...'
+  }
 }

@@ -1,5 +1,16 @@
 <template>
-  <div class="row component justify-content-end m-2 bg-light darken-20 p-2">
+  <div
+    class="
+      row
+      component
+      justify-content-end
+      m-2
+      bg-warning
+      lightne-20
+      rounded
+      p-2
+    "
+  >
     <div class="col-6" v-for="(value, key) in lostShipment" :key="key">
       <b class="hover" @click="copy">{{ key }}</b>
       <span> : </span>
@@ -44,6 +55,8 @@ export default {
 
 <style scoped>
 .hover {
+  padding: 3px;
+  border-radius: 5px;
   transition: all 0.15s ease;
 }
 

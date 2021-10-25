@@ -1,6 +1,12 @@
 <template>
-  <div class="shipment row my-1 p-2 rounded">
-    <div class="col-12 bg-light rounded">
+  <div class="shipment row my-1 p-2 rounded" @click="checkAnswer">
+    <div
+      class="col-12 rounded"
+      :class="{
+        'bg-light': !hasBeenGuessed,
+        'bg-danger lighten-30': hasBeenGuessed,
+      }"
+    >
       <div class="row">
         <div class="col-6" v-for="(value, key) in shipment" :key="key">
           <b class="hover">{{ key }}</b
@@ -15,10 +21,15 @@
 <script>
 import { AppState } from '../AppState';
 import { computed, reactive, onMounted } from 'vue';
+import { accountService } from '../services/AccountService'
 export default {
   props: { shipment: { type: Object, required: true } },
-  setup() {
+  setup(props) {
     return {
+      hasBeenGuessed: computed(() => AppState.currentGuesses.includes(props.shipment._id)),
+      checkAnswer() {
+        accountService.checkAnswer(props.shipment._id)
+      }
     }
   }
 };

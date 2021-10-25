@@ -1,5 +1,6 @@
 import '@mdi/font/css/materialdesignicons.css'
 import 'bootstrap'
+import 'monaco-editor'
 import { createApp } from 'vue'
 // @ts-ignore
 import App from './App.vue'

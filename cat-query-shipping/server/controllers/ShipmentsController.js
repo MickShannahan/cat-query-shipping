@@ -1,5 +1,6 @@
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { RandomShipment } from '../models/Shipment'
+import { gameService } from '../services/GameService'
 import { shipmentsService } from '../services/ShipmentsService'
 import BaseController from '../utils/BaseController'
 import { logger } from '../utils/Logger'
@@ -9,12 +10,12 @@ export class ShipmentsController extends BaseController {
     super('api/shipments')
     this.router
       .get('', this.getAll)
-      .get('/lost', this.getMissingShipment)
       .get('/search', this.searchMissingShipments)
       .post('/query', this.runQuery)
-      .post('/1000', this.createThousand)
+      .post('/:number', this.createThousand)
       .post('', this.createShipment)
       .use(Auth0Provider.getAuthorizedUserInfo)
+      .get('/lost', this.getLostShipment)
   }
 
   async getAll(req, res, next) {
@@ -27,9 +28,11 @@ export class ShipmentsController extends BaseController {
     }
   }
 
-  async getMissingShipment(req, res, next) {
+  // get random lost Shipment for the user
+  async getLostShipment(req, res, next) {
     try {
-      const shipment = await shipmentsService.getMissingShipment(req.query)
+      const userId = req.userInfo.id
+      const shipment = await gameService.getLostShipment(req.query, userId)
       return res.send(shipment)
     } catch (error) {
       logger.log(error)
@@ -49,6 +52,7 @@ export class ShipmentsController extends BaseController {
 
   async createShipment(req, res, next) {
     try {
+      req.body = new RandomShipment()
       const shipment = await shipmentsService.create(req.body)
       return res.send(shipment)
     } catch (error) {
@@ -59,9 +63,8 @@ export class ShipmentsController extends BaseController {
 
   async createThousand(req, res, next) {
     try {
-      for (let i = 0; i < 999; i++) {
+      for (let i = 0; i < parseInt(req.params.number); i++) {
         const shipment = new RandomShipment()
-        shipment.lostProps(shipment)
         await shipmentsService.create(shipment)
       }
       return res.send('done')
