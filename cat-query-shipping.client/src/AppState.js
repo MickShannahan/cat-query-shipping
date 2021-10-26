@@ -21,11 +21,11 @@ export const AppState = reactive({
       text: "If I had a Union Credit for each time you asked for help Kid, I might be able to afford that trip to Earth II.  Ah, fine.  You see that URL input field? try looking up the missing shipment using a query, you know the thing that comes after the '?', then select the correct manifest from the Database print out.  You're limited to 50 results so if you need to narrow your search just add more queries.",
       branches:{
         "What's A Query?": {
-          text:"WHAT DO YOU MEAN WHAT IS A QUERY?!  Are you pulling my tail right now Kid?  I'm going to pretend I didn't here that and go refill my milk.  When I get back you better have looked up for yourself or something....sheesh.",
+          text:"WHAT DO YOU MEAN WHAT IS A QUERY?!  Are you pulling my tail right now Kid?  I'm going to pretend I didn't here that and go refill my milk.  When I get back you better have looked it up for yourself or something....sheesh.",
            branches: {"[GO BACK]": "[GO BACK]"}
           },
         "What if I want to Query multiple things?": {
-          text:"That's Easy Kid, with the Adam Sandler... Ambulance... Amps-and-sand, you know that thing between the 6 and 7 key, just put that between each query.",
+          text:"That's Easy Kid, with the Adam Sandler... Ambulance... Amps-and-sand, you know that thing between the 6 and 8 key, just put that between each query.",
            branches: {"[GO BACK]": "[GO BACK]"}
           },
           "How Should I format my Query?":{
@@ -34,6 +34,10 @@ export const AppState = reactive({
         },
         '[GO BACK]': "[GO BACK]"
       }
+    },
+    "Report an Issue" : {
+      text: "to report an issue, navigate here:\n <a href='https://github.com/MickShannahan/cat-query-shipping/issues.' target='_blank'>catsuniversalpostalservice.gov/issues</a>",
+      branches: {'[GO BACK]': "[GO BACK]"}
     }
   }
 })

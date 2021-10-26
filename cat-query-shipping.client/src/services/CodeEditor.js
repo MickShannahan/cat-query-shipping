@@ -33,7 +33,7 @@ self.MonacoEnvironment = {
   let editor = monaco.editor.create(document.getElementById('code-window'), {
     value: [
       'const query = {',
-      '',
+      'property: "value"',
       '}'
     ].join('\n'),
     language: 'javascript',

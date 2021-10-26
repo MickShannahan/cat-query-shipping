@@ -31,31 +31,86 @@ class ShipmentService{
 
 
 }
+export const shipmentService = new ShipmentService()
+
+
+// TODO move to utils
 
 function stringToObject(str){
-  let object = {}
-  let flat = /query|=|const|let|var|\n| /g
-  str = str.replace(flat, '')
- let rb = /{/g
- let lb  = /}/g
- let comma = /,/g
- let colon = /:/g
+let out = {}
+let flat = /query|=|const|let|var|\n| /g
+str = str.replace(flat, '')
+if(str.startsWith('{')) str = str.slice(1)
+if(str.endsWith('}')) str = str.slice(0,str.length-1)
 
-  str = str.replace(rb, '{ "')
-  str = str.replace(lb, '" }')
-  str = str.replace(comma, '", "')
-  str = str.replace(colon, '" : "')
-  // str = str.split(',')
-  // str.forEach(p => {
-  //   const key = p.split(':')[0]
-  //   const value = p.split(':')[1]
-  // })
-  // let json = JSON.stringify(object)
-  logger.log(str)
-  object = JSON.parse(str)
-  logger.log(object)
-  return object
+let dataArr = betterSplit(str)
+// console.log('dataArr',dataArr)
+dataArr.forEach(d=>{
+  let index = d.indexOf(':')
+  let key = d.slice(0, index)
+  let value = dataTyper(d.slice(index + 1))
+  out[key] = value
+})
+// console.log('out',out)
+return out
 }
 
 
-export const shipmentService = new ShipmentService()
+
+// DATA TYPER
+function dataTyper(value){
+  // console.log('determining type', value)
+  let out = null
+const unquote = /'|"/g
+if(Math.abs(1 + value) > 1){
+    out = parseInt(value)
+  } else if( value == 'true' ){
+    out = true
+  } else if(value == 'false'){
+    out = false
+  } else if(value.startsWith('{')){
+    out = stringToObject(value)
+  } else if(value.startsWith('[')){
+
+    out = betterSplit(value.slice(1, value.length-1)).map(v => dataTyper(v))
+
+  } else if (value == null){
+    out = null
+  } else {
+    out = value.replace(unquote, '')
+  }
+  return out
+}
+
+
+// Tracking split
+function betterSplit(str){
+  str += ','
+let dataArr = []
+let strArr = str.split('')
+let lastComma = 0
+let inner = []
+strArr.forEach((c,i) =>{
+  if(c == ','&& inner.length ==0){
+    dataArr.push(strArr.slice(lastComma, i).join(''))
+    lastComma = i +1
+  } else if(c == '['){
+    inner.push('[')
+  } else if (c == ']'){
+    inner.pop()
+  } else if (c == '{'){
+    inner.push('{')
+  } else if (c == '}'){
+    inner.pop()
+  }
+})
+return dataArr
+}
+
+
+
+
+
+
+
+

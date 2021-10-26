@@ -10,12 +10,7 @@ class ShipmentsService {
   }
 
   async getAll(query = {}) {
-    Object.keys(query).forEach(k => {
-      if (typeof query[k] === 'string' && query[k].startsWith('/')) {
-        const expression = query[k].split('/')
-        query[k] = { $regex: new RegExp(expression[1], expression[2]) }
-      }
-    })
+    query = regexr(query)
     const shipments = await dbContext.Shipments.find(query).limit(50).set('-missingProperties -damagedPropertied -damagedKeys')
     return { hits: shipments.length, results: shipments }
   }
@@ -39,3 +34,16 @@ class ShipmentsService {
 }
 
 export const shipmentsService = new ShipmentsService()
+
+function regexr(object) {
+  Object.keys(object).forEach(k => {
+    if (k === '$regex' && object[k].startsWith('/')) {
+      const expression = object[k].split('/')
+      object[k] = new RegExp(expression[1], expression[2])
+    }
+    if (Object.keys(object[k]).length > 0) {
+      object[k] = regexr(object[k])
+    }
+  })
+  return object
+}

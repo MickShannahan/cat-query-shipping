@@ -15,9 +15,9 @@
       data-bs-toggle="offcanvas"
       data-bs-target="#dialogueOffCanvas"
       aria-controls="offcanvasBottom"
-      @click="bozkoTalk(`What's up Kid.`)"
+      @click="bozkoTalk(`What's up Kid?`)"
     >
-      help
+      Ask Boz
     </button>
 
     <div
@@ -69,10 +69,8 @@
               pl-3
               p-2
             "
-          >
-            {{ bozkoText }}
-            <span class="message-corner bg-white"></span>
-          </div>
+            v-html="bozkoText"
+          ></div>
         </div>
         <div class="col-1"></div>
         <div class="col-2 bozko-container">
@@ -95,6 +93,7 @@ import { logger } from '../utils/Logger';
 export default {
   setup() {
     const bozkoText = ref('')
+    const bozkoQuestion = ref("What's up Kid?")
     const bozkoBusy = ref(false)
     const bozkoHide = ref(true)
     const chatTree = ref({})
@@ -103,11 +102,9 @@ export default {
       chatTree.value = AppState.chatTree
       const dialogue = document.getElementById('dialogueOffCanvas')
       dialogue.addEventListener('hide.bs.offcanvas', function () {
-        logger.log('hiding')
         bozkoHide.value = true
       })
-      dialogue.addEventListener('shown.bs.offcanvas', function () {
-        logger.log('showing')
+      dialogue.addEventListener('show.bs.offcanvas', function () {
         bozkoHide.value = false
         chatTree.value = AppState.chatTree
       })
@@ -123,9 +120,13 @@ export default {
         let count = 0
         bozkoBusy.value = true
         bozkoText.value = ''
-        setTimeout(() => bozkoBusy.value = false, interval * string.length + 500)
+        setTimeout(() => bozkoBusy.value = false, 500)
         string.split('').forEach(c => {
-          setTimeout(() => bozkoText.value += c, count += interval)
+          setTimeout(() => {
+            if (bozkoQuestion.value == string) {
+              bozkoText.value += c
+            }
+          }, count += interval)
         })
       },
       bozkoChat(option) {
@@ -133,6 +134,7 @@ export default {
           chatTree.value = AppState.chatTree
           return
         }
+        bozkoQuestion.value = chatTree.value[option].text
         this.bozkoTalk(chatTree.value[option].text)
         chatTree.value = chatTree.value[option].branches
       }
@@ -166,7 +168,7 @@ h5 {
   position: absolute;
   height: 50vh;
   aspect-ratio: 1;
-  transition: all ease 0.2s;
+  transition: all cubic-bezier(0.54, -0.35, 0.45, 1.41) 0.5s;
 }
 
 .bozko-text {
