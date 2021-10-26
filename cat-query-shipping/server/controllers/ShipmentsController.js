@@ -10,7 +10,7 @@ export class ShipmentsController extends BaseController {
     super('api/shipments')
     this.router
       .get('', this.getAll)
-      .get('/search', this.searchMissingShipments)
+      .get('/search', this.searchLostShipments)
       .post('/query', this.runQuery)
       .post('/:number', this.createThousand)
       .post('', this.createShipment)
@@ -40,9 +40,9 @@ export class ShipmentsController extends BaseController {
     }
   }
 
-  async searchMissingShipments(req, res, next) {
+  async searchLostShipments(req, res, next) {
     try {
-      const shipments = await shipmentsService.searchMissingShipments(req.query)
+      const shipments = await shipmentsService.searchLostShipments(req.query)
       return res.send(shipments)
     } catch (error) {
       logger.log(error)

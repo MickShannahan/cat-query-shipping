@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
-        <img alt="logo" src="../assets/img/CUPS-Logo.png" height="60" />
+        <img alt="logo" src="../assets/img/CUPS-Logo.png" height="50" />
       </div>
     </router-link>
     <button
@@ -40,10 +40,13 @@
           @click="login"
           v-if="!user.isAuthenticated"
         >
-          Login
+          clock in
         </button>
 
-        <div class="dropdown my-2 my-lg-0" v-else>
+        <div class="d-flex align-items-center dropdown my-2 my-lg-0" v-else>
+          <div class="me-5 text-warning">
+            <i class="mdi mdi-google-podcast mx-1"></i>{{ account.credits }}
+          </div>
           <div
             class="dropdown-toggle selectable"
             data-bs-toggle="dropdown"
@@ -76,7 +79,7 @@
               @click="logout"
             >
               <i class="mdi mdi-logout"></i>
-              logout
+              clock out
             </div>
           </div>
         </div>
@@ -93,6 +96,7 @@ export default {
   setup() {
     return {
       user: computed(() => AppState.user),
+      account: computed(() => AppState.account),
       async login() {
         AuthService.loginWithPopup()
       },

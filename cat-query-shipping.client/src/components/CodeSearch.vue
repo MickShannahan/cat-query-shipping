@@ -8,7 +8,11 @@
       <i class="mdi mdi-console"></i> toggle code window
     </div>
   </div>
-  <div id="code-collapse" class="row px-3 align-items-end justify-content-end">
+  <div
+    id="code-collapse"
+    class="row px-3 align-items-end justify-content-end collapse"
+  >
+    <!-- Actual Window -->
     <div id="code-window" class="col-12 p-0 code-search"></div>
     <button class="col-1 btn btn-outline-info btn-over-window" @click="search">
       <i class="mdi mdi-send"></i>

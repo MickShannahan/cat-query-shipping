@@ -12,7 +12,9 @@
       Hits {{ hits }} <span v-if="hits == 50">MAX</span>
     </div>
     <div class="col-12">
-      <Shipment v-for="s in shipments" :key="s.id" :shipment="s" />
+      <transition-group name="shipments">
+        <Shipment v-for="s in shipments" :key="s._id" :shipment="s" />
+      </transition-group>
     </div>
   </div>
 </template>
@@ -32,5 +34,14 @@ export default {
 </script>
 
 
-<style scoped>
+<style lang='scss' scoped>
+.shipments-enter-active,
+.shipments-leave-active {
+  transition: all 0.2s ease;
+}
+.shipments-enter-from,
+.shipments-leave-to {
+  opacity: 0;
+  transform: rotate3d(1, 0, 0, 80deg);
+}
 </style>

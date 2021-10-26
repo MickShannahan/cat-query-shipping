@@ -15,7 +15,7 @@ class ShipmentsService {
     return { hits: shipments.length, results: shipments }
   }
 
-  async searchMissingShipments(query) {
+  async searchLostShipments(query) {
     const shipments = await dbContext.Shipments.find(query)
     logger.log(shipments)
     return {
@@ -31,19 +31,28 @@ class ShipmentsService {
     }
     return value
   }
+
+  async getLostById(id) {
+    const value = await dbContext.Shipments.findById(id)
+    if (!value) {
+      throw new BadRequest('Invalid Id')
+    }
+    return value.toObject()
+  }
 }
 
-export const shipmentsService = new ShipmentsService()
-
 function regexr(object) {
+  logger.log(object)
   Object.keys(object).forEach(k => {
     if (k === '$regex' && object[k].startsWith('/')) {
       const expression = object[k].split('/')
       object[k] = new RegExp(expression[1], expression[2])
     }
-    if (Object.keys(object[k]).length > 0) {
+    if (typeof object[k] === 'object' && Object.keys(object[k]).length > 0) {
       object[k] = regexr(object[k])
     }
   })
   return object
 }
+
+export const shipmentsService = new ShipmentsService()

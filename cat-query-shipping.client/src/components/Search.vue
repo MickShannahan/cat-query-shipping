@@ -8,6 +8,7 @@
         baseUrl
       }}</span>
       <input
+        spellcheck="false"
         v-model="query"
         type="text"
         class="form-control bg-dark text-info"

@@ -1,3 +1,4 @@
+import { logger } from './Logger'
 
 // RegExs
 const codeRx = /[A-Z][1-9][1-9]/
@@ -396,6 +397,7 @@ const planets = [
   'Kria',
   'Krikkit'
 ]
+const glitchFills = ['ᵒ⋏ᵒ', '/ᐠ.ꞈ.ᐟ\\', '*_', '..', '_-', '^~', '៱˳_˳៱']
 const planetCodeKey = 4
 
 export function bool() {
@@ -541,11 +543,14 @@ export function damageKeys(schemaObject, chance) {
 }
 
 export function damageProperty(prop) {
+  const randomFill = glitchFills[Math.floor(Math.random() * glitchFills.length)]
   switch (typeof prop) {
     case 'string':
       const rand1 = Math.floor(Math.random() * (prop.length / 2))
       const rand2 = Math.floor(Math.random() * (prop.length / 2) + (prop.length / 2))
-      return prop.split('').splice(rand1, rand2, '...').join('')
+      prop = prop.split('')
+      prop.splice(rand1, rand2, randomFill)
+      return prop.join('')
     case 'number' :
       return prop * Math.random()
     case 'boolean':
@@ -554,4 +559,16 @@ export function damageProperty(prop) {
     default:
       return '...'
   }
+}
+export function difficultyRating(mProps = [], dProps = {}, dKeys = {}) {
+  let difficulty = 0
+  const hasTracking = !mProps.includes('trackingNumber')
+  const damagedTrackingNumber = Object.keys(dProps).includes('trackingNumber')
+  logger.log(hasTracking, damagedTrackingNumber)
+  if (hasTracking && !damagedTrackingNumber) return 1
+  if (!hasTracking && damagedTrackingNumber) difficulty -= 3
+  difficulty += (mProps.length * 0.5)
+  difficulty += (Object.keys(dProps).length * 0.5)
+  difficulty += (Object.keys(dKeys).length * 0.1)
+  return difficulty > 20 ? 20 : difficulty < 0 ? 1 : Math.round(difficulty)
 }

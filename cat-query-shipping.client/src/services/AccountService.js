@@ -2,6 +2,7 @@ import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
 import Pop from '../utils/Pop'
 import { api } from './AxiosService'
+import { shipmentService } from './ShipmentService'
 class AccountService {
   async getAccount() {
     try {
@@ -21,6 +22,8 @@ class AccountService {
       AppState.currentGuesses = res.data.currentGuesses
       if(res.data.result){
         Pop.toast("You found the shipment",'success','top',5000)
+        AppState.account.credits += AppState.lostShipment.creditsWorth
+      shipmentService.getLostShipment()
       } else {
         Pop.toast("that is not the right shipment",'error','top',5000)
       }

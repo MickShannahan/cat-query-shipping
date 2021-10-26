@@ -5,6 +5,12 @@ import { api } from './AxiosService'
 
 
 class ShipmentService{
+  async getAccountShipment(){
+    let res = await api.get('account/shipment')
+    logger.log(res.data)
+    AppState.lostShipment = res.data
+  }
+
   async getLostShipment(){
     let res = await api.get('api/shipments/lost')
     logger.log('lost shipment ', res.data)
@@ -12,17 +18,26 @@ class ShipmentService{
   }
 
   async searchShipmentDatabase(queryString){
-    AppState.searchResults = []
+    AppState.searchResults = {results: []}
     logger.log('searching',queryString)
     let res = await api.get('api/shipments'+ queryString)
     logger.log('search ',res.data)
-    AppState.searchResults = res.data
+    // Animate
+    AppState.searchResults.hits = res.data.hits
+    let offset = 0
+    res.data.results.forEach(s => {
+      setTimeout(() => {
+        AppState.searchResults.results.unshift(s)
+      }
+      , offset += 5);
+    })
+    // AppState.searchResults = res.data
   }
 
   async searchWithQueryObject(qString){
     const qObject = stringToObject(qString)
     AppState.searchResults = []
-    logger.log('searching', qObject)
+    // logger.log('searching', qObject)
     let res = await api.post('api/shipments/query', qObject)
     logger.log(res.data)
     AppState.searchResults = res.data
