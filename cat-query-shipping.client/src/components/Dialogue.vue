@@ -58,6 +58,8 @@
           </button>
         </div>
         <div class="col-6 p-0 text-box-shadow">
+          <!-- audio -->
+          <audio id="cat-speech" :src="'../assets/Sounds/'+catSpeech"></audio>
           <div
             class="
               h-100
@@ -75,15 +77,15 @@
         <div class="col-1"></div>
         <div class="col-2 bozko-container">
           <!-- Boz Base -->
-           <img
-            src="../assets/img/Boz/CUPS Manager-blink.png"
-            class="bozko blink"
-            v-show="bozStatus == 'blink'"
-            :class="{ 'hide-bozko': bozkoHide }"
-          />
           <img
             src="../assets/img/Boz/CUPS Manager-animate.gif"
             class="bozko"
+            :class="{ 'hide-bozko': bozkoHide }"
+          />
+           <img
+            src="../assets/img/Boz/CUPS Manager-blink.png"
+            class="bozko blink"
+            v-show="bozkoStatus == 'blink'"
             :class="{ 'hide-bozko': bozkoHide }"
           />
         </div>
@@ -106,6 +108,7 @@ export default {
     const bozkoHide = ref(true)
     const chatTree = ref({})
     let chatSpeed = 3500
+    let catSpeech = ref('CatTalk1.wav')
     onMounted(() => {
       chatTree.value = AppState.chatTree
       const dialogue = document.getElementById('dialogueOffCanvas')
@@ -119,9 +122,15 @@ export default {
       // Start bozko blink
       bozkoBlink()
     })
+    function bozkoBlink(){
+      bozkoStatus.value = 'blink'
+      setTimeout(()=> bozkoStatus.value = 'standing', 180)
+      setTimeout(bozkoBlink, (Math.random()* 4000) + 2000)
+    }
     return {
       chatSpeed,
       chatTree,
+      catSpeech,
       bozkoStatus,
       bozkoText,
       bozkoBusy,
@@ -136,6 +145,7 @@ export default {
           setTimeout(() => {
             if (bozkoQuestion.value == string) {
               bozkoText.value += c
+              this.catTalk()
             }
           }, count += interval)
         })
@@ -149,8 +159,11 @@ export default {
         this.bozkoTalk(chatTree.value[option].text)
         chatTree.value = chatTree.value[option].branches
       },
-      bozkoBlink(){
-        logger.log('blinking started')
+      bozkoBlink,
+      catTalk(){
+        audioElm = document.getElementById('cat-speech')
+        catSpeech = `CatTalk${Math.ciel(Math.random()*3)}.wav`
+        audioElm.play()
       }
     }
   }
@@ -159,8 +172,7 @@ export default {
 
 
 <style lang='scss' scoped>
-h5 {
-}
+
 
 .help-button {
   text-align: left;
@@ -183,6 +195,13 @@ h5 {
   height: 50vh;
   aspect-ratio: 1;
   transition: all cubic-bezier(0.54, -0.35, 0.45, 1.41) 0.5s;
+}
+
+.blink{
+  image-rendering: pixelated;
+  bottom: 0;
+  right: -90px;
+  position: absolute;
 }
 
 .bozko-text {
