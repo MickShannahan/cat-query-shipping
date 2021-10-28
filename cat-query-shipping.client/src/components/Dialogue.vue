@@ -59,7 +59,9 @@
         </div>
         <div class="col-6 p-0 text-box-shadow">
           <!-- audio -->
-          <audio id="cat-speech" :src="'../assets/speech/'+ catSpeech" ></audio>
+          <!-- <audio id="cat-speech1" :src="'../../src/assets/sounds/CatTalk1.wav'" ></audio>
+          <audio id="cat-speech2" :src="'../../src/assets/sounds/CatTalk2.wav'" ></audio>
+          <audio id="cat-speech3" :src="'../../src/assets/sounds/CatTalk3.wav'" ></audio> -->
           <div
             class="
               h-100
@@ -140,12 +142,12 @@ export default {
         let count = 0
         bozkoBusy.value = true
         bozkoText.value = ''
+        this.catTalk(string.length*10)
         setTimeout(() => bozkoBusy.value = false, 500)
         string.split('').forEach(c => {
           setTimeout(() => {
             if (bozkoQuestion.value == string) {
               bozkoText.value += c
-              this.catTalk()
             }
           }, count += interval)
         })
@@ -160,10 +162,12 @@ export default {
         chatTree.value = chatTree.value[option].branches
       },
       bozkoBlink,
-      catTalk(){
-        let audioElm = document.getElementById('cat-speech')
-        catSpeech.value = `CatTalk${Math.ceil(Math.random()*3)}.wav`
-        audioElm.play()
+      catTalk(time){
+        let talking = setInterval(()=>{
+          let audioElm = document.getElementById('cat-speech'+Math.ceil(Math.random()*3))
+          audioElm.play()
+        }, 80)
+        setTimeout(()=> clearInterval(talking), time)
       }
     }
   }
