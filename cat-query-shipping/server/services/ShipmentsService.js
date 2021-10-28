@@ -11,7 +11,7 @@ class ShipmentsService {
 
   async getAll(query = {}) {
     query = regexr(query)
-    const shipments = await dbContext.Shipments.find(query).limit(50).set('-missingProperties -damagedPropertied -damagedKeys')
+    const shipments = await dbContext.Shipments.find(query).limit(50).set('-missingProperties -damagedProperties -damagedKeys')
     return { hits: shipments.length, results: shipments }
   }
 

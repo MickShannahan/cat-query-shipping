@@ -8,6 +8,7 @@ export const AppState = reactive({
   baseUrl: 'http://localhost:3000/api/shipments',
   searchResults: [],
   currentGuesses: [],
+  lastDocPage: 'Orientation',
   chatTree:{
     'What am I supposed to do?': {
       text:"You're here to find lost shipments.  If you have already forgotten how to do that start with the 'get new shipment' button.  This will pull a lost shipment report so you can begin.  Keep in mind these lost shipment reports are usually damaged, and only contains some of the information about the missing shipment, sometimes the information itself is corrupted and only partially displayed.  Oh and Kid, please don't ask how to do your job again... it doesn't look good.",
@@ -36,7 +37,7 @@ export const AppState = reactive({
       }
     },
     "Report an Issue" : {
-      text: "to report an issue, navigate here:\n <a href='https://github.com/MickShannahan/cat-query-shipping/issues.' target='_blank'>catsuniversalpostalservice.gov/issues</a>",
+      text: "to report an issue, navigate here:\n <a href='https://github.com/MickShannahan/cat-query-shipping/issues' target='_blank'>catsuniversalpostalservice.gov/issues</a>",
       branches: {'[GO BACK]': "[GO BACK]"}
     }
   }

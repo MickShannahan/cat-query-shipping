@@ -13,13 +13,26 @@
       <Search />
       <CodeSearch />
       <ShipmentsThread />
+      <Docs />
     </div>
   </div>
 </template>
 
 <script>
+import { onMounted } from '@vue/runtime-core'
+import Pop from '../utils/Pop'
 export default {
-  name: 'Home'
+  name: 'Home',
+  setup() {
+    onMounted(() => {
+      window.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.key == 's') {
+          e.preventDefault()
+          Pop.toast('Saving Union documents is stricly prohibited', 'warning', 'bottom')
+        }
+      })
+    })
+  }
 }
 </script>
 

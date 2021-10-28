@@ -15,7 +15,7 @@
     <!-- Actual Window -->
     <div id="code-window" class="col-12 p-0 code-search"></div>
     <button class="col-1 btn btn-outline-info btn-over-window" @click="search">
-      <i class="mdi mdi-send"></i>
+      send query object <i class="mdi mdi-send"></i>
     </button>
   </div>
 </template>
@@ -47,7 +47,7 @@ export default {
 
 <style scoped>
 #code-window {
-  min-height: 17vh;
+  min-height: 17vh !important;
   max-width: 100%;
   border-radius: 5px;
   border: 1px solid #499678;

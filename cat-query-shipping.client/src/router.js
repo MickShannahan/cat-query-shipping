@@ -1,5 +1,5 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
 import { authGuard } from '@bcwdev/auth0provider-client'
+import { createRouter, createWebHashHistory } from 'vue-router'
 
 function loadPage(page) {
   return () => import(`./pages/${page}.vue`)
@@ -9,7 +9,29 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: loadPage('HomePage')
+    component: loadPage('HomePage'),
+    children: [
+      {
+        path: 'docs/orientation',
+        name: 'Orientation',
+        component: loadPage('Orientation'),
+      },
+      {
+        path: 'docs/lostshipments',
+        name: 'LostShipments',
+        component: loadPage('LostShipments'),
+      },
+      {
+        path: 'docs/queryurl',
+        name: 'QueryUrl',
+        component: loadPage('QueryUrl'),
+      },
+      {
+        path: 'docs/mongooseterminl',
+        name: 'MongooseTerminal',
+        component: loadPage('MongooseTerminal'),
+      }
+    ]
   },
   {
     path: '/about',
