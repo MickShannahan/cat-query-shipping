@@ -1,10 +1,10 @@
 <template>
-  <div class="lost-shipments bg-danger lighten-30 row p-2 pb-1">
+  <div class="lost-shipments bg-danger lighten-30 row p-3 pb-1">
     <div class="col-12">
       <div class="row justify-content-center">
         <div class="col-12">
           <h2 class="mt-1 text-danger darken-10">Lost Shipments</h2>
-          <div class="mt-1 text-grey">(what are they?)</div>
+          <div class="mt-1 text-grey">(what are they? Where are they?)</div>
           <hr class="w-50 mt-2 border-bottom border-danger" />
         </div>
         <div class="col-md-12 p-2 border-example text-dark">
@@ -17,13 +17,14 @@
           >
             <span class="key text-primary">{{ key }}</span>
             :
-            <span class="text-grey" v-html="value"></span>
+            <span
+              class="text-grey"
+              :class="{ redacted: value == '[REDACTED]' }"
+              v-html="value"
+            ></span>
           </div>
         </div>
-        <div class="col-md-4 p-2 border-example text-dark">
-          <b>Shipment model "lost"</b>
-          <hr class="w-50 mt-2 border-bottom border-danger" />
-        </div>
+        <p></p>
       </div>
     </div>
   </div>
@@ -59,6 +60,7 @@ export default {
         quadrant: `galaxy quadrant on quadrant grid`,
         hasQuadrantCode: 'if delivery personel need pass-phrase to enter quadrant',
         quadrantCode: 'if applicable, pass-phrase to enter quadrant.',
+        id: '[REDACTED]',
         galaxy: 'galaxy of origin',
         galaxyCode: `locational number data of reciver's galaxy location'`,
         planet: 'planet for shipment to be delivered to',
@@ -66,7 +68,7 @@ export default {
         planetCode: 'system code for shipment system to identify planet',
         containsHazard: 'whether the shipment contents and effects are hazardous to feline health',
         hazard: 'if applicable, details shipments hazardous contents and effects',
-        creditsWorth: ''
+        creditsWorth: 'bount for lost shipment found in UC'
 
       }
     }
@@ -100,5 +102,12 @@ b {
 
 .key {
   font-weight: bold;
+}
+
+.redacted {
+  color: var(--bs-danger) !important;
+  padding: 2px;
+  border-radius: 5px;
+  background-color: black;
 }
 </style>

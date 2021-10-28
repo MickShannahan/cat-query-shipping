@@ -33,7 +33,7 @@
       id="docsOffCanvas"
       aria-labelledby="offcanvasBottomLabel"
     >
-      <div class="offcanvas-header bg-info row justify-content-start">
+      <div class="offcanvas-header bg-info shadow-sm row justify-content-start">
         <button
           type="button"
           class="col-2 btn-close text-reset"
@@ -73,6 +73,7 @@
         </div>
         <div
           class="
+            docs-scroll
             col-md-9
             bg-light
             border border-primary
@@ -117,7 +118,7 @@ export default {
 </script>
 
 
-<style lang='scss' scoped>
+<style lang='scss' >
 .help-button {
   text-align: left;
   position: fixed;
@@ -132,7 +133,7 @@ export default {
 }
 
 .docs-offcanvas {
-  height: 85vh;
+  height: 90vh;
 }
 
 .tabs-col {
@@ -143,7 +144,7 @@ export default {
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.356);
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
-  font-family: "Gloria Hallelujah", cursive;
+  font-family: "Permanent Marker", cursive;
   transition: all 0.1s ease;
   cursor: pointer;
 }
@@ -168,6 +169,19 @@ export default {
   transform: rotateZ(2deg) translateX(6px);
 }
 
+.docs-scroll::-webkit-scrollbar {
+  width: 1em;
+}
+
+.docs-scroll::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.docs-scroll::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
 // Page transition
 .page-enter-active,
 .page-leave-active {
@@ -175,6 +189,7 @@ export default {
 }
 .page-enter-from,
 .page-leave-to {
+  position: absolute;
   opacity: 0;
   transform: rotate3d(1, 0.5, 1, 45deg) translateX(100%) scale(0%, 90%);
   filter: brightness(50%);
