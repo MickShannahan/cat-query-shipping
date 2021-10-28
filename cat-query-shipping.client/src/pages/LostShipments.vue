@@ -41,15 +41,15 @@ export default {
     })
     return {
       shipmentModel: {
-        recipient: 'String name',
+        recipient: `Name of shipment's reciever`,
         trackingNumber: '###-###-###-###-#',
         description: `String description of package
               <span class="text-danger key">[ommited]</span>`,
-        shippingTier: `['1LTYR', '2LTYR', 'METEOR-FREIGHT','GALAXY-EXPRESS','TELEPORT+', 'INTERPLANETARY/DOMESTIC', 'STANDARD', 'STANDARD+','WARP-FREIGHT']`,
+        shippingTier: `[1LTYR, 2LTYR, METEOR-FREIGHT, GALAXY-EXPRESS, TELEPORT+, INTERPLANETARY/DOMESTIC, STANDARD, STANDARD+, WARP-FREIGHT]`,
         postageCost: `Number based off 'shippingTier'`,
         postageCrypto: 'Must be Union applicable crypto (see section on cryptos)',
         shippingDate: 'Two digit number representing day of current cycle',
-        dateFormat: 'date format local to recipient',
+        dateFormat: 'date format local to recipient [Sol, Tera, Minkow, Dominion]',
         delivered: 'whether shipment was reported to be delivered by shipper',
         postalStation: 'postal station shipment was registered at',
         insured: 'whether the shipment was insured [true, false]',

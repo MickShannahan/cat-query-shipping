@@ -1,5 +1,5 @@
 <template>
-  <form class="search" @submit="searchShipmentDatabase">
+  <form class="search" @submit.prevent="searchShipmentDatabase">
     <label for="basic-url" class="form-label bg-info rounded py-1 px-3"
       >make a query to find the lost shipment</label
     >

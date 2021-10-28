@@ -1,8 +1,9 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-      <div class="d-flex flex-column align-items-center">
+      <div class="d-flex align-items-center">
         <img alt="logo" src="../assets/img/CUPS-Logo.png" height="50" />
+        <h3 class="text-primary ms-2">C.U.P.S</h3>
       </div>
     </router-link>
     <button

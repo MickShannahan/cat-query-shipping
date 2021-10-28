@@ -7,7 +7,7 @@
   </main>
   <footer class="container-fluid">
     <Dialogue />
-    <div class="bg-dark text-light text-center p-4">
+    <div class="bg-dark text-light text-center p-2">
       Made with your <i class="mdi mdi-google-podcast"></i> Union Tax Credits
     </div>
   </footer>

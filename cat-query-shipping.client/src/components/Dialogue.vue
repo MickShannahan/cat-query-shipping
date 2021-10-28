@@ -87,7 +87,7 @@
            <img
             src="../assets/img/Boz/CUPS Manager-blink.png"
             class="bozko blink"
-            v-show="bozkoStatus == 'blink'"
+            v-show="bozkoStatus == 'blink' && !bozkoBusy"
             :class="{ 'hide-bozko': bozkoHide }"
           />
         </div>
@@ -193,7 +193,7 @@ export default {
 
 .bozko {
   image-rendering: pixelated;
-  bottom: 0;
+  bottom: -15px;
   right: -90px;
   position: absolute;
   height: 50vh;
@@ -201,12 +201,7 @@ export default {
   transition: all cubic-bezier(0.54, -0.35, 0.45, 1.41) 0.5s;
 }
 
-.blink{
-  image-rendering: pixelated;
-  bottom: 0;
-  right: -90px;
-  position: absolute;
-}
+
 
 .bozko-text {
   padding-right: 3.5em !important;
