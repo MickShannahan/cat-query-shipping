@@ -15,7 +15,7 @@
       data-bs-toggle="offcanvas"
       data-bs-target="#dialogueOffCanvas"
       aria-controls="offcanvasBottom"
-      @click="bozkoTalk(`What's up Kid?`)"
+      @click="bozkoChat(`[Open Window]`)"
     >
       Ask Boz
     </button>
@@ -48,20 +48,16 @@
           "
         >
           <button
-            v-for="(v, k) in chatTree"
+            v-for="chat in chatBranch.branches"
             :disabled="bozkoBusy"
-            :key="k"
+            :key="chat"
             class="btn btn-success border border-info text-light"
-            @click="bozkoChat(k)"
+            @click="bozkoChat(chat)"
           >
-            {{ k }}
+            {{ chat }}
           </button>
         </div>
         <div class="col-6 p-0 text-box-shadow">
-          <!-- audio -->
-          <!-- <audio id="cat-speech1" :src="'../../src/assets/sounds/CatTalk1.wav'" ></audio>
-          <audio id="cat-speech2" :src="'../../src/assets/sounds/CatTalk2.wav'" ></audio>
-          <audio id="cat-speech3" :src="'../../src/assets/sounds/CatTalk3.wav'" ></audio> -->
           <div
             class="
               h-100
@@ -73,7 +69,7 @@
               pl-3
               p-2
             "
-            v-html="bozkoText"
+            v-html="bozkoSpoken || bozkoText"
           ></div>
         </div>
         <div class="col-1"></div>
@@ -84,7 +80,7 @@
             class="bozko"
             :class="{ 'hide-bozko': bozkoHide }"
           />
-           <img
+          <img
             src="../assets/img/Boz/CUPS Manager-blink.png"
             class="bozko blink"
             v-show="bozkoStatus == 'blink' && !bozkoBusy"
@@ -99,77 +95,56 @@
 
 <script>
 import { AppState } from '../AppState';
-import { computed, reactive, onMounted, ref } from 'vue';
+import { computed, reactive, onMounted, ref, watchEffect } from 'vue';
+import { chatService } from '../services/ChatService'
 import { logger } from '../utils/Logger';
 export default {
   setup() {
-    const bozkoStatus= ref('standing')
-    const bozkoText = ref('')
-    const bozkoQuestion = ref("What's up Kid?")
+    const bozkoStatus = ref('standing')
     const bozkoBusy = ref(false)
     const bozkoHide = ref(true)
-    const chatTree = ref({})
+    const bozkoSpoken = ref('')
     let chatSpeed = 3500
-    let catSpeech = ref('CatTalk1.wav')
     onMounted(() => {
-      chatTree.value = AppState.chatTree
       const dialogue = document.getElementById('dialogueOffCanvas')
       dialogue.addEventListener('hide.bs.offcanvas', function () {
         bozkoHide.value = true
-        bozkoQuestion.value = "What's up Kid?"
       })
       dialogue.addEventListener('show.bs.offcanvas', function () {
         bozkoHide.value = false
-        chatTree.value = AppState.chatTree
       })
       // Start bozko blink
       bozkoBlink()
     })
-    function bozkoBlink(){
+    function bozkoBlink() {
       bozkoStatus.value = 'blink'
-      setTimeout(()=> bozkoStatus.value = 'standing', 180)
-      setTimeout(bozkoBlink, (Math.random()* 4000) + 2000)
+      setTimeout(() => bozkoStatus.value = 'standing', 180)
+      setTimeout(bozkoBlink, (Math.random() * 4000) + 2000)
     }
+    function bozkoChat(option) {
+      chatService.chat(option)
+    }
+    watchEffect(() => {
+      bozkoBusy.value = true
+      let offset = 0
+      let interval = 30
+      setTimeout(() => bozkoBusy.value = false, 500)
+      AppState.chatBranch?.text?.forEach(c => {
+        setTimeout(() => bozkoSpoken.value += c, offset += interval)
+      })
+      logger.log('watched')
+    })
     return {
+      chatBranch: computed(() => AppState.chatBranch),
+      bozkoText: computed(() => AppState.chatBranch?.text),
       chatSpeed,
-      chatTree,
-      catSpeech,
       bozkoStatus,
-      bozkoText,
+      bozkoSpoken,
       bozkoBusy,
       bozkoHide,
-      bozkoTalk(string) {
-        let interval = string.length > 50 ? chatSpeed / string.length : 30
-        let count = 0
-        bozkoBusy.value = true
-        bozkoText.value = ''
-        // this.catTalk(string.length*10) // Talking Bozko with sound
-        setTimeout(() => bozkoBusy.value = false, 500)
-        string.split('').forEach(c => {
-          setTimeout(() => {
-            if (bozkoQuestion.value == string) {
-              bozkoText.value += c
-            }
-          }, count += interval)
-        })
-      },
-      bozkoChat(option) {
-        if (option == '[GO BACK]') {
-          chatTree.value = AppState.chatTree
-          return
-        }
-        bozkoQuestion.value = chatTree.value[option].text
-        this.bozkoTalk(chatTree.value[option].text)
-        chatTree.value = chatTree.value[option].branches
-      },
+      // functions
       bozkoBlink,
-      catTalk(time){
-        let talking = setInterval(()=>{
-          let audioElm = document.getElementById('cat-speech'+Math.ceil(Math.random()*3))
-          audioElm.play()
-        }, 80)
-        setTimeout(()=> clearInterval(talking), time)
-      }
+      bozkoChat
     }
   }
 };
@@ -177,8 +152,6 @@ export default {
 
 
 <style lang='scss' scoped>
-
-
 .help-button {
   text-align: left;
   position: fixed;
@@ -201,8 +174,6 @@ export default {
   aspect-ratio: 1;
   transition: all cubic-bezier(0.54, -0.35, 0.45, 1.41) 0.5s;
 }
-
-
 
 .bozko-text {
   padding-right: 3.5em !important;
