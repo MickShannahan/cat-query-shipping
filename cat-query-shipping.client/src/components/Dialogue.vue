@@ -74,8 +74,15 @@
         </div>
         <div class="col-1"></div>
         <div class="col-2 bozko-container">
+          <!-- Boz Base -->
+           <img
+            src="../assets/img/Boz/CUPS Manager-blink.png"
+            class="bozko blink"
+            v-show="bozStatus == 'blink'"
+            :class="{ 'hide-bozko': bozkoHide }"
+          />
           <img
-            src="../assets/img/CUPS Manager.png"
+            src="../assets/img/Boz/CUPS Manager-animate.gif"
             class="bozko"
             :class="{ 'hide-bozko': bozkoHide }"
           />
@@ -92,6 +99,7 @@ import { computed, reactive, onMounted, ref } from 'vue';
 import { logger } from '../utils/Logger';
 export default {
   setup() {
+    const bozkoStatus= ref('standing')
     const bozkoText = ref('')
     const bozkoQuestion = ref("What's up Kid?")
     const bozkoBusy = ref(false)
@@ -108,10 +116,13 @@ export default {
         bozkoHide.value = false
         chatTree.value = AppState.chatTree
       })
+      // Start bozko blink
+      bozkoBlink()
     })
     return {
       chatSpeed,
       chatTree,
+      bozkoStatus,
       bozkoText,
       bozkoBusy,
       bozkoHide,
@@ -137,6 +148,9 @@ export default {
         bozkoQuestion.value = chatTree.value[option].text
         this.bozkoTalk(chatTree.value[option].text)
         chatTree.value = chatTree.value[option].branches
+      },
+      bozkoBlink(){
+        logger.log('blinking started')
       }
     }
   }
