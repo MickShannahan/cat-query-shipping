@@ -59,7 +59,7 @@
         </div>
         <div class="col-6 p-0 text-box-shadow">
           <!-- audio -->
-          <audio id="cat-speech" :src="'../assets/Sounds/'+catSpeech"></audio>
+          <audio id="cat-speech" :src="'../assets/speech/'+ catSpeech" ></audio>
           <div
             class="
               h-100
@@ -161,8 +161,8 @@ export default {
       },
       bozkoBlink,
       catTalk(){
-        audioElm = document.getElementById('cat-speech')
-        catSpeech = `CatTalk${Math.ciel(Math.random()*3)}.wav`
+        let audioElm = document.getElementById('cat-speech')
+        catSpeech.value = `CatTalk${Math.ceil(Math.random()*3)}.wav`
         audioElm.play()
       }
     }

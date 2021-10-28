@@ -4,6 +4,7 @@ import { defineConfig } from 'vite'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue()],
+  assetsInclude: ['./assets/speech/*.wav'],
   build: {
     outDir: 'docs',
     sourcemap: false
