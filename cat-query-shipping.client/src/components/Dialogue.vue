@@ -116,6 +116,7 @@ export default {
       const dialogue = document.getElementById('dialogueOffCanvas')
       dialogue.addEventListener('hide.bs.offcanvas', function () {
         bozkoHide.value = true
+        bozkoQuestion.value = "What's up Kid?"
       })
       dialogue.addEventListener('show.bs.offcanvas', function () {
         bozkoHide.value = false
@@ -142,7 +143,7 @@ export default {
         let count = 0
         bozkoBusy.value = true
         bozkoText.value = ''
-        this.catTalk(string.length*10)
+        // this.catTalk(string.length*10) // Talking Bozko with sound
         setTimeout(() => bozkoBusy.value = false, 500)
         string.split('').forEach(c => {
           setTimeout(() => {
