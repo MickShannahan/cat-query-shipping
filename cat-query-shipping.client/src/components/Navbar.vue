@@ -36,8 +36,8 @@
         </button>
 
         <div class="d-flex align-items-center dropdown my-2 my-lg-0" v-else>
-          <div class="me-5 text-warning credits" >
-            <i class="mdi mdi-google-podcast mx-1 "></i>{{ account.credits }}
+          <div class="me-5 text-warning credits">
+            <i class="mdi mdi-google-podcast mx-1 "></i>{{ credits }}
           </div>
           <div
             class="dropdown-toggle selectable"
@@ -83,10 +83,13 @@
 <script>
 import { AuthService } from '../services/AuthService'
 import { AppState } from '../AppState'
-import { computed, ref, watchEffect } from 'vue'
+import { computed, reactive, ref, watch, watchEffect } from 'vue'
+import { logger } from "../utils/Logger"
 export default {
   setup() {
+
     return {
+      credits: computed(()=> AppState.account.credits),
       user: computed(() => AppState.user),
       account: computed(() => AppState.account),
       async login() {
@@ -125,8 +128,12 @@ a:hover {
   border-bottom-right-radius: 0;
 }
 
+.credits{
+  transition: all .1s ease;
+}
+
 .credits-effect{
-  animation: countUp 1s linear 0  forwards ;
+  transform: scale(1.1);
 }
 
 @keyframes countUp{
