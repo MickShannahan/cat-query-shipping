@@ -41,3 +41,7 @@ class GameService {
 }
 
 export const gameService = new GameService()
+
+function countUpCredits(creds) {
+
+}

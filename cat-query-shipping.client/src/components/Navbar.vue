@@ -36,8 +36,8 @@
         </button>
 
         <div class="d-flex align-items-center dropdown my-2 my-lg-0" v-else>
-          <div class="me-5 text-warning">
-            <i class="mdi mdi-google-podcast mx-1"></i>{{ account.credits }}
+          <div class="me-5 text-warning credits">
+            <i class="mdi mdi-google-podcast mx-1 "></i>{{ account.credits }}
           </div>
           <div
             class="dropdown-toggle selectable"
@@ -123,5 +123,18 @@ a:hover {
   border-bottom: 2px solid var(--bs-success);
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+.credits{
+  animation: countUp 1s linear 0  forwards ;
+}
+
+@keyframes countUp{
+  0%{
+    transform: scale(1.2);
+  }
+  100%{
+    transform: scale(1.);
+  }
 }
 </style>

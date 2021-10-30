@@ -1,20 +1,20 @@
 <template>
-  <div class="row" @click="checkAnswer">
+  <div class="row mb-1" @click="checkAnswer">
     <div class="col-12 paper-edge rounded py-0">
-      <div class="shipment row my-0 mx-5 perferated-edge-bottom px-2">
-        <div
-          class="col-12"
-          :class="{
+      <div class="shipment row my-0 mx-5 perferated-edge-bottom px-2"  :class="{
             'bg-light': !hasBeenGuessed,
             'bg-danger lighten-30': hasBeenGuessed,
-          }"
-        >
+          }">
+        <div class="col-12" >
           <div class="row p-2 ps-5">
             <div class="col-6" v-for="(value, key) in shipment" :key="key">
               <b class="hover">{{ key }}</b
               ><span class="hover text-dark lighten-20">: {{ value }}</span>
             </div>
           </div>
+        </div>
+        <div class="col-4 stamp-inccorect justify-self-end" v-if="hasBeenGuessed">
+          <img src="../assets/img/incorrectStamp.png" alt="">
         </div>
       </div>
     </div>
@@ -50,20 +50,20 @@ export default {
 // }
 
 .perferated-edge-bottom {
-  border-bottom: 3px dashed var(--bs-light);
+  outline: 4px dashed var(--bs-light);
 }
 
 .paper-edge {
   height: 100%;
-  background-image: url("../assets/img/yellowPageEdge.png");
+  background-image: url("../assets/img/whitePageEdge.png");
   background-repeat: space repeat;
   image-rendering: pixelated;
   background-size: 8em;
   transition: all 0.15s ease;
   &:hover {
     transform: scale(1.01);
-    outline: 1px solid #a4d5a5;
-    background: #a4d5a53f url("../assets/img/yellowPageEdge.png");
+    outline: 2px solid #a4d5a5;
+    // background: #a4d5a53f url("../assets/img/whitePageEdge.png");
     background-repeat: space repeat;
     image-rendering: pixelated;
     background-size: 8em;
@@ -80,5 +80,27 @@ export default {
   background: #2a2f32;
   color: #a4d5a5 !important;
   transform: translate(0, -2);
+}
+
+.stamp-inccorect{
+  transform: translate(15em, 2em);
+  position: absolute;
+  aspect-ratio: 1;
+}
+
+.stamp-inccorect img{
+  min-height: 15em;
+  animation: stampped .2s cubic-bezier(0.54, -0.35, 0.45, 1.41)  forwards ;
+}
+
+@keyframes stampped{
+  0%{
+    opacity: 0%;
+    transform:  scale(1.2) rotate(30deg);
+    }
+  100%{
+    opacity: 70%;
+    transform:  scale(1) rotate(30deg);
+  }
 }
 </style>

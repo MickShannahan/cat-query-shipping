@@ -22,7 +22,7 @@ class AccountService {
       AppState.currentGuesses = res.data.currentGuesses
       if(res.data.result){
         Pop.toast("You found the shipment",'success','top',5000)
-        AppState.account.credits += AppState.lostShipment.creditsWorth
+        countUpCredits(AppState.lostShipment.creditsWorth)
       shipmentService.getLostShipment()
       } else {
         Pop.toast("that is not the right shipment",'error','top',5000)
@@ -34,3 +34,14 @@ class AccountService {
 }
 
 export const accountService = new AccountService()
+
+
+function countUpCredits(creds) {
+  const account = AppState.account
+  let offset = 0
+  for(let c = 0; c < creds; c++){
+    setTimeout(()=>{
+      account.credits += 1
+    }, offset += 10)
+  }
+}
