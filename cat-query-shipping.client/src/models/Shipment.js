@@ -36,4 +36,8 @@ export class Shipment{
     this.creditsWorth = data.creditsWorth
     this._id = data._id
   }
+
+  static regex(){
+    return /recipient|trackingNumber|description|shippingTier|postageCost|postageCrypto|shippingDate|dateFormat|delivered|postalStation|postalHistory|pirateCoverage|insuredCost|insured|sector|hasQuadrantCode|quadrantCode|galaxyCode|galaxy|planetCode|planetNumber|planet|containsHazard|hazard|creditsWorth/g
+  }
 }

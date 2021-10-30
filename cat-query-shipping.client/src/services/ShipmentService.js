@@ -3,7 +3,8 @@ import { Shipment } from '../models/Shipment'
 import { logger } from '../utils/Logger'
 import { api } from './AxiosService'
 
-
+export const unsafeChars = [ ' ', '[', ']', '{', '}', '<', '>', '|', '\\', '^', '%']
+export const reservedChars =['&', '$', '+', ',', '/', ':', ';', '=', '?', '@', '#']
 
 class ShipmentService{
   async getAccountShipment(){
@@ -122,8 +123,6 @@ strArr.forEach((c,i) =>{
 })
 return dataArr
 }
-
-
 
 
 
