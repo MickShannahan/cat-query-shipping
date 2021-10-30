@@ -1,4 +1,5 @@
 import { AppState } from '../AppState'
+import { Shipment } from '../models/Shipment'
 import { logger } from '../utils/Logger'
 import { api } from './AxiosService'
 
@@ -27,9 +28,9 @@ class ShipmentService{
     let offset = 0
     res.data.results.forEach(s => {
       setTimeout(() => {
-        AppState.searchResults.results.unshift(s)
+        AppState.searchResults.results.unshift(new Shipment(s))
       }
-      , offset += 5);
+      , offset += 110);
     })
     // AppState.searchResults = res.data
   }

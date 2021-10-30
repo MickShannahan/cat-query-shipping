@@ -1,5 +1,5 @@
 <template>
-  <div class="row px-3 results-thread">
+  <div class="row px-3 results-thread justify-content-center">
     <div
       class="col-1 text-center bg-dark p-1 rounded"
       :class="{
@@ -13,7 +13,12 @@
     </div>
     <div class="col-12">
       <transition-group name="shipments">
-        <Shipment v-for="s in shipments" :key="s._id" :shipment="s" />
+        <Shipment
+          v-for="s in shipments"
+          :key="s.trackingNumber"
+          :shipment="s"
+          class="shipments-item"
+        />
       </transition-group>
     </div>
   </div>
@@ -35,13 +40,34 @@ export default {
 
 
 <style lang='scss' scoped>
-.shipments-enter-active,
-.shipments-leave-active {
-  transition: all 0.2s ease;
+// .item {
+//   transition: all 0.6s ease;
+//   width: 100%;
+// }
+
+// .shipments-enter-active,
+// .shipments-leave-active {
+//   transition: all 0.5s ease;
+//   position: absolute;
+// }
+// .shipments-enter-from,
+// .shipments-leave-to {
+//   opacity: 0;
+//   transform: rotate3d(1, 0, 0, 80deg) translateY(-10em);
+// }
+.shipments-item {
+  transition: all 0.1s ease;
+  display: inline-block;
+  margin-right: 10px;
 }
+
 .shipments-enter-from,
 .shipments-leave-to {
   opacity: 0;
-  transform: rotate3d(1, 0, 0, 80deg);
+  transform: scaleY(20%) translateY(-10em);
+}
+
+.shipments-leave-active {
+  position: absolute;
 }
 </style>

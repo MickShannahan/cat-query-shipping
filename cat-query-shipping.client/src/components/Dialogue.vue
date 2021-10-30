@@ -104,6 +104,7 @@ export default {
     const bozkoBusy = ref(false)
     const bozkoHide = ref(true)
     const bozkoSpoken = ref('')
+    const timeouts = ref([])
     let chatSpeed = 3500
     onMounted(() => {
       const dialogue = document.getElementById('dialogueOffCanvas')
@@ -124,13 +125,19 @@ export default {
     function bozkoChat(option) {
       chatService.chat(option)
     }
+    // TODO This is all for the text to type out and should be abstracted
     watchEffect(() => {
       bozkoBusy.value = true
+      bozkoSpoken.value = ' '
+      timeouts.value.forEach(t => clearTimeout(t))
       let offset = 0
-      let interval = 30
+      let interval = 20
       setTimeout(() => bozkoBusy.value = false, 500)
-      AppState.chatBranch?.text?.forEach(c => {
-        setTimeout(() => bozkoSpoken.value += c, offset += interval)
+      AppState.chatBranch?.text?.split('').forEach((c, i) => {
+        timeouts.value.push(setTimeout(() => {
+          if (AppState.chatBranch.text)
+            if (c == AppState.chatBranch.text[i]) bozkoSpoken.value += c
+        }, offset += interval))
       })
       logger.log('watched')
     })

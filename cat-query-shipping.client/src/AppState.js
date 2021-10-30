@@ -26,7 +26,7 @@ export const AppState = reactive({
     },
     "Can you help me?": {
       text: "If I had a Union Credit for each time you asked for help Kid, I might be able to afford that trip to Earth II.  Ah, fine.  You see that URL input field? try looking up the missing shipment using a query, you know the thing that comes after the '?', then select the correct manifest from the Database print out.  You're limited to 50 results so if you need to narrow your search just add more queries.",
-      branches:["What's A Query?", "What if I want to Query multiple things?", "How Should I format my Query?"]
+      branches:["What's A Query?", "What if I want to Query multiple things?", "How Should I format my Query?", '[Go Back]']
     },
     //#region can you help me
     "What's A Query?": {

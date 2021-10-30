@@ -1,16 +1,20 @@
 <template>
-  <div class="shipment row my-1 p-2 rounded" @click="checkAnswer">
-    <div
-      class="col-12 rounded"
-      :class="{
-        'bg-light': !hasBeenGuessed,
-        'bg-danger lighten-30': hasBeenGuessed,
-      }"
-    >
-      <div class="row">
-        <div class="col-6" v-for="(value, key) in shipment" :key="key">
-          <b class="hover">{{ key }}</b
-          ><span class="hover text-dark lighten-20">: {{ value }}</span>
+  <div class="row" @click="checkAnswer">
+    <div class="col-12 paper-edge rounded py-0">
+      <div class="shipment row my-0 mx-5 perferated-edge-bottom px-2">
+        <div
+          class="col-12"
+          :class="{
+            'bg-light': !hasBeenGuessed,
+            'bg-danger lighten-30': hasBeenGuessed,
+          }"
+        >
+          <div class="row p-2 ps-5">
+            <div class="col-6" v-for="(value, key) in shipment" :key="key">
+              <b class="hover">{{ key }}</b
+              ><span class="hover text-dark lighten-20">: {{ value }}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -40,17 +44,41 @@ export default {
 .shipment {
   transition: all 0.15s ease;
 }
-.shipment:hover {
-  outline: 1px solid #a4d5a5;
-  background: #a4d5a53f;
+// .shipment:hover {
+//   outline: 1px solid #a4d5a5;
+//   background: #a4d5a53f;
+// }
+
+.perferated-edge-bottom {
+  border-bottom: 3px dashed var(--bs-light);
+}
+
+.paper-edge {
+  height: 100%;
+  background-image: url("../assets/img/yellowPageEdge.png");
+  background-repeat: space repeat;
+  image-rendering: pixelated;
+  background-size: 8em;
+  transition: all 0.15s ease;
+  &:hover {
+    transform: scale(1.01);
+    outline: 1px solid #a4d5a5;
+    background: #a4d5a53f url("../assets/img/yellowPageEdge.png");
+    background-repeat: space repeat;
+    image-rendering: pixelated;
+    background-size: 8em;
+  }
 }
 
 .hover {
+  padding: 3px;
+  border-radius: 5px;
   transition: all 0.15s ease;
 }
 
 .hover:hover {
   background: #2a2f32;
   color: #a4d5a5 !important;
+  transform: translate(0, -2);
 }
 </style>
