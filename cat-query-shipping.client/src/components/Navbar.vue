@@ -36,7 +36,7 @@
         </button>
 
         <div class="d-flex align-items-center dropdown my-2 my-lg-0" v-else>
-          <div class="me-5 text-warning credits">
+          <div class="me-5 text-warning credits" >
             <i class="mdi mdi-google-podcast mx-1 "></i>{{ account.credits }}
           </div>
           <div
@@ -83,7 +83,7 @@
 <script>
 import { AuthService } from '../services/AuthService'
 import { AppState } from '../AppState'
-import { computed } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 export default {
   setup() {
     return {
@@ -125,7 +125,7 @@ a:hover {
   border-bottom-right-radius: 0;
 }
 
-.credits{
+.credits-effect{
   animation: countUp 1s linear 0  forwards ;
 }
 

@@ -13,8 +13,8 @@
             </div>
           </div>
         </div>
-        <div class="col-4 stamp-inccorect justify-self-end" v-if="hasBeenGuessed">
-          <img src="../assets/img/incorrectStamp.png" alt="">
+        <div class="col-4 stamp-incorrect" v-if="hasBeenGuessed">
+          <img class="stamp" src="../assets/img/incorrectStamp.png" alt="">
         </div>
       </div>
     </div>
@@ -82,14 +82,14 @@ export default {
   transform: translate(0, -2);
 }
 
-.stamp-inccorect{
+.stamp-incorrect{
   transform: translate(15em, 2em);
   position: absolute;
-  aspect-ratio: 1;
 }
 
-.stamp-inccorect img{
-  min-height: 15em;
+.stamp{
+  min-height: 12em;
+  aspect-ratio: 1;
   animation: stampped .2s cubic-bezier(0.54, -0.35, 0.45, 1.41)  forwards ;
 }
 
