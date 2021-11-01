@@ -64,14 +64,14 @@ export default {
   background: url('../assets/img/PrinterSides.png');
   background-size: contain;
   image-rendering: pixelated;
-  background-repeat:space ;
+  background-repeat: round;
 }
 
 .printer-sides-loading{
   background: url('../assets/img/PrinterSidesLoading.gif');
   background-size: contain;
   image-rendering: pixelated;
-  background-repeat:space ;
+  background-repeat: round;
 }
 
 .printer-port{
