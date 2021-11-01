@@ -1,18 +1,21 @@
 <template>
   <div class="row px-3 results-thread justify-content-center">
-    <div class="col-lg-10 rounded p-0 printer-sides px-5 mx-3" :class="{'printer-sides-loading': stateLoading}">
-      <div class="row p-2 printer">
-          <div
-      class="offset-2 col-6 col-lg-4 results screen text-center  p-1 rounded"
-      :class="{
-        'text-primary': hits == 1,
-        'text-info': hits < 5,
-        'text-warning': hits > 10 && hits < 24,
-        'text-danger': hits > 25 || hits == 0,
-      }"
+    <div
+      class="col-lg-10 rounded p-0 printer-sides px-5 mx-3"
+      :class="{ 'printer-sides-loading': stateLoading }"
     >
-      Matching Records : {{ hits }} <span v-if="hits == 50">MAX</span>
-    </div>
+      <div class="row p-2 printer">
+        <div
+          class="offset-2 col-6 col-lg-4 results screen text-center p-1 rounded"
+          :class="{
+            'text-primary': hits == 1,
+            'text-info': hits < 5,
+            'text-warning': hits > 10 && hits < 24,
+            'text-danger': hits > 25 || hits == 0,
+          }"
+        >
+          Matching Records : {{ hits }} <span v-if="hits == 50">MAX</span>
+        </div>
       </div>
     </div>
     <div class="col-8 printer-port">
@@ -36,7 +39,7 @@ export default {
   setup() {
 
     return {
-      stateLoading: computed(()=> AppState.loading),
+      stateLoading: computed(() => AppState.loading),
       shipments: computed(() => AppState.searchResults.results),
       hits: computed(() => AppState.searchResults.hits)
     }
@@ -46,55 +49,54 @@ export default {
 
 
 <style lang='scss' scoped>
-.results-thread{
+.results-thread {
   max-width: 90em;
   margin-left: auto;
   margin-right: auto;
 }
 
-.printer{
-
-  background: url('../assets/img/PrinterBody.png');
+.printer {
+  background: url("../assets/img/PrinterBody.png");
   background-size: contain;
   image-rendering: pixelated;
   min-height: 8em;
 }
 
-.printer-sides{
-  background: url('../assets/img/PrinterSides.png');
+.printer-sides {
+  background: url("../assets/img/PrinterSides.png");
   background-size: contain;
   image-rendering: pixelated;
   background-repeat: round;
 }
 
-.printer-sides-loading{
-  background: url('../assets/img/PrinterSidesLoading.gif');
+.printer-sides-loading {
+  background: url("../assets/img/PrinterSidesLoading.gif");
   background-size: contain;
   image-rendering: pixelated;
   background-repeat: round;
 }
 
-.printer-port{
+.printer-port {
   transform: translateY(-3em);
 }
 
-.printer-hole{
+.printer-hole {
   min-height: 1em;
   border-radius: 45px;
   width: 100%;
   background-color: var(--bs-dark);
-   border-top: 6px inset #fd8732;
+  border-top: 6px inset #fd8732;
   border-left: 6px inset #fd8732;
   border-bottom: 6px inset #ffcf48;
   border-right: 6px inset #ffcf48;
 }
 
-.screen{
+.screen {
   height: 3em;
   outline: 2px solid #f2962f;
   background-color: rgb(22, 54, 45);
   box-shadow: inset 0px 0px 5px var(--bs-info);
-   border-top: 4px inset #fd8732;
+  border-top: 4px inset #fd8732;
   border-left: 4px inset #fd8732;
   border-bottom: 4px inset #ffcf48;
   border-right: 4px inset #ffcf48;
