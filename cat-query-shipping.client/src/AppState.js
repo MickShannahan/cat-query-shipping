@@ -8,6 +8,7 @@ export const AppState = reactive({
   baseUrl: 'http://localhost:3000/api/shipments',
   searchValid:{ valid:true, noReserved:true, noUnsafe:true },
   searchResults: [],
+  loading: false,
   currentGuesses: [],
   lastDocPage: 'Orientation',
   chatBranch: {},

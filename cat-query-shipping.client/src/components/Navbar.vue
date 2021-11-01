@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark-glass px-3">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex align-items-center">
         <img alt="logo" src="../assets/img/CUPS-Logo.png" height="50" />
@@ -87,7 +87,9 @@ import { computed, reactive, ref, watch, watchEffect } from 'vue'
 import { logger } from "../utils/Logger"
 export default {
   setup() {
-
+    watchEffect(()=>{
+      logger.log('watched triggered')
+    })
     return {
       credits: computed(()=> AppState.account.credits),
       user: computed(() => AppState.user),
@@ -104,6 +106,12 @@ export default {
 </script>
 
 <style scoped>
+.navbar{
+  border-bottom: outset 5px #485a648f;
+  border-bottom-right-radius: 5px ;
+  border-bottom-left-radius: 5px ;
+}
+
 .dropdown-menu {
   user-select: none;
   display: block;

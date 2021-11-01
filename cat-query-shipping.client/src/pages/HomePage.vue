@@ -9,21 +9,29 @@
     "
   >
     <div class="container-fluid">
-      <LostShipment />
+      <transition name="lost">
+      <LostShipment v-if="showLost"/>
+      </transition>
       <Search />
       <CodeSearch />
-      <ShipmentsThread />
+      <transition name="thread">
+      <ShipmentsThread v-if="showThread" />
+      </transition>
       <Docs />
     </div>
   </div>
 </template>
 
 <script>
-import { onMounted } from '@vue/runtime-core'
+import {  computed, onMounted, ref } from '@vue/runtime-core'
 import Pop from '../utils/Pop'
+import { logger } from "../utils/Logger"
+import { AppState } from "../AppState"
 export default {
   name: 'Home',
   setup() {
+    const showThread = ref(false)
+    const showLost = ref(false)
     onMounted(() => {
       window.addEventListener('keydown', (e) => {
         if (e.ctrlKey && e.key == 's') {
@@ -31,7 +39,13 @@ export default {
           Pop.toast('Saving Union documents is stricly prohibited', 'warning', 'bottom')
         }
       })
+      showThread.value = true
+      showLost.value = true
     })
+    return {
+      showThread,
+      showLost
+    }
   }
 }
 </script>
@@ -53,5 +67,32 @@ export default {
       object-position: center;
     }
   }
+
+}
+
+.thread-enter-active,
+.thread-leave-active {
+  transition: all 0.7s cubic-bezier(0.54, -0.35, 0.45, 1.41) 1s;
+}
+.thread-enter-from,
+.thread-leave-to {
+  position: absolute;
+  opacity: 0;
+  transform:  translateY(-10em);
+}
+
+.lost-enter-active,
+.lost-leave-active {
+  transition: all 0.7s cubic-bezier(0.54, -0.35, 0.45, 1.41) .5s;
+}
+.lost-enter-from,
+.lost-leave-to {
+  position: absolute;
+  opacity: 0;
+  transform:  translateY(-10em);
+}
+
+@keyframes bounce{
+
 }
 </style>

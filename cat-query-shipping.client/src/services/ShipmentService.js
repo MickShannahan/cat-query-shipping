@@ -20,6 +20,7 @@ class ShipmentService{
   }
 
   async searchShipmentDatabase(queryString){
+    AppState.loading = true
     AppState.searchResults = {results: []}
     logger.log('searching',queryString)
     let res = await api.get('api/shipments'+ queryString)
@@ -33,16 +34,18 @@ class ShipmentService{
       }
       , offset += 110);
     })
-    // AppState.searchResults = res.data
+    setTimeout(()=> {AppState.loading = false}, offSet*res.data.hits.length)
   }
 
   async searchWithQueryObject(qString){
+    AppState.loading = true
     const qObject = stringToObject(qString)
     AppState.searchResults = []
     // logger.log('searching', qObject)
     let res = await api.post('api/shipments/query', qObject)
     logger.log(res.data)
     AppState.searchResults = res.data
+    AppState.loading = false
   }
 
 

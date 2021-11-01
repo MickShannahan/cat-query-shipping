@@ -5,12 +5,16 @@
 @import "./loaders.scss";
 @import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Pacifico&family=Permanent+Marker&family=Ubuntu+Mono:wght@400;700&display=swap');
 
+.bg-dark-glass{
+  background-color: #2a2f32a4;
+  backdrop-filter: blur(10px);
+}
+
 
 #app {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: $body-bg;
 }
 
 body{

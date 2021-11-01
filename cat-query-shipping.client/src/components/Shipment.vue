@@ -1,5 +1,5 @@
 <template>
-  <div class="row mb-1" @click="checkAnswer">
+  <div class="row mx-auto mb-1" @click="checkAnswer">
     <div class="col-12 paper-edge rounded py-0">
       <div class="shipment row my-0 mx-5 perferated-edge-bottom px-2"  :class="{
             'bg-light': !hasBeenGuessed,
@@ -14,7 +14,7 @@
           </div>
         </div>
         <div class="col-4 stamp-incorrect" v-if="hasBeenGuessed">
-          <img class="stamp" src="../assets/img/incorrectStamp.png" alt="">
+          <img class="stamp" src="../assets/img/incorrectStamp.png" loading="eager" alt="">
         </div>
       </div>
     </div>
