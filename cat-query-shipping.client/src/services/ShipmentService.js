@@ -36,7 +36,7 @@ class ShipmentService{
       }, 110)
     setTimeout(()=> {
       AppState.loading = false
-      clearInterval(interval)
+      clearInterval(interval)z
     }, (110 * res.data.hits) + 1000)
   }
 

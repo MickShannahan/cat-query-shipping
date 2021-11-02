@@ -39,10 +39,13 @@ export const accountService = new AccountService()
 function countUpCredits(creds) {
   const account = AppState.account
   let credits = AppState.account.credits
-  let offset = 0
-  for(let c = 0; c < creds; c++){
-    setTimeout(()=>{
-      account.credits = credits +=1
-    }, offset += 25)
-  }
+  let interval = null
+  setInterval(()=> {
+    if(creds > 0){
+      credits++
+      creds--
+    } else {
+      clearInterval(interval)
+    }
+  }, 30)
 }
