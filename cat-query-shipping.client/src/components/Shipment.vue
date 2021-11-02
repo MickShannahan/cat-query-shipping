@@ -1,12 +1,15 @@
 <template>
   <div class="row mx-auto mb-1" @click="checkAnswer">
     <div class="col-12 paper-edge rounded py-0">
-      <div class="shipment row my-0 mx-5 perferated-edge-bottom px-2"  :class="{
-            'bg-light': !hasBeenGuessed,
-            'bg-danger lighten-30': hasBeenGuessed,
-          }">
-        <div class="col-12" >
-          <div class="row p-2 ps-5">
+      <div
+        class="shipment row my-0 mx-5 perferated-edge-bottom px-2"
+        :class="{
+          'bg-light': !hasBeenGuessed,
+          'bg-danger lighten-30': hasBeenGuessed,
+        }"
+      >
+        <div class="col-12">
+          <div class="row p-2 ps-3">
             <div class="col-6" v-for="(value, key) in shipment" :key="key">
               <b class="hover">{{ key }}</b
               ><span class="hover text-dark lighten-20">: {{ value }}</span>
@@ -14,7 +17,12 @@
           </div>
         </div>
         <div class="col-4 stamp-incorrect" v-if="hasBeenGuessed">
-          <img class="stamp" src="../assets/img/incorrectStamp.png" loading="eager" alt="">
+          <img
+            class="stamp"
+            src="../assets/img/incorrectStamp.png"
+            loading="eager"
+            alt=""
+          />
         </div>
       </div>
     </div>
@@ -82,25 +90,25 @@ export default {
   transform: translate(0, -2);
 }
 
-.stamp-incorrect{
+.stamp-incorrect {
   transform: translate(15em, 2em);
   position: absolute;
 }
 
-.stamp{
+.stamp {
   min-height: 12em;
   aspect-ratio: 1;
-  animation: stampped .2s cubic-bezier(0.54, -0.35, 0.45, 1.41)  forwards ;
+  animation: stampped 0.2s cubic-bezier(0.54, -0.35, 0.45, 1.41) forwards;
 }
 
-@keyframes stampped{
-  0%{
+@keyframes stampped {
+  0% {
     opacity: 0%;
-    transform:  scale(1.2) rotate(30deg);
-    }
-  100%{
+    transform: scale(1.2) rotate(30deg);
+  }
+  100% {
     opacity: 70%;
-    transform:  scale(1) rotate(30deg);
+    transform: scale(1) rotate(30deg);
   }
 }
 </style>

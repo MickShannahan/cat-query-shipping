@@ -1,7 +1,7 @@
 <template>
   <div class="row px-3 results-thread justify-content-center">
     <div
-      class="col-lg-10 rounded p-0 printer-sides px-5 mx-3"
+      class="col-lg-12 rounded p-0 printer-sides px-5 mx-3"
       :class="{ 'printer-sides-loading': stateLoading }"
     >
       <div class="row p-2 printer">
@@ -18,7 +18,7 @@
         </div>
       </div>
     </div>
-    <div class="col-8 printer-port">
+    <div class="col-11 printer-port">
       <div class="printer-hole"></div>
       <transition-group name="shipments">
         <Shipment
@@ -106,13 +106,12 @@ export default {
   transition: all 0.1s ease;
   display: inline-block;
   margin-right: 10px;
-  transform: translateY(-5px);
 }
 
 .shipments-enter-from,
 .shipments-leave-to {
   opacity: 0;
-  transform: scaleY(20%) translateY(-20em);
+  transform: scaleY(20%);
 }
 
 .shipments-leave-active {

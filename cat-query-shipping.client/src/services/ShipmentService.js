@@ -25,16 +25,19 @@ class ShipmentService{
     logger.log('searching',queryString)
     let res = await api.get('api/shipments'+ queryString)
     logger.log('search ',res.data)
-    // Animate
     AppState.searchResults.hits = res.data.hits
-    let offset = 0
-    res.data.results.forEach(s => {
-      setTimeout(() => {
-        AppState.searchResults.results.unshift(new Shipment(s))
-      }
-      , offset += 110);
-    })
-    setTimeout(()=> {AppState.loading = false}, offSet*res.data.hits.length)
+    // Animate
+    let interval = null
+      interval = setInterval(()=>{
+        let s = res.data.results.shift()
+        if(s){
+          AppState.searchResults.results.unshift(new Shipment(s))
+        }
+      }, 110)
+    setTimeout(()=> {
+      AppState.loading = false
+      clearInterval(interval)
+    }, (110 * res.data.hits) + 1000)
   }
 
   async searchWithQueryObject(qString){

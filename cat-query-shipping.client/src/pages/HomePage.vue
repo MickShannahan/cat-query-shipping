@@ -9,21 +9,25 @@
     "
   >
     <div class="container-fluid">
-      <transition name="lost">
-      <LostShipment v-if="showLost"/>
-      </transition>
-      <Search />
-      <CodeSearch />
-      <transition name="thread">
-      <ShipmentsThread v-if="showThread" />
-      </transition>
-      <Docs />
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <transition name="lost">
+            <LostShipment v-if="showLost" />
+          </transition>
+          <Search />
+          <CodeSearch />
+          <transition name="thread">
+            <ShipmentsThread v-if="showThread" />
+          </transition>
+          <Docs />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import {  computed, onMounted, ref } from '@vue/runtime-core'
+import { computed, onMounted, ref } from '@vue/runtime-core'
 import Pop from '../utils/Pop'
 import { logger } from "../utils/Logger"
 import { AppState } from "../AppState"
@@ -67,7 +71,6 @@ export default {
       object-position: center;
     }
   }
-
 }
 
 .thread-enter-active,
@@ -78,21 +81,20 @@ export default {
 .thread-leave-to {
   position: absolute;
   opacity: 0;
-  transform:  translateY(-10em);
+  transform: translateY(-10em);
 }
 
 .lost-enter-active,
 .lost-leave-active {
-  transition: all 0.7s cubic-bezier(0.54, -0.35, 0.45, 1.41) .5s;
+  transition: all 0.7s cubic-bezier(0.54, -0.35, 0.45, 1.41) 0.5s;
 }
 .lost-enter-from,
 .lost-leave-to {
   position: absolute;
   opacity: 0;
-  transform:  translateY(-10em);
+  transform: translateY(-10em);
 }
 
-@keyframes bounce{
-
+@keyframes bounce {
 }
 </style>

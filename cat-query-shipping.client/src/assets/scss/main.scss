@@ -3,8 +3,7 @@
 @import "./_overrides.scss";
 @import "./utilities.scss";
 @import "./loaders.scss";
-@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Pacifico&family=Permanent+Marker&family=Ubuntu+Mono:wght@400;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Pacifico&family=Permanent+Marker&family=Ubuntu+Mono:wght@400;700&family=Yellowtail&display=swap');
 .bg-dark-glass{
   background-color: #2a2f32a4;
   backdrop-filter: blur(10px);
@@ -24,6 +23,10 @@ body{
 .font-handwritten{
   font-family: 'Permanent Marker', cursive;
   font-weight: bold;
+}
+
+.font-yellowtail{
+  font-family: 'Yellowtail', cursive;
 }
 
 main {

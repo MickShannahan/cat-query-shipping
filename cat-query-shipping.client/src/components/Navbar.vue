@@ -3,7 +3,7 @@
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex align-items-center">
         <img alt="logo" src="../assets/img/CUPS-Logo.png" height="50" />
-        <h3 class="text-primary ms-2">C.U.P.S</h3>
+        <h3 class="site-header ms-2">C.U.P.S</h3>
       </div>
     </router-link>
     <button
@@ -37,7 +37,7 @@
 
         <div class="d-flex align-items-center dropdown my-2 my-lg-0" v-else>
           <div class="me-5 text-warning credits">
-            <i class="mdi mdi-google-podcast mx-1 "></i>{{ credits }}
+            <i class="mdi mdi-google-podcast mx-1"></i>{{ credits }}
           </div>
           <div
             class="dropdown-toggle selectable"
@@ -87,11 +87,11 @@ import { computed, reactive, ref, watch, watchEffect } from 'vue'
 import { logger } from "../utils/Logger"
 export default {
   setup() {
-    watchEffect(()=>{
+    watchEffect(() => {
       logger.log('watched triggered')
     })
     return {
-      credits: computed(()=> AppState.account.credits),
+      credits: computed(() => AppState.account.credits),
       user: computed(() => AppState.user),
       account: computed(() => AppState.account),
       async login() {
@@ -106,10 +106,18 @@ export default {
 </script>
 
 <style scoped>
-.navbar{
+.site-header {
+  color: var(--bs-warning);
+  font-weight: bold;
+  text-shadow: -1px 1px 0px var(--bs-primary), -2px 2px 0px var(--bs-primary),
+    -3px 3px 0px var(--bs-primary), -4px 4px 0px var(--bs-primary),
+    1px -1px 0px var(--bs-danger);
+}
+
+.navbar {
   border-bottom: outset 5px #485a648f;
-  border-bottom-right-radius: 5px ;
-  border-bottom-left-radius: 5px ;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
 
 .dropdown-menu {
@@ -136,20 +144,20 @@ a:hover {
   border-bottom-right-radius: 0;
 }
 
-.credits{
-  transition: all .1s ease;
+.credits {
+  transition: all 0.1s ease;
 }
 
-.credits-effect{
+.credits-effect {
   transform: scale(1.1);
 }
 
-@keyframes countUp{
-  0%{
+@keyframes countUp {
+  0% {
     transform: scale(1.2);
   }
-  100%{
-    transform: scale(1.);
+  100% {
+    transform: scale(1);
   }
 }
 </style>
