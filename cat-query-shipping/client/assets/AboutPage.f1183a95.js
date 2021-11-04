@@ -1,0 +1,1 @@
+import{_ as e}from"./index.5a1eef16.js";import{b as a,o,d as r}from"./editor.worker.001edd06.js";const t={name:"AboutPage"},s={class:"about"},d=[r("h1",null,"This is the about page",-1)];var i=e(t,[["render",function(e,r,t,i,n,u){return o(),a("div",s,d)}]]);export default i;
