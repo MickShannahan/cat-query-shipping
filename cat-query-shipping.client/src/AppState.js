@@ -22,7 +22,7 @@ export const AppState = reactive({
       branches: ["Who are you?", "What am I supposed to do?", "Can you help me?"]
     },
     'What am I supposed to do?': {
-      text:"You're here to find lost shipments.  If you have already forgotten how to do that start with the 'get new shipment' button.  This will pull a lost shipment report so you can begin.  Keep in mind these lost shipment reports are usually damaged, and only contains some of the information about the missing shipment, sometimes the information itself is corrupted and only partially displayed.  Oh and Kid, please don't ask how to do your job again... it doesn't look good.",
+      text:"You're here to find lost shipments.  If you have already forgotten how to do that start with the 'get new shipment' button.  This will pull a lost shipment report so you can begin. Then use the 'HTTP' terminal there to search the database, and select the correct one from the manifest print-out. Keep in mind these lost shipment reports are usually damaged, and only contains some of the information about the missing shipment, sometimes the information itself is corrupted and only partially displayed.  Oh and Kid, please don't ask how to do your job again... it doesn't look good.",
       branches: ['[Go Back]'],
     },
     "Who are you?": {
@@ -30,8 +30,8 @@ export const AppState = reactive({
       branches: ['[Go Back]'],
     },
     "Can you help me?": {
-      text: "If I had a Union Credit for each time you asked for help Kid, I might be able to afford that trip to Earth II.  Ah, fine.  You see that URL input field? try looking up the missing shipment using a query, you know the thing that comes after the '?', then select the correct manifest from the Database print out.  You're limited to 50 results so if you need to narrow your search just add more queries.",
-      branches:["What's A Query?", "What if I want to Query multiple things?", "How Should I format my Query?", '[Go Back]']
+      text: "If I had a Union Credit for each time you asked for help Kid, I might be able to afford that trip to Earth II.  Ah, fine.  You see that URL input field? try looking up the missing shipment using a query, you know the thing that comes after the '?', try searching one or many of the properties on the lost shipment report.",
+      branches:["What's A Query?", "How can I query multiple things?", "How Should I format my Query?", '[Go Back]']
     },
     //#region can you help me
     "What's A Query?": {
@@ -44,11 +44,11 @@ export const AppState = reactive({
       },
       //#endregion can you help me
     "How Should I format my Query?":{
-      text: "You're lucky Kid, old Boz here is a pro.  I used to be known for stringing together all sorts of 'Mad' queries.  Ah uh well, anyways.  As long as the API you're using supports it like the lost shipment database, they you can search like a pro, getting back only the results you want.  It goes something like this: https://websiteLocation.com/api/collection?query=value.  The query begins after the question mark '?', and you specify the property you are searching by, then follows the value you want that property to have, like: '?planet=Neptune III' or '?insured=true'.",
+      text: "You're lucky Kid, old Boz here is a pro.  I used to be known for stringing together all sorts of 'Mad' queries.  Ah uh well, anyways.  As long as the API you're using supports it (like the lost shipment database), using queries makes getting back only the results you want easy.  It goes something like this: https://websiteLocation.com/api/collection?query=value.  The query begins after the question mark '?', and you specify the property you are searching by, then follows the value you want that property to have, like: '?planet=Neptune III' or '?insured=true'.",
     branches: ['[Go Back]']
     },
     "Report an Issue" : {
-      text: "All issues are to be reported to central processing, navigate here:\n <a href='https://github.com/MickShannahan/cat-query-shipping/issues' target='_blank'>catsuniversalpostalservice.un/issues</a>",
+      text: "All issues are to be reported to central processing, navigate here:\n <a href='https://github.com/MickShannahan/cat-query-shipping/issues' target='_blank'>catsups.un/processing/complaints/internal-issues</a>",
       branches: ['[Go Back]']
     }
   }
