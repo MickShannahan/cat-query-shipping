@@ -130,14 +130,14 @@ export default {
 }
 .flip-enter-from {
   opacity: 0;
-  transform: rotate3d(1, 0, 0, 360deg);
+  transform: rotate3d(1, 0, 0, 180deg) translateY(-1em);
 }
 
 .flip-leave-to {
   position: absolute;
   width: inherit;
   opacity: 0;
-  // transform: rotate3d(1, 0, 0, -360deg);
+  transform: rotate3d(1, 0, 0, -180deg) translateY(-1em);
 }
 
 @keyframes bounce {

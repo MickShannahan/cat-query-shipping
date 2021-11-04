@@ -1,0 +1,1 @@
+import{_ as r}from"./index.b7ffd69e.js";import{r as e,b as s,o as t}from"./editor.worker.001edd06.js";const o={class:"query-url"};var a=r({setup:()=>({state:e({})})},[["render",function(r,e,a,d,u,f){return t(),s("div",o,"Query Url")}]]);export default a;
