@@ -77,7 +77,7 @@ export default {
   border-radius: 5px;
   outline: 1px solid #499678;
   overflow: hidden;
-  max-height: 100%;
+  max-height: 17vh !important;
   border-top: 5px solid #315f8a;
   border-left: 5px solid #315f8a;
   border-bottom: 5px solid #55a6a8;
