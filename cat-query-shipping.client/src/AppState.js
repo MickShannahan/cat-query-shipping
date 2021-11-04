@@ -38,7 +38,7 @@ export const AppState = reactive({
       text:"WHAT DO YOU MEAN WHAT IS A QUERY?!  Are you pulling my tail right now Kid?  I'm going to pretend I didn't here that and go refill my milk.  When I get back you better have looked it up for yourself or something....sheesh.",
         branches: ['[Go Back]']
       },
-    "What if I want to Query multiple things?": {
+    "How can I query multiple things?": {
       text:"That's Easy Kid, with the Adam Sandler?... Ambulance?... Amps-and-sand, you know that thing between the 6 and 8 key, just put that between each query.",
         branches: ['[Go Back]']
       },
