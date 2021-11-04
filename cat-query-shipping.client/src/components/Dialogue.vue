@@ -76,12 +76,12 @@
         <div class="col-2 bozko-container">
           <!-- Boz Base -->
           <img
-            src="../assets/img/Boz/CUPS Manager-animate.gif"
+            src="../assets/img/Boz/CUPS-Manager-animate.gif"
             class="bozko"
             :class="{ 'hide-bozko': bozkoHide }"
           />
           <img
-            src="../assets/img/Boz/CUPS Manager-blink.png"
+            src="../assets/img/Boz/CUPS-Manager-blink.png"
             class="bozko blink"
             v-show="bozkoStatus == 'blink' && !bozkoBusy"
             :class="{ 'hide-bozko': bozkoHide }"
