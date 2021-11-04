@@ -4,6 +4,7 @@
       <div class="d-flex align-items-center">
         <img alt="logo" src="../assets/img/CUPS-Logo.png" height="50" />
         <h3 class="site-header ms-2">C.U.P.S</h3>
+        <small class="text-dark ms-3">alpha v.0.0.early.as.heck</small>
       </div>
     </router-link>
     <button
