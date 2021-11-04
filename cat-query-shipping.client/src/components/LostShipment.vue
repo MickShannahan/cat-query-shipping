@@ -1,5 +1,5 @@
 <template>
-  <div class="row m-2 p-2">
+  <div class="lost-shipment row m-2 p-2">
     <div class="col-12 p-2 paper-edge py-0">
       <div class="row justify-content-end p-2 mx-5 bg-warning lightne-20">
         <div class="col-6" v-for="(value, key) in lostShipment" :key="key">
@@ -9,12 +9,6 @@
             value
           }}</span>
         </div>
-        <button
-          class="col-3 btn btn-outline-primary"
-          @click="getNewLostShipment"
-        >
-          get new shipment
-        </button>
       </div>
     </div>
   </div>
@@ -36,9 +30,6 @@ export default {
         delete AppState.lostShipment?.__v
         return AppState.lostShipment
       }),
-      getNewLostShipment() {
-        shipmentService.getLostShipment()
-      },
       copy() {
         let elem = event.target
         logger.log(elem)
@@ -52,6 +43,9 @@ export default {
 
 
 <style scoped>
+.lost-shipment {
+  min-height: 20vh;
+}
 .paper-edge {
   height: 100%;
   background-image: url("../assets/img/yellowPageEdge.png");

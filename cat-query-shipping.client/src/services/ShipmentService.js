@@ -14,13 +14,17 @@ class ShipmentService{
   }
 
   async getLostShipment(){
+    AppState.loading.lostShipment = true
     let res = await api.get('api/shipments/lost')
     logger.log('lost shipment ', res.data)
-    AppState.lostShipment = res.data
+    setTimeout(()=>{
+      AppState.lostShipment = res.data
+      AppState.loading.lostShipment = false
+    },1000)
   }
 
   async searchShipmentDatabase(queryString){
-    AppState.loading = true
+    AppState.loading.thread = true
     AppState.searchResults = {results: []}
     logger.log('searching',queryString)
     let res = await api.get('api/shipments'+ queryString)
@@ -32,23 +36,31 @@ class ShipmentService{
         let s = res.data.results.shift()
         if(s){
           AppState.searchResults.results.unshift(new Shipment(s))
+        }else {
+          clearInterval(interval)
+          AppState.loading.thread = false
         }
       }, 110)
-    setTimeout(()=> {
-      AppState.loading = false
-      clearInterval(interval)z
-    }, (110 * res.data.hits) + 1000)
   }
 
   async searchWithQueryObject(qString){
     AppState.loading = true
     const qObject = stringToObject(qString)
-    AppState.searchResults = []
-    // logger.log('searching', qObject)
+    AppState.searchResults = {results: []}
     let res = await api.post('api/shipments/query', qObject)
-    logger.log(res.data)
-    AppState.searchResults = res.data
-    AppState.loading = false
+    logger.log('search object',res.data)
+    AppState.searchResults.hits = res.data.hits
+    // Animate
+    let interval = null
+      interval = setInterval(()=>{
+        let s = res.data.results.shift()
+        if(s){
+          AppState.searchResults.results.unshift(new Shipment(s))
+        } else {
+          clearInterval(interval)
+          AppState.loading.thread = false
+        }
+      }, 110)
   }
 
 

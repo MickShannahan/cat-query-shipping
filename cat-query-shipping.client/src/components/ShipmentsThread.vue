@@ -1,17 +1,17 @@
 <template>
-  <div class="row px-3 results-thread justify-content-center">
+  <div class="row px-3 results-thread justify-content-center mt-2">
     <div
       class="col-lg-12 rounded p-0 printer-sides px-5 mx-3"
-      :class="{ 'printer-sides-loading': stateLoading }"
+      :class="{ 'printer-sides-loading': loading }"
     >
       <div class="row p-2 printer">
         <div
           class="offset-2 col-6 col-lg-4 results screen text-center p-1 rounded"
           :class="{
-            'text-primary': hits == 1,
+            'text-success': hits == 1,
             'text-info': hits < 5,
-            'text-warning': hits > 10 && hits < 24,
-            'text-danger': hits > 25 || hits == 0,
+            'text-warning': hits < 24,
+            'text-danger': hits <= 50 || hits == 0,
           }"
         >
           Matching Records : {{ hits }} <span v-if="hits == 50">MAX</span>
@@ -39,7 +39,7 @@ export default {
   setup() {
 
     return {
-      stateLoading: computed(() => AppState.loading),
+      loading: computed(() => AppState.loading.thread),
       shipments: computed(() => AppState.searchResults.results),
       hits: computed(() => AppState.searchResults.hits)
     }

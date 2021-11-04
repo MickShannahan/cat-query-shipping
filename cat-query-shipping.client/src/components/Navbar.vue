@@ -36,8 +36,14 @@
         </button>
 
         <div class="d-flex align-items-center dropdown my-2 my-lg-0" v-else>
-          <div class="me-5 text-warning credits">
-            <i class="mdi mdi-google-podcast mx-1"></i>{{ credits }}
+          <div
+            class="me-5 text-warning credits"
+            :style="`transform: scale(${creditScale});`"
+          >
+            <!-- <button class="btn btn-outline-info" @click="testCredits">
+              test
+            </button> -->
+            <i class="mdi mdi-google-podcast mx-1"></i>{{ state.credits }}
           </div>
           <div
             class="dropdown-toggle selectable"
@@ -85,15 +91,42 @@ import { AuthService } from '../services/AuthService'
 import { AppState } from '../AppState'
 import { computed, reactive, ref, watch, watchEffect } from 'vue'
 import { logger } from "../utils/Logger"
+import { accountService } from '../services/AccountService'
 export default {
   setup() {
-    watchEffect(() => {
-      logger.log('watched triggered')
+    const creditScale = ref(1)
+    const decayRate = 100
+    const interval = ref(null)
+    const state = reactive({
+      credits: computed(() => AppState.account.credits),
+    })
+    watch(() => state.credits, () => {
+      logger.log('watched triggered', state.credits,)
+      creditScale.value += 0.012
+      if (!interval.value) {
+        // setTimeout(() => clearInterval(interval.value), 10000)
+        interval.value = setInterval(() => {
+          if (creditScale.value > 1) {
+            logger.log('decay')
+            creditScale.value -= 0.01
+          } else {
+            creditScale.value = 1
+            clearInterval(interval.value)
+            interval.value = null
+          }
+        }, decayRate)
+      }
     })
     return {
-      credits: computed(() => AppState.account.credits),
+      state,
+      interval,
+      creditScale,
+      decayRate,
       user: computed(() => AppState.user),
       account: computed(() => AppState.account),
+      testCredits() {
+        accountService.countUpCredits(100)
+      },
       async login() {
         AuthService.loginWithPopup()
       },
@@ -145,7 +178,7 @@ a:hover {
 }
 
 .credits {
-  transition: all 0.1s ease;
+  transition: all 0.2s linear;
 }
 
 .credits-effect {

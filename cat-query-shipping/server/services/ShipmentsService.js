@@ -33,11 +33,11 @@ class ShipmentsService {
   }
 
   async getLostById(id) {
-    const value = await dbContext.Shipments.findById(id)
-    if (!value) {
+    const shipment = await dbContext.Shipments.findById(id)
+    if (!shipment) {
       throw new BadRequest('Invalid Id')
     }
-    return value.toObject()
+    return shipment.toObject()
   }
 }
 

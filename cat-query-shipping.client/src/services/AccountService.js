@@ -22,8 +22,8 @@ class AccountService {
       AppState.currentGuesses = res.data.currentGuesses
       if(res.data.result){
         Pop.toast("You found the shipment",'success','top',5000)
-        countUpCredits(AppState.lostShipment.creditsWorth)
-      shipmentService.getLostShipment()
+        this.countUpCredits(AppState.lostShipment.creditsWorth)
+        await shipmentService.getLostShipment()
       } else {
         Pop.toast("that is not the right shipment",'error','top',5000)
       }
@@ -31,21 +31,20 @@ class AccountService {
       logger.error(error)
     }
   }
+   countUpCredits(creds) {
+    const account = AppState.account
+    let interval = null
+   interval = setInterval(()=> {
+      if(creds > 0){
+        account.credits++
+        creds--
+      } else {
+        clearInterval(interval)
+      }
+    }, 30)
+  }
 }
 
 export const accountService = new AccountService()
 
 
-function countUpCredits(creds) {
-  const account = AppState.account
-  let credits = AppState.account.credits
-  let interval = null
-  setInterval(()=> {
-    if(creds > 0){
-      credits++
-      creds--
-    } else {
-      clearInterval(interval)
-    }
-  }, 30)
-}

@@ -1,6 +1,7 @@
 <template>
   <div
     class="
+      no-overflow-x
       flex-grow-1
       d-flex
       flex-column
@@ -12,10 +13,18 @@
       <div class="row justify-content-center">
         <div class="col-lg-10">
           <transition name="lost">
-            <LostShipment v-if="showLost" />
+            <LostShipment v-show="!lostShipmentLoading" />
           </transition>
-          <Search />
-          <CodeSearch />
+          <button
+            class="w-50 mb-2 btn btn-light btn-block"
+            @click="getNewLostShipment"
+          >
+            get new lost shipment
+          </button>
+          <transition name="flip">
+            <Search v-if="compScreen == 'http'" @switch="switchScreen" />
+            <CodeSearch v-else @switch="switchScreen" />
+          </transition>
           <transition name="thread">
             <ShipmentsThread v-if="showThread" />
           </transition>
@@ -29,13 +38,14 @@
 <script>
 import { computed, onMounted, ref } from '@vue/runtime-core'
 import Pop from '../utils/Pop'
+import { shipmentService } from '../services/ShipmentService'
 import { logger } from "../utils/Logger"
 import { AppState } from "../AppState"
 export default {
   name: 'Home',
   setup() {
+    const compScreen = ref('http')
     const showThread = ref(false)
-    const showLost = ref(false)
     onMounted(() => {
       window.addEventListener('keydown', (e) => {
         if (e.ctrlKey && e.key == 's') {
@@ -44,11 +54,19 @@ export default {
         }
       })
       showThread.value = true
-      showLost.value = true
     })
     return {
+      getNewLostShipment() {
+        shipmentService.getLostShipment()
+      },
+      compScreen,
       showThread,
-      showLost
+      lostShipmentLoading: computed(() => AppState.loading.lostShipment),
+      account: computed(() => AppState.account),
+      switchScreen() {
+        logger.log('switching')
+        compScreen.value = compScreen.value == 'http' ? 'code' : 'http'
+      }
     }
   }
 }
@@ -73,6 +91,11 @@ export default {
   }
 }
 
+.no-overflow-x {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 .thread-enter-active,
 .thread-leave-active {
   transition: all 0.7s cubic-bezier(0.54, -0.35, 0.45, 1.41) 1s;
@@ -88,11 +111,33 @@ export default {
 .lost-leave-active {
   transition: all 0.7s cubic-bezier(0.54, -0.35, 0.45, 1.41) 0.5s;
 }
-.lost-enter-from,
-.lost-leave-to {
-  position: absolute;
+.lost-enter-from {
   opacity: 0;
   transform: translateY(-10em);
+}
+
+.lost-leave-to {
+  transform: translateX(200%);
+}
+
+.flip-enter-active {
+  transition: all 0.7s cubic-bezier(0.54, -0.35, 0.45, 1.41);
+}
+.flip-leave-active {
+  position: absolute;
+  width: inherit;
+  transition: all 0.7s cubic-bezier(0.54, -0.35, 0.45, 1.41);
+}
+.flip-enter-from {
+  opacity: 0;
+  transform: rotate3d(1, 0, 0, 360deg);
+}
+
+.flip-leave-to {
+  position: absolute;
+  width: inherit;
+  opacity: 0;
+  // transform: rotate3d(1, 0, 0, -360deg);
 }
 
 @keyframes bounce {
