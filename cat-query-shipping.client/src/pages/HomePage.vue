@@ -1,5 +1,5 @@
 <template>
-  <div class="row h-100 justify-content-center">
+  <div class="row h-100 no-overflow-x justify-content-center">
     <div v-if="account.id" class="col-lg-10">
       <transition name="lost">
         <LostShipment v-show="!lostShipmentLoading" />
