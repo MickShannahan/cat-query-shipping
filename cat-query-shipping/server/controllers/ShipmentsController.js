@@ -32,8 +32,8 @@ export class ShipmentsController extends BaseController {
   // get random lost Shipment for the user
   async getLostShipment(req, res, next) {
     try {
-      const userId = req.userInfo.id
-      const shipment = await gameService.getLostShipment(req.query, userId)
+      const user = req.userInfo
+      const shipment = await gameService.getLostShipment(req.query, user)
       return res.send(shipment)
     } catch (error) {
       logger.log(error)

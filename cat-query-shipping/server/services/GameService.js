@@ -3,8 +3,8 @@ import { logger } from '../utils/Logger'
 import { accountService } from './AccountService'
 import { shipmentsService } from './ShipmentsService'
 class GameService {
-  async getLostShipment(query = {}, userId) {
-    const account = await accountService.getAccount({ id: userId })
+  async getLostShipment(query = {}, user) {
+    const account = await accountService.getAccount(user)
     const numberOfShipments = await dbContext.Shipments.count(query)
     const randShipment = Math.floor(Math.random() * (numberOfShipments - 1))
     const shipment = await dbContext.Shipments.find().limit(1).skip(randShipment)
