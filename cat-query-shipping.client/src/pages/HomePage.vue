@@ -11,7 +11,7 @@
   >
     <div class="container-fluid">
       <div class="row justify-content-center">
-        <div class="col-lg-10">
+        <div v-if="account.id" class="col-lg-10">
           <transition name="lost">
             <LostShipment v-show="!lostShipmentLoading" />
           </transition>
@@ -28,8 +28,9 @@
           <transition name="thread">
             <ShipmentsThread v-if="showThread" />
           </transition>
-          <Docs />
         </div>
+          <Docs />
+          <Dialogue />
       </div>
     </div>
   </div>

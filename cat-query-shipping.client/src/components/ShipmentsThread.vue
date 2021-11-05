@@ -11,10 +11,10 @@
             'text-success': hits == 1,
             'text-info': hits < 5,
             'text-warning': hits < 24,
-            'text-danger': hits <= 50 || hits == 0,
+            'text-danger': hits >= 25 || hits == 0,
           }"
         >
-          Matching Records : {{ hits }} <span v-if="hits == 50">MAX</span>
+          Matching Records : {{ hits }} <span v-if="hits >= 50"> !MAX 50 PRINTED!</span>
         </div>
       </div>
     </div>

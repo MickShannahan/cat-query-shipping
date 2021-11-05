@@ -10,7 +10,15 @@ export const AccountSchema = new Schema(
     credits: { type: Number, default: 0 },
     lostShipmentId: { type: Schema.Types.ObjectId, ref: 'Shipment' },
     currentGuesses: [{ type: Schema.Types.ObjectId }],
-    shipmentsFound: [{ type: Schema.Types.ObjectId }]
+    shipmentsFound: [{ type: Schema.Types.ObjectId }],
+    shipmentsAbandoned: [{ type: Schema.Types.ObjectId }],
+    totalPagesPrinted: { type: Number, default: 0 },
+    currentPagesPrinted: { type: Number, default: 0 },
+    averagePagesPrinted: { type: Number, default: 1 },
+    totalRequestsMade: { type: Number, default: 0 },
+    currentRequestsMade: { type: Number, default: 0 },
+    averageRequestsMade: { type: Number, default: 1 },
+    employeeGrade: { type: String, enum: ['S+', 'S', 'A', 'B', 'C', 'D', 'Tabby', 'Kitten', 'Trainee'], default: 'Trainee' }
     // NOTE If you wish to add additional properties do so here
   },
   { timestamps: true, toJSON: { virtuals: true } }

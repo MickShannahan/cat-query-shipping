@@ -1,6 +1,7 @@
 import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
 import { logger } from '../utils/Logger'
+import { accountService } from './AccountService'
 
 class ShipmentsService {
   async create(body) {
@@ -9,10 +10,11 @@ class ShipmentsService {
     return await shipment
   }
 
-  async getAll(query = {}) {
+  async getAll(query = {}, userId) {
     query = regexr(query)
-    const shipments = await dbContext.Shipments.find(query).limit(50).set('-missingProperties -damagedProperties -damagedKeys')
-    return { hits: shipments.length, results: shipments }
+    const shipments = await dbContext.Shipments.find(query)
+    accountService.updateAccountStats(userId, { pages: shipments.length > 50 ? 50 : shipments.length, requests: 1 })
+    return { hits: shipments.length, results: shipments.slice(0, 49) }
   }
 
   async searchLostShipments(query) {

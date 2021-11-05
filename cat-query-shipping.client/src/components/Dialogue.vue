@@ -98,6 +98,7 @@ import { AppState } from '../AppState';
 import { computed, reactive, onMounted, ref, watchEffect } from 'vue';
 import { chatService } from '../services/ChatService'
 import { logger } from '../utils/Logger';
+import {Offcanvas} from "bootstrap";
 export default {
   setup() {
     const bozkoStatus = ref('standing')
@@ -115,6 +116,10 @@ export default {
       })
       // Start bozko blink
       bozkoBlink()
+      if(!AppState.user.isAuthenticated){
+        Offcanvas.getOrCreateInstance(dialogue).show()
+        bozkoChat('[Get Started]')
+      }
     })
     function bozkoBlink() {
       bozkoStatus.value = 'blink'

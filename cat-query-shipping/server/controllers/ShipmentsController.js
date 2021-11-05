@@ -9,18 +9,19 @@ export class ShipmentsController extends BaseController {
   constructor() {
     super('api/shipments')
     this.router
+      .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getAll)
       .get('/search', this.searchLostShipments)
       .post('/query', this.runQuery)
       .post('/:number', this.createThousand)
       .post('', this.createShipment)
-      .use(Auth0Provider.getAuthorizedUserInfo)
       .get('/lost', this.getLostShipment)
   }
 
   async getAll(req, res, next) {
     try {
-      const shipments = await shipmentsService.getAll(req.query)
+      const user = req.userInfo
+      const shipments = await shipmentsService.getAll(req.query, user.id)
       return res.send(shipments)
     } catch (error) {
       logger.log(error)

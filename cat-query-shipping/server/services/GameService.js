@@ -29,6 +29,9 @@ class GameService {
       account.shipmentsFound.push(shipmentId)
       account.currentGuesses = []
       account.credits += shipment.creditsWorth
+      accountService.updateAccountStats(userId, { pages: 0, requests: 0, averagePages: account.currentPagesPrinted, averageRequests: account.currentRequestsMade })
+      account.currentPagesPrinted = 0
+      account.currentRequestsMade = 0
       await account.save()
       logger.log('correct guess', shipment, account)
       return { result: true, currentGuesses: account.currentGuesses }

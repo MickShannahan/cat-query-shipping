@@ -2,7 +2,7 @@
   <header>
     <Navbar />
   </header>
-  <main>
+  <main >
   <router-view v-slot="{ Component }">
   <transition name="route">
     <component :is="Component" />
@@ -10,7 +10,6 @@
 </router-view>
   </main>
   <footer class="container-fluid">
-    <Dialogue />
     <div class="text-light text-center p-2">
       Made with your <i class="mdi mdi-google-podcast"></i> Union Tax Credits
     </div>
