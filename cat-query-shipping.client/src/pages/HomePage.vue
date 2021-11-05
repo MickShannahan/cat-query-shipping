@@ -1,38 +1,23 @@
 <template>
-  <div
-    class="
-      no-overflow-x
-      flex-grow-1
-      d-flex
-      flex-column
-      align-items-center
-      justify-content-center
-    "
-  >
-    <div class="container-fluid">
-      <div class="row justify-content-center">
-        <div v-if="account.id" class="col-lg-10">
-          <transition name="lost">
-            <LostShipment v-show="!lostShipmentLoading" />
-          </transition>
-          <button
-            class="w-50 mb-2 btn btn-light btn-block"
-            @click="getNewLostShipment"
-          >
-            get new lost shipment
-          </button>
-          <transition name="flip">
-            <Search v-if="compScreen == 'http'" @switch="switchScreen" />
-            <CodeSearch v-else @switch="switchScreen" />
-          </transition>
-          <transition name="thread">
-            <ShipmentsThread v-if="showThread" />
-          </transition>
-        </div>
-          <Docs />
-          <Dialogue />
-      </div>
+  <div class="row h-100 justify-content-center">
+    <div v-if="account.id" class="col-lg-10">
+      <transition name="lost">
+        <LostShipment v-show="!lostShipmentLoading" />
+      </transition>
+      <button
+        class="w-50 mb-2 btn btn-light btn-block"
+        @click="getNewLostShipment"
+      >
+        get new lost shipment
+      </button>
+      <transition name="flip">
+        <Search v-if="compScreen == 'http'" @switch="switchScreen" />
+        <CodeSearch v-else @switch="switchScreen" />
+      </transition>
+      <ShipmentsThread />
     </div>
+    <Dialogue />
+    <Docs />
   </div>
 </template>
 
@@ -45,8 +30,8 @@ import { AppState } from "../AppState"
 export default {
   name: 'Home',
   setup() {
+    const showTabs = ref(false)
     const compScreen = ref('http')
-    const showThread = ref(false)
     onMounted(() => {
       window.addEventListener('keydown', (e) => {
         if (e.ctrlKey && e.key == 's') {
@@ -54,14 +39,14 @@ export default {
           Pop.toast('Saving Union documents is stricly prohibited', 'warning', 'bottom')
         }
       })
-      showThread.value = true
+
     })
     return {
       getNewLostShipment() {
         shipmentService.getLostShipment()
       },
       compScreen,
-      showThread,
+      showTabs,
       lostShipmentLoading: computed(() => AppState.loading.lostShipment),
       account: computed(() => AppState.account),
       switchScreen() {
@@ -74,38 +59,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.home {
-  display: grid;
-  height: 80vh;
-  place-content: center;
-  text-align: center;
-  user-select: none;
-  .home-card {
-    width: 50vw;
-    > img {
-      height: 200px;
-      max-width: 200px;
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
-    }
-  }
-}
-
 .no-overflow-x {
   max-width: 100%;
   overflow-x: hidden;
-}
-
-.thread-enter-active,
-.thread-leave-active {
-  transition: all 0.7s cubic-bezier(0.54, -0.35, 0.45, 1.41) 1s;
-}
-.thread-enter-from,
-.thread-leave-to {
-  position: absolute;
-  opacity: 0;
-  transform: translateY(-10em);
 }
 
 .lost-enter-active,
@@ -139,8 +95,5 @@ export default {
   width: inherit;
   opacity: 0;
   transform: rotate3d(1, 0, 0, -180deg) translateY(-1em);
-}
-
-@keyframes bounce {
 }
 </style>
