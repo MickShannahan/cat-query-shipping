@@ -106,6 +106,12 @@ import { computed, reactive, onMounted, ref, watchEffect } from 'vue';
 import { chatService } from '../services/ChatService'
 import { logger } from '../utils/Logger';
 import {Offcanvas} from "bootstrap";
+import AEI from '../assets/img/Boz/BozPhonicAEI.png'
+import ELTH from '../assets/img/Boz/BozPhonicELTH.png'
+import FVJ from '../assets/img/Boz/BozPhonicFVJ.png'
+import OUQ from '../assets/img/Boz/BozPhonicOUQ.png'
+import R from '../assets/img/Boz/BozPhonicR.png'
+
 export default {
   setup() {
     const bozkoStatus = ref('standing')
@@ -162,8 +168,8 @@ export default {
     function bozPhonic(sound){
       const sounds = /r|a|e|i|o|u|t|v|q|r/ig
       if(sounds.test(sound)){
-      const pics = ['BozPhonicAEI.png', 'BozPhonicELTH.png', 'BozPhonicFVJ.png', 'BozPhonicOUQ.png', 'BozPhonicR.png']
-      let randomPhonic = '../../src/assets/img/Boz/'+ pics[Math.floor(Math.random()*pics.length)]
+      const pics = [AEI, ELTH, R, OUQ, FVJ]
+      let randomPhonic =  pics[Math.floor(Math.random()*pics.length)]
       bozkoTalking.value = randomPhonic
       }
     }

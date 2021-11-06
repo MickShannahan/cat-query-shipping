@@ -4,6 +4,7 @@ import { defineConfig } from 'vite'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue()],
+  assetsInclude: ['./assets/img/Boz/*.png'],
   build: {
     outDir: '../cat-query-shipping/client',
     sourcemap: false
