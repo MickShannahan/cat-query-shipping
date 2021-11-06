@@ -190,7 +190,7 @@ export default {
 .load-images{
   height: 0px;
   width: 0px;
-  background-image: url('../assets/img/Boz/BozPhonicAEI.png'), url('../assets/img/Boz/BozPhonicELTH.png'), url('../assets/img/Boz/BozPhonicFVJ.png'), url('../assets/img/Boz/BozPhonicOUQ.png'), url('../assets/img/Boz/BozPhonicR.png');
+  background-image: url('../../src/assets/img/Boz/BozPhonicAEI.png'), url('../../src/assets/img/Boz/BozPhonicELTH.png'), url('../../src/assets/img/Boz/BozPhonicFVJ.png'), url('../../src/assets/img/Boz/BozPhonicOUQ.png'), url('../../src/assets/img/Boz/BozPhonicR.png');
 }
 
 .help-button {
