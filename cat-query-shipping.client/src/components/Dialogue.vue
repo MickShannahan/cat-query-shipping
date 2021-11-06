@@ -163,7 +163,7 @@ export default {
       const sounds = /r|a|e|i|o|u|t|v|q|r/ig
       if(sounds.test(sound)){
       const pics = ['BozPhonicAEI.png', 'BozPhonicELTH.png', 'BozPhonicFVJ.png', 'BozPhonicOUQ.png', 'BozPhonicR.png']
-      let randomPhonic = '../assets/img/Boz/'+ pics[Math.floor(Math.random()*pics.length)]
+      let randomPhonic = '../../src/assets/img/Boz/'+ pics[Math.floor(Math.random()*pics.length)]
       bozkoTalking.value = randomPhonic
       }
     }
@@ -188,9 +188,10 @@ export default {
 
 <style lang='scss' scoped>
 .load-images{
-  height: 0px;
-  width: 0px;
-  background-image: url('../../src/assets/img/Boz/BozPhonicAEI.png'), url('../../src/assets/img/Boz/BozPhonicELTH.png'), url('../../src/assets/img/Boz/BozPhonicFVJ.png'), url('../../src/assets/img/Boz/BozPhonicOUQ.png'), url('../../src/assets/img/Boz/BozPhonicR.png');
+  height: 1px;
+  width: 1px;
+  opacity: 0;
+  background-image: url('../assets/img/Boz/BozPhonicAEI.png'), url('../assets/img/Boz/BozPhonicELTH.png'), url('../assets/img/Boz/BozPhonicFVJ.png'), url('../assets/img/Boz/BozPhonicOUQ.png'), url('../assets/img/Boz/BozPhonicR.png');
 }
 
 .help-button {
