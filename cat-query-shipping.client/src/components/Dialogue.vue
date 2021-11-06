@@ -163,7 +163,7 @@ export default {
       const sounds = /r|a|e|i|o|u|t|v|q|r/ig
       if(sounds.test(sound)){
       const pics = ['BozPhonicAEI.png', 'BozPhonicELTH.png', 'BozPhonicFVJ.png', 'BozPhonicOUQ.png', 'BozPhonicR.png']
-      let randomPhonic = '../../src/assets/img/Boz/'+ pics[Math.floor(Math.random()*pics.length)]
+      let randomPhonic = '../assets/img/Boz/'+ pics[Math.floor(Math.random()*pics.length)]
       bozkoTalking.value = randomPhonic
       }
     }
