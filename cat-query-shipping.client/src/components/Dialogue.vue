@@ -86,6 +86,7 @@
             v-show="bozkoStatus == 'blink' && !bozkoBusy"
             :class="{ 'hide-bozko': bozkoHide }"
           />
+          <div class="load-images"></div>
           <img
             :src="bozkoTalking"
             class="bozko blink"
@@ -159,9 +160,12 @@ export default {
       }
     })
     function bozPhonic(sound){
-     const pics = ['BozPhonicAEI.png', 'BozPhonicELTH.png', 'BozPhonicFVJ.png', 'BozPhonicOUQ.png', 'BozPhonicR.png']
-      let randomPhonic = '../assets/img/Boz/'+ pics[Math.floor(Math.random()*pics.length)]
+      const sounds = /r|a|e|i|o|u|t|v|q|r/ig
+      if(sounds.test(sound)){
+      const pics = ['BozPhonicAEI.png', 'BozPhonicELTH.png', 'BozPhonicFVJ.png', 'BozPhonicOUQ.png', 'BozPhonicR.png']
+      let randomPhonic = '../../src/assets/img/Boz/'+ pics[Math.floor(Math.random()*pics.length)]
       bozkoTalking.value = randomPhonic
+      }
     }
     return {
       chatBranch: computed(() => AppState.chatBranch),
@@ -183,6 +187,12 @@ export default {
 
 
 <style lang='scss' scoped>
+.load-images{
+  height: 0px;
+  width: 0px;
+  background-image: url('../assets/img/Boz/BozPhonicAEI.png'), url('../assets/img/Boz/BozPhonicELTH.png'), url('../assets/img/Boz/BozPhonicFVJ.png'), url('../assets/img/Boz/BozPhonicOUQ.png'), url('../assets/img/Boz/BozPhonicR.png');
+}
+
 .help-button {
   text-align: left;
   position: fixed;

@@ -1,0 +1,1 @@
+import{_ as o}from"./index.ab0cbfac.js";import{r as s,o as t,b as r}from"./vendor.14227bfd.js";const a={setup(){return{state:s({})}}},n={class:"mongoose"};function c(e,i,_,p,d,f){return t(),r("div",n,"Mongoose terminal")}var u=o(a,[["render",c]]);export{u as default};
