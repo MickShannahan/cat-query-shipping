@@ -86,6 +86,12 @@
             v-show="bozkoStatus == 'blink' && !bozkoBusy"
             :class="{ 'hide-bozko': bozkoHide }"
           />
+          <img
+            :src="bozkoTalking"
+            class="bozko blink"
+            v-show="bozkoTalking"
+            :class="{ 'hide-bozko': bozkoHide }"
+          />
         </div>
       </div>
     </div>
@@ -102,6 +108,7 @@ import {Offcanvas} from "bootstrap";
 export default {
   setup() {
     const bozkoStatus = ref('standing')
+    const bozkoTalking = ref('')
     const bozkoBusy = ref(false)
     const bozkoHide = ref(true)
     const bozkoSpoken = ref('')
@@ -142,22 +149,31 @@ export default {
         intervals.value.push(setInterval(() => {
           let c = text.shift()
           if (c) {
+            bozPhonic(c)
             bozkoSpoken.value += c
           } else {
             clearInterval(interval)
+            bozkoTalking.value = ''
           }
         }, timeBetweenChar))
       }
     })
+    function bozPhonic(sound){
+     const pics = ['BozPhonicAEI.png', 'BozPhonicELTH.png', 'BozPhonicFVJ.png', 'BozPhonicOUQ.png', 'BozPhonicR.png']
+      let randomPhonic = '../assets/img/Boz/'+ pics[Math.floor(Math.random()*pics.length)]
+      bozkoTalking.value = randomPhonic
+    }
     return {
       chatBranch: computed(() => AppState.chatBranch),
       bozkoText: computed(() => AppState.chatBranch?.text),
       bozkoStatus,
       bozkoSpoken,
+      bozkoTalking,
       bozkoBusy,
       bozkoHide,
       intervals,
       // functions
+      bozPhonic,
       bozkoBlink,
       bozkoChat
     }
