@@ -34,10 +34,10 @@ export const AppState = reactive({
       branches: ['[Go Back]'],
     },
     "Can you help me?": {
+      //#region can you help me
       text: "If I had a Union Credit for each time you asked for help Kid, I might be able to afford that trip to Earth II.  Ah, fine.  You see that URL input field? try looking up the missing shipment using a query, you know the thing that comes after the '?', try searching one or many of the properties on the lost shipment report.",
       branches:["What's A Query?", "How can I query multiple things?", "How Should I format my Query?", '[Go Back]']
     },
-    //#region can you help me
     "What's A Query?": {
       text:"WHAT DO YOU MEAN WHAT IS A QUERY?!  Are you pulling my tail right now Kid?  I'm going to pretend I didn't here that and go refill my milk.  When I get back you better have looked it up for yourself or something....sheesh.",
         branches: ['[Go Back]']

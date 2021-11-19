@@ -1,0 +1,1 @@
+import{_ as r}from"./index.33c9c957.js";import{r as t,o as s,b as o}from"./vendor.14227bfd.js";const c={setup(){return{state:t({})}}},a={class:"query-url"};function n(e,_,p,u,d,i){return s(),o("div",a,"Query Url")}var m=r(c,[["render",n]]);export{m as default};

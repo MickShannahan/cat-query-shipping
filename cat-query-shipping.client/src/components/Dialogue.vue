@@ -76,7 +76,14 @@
         <div class="col-2 bozko-container">
           <!-- Boz Base -->
           <img
+           v-if="!casualFriday"
             src="../assets/img/Boz/CUPS-Manager-animate.gif"
+            class="bozko"
+            :class="{ 'hide-bozko': bozkoHide }"
+          />
+          <img
+          v-else
+            src="../assets/img/Boz/BozCasualFriday.gif"
             class="bozko"
             :class="{ 'hide-bozko': bozkoHide }"
           />
@@ -176,6 +183,7 @@ export default {
     return {
       chatBranch: computed(() => AppState.chatBranch),
       bozkoText: computed(() => AppState.chatBranch?.text),
+      casualFriday: computed(()=> new Date().getDay()== 5),
       bozkoStatus,
       bozkoSpoken,
       bozkoTalking,

@@ -44,7 +44,7 @@ class ShipmentService{
   }
 
   async searchWithQueryObject(qString){
-    AppState.loading = true
+    AppState.loading.thread = true
     const qObject = stringToObject(qString)
     AppState.searchResults = {results: []}
     let res = await api.post('api/shipments/query', qObject)

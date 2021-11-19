@@ -1,5 +1,14 @@
 <template>
-  <div class="computer row bg-primary shadow physical-border p-2 pb-3 px-4">
+  <div class="
+      computer
+      row
+      justify-content-around
+      bg-primary
+      shadow
+      physical-border
+      p-3
+      pb-1
+      ">
     <div class="col-12 p-0 pt-2">
       <div class="d-flex">
         <label for="basic-url" class="form-label bg-info rounded py-1 px-3"

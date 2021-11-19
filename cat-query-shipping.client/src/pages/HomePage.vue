@@ -1,6 +1,6 @@
 <template>
-  <div class="row h-100 no-overflow-x justify-content-center">
-    <div v-if="account.id" class="col-lg-10">
+  <div class="row no-overflow-x justify-content-center ">
+    <div v-if="account.id" class="col-lg-10 p-0 m-0">
       <transition name="lost">
         <LostShipment v-show="!lostShipmentLoading" />
       </transition>
@@ -78,12 +78,12 @@ export default {
 }
 
 .flip-enter-active {
-  transition: all 0.7s cubic-bezier(0.54, -0.35, 0.45, 1.41);
+  transition: all .7s cubic-bezier(0.54, -0.35, 0.45, 1.41);
 }
 .flip-leave-active {
   position: absolute;
   width: inherit;
-  transition: all 0.7s cubic-bezier(0.54, -0.35, 0.45, 1.41);
+  transition: all .7s cubic-bezier(0.54, -0.35, 0.45, 1.41);
 }
 .flip-enter-from {
   opacity: 0;
