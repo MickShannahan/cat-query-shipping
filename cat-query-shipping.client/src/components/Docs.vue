@@ -17,7 +17,7 @@
       aria-controls="offcanvasBottom"
       @click="navigateTo()"
     >
-      Docs
+      User Manual
     </button>
     <div
       class="
@@ -70,10 +70,13 @@
           >
             Mongoose Terminal
           </button>
-          <button
-            class="btn mb-2 mt-4 docs-tab tab1 mt-auto mb-5"
-          >
-            <a class="text-dark" href='https://github.com/MickShannahan/cat-query-shipping/issues' target='_blank'>Report an issue</a>
+          <button class="btn mb-2 mt-4 docs-tab tab1 mt-auto mb-5">
+            <a
+              class="text-dark"
+              href="https://github.com/MickShannahan/cat-query-shipping/issues"
+              target="_blank"
+              >Report an issue</a
+            >
           </button>
         </div>
         <div

@@ -1,5 +1,5 @@
 <template>
-  <div class="getting-started bg-light row p-3 pb-1">
+  <div class="getting-started row p-3 pb-1">
     <div class="col-12">
       <div class="row justify-content-center">
         <div class="col-12 text-center">
@@ -77,7 +77,7 @@ b {
     ),
     url("../assets/img/CUPS-Logo.png");
   background-position: center;
-  background-size: 50%;
+  background-size: 100%, 50%;
   background-repeat: no-repeat;
 }
 

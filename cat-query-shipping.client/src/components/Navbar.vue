@@ -90,16 +90,21 @@
 <script>
 import { AuthService } from '../services/AuthService'
 import { AppState } from '../AppState'
-import { computed, reactive, ref, watch, watchEffect } from 'vue'
+import { computed, onMounted, reactive, ref, watch, watchEffect } from 'vue'
 import { logger } from "../utils/Logger"
 import { accountService } from '../services/AccountService'
+import { useRoute } from 'vue-router'
 export default {
   setup() {
+    const route = useRoute()
     const creditScale = ref(1)
     const decayRate = 100
     const interval = ref(null)
     const state = reactive({
       credits: computed(() => AppState.account.credits),
+    })
+    onMounted(() => {
+      logger.log(route.name)
     })
     watch(() => state.credits, () => {
       logger.log('watched triggered', state.credits,)

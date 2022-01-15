@@ -1,15 +1,9 @@
 <template>
-  <div class="row no-overflow-x justify-content-center ">
+  <div class="row no-overflow-x justify-content-center">
     <div v-if="account.id" class="col-lg-10 p-0 m-0">
       <transition name="lost">
         <LostShipment v-show="!lostShipmentLoading" />
       </transition>
-      <button
-        class="w-50 mb-2 btn btn-light btn-block"
-        @click="getNewLostShipment"
-      >
-        get new lost shipment
-      </button>
       <transition name="flip">
         <Search v-if="compScreen == 'http'" @switch="switchScreen" />
         <CodeSearch v-else @switch="switchScreen" />
@@ -27,9 +21,11 @@ import Pop from '../utils/Pop'
 import { shipmentService } from '../services/ShipmentService'
 import { logger } from "../utils/Logger"
 import { AppState } from "../AppState"
+import { useRoute } from 'vue-router'
 export default {
   name: 'Home',
   setup() {
+    const route = useRoute()
     const showTabs = ref(false)
     const compScreen = ref('http')
     onMounted(() => {
@@ -42,9 +38,6 @@ export default {
 
     })
     return {
-      getNewLostShipment() {
-        shipmentService.getLostShipment()
-      },
       compScreen,
       showTabs,
       lostShipmentLoading: computed(() => AppState.loading.lostShipment),
@@ -78,12 +71,12 @@ export default {
 }
 
 .flip-enter-active {
-  transition: all .7s cubic-bezier(0.54, -0.35, 0.45, 1.41);
+  transition: all 0.7s cubic-bezier(0.54, -0.35, 0.45, 1.41);
 }
 .flip-leave-active {
   position: absolute;
   width: inherit;
-  transition: all .7s cubic-bezier(0.54, -0.35, 0.45, 1.41);
+  transition: all 0.7s cubic-bezier(0.54, -0.35, 0.45, 1.41);
 }
 .flip-enter-from {
   opacity: 0;

@@ -1,14 +1,9 @@
 import Cat from 'catid'
 import mongoose from 'mongoose'
 import { hashIt } from '../utils/Cryptor'
-import { bool, code, crypto, damageKeys, damageProperties, dateFormat, description, difficultyRating, insuredAmount, missingProperties, planet, planetCode, planetNumber, postageCost, postalHistory, postalStation, quadrantCode, shippingTier, spaceDate, tracking } from '../utils/Generators'
+import { bool, code, codeReg, crypto, cryptos, damageKeys, damageProperties, dateFormat, dateReg, dateRx, description, difficultyRating, missingProperties, planet, planetCode, planetNumber, postalHistory, postalStation, quadrantCode, shippingTier, shippingTiers, spaceDate, tracking, trackingReg } from '../utils/Generators'
 import { logger } from '../utils/Logger'
 const Schema = mongoose.Schema
-
-const codeRx = /[A-Z][1-9][1-9]/
-const trackingRx = /[A-Z0-9]{3}-[A-Z0-9]{3}-[A-Z0-9]{3}-[A-Z0-9]{3}-[a-z]/
-const dateRx = /[0-9]{2}/
-const cryptos = ['KITCOIN', 'SCRATCH', 'M0nSER4T', 'SAUCER', 'PETCO', 'MOONCHSE', 'CNIP', 'DOMINION']
 
 const HazardSchema = new Schema(
   {
@@ -23,25 +18,22 @@ const HazardSchema = new Schema(
 export const ShipmentSchema = new Schema(
   {
     recipient: { type: String, required: true },
-    trackingNumber: { type: String, validate: function(val) { return trackingRx.test(val) } },
+    trackingNumber: { type: String, validate: function(val) { return trackingReg.test(val) } },
     description: { type: String },
-    shippingTier: { type: String, enum: ['1LTYR', '2LTYR', 'METEOR-FREIGHT', 'GALAXY-EXPRESS', 'TELEPORT+', 'INTERPLANETARY/DOMESTIC', 'STANDARD', 'STANDARD+', 'WARP-FREIGHT'] },
+    shippingTier: { type: String, enum: shippingTiers },
     postageCost: { type: Number },
-    postageCrypto: { type: String, enum: cryptos },
-    shippingDate: { type: String, validate: function(val) { return dateRx.test(val) } },
+    currency: { type: String, enum: cryptos },
+    shippingDate: { type: String, validate: function(val) { return dateReg.test(val) } },
     dateFormat: { type: String, enum: ['Minkow', 'Sol', 'Tera', 'Union'] },
-    delivered: { type: Boolean },
     postalStation: { type: String },
     postalHistory: [{ type: String }],
 
     insured: { type: Boolean },
     pirateCoverage: { type: Boolean },
     insuredCost: { type: Number },
-    insuredCrypto: { type: String, enum: cryptos },
 
-    sector: { type: String, validate: function(val) { return codeRx.test(val) } },
+    sector: { type: String, validate: function(val) { return codeReg.test(val) } },
 
-    quadrant: { type: Number },
     hasQuadrantCode: { type: Boolean },
     quadrantCode: { type: String },
 
