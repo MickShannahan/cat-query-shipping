@@ -402,25 +402,37 @@ const planets = [
 const glitchFills = ['ᵒ⋏ᵒ', '/ᐠ.ꞈ.ᐟ\\', '*_', '..', '_-', '^~', '៱˳_˳៱']
 const planetCodeKey = 4
 const items = {
-  consumable: { brands: ['Birman Brand', 'Javan Jack\'s', ' Xiao Mao'], items: ['Gormet Smoked Salmon', 'Non-perishable Tuna', 'Coffee', 'Earth II Bovine Milk', 'Cat nip', 'Synthetic Milk Substitute'] },
-  furniture: { brands: ['Kot', 'Iapetus Kat Elegant Appliances', 'Bombay', 'Havana Brown'], items: ['3-level Carpeted tree', 'Cardboard box', '2-level kitten tree', 'Coverd Bed', 'Tunnel'] },
-  electronics: { brands: ['CREX', 'Deveon', 'Korat Electronics', 'Meo', 'Toyger'], items: ['Automatic Mouse', 'Hair Filter', '24inch Virtual Fish Pond', 'Re-winding Yarn Ball', 'Tooth-brush', 'Self-Rolling Felt Ball', 'Personal Space Pod', 'Auto-Stroller', 'Collar bell with 24 ringing sounds', 'CAT-BOUND Radio Transmitter'] },
-  homeGood: { brands: ['Ms. Maine\'s', 'laPerm', 'Manx Manufacturing', 'Munchkin'], items: ['Scratch Board', 'Scratch Board with self healing inserts', 'Classic Yarn Ball', 'Fish Cologne', 'Warm Pad', 'Self-Filling Food Bowl', 'Telescope', 'Gift Card', 'Synthetic wool-lined booties', 'Sequien dress', 'Denim Pants', 'Water Fountain', 'Ol time mouse shaped toy', '"Real Tounge" Grooming brush'] },
-  collectable: { brand: ['Super Neko Spirit'], items: ['Gato Figurine', 'Mace Figurine', 'Gato Poster', 'Mace Poster'] }
+  consumable: { brands: ['Birman Brand', 'Javan Jack\'s', 'Xiao Mao'], items: ['Gormet Smoked Salmon', 'Non-perishable Tuna', 'Coffee', 'Earth II Bovine Milk', 'Organic Cat nip', 'Synthetic Milk Substitute', 'Nip Chips', 'Fish Paste', 'Microwavable Hairball', 'Butt Flavor Breath Mints', 'Flash Frozen Bird', 'Caviar', 'Snack Sized Zucchini', 'Bread Slice with a hole already in it', 'Fabricated Yellow Cheese', '12Pack of Pre-Captured Mice'] },
+  furniture: { brands: ['Kot', 'Iapetus Kat Elegant Appliances', 'Bombay', 'Havana Brown'], items: ['3-level Carpeted tree', 'Cardboard box', '2-level kitten tree', 'Coverd Bed', 'Tunnel', 'Cardboard Tube', 'Folding Cardboard Duplex', 'Excersize Wheel', 'Sock Hamper', 'Heated Keyboard Nap Pad'] },
+  electronics: { brands: ['CREX', 'Deveon', 'Korat Electronics', 'Meo', 'Toyger'], items: ['Automatic Mouse', 'Hair Filter', '24inch Virtual Fish Pond', 'Re-winding Yarn Ball', 'Tooth-brush', 'Self-Rolling Felt Ball', 'Personal Space Pod', 'Auto-Stroller', 'Collar bell with 24 ringing sounds', 'CAT-BOUND Radio Transmitter', 'Retractable Feather Wand', 'Scoop Free Automated Litter Box', 'Scoop Free Automated Litter Box+ (25tb)', 'Dryer', 'Holo-Fishbowl', 'Self-Righting Light Tree'] },
+  homeGood: { brands: ['Ms. Maine\'s', 'laPerm', 'Manx Manufacturing', 'Munchkin'], items: ['Scratch Board', 'Scratch Board with self healing inserts', 'Classic Yarn Ball', 'Fish Cologne', 'Warm Pad', 'Self-Filling Food Bowl', 'Telescope', 'Gift Card', 'Synthetic wool-lined booties', 'Sequien dress', 'pair of Denim Pants', 'Water Fountain', 'Ol time mouse shaped toy', '"Real Tounge" Grooming brush', 'False Whiskers', 'Bird Bone Hair Brush', 'Synthetic Cactus Plant', 'Litter Box', 'No Sand Litter Box', 'Children\'s Sandbox', 'Hydrophobic Pant', 'Top Hat & Monocle', 'Opera Glasses', 'Eye-Shaped Sunglasses', 'Watermelon Print Helmet', '"Hang In There" Poster', 'Rapier and boots', 'Real Fur Mane'] },
+  collectable: { brands: ['Super Neko Spirit'], items: ['Fighter Figurine', 'Mage Figurine', 'Fighter Poster', 'Mage Poster'] }
 }
-const desc = ['2 %B% brand, %I%s', 'A %I%, made by the %B% company', 'One %B% style %I%', 'Some %I%s, by %B%', 'A Dozen %I%s of vaious brands', 'A Broken %I%', 'A Pair of %B% %I%s', 'Just some generic %I%', 'A Home-made %I%', 'It\'s just and empty box']
-const flavors = ['. The quality looks shotty.', '. The quality is supreme.', ' of average quality.', 'These are rare, you wonder where they were ordered from.', '. Quite ordinary', '. This Sector gets a lot of these...', '. You used to have one just like it.', ', along with a strange smell.', ', along with poorly written note. If only you could read Burmese.', '. By looks, probably knock-offs.', '. Meow.', '. "Daring aren\'t we."', '']
+const desc = ['%I% by %B%', '2 %B% brand %I%s', 'A %I%, made by the %B% company', 'One %B% style %I%', 'Some %I%s by %B%', 'A Dozen %I%s of vaious brands', 'One Broken %I%', 'A Pair of %B% %I%s', 'Just some generic %I%', 'A Home-made %I%', 'It\'s just and empty box', 'The %B% %I%', 'One %I%, made by %B%', 'A Simple %I%', 'A Charred %I%', 'A wet %B% %I%', 'One Fresh %B% %I%', 'An assortment of %I%s', 'A bunch of broken %B% %I%s', 'A Single Vintage %I% by the %B% company', 'A Spraypainted %I%, probably %B% in make', 'A Damaged %B% %I%', 'Just the empty box for a %B% %I%', 'A Box of %B% %I%s', 'A mold covered %I%']
+const flavors = ['. The quality looks shotty.', '. The quality is supreme.', ' of average quality.', '. These are rare, you wonder where they were ordered from.', '. Quite ordinary', '. This Sector gets a lot of these...', '. You used to have one just like it.', ', along with a strange smell.', ', along with poorly written note. If only you could read Burmese.', '. By the looks, probably knock-off.', '. Meow.', '. "Daring aren\'t we."', '. Wonder what it tastes like.', '. Bet they are missing that.', '. What kind of Cat would order this.', '. Probably better this stays missing.', '. Reminds you of home.', '. You wonder if this is hazardous.', '. There is a hole in the box...', '.  The box is pretty beat up.', '. It looks like it was burned at some point.', ' and a little vommit.', '. Should return this one to the sender.', ' covered in hair.', '. Should Rush Ship this one next time.', '. Outside of the box says "FRAGILE".', '. The box is kinda soggy.', ' and it stinks.', ' but it seems to be missing something', ' and a note from grandma.', '. The Box has a warning label.', ' and a now long dead mouse.', '. The box is filled with trash.', '.  You wonder how this got lost.', ' in an oversized box.', ' stuffed into a box that is clearly too small.']
 
-export function bool() {
-  return Math.random() > 0.5
-}
-
-function randArr(arr, count = 1) {
+function random(arr, count = 1) {
   let out = ''
   for (let i = 0; i < count; i++) {
     out += arr[Math.floor(Math.random() * arr.length)]
   }
   return out
+}
+export function bool() {
+  return Math.random() > 0.5
+}
+
+export function description() {
+  const type = Object.keys(items)[Math.floor(Math.random() * Object.keys(items).length)]
+  const brand = items[type].brands[Math.floor(Math.random() * items[type].brands.length)]
+  const item = items[type].items[Math.floor(Math.random() * items[type].items.length)]
+  let descLine = desc[Math.floor(Math.random() * desc.length)]
+  const flav = flavors[Math.floor(Math.random() * flavors.length)]
+  const brRx = /%B%/ig
+  const itRx = /%I%/ig
+  descLine = descLine.replace(brRx, brand)
+  descLine = descLine.replace(itRx, item)
+  return descLine + flav
 }
 
 export function tracking() {
@@ -429,23 +441,19 @@ export function tracking() {
     for (let j = 1; j <= 3; j++) {
       const chance = Math.random()
       if (chance > 0.5) {
-        trackingCode += randArr(alph)
+        trackingCode += random(alph)
       } else {
-        trackingCode += randArr(nums)
+        trackingCode += random(nums)
       }
     }
     trackingCode += '-'
   }
-  trackingCode += randArr(alph).toLowerCase()
+  trackingCode += random(alph).toLowerCase()
   return trackingCode
 }
 
-export function description() {
-  return 'place holder description'
-}
-
 export function shippingTier() {
-  return randArr(shippingTier)
+  return random(shippingTier)
 }
 
 export function shippingCost(tier) {
@@ -514,20 +522,20 @@ export function totalCost(tier, insured, pCoverage, currency) {
 }
 
 export function crypto() {
-  return randArr(cryptos)
+  return random(cryptos)
 }
 
 export function spaceDate() {
   let spaceDate = ''
 
   for (let i = 1; i <= 2; i++) {
-    spaceDate += randArr(nums)
+    spaceDate += random(nums)
   }
   return spaceDate
 }
 
 export function dateFormat() {
-  return randArr(dateTypes)
+  return random(dateTypes)
 }
 
 export function postalStation() {
@@ -539,7 +547,7 @@ export function postalHistory() {
 }
 
 export function code() {
-  const code = randArr(alph) + randArr(nums) + randArr(nums)
+  const code = random(alph) + random(nums) + random(nums)
   return code
 }
 
@@ -555,12 +563,12 @@ export function sector(planetName) {
 
 export function quadrantCode(hasCode) {
   if (!hasCode) return false
-  const code = randArr(nums) + randArr(alph) + randArr(alph)
+  const code = random(nums) + random(alph) + random(alph)
   return code
 }
 
 export function planet() {
-  return randArr(planets)
+  return random(planets)
 }
 
 export function planetNumber(planetName) {
@@ -606,19 +614,22 @@ export function damageKeys(schemaObject, chance) {
 }
 
 export function damageProperty(prop) {
-  const randomFill = randArr(glitchFills)
+  const reverse = Math.random() > 0.2
+  const randomFill = random(glitchFills)
   const rand1 = Math.floor(Math.random() * (prop.length / 2))
   const rand2 = Math.floor(Math.random() * (prop.length / 2) + (prop.length / 2))
   const answers = ['not yet decided', 'maybe', 'unsure', 'ask again later']
   switch (typeof prop) {
     case 'string':
-      prop = prop.split('')
-      prop.splice(rand1, rand2, randomFill)
+      if (!reverse) {
+        prop = prop.split('')
+        prop.splice(rand1, rand2, randomFill)
+      } else { prop = prop.split('').reverse() }
       return prop.join('')
     case 'number' :
       return prop.toString().split('').reverse().join('')
     case 'boolean':
-      return randArr(answers)
+      return random(answers)
     default:
       return '...'
   }
@@ -628,10 +639,14 @@ export function difficultyRating(mProps = [], dProps = {}, dKeys = {}) {
   const hasTracking = !mProps.includes('trackingNumber')
   const damagedTrackingNumber = Object.keys(dProps).includes('trackingNumber')
   logger.log(hasTracking, damagedTrackingNumber)
+  // if usable tracking return 1
   if (hasTracking && !damagedTrackingNumber) return 1
-  if (!hasTracking && damagedTrackingNumber) difficulty -= 3
+  // if tracking number is just damaged
+  if (hasTracking && damagedTrackingNumber) difficulty -= 3
   difficulty += (mProps.length * 0.5)
   difficulty += (Object.keys(dProps).length * 0.5)
   difficulty += (Object.keys(dKeys).length * 0.1)
+  const curve = (mProps.length + Object.keys(dProps).length + Object.keys(dKeys).length) * 0.5
+  difficulty += curve
   return difficulty > 20 ? 20 : difficulty < 0 ? 1 : Math.round(difficulty)
 }

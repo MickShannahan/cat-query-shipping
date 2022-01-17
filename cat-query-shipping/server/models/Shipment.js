@@ -1,7 +1,7 @@
 import Cat from 'catid'
 import mongoose from 'mongoose'
 import { hashIt } from '../utils/Cryptor'
-import { bool, code, codeReg, crypto, cryptos, damageKeys, damageProperties, dateFormat, dateReg, dateRx, description, difficultyRating, missingProperties, planet, planetCode, planetNumber, postalHistory, postalStation, quadrantCode, shippingTier, shippingTiers, spaceDate, tracking, trackingReg } from '../utils/Generators'
+import { bool, code, codeReg, crypto, cryptos, damageKeys, damageProperties, dateFormat, dateReg, dateTypes, description, difficultyRating, missingProperties, planet, planetCode, planetNumber, postalHistory, postalStation, quadrantCode, shippingCost, shippingTier, shippingTiers, spaceDate, totalCost, tracking, trackingReg } from '../utils/Generators'
 import { logger } from '../utils/Logger'
 const Schema = mongoose.Schema
 
@@ -11,7 +11,7 @@ const HazardSchema = new Schema(
     grade: { type: String, enum: ['A', 'B', 'E', 'X', 'LAZER', 'CONVICT'] },
     isWeapon: { type: Boolean },
     isValidated: { type: Boolean },
-    expirationDate: { type: String, validate: function(val) { return dateRx.test(val) }, default: spaceDate() }
+    expirationDate: { type: String, validate: function(val) { return dateReg.test(val) }, default: spaceDate() }
   }
 )
 
@@ -21,16 +21,16 @@ export const ShipmentSchema = new Schema(
     trackingNumber: { type: String, validate: function(val) { return trackingReg.test(val) } },
     description: { type: String },
     shippingTier: { type: String, enum: shippingTiers },
-    postageCost: { type: Number },
+    shippingCost: { type: Number },
     currency: { type: String, enum: cryptos },
-    shippingDate: { type: String, validate: function(val) { return dateReg.test(val) } },
-    dateFormat: { type: String, enum: ['Minkow', 'Sol', 'Tera', 'Union'] },
-    postalStation: { type: String },
-    postalHistory: [{ type: String }],
-
     insured: { type: Boolean },
     pirateCoverage: { type: Boolean },
-    insuredCost: { type: Number },
+    totalCost: { type: Number },
+
+    shippingDate: { type: String, validate: function(val) { return dateReg.test(val) } },
+    dateFormat: { type: String, enum: dateTypes },
+    postalStation: { type: String },
+    postalHistory: [{ type: String }],
 
     sector: { type: String, validate: function(val) { return codeReg.test(val) } },
 
@@ -38,7 +38,6 @@ export const ShipmentSchema = new Schema(
     quadrantCode: { type: String },
 
     galaxy: { type: String },
-    galaxyCode: { type: Number },
 
     planet: { type: String },
     planetNumber: { type: Number },
@@ -96,24 +95,22 @@ export class RandomShipment {
     this.trackingNumber = tracking()
     this.description = description()
     this.shippingTier = shippingTier()
-    this.postageCost = postageCost(this.shippingTier)
-    this.postageCrypto = crypto()
-    this.shippingDate = spaceDate()
-    this.dateFormat = dateFormat()
-    this.delivered = bool()
-    this.postalStation = postalStation()
-    this.postalHistory = [postalHistory()]
-
+    this.shippingCost = shippingCost(this.shippingTier)
+    this.currency = crypto()
     this.insured = bool()
     this.pirateCoverage = bool()
-    this.insuredCost = insuredAmount(this.insured, this.pirateCoverage, this.postageCost)
+    this.totalCost = totalCost(this.shippingTier, this.insured, this.pirateCoverage, this.currency)
+
+    this.shippingDate = spaceDate()
+    this.dateFormat = dateFormat()
+    this.postalStation = postalStation()
+    this.postalHistory = [postalHistory()]
 
     this.sector = code()
     this.hasQuadrantCode = bool()
     this.quadrantCode = quadrantCode(this.hasQuadrantCode)
 
     this.galaxy = 'milky way'
-    this.galaxyCode = 12
 
     this.planet = planet()
     this.planetNumber = planetNumber(this.planet)
@@ -125,7 +122,6 @@ export class RandomShipment {
     this.missingProperties = missingProperties(this, 0.3)
     this.damagedProperties = damageProperties(this, 0.2)
     this.damagedKeys = damageKeys(this, 0.1)
-    logger.log(this.missingProperties, this.damagedKeys, this.damagedProperties)
     this.difficultyRating = difficultyRating(this.missingProperties, this.damagedProperties, this.damagedKeys)
     this.creditsWorth = this.difficultyRating * 10
   }
