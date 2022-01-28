@@ -69,6 +69,7 @@ import { shipmentService } from '../services/ShipmentService'
 import { Shipment } from '../models/Shipment';
 import { logger } from '../utils/Logger'
 import { Emitter } from 'monaco-editor';
+import Pop from '../utils/Pop';
 export default {
   setup(props, { emit }) {
     const query = ref('?')
@@ -80,7 +81,11 @@ export default {
       unsafeUrl,
       baseUrl: computed(() => AppState.baseUrl),
       searchShipmentDatabase() {
-        shipmentService.searchShipmentDatabase(query.value)
+        try {
+          shipmentService.searchShipmentDatabase(query.value)
+        } catch (error) {
+          Pop.toast('**BRR** ' + error.message, 'error', 'center')
+        }
       },
       clearInput() {
         query.value = '?'

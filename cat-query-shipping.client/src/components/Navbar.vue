@@ -37,6 +37,7 @@
         </button>
 
         <div class="d-flex align-items-center dropdown my-2 my-lg-0" v-else>
+          <div class="me-2">{{ account.employeeGrade }}</div>
           <div
             class="me-5 text-warning credits"
             :style="`transform: scale(${creditScale});`"

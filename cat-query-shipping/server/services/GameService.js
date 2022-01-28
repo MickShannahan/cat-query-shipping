@@ -4,10 +4,20 @@ import { accountService } from './AccountService'
 import { shipmentsService } from './ShipmentsService'
 class GameService {
   async getLostShipment(query = {}, user) {
+    logger.log('new ls query:', query)
     const account = await accountService.getAccount(user)
-    const numberOfShipments = await dbContext.Shipments.count(query)
+    // get number of shipments based on account grade
+    let range = { $and: [{ difficultyRating: { $gte: account.minDifficulty } }, { difficultyRating: { $lte: account.maxDifficulty } }, { found: false }, query] }
+    let numberOfShipments = await dbContext.Shipments.count(range)
+    // make sure sufficient shipments exist
+    logger.log('new ls #of ships:', numberOfShipments)
+    if (numberOfShipments < 10) {
+      range = { $and: [{ found: false }, query] }
+      numberOfShipments = await dbContext.Shipments.count(range)
+    }
+    // get shipment
     const randShipment = Math.floor(Math.random() * (numberOfShipments - 1))
-    const shipment = await dbContext.Shipments.find().limit(1).skip(randShipment)
+    const shipment = await dbContext.Shipments.find(range).limit(1).skip(randShipment)
     account.lostShipmentId = shipment[0]._id
     account.save()
     // FIXME need a way to check if user has gotten shipment before
@@ -26,6 +36,7 @@ class GameService {
     logger.log(shipmentId, account.lostShipmentId.toString())
     if (shipmentId === account.lostShipmentId.toString()) {
       const shipment = await shipmentsService.getById(shipmentId)
+      shipment.found = true; shipment.save()
       account.shipmentsFound.push(shipmentId)
       account.currentGuesses = []
       account.credits += shipment.creditsWorth

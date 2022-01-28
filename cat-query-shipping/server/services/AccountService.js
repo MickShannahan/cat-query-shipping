@@ -104,29 +104,46 @@ class AccountService {
         break
       case 10:
         account.employeeGrade = 'Tabby'
+        account.maxDifficulty = 10
+        break
+      case 20:
+        account.employeeGrade = 'Bob Cat'
+        account.maxDifficulty = 10
         break
       default:
         // eslint-disable-next-line no-case-declarations
         let score = 100
         if (account.shipmentsFound.length > 99 && account.credits > 7000) {
           score = account.averagePagesPrinted + account.averageRequestsMade * 2
-        } else if (account.shipments.length > 50 && account.credits > 3500) {
+        } else if (account.shipmentsFound.length > 50 && account.credits > 3500) {
           score = account.averagePagesPrinted + account.averageRequestsMade * 4
         } else {
           score = account.averagePagesPrinted + account.averageRequestsMade * 6
         }
         if (score <= 6) {
           account.employeeGrade = 'S+'
+          account.maxDifficulty = 20
+          account.minDifficulty = 14
         } else if (score <= 9) {
           account.employeeGrade = 'S'
+          account.maxDifficulty = 20
+          account.minDifficulty = 12
         } else if (score <= 15) {
           account.employeeGrade = 'A'
+          account.maxDifficulty = 19
+          account.minDifficulty = 10
         } else if (score <= 25) {
           account.employeeGrade = 'B'
+          account.maxDifficulty = 15
+          account.minDifficulty = 5
         } else if (score <= 40) {
           account.employeeGrade = 'C'
+          account.maxDifficulty = 13
+          account.minDifficulty = 4
         } else {
           account.employeeGrade = 'D'
+          account.maxDifficulty = 10
+          account.minDifficulty = 1
         }
 
         break

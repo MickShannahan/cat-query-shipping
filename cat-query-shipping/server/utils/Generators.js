@@ -1,9 +1,10 @@
-import { logger } from './Logger'
 
 // RegExs
 export const codeReg = /[A-Z][1-9][1-9]/
-export const trackingReg = /[A-Z0-9]{3}-[A-Z0-9]{3}[a-z]/
-export const dateReg = /(Sol | Minkow | Tera | Union)[0-9]{4}:[0-9]{2}/
+export const trackingReg = /[A-Z0-9]{3}-[A-Z0-9]{3}-[a-z]/
+export const dateReg = /(Sol|Minkow|Tera|Union):[0-9]{2}/
+// Consts
+const trackingChance = 0.25
 export const dateTypes = ['Sol', 'Minkow', 'Tera', 'Union']
 export const cryptos = ['Union', 'KITCOIN', 'M0nSER4T', 'Scratch', 'Ca+N!p']
 const alph = ['A', 'B', 'C', 'E', 'F', 'G', 'K', 'M', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z']
@@ -401,6 +402,14 @@ const planets = [
 ]
 const glitchFills = ['ᵒ⋏ᵒ', '/ᐠ.ꞈ.ᐟ\\', '*_', '..', '_-', '^~', '៱˳_˳៱']
 const planetCodeKey = 4
+const diffCodeMap = {
+  0.5: ['insured', 'pirateCoverage', 'containsHazard',
+    'inQuadrant', 'fragile', 'galaxy'],
+  1: ['dateFormat', 'currency', 'shippingCost'],
+  2: ['sector', 'shippingTier'],
+  5: ['shippingDate', 'planet', 'planetCode', 'planetNumber', 'totalCost', 'recipient', 'recipient', 'recipient'],
+  6: ['trackingNumber']
+}
 const items = {
   consumable: { brands: ['Birman Brand', 'Javan Jack\'s', 'Xiao Mao'], items: ['Gormet Smoked Salmon', 'Non-perishable Tuna', 'Coffee', 'Earth II Bovine Milk', 'Organic Cat nip', 'Synthetic Milk Substitute', 'Nip Chips', 'Fish Paste', 'Microwavable Hairball', 'Butt Flavor Breath Mints', 'Flash Frozen Bird', 'Caviar', 'Snack Sized Zucchini', 'Bread Slice with a hole already in it', 'Fabricated Yellow Cheese', '12Pack of Pre-Captured Mice'] },
   furniture: { brands: ['Kot', 'Iapetus Kat Elegant Appliances', 'Bombay', 'Havana Brown'], items: ['3-level Carpeted tree', 'Cardboard box', '2-level kitten tree', 'Coverd Bed', 'Tunnel', 'Cardboard Tube', 'Folding Cardboard Duplex', 'Excersize Wheel', 'Sock Hamper', 'Heated Keyboard Nap Pad'] },
@@ -437,7 +446,7 @@ export function description() {
 
 export function tracking() {
   let trackingCode = ''
-  for (let i = 0; i <= 2; i++) {
+  for (let i = 1; i <= 2; i++) {
     for (let j = 1; j <= 3; j++) {
       const chance = Math.random()
       if (chance > 0.5) {
@@ -453,7 +462,7 @@ export function tracking() {
 }
 
 export function shippingTier() {
-  return random(shippingTier)
+  return random(shippingTiers)
 }
 
 export function shippingCost(tier) {
@@ -525,13 +534,20 @@ export function crypto() {
   return random(cryptos)
 }
 
-export function spaceDate() {
-  let spaceDate = ''
-
-  for (let i = 1; i <= 2; i++) {
-    spaceDate += random(nums)
+export function spaceDate(format) {
+  const num1 = random(nums)
+  const num2 = random(nums)
+  switch (format) {
+    case 'Union':
+      return '0' + num1 + num2 + 'U'
+    case 'Minkow':
+      return num1 + '=' + num2 + '=' + num1
+    case 'Tera' :
+      return num1 + '/' + num2 + 'T'
+    case 'Sol':
+      // @ts-ignore
+      return num1 + num2 + '☀'
   }
-  return spaceDate
 }
 
 export function dateFormat() {
@@ -562,8 +578,8 @@ export function sector(planetName) {
 }
 
 export function quadrantCode(hasCode) {
-  if (!hasCode) return false
-  const code = random(nums) + random(alph) + random(alph)
+  if (!hasCode) return 'not in Quadrant'
+  const code = random(nums) + random(alph)
   return code
 }
 
@@ -589,6 +605,7 @@ export function missingProperties(schemaObject, chance) {
   const keys = Object.keys(schemaObject)
   const missingKeys = keys.map(key => {
     // eslint-disable-next-line no-mixed-operators
+    chance = key === 'trackingNumber' ? chance += trackingChance : chance
     if (Math.random() < chance) {
       return key
     }
@@ -600,7 +617,10 @@ export function missingProperties(schemaObject, chance) {
 export function damageProperties(schemaObject, chance) {
   const dict = {}
   Object.keys(schemaObject).forEach(k => {
-    if (Math.random() < chance) dict[k] = damageProperty(schemaObject[k])
+    chance = k === 'trackingNumber' ? chance += trackingChance : chance
+    if (schemaObject[k]) {
+      if (Math.random() < chance) dict[k] = damageProperty(schemaObject[k])
+    }
   })
   return dict
 }
@@ -608,16 +628,17 @@ export function damageProperties(schemaObject, chance) {
 export function damageKeys(schemaObject, chance) {
   const dict = {}
   Object.keys(schemaObject).forEach(k => {
+    chance = k === 'trackingNumber' ? chance += trackingChance : chance
     if (Math.random() < chance) { dict[k] = damageProperty(k) }
   })
   return dict
 }
 
 export function damageProperty(prop) {
-  const reverse = Math.random() > 0.2
+  const reverse = Math.random() < 0.2
   const randomFill = random(glitchFills)
-  const rand1 = Math.floor(Math.random() * (prop.length / 2))
-  const rand2 = Math.floor(Math.random() * (prop.length / 2) + (prop.length / 2))
+  const rand1 = Math.floor(Math.random() * (prop.toString().length / 2))
+  const rand2 = Math.floor(Math.random() * (prop.toString().length / 2) + (prop.length / 2))
   const answers = ['not yet decided', 'maybe', 'unsure', 'ask again later']
   switch (typeof prop) {
     case 'string':
@@ -634,19 +655,67 @@ export function damageProperty(prop) {
       return '...'
   }
 }
+
 export function difficultyRating(mProps = [], dProps = {}, dKeys = {}) {
   let difficulty = 0
   const hasTracking = !mProps.includes('trackingNumber')
   const damagedTrackingNumber = Object.keys(dProps).includes('trackingNumber')
-  logger.log(hasTracking, damagedTrackingNumber)
+  // logger.log(hasTracking, damagedTrackingNumber)
   // if usable tracking return 1
-  if (hasTracking && !damagedTrackingNumber) return 1
+  if (hasTracking && !damagedTrackingNumber) difficulty -= 13.5
   // if tracking number is just damaged
-  if (hasTracking && damagedTrackingNumber) difficulty -= 3
+  if (hasTracking && damagedTrackingNumber) difficulty -= 4
   difficulty += (mProps.length * 0.5)
-  difficulty += (Object.keys(dProps).length * 0.5)
+  difficulty += (Object.keys(dProps).length * 0.3)
   difficulty += (Object.keys(dKeys).length * 0.1)
-  const curve = (mProps.length + Object.keys(dProps).length + Object.keys(dKeys).length) * 0.5
+  const curve = (mProps.length + Object.keys(dProps).length + Object.keys(dKeys).length) * 0.3
+  // logger.log(difficulty, curve, `t:${hasTracking}, dt:${damagedTrackingNumber}`)
   difficulty += curve
-  return difficulty > 20 ? 20 : difficulty < 0 ? 1 : Math.round(difficulty)
+  return difficulty >= 20 ? 20 : difficulty <= 1 ? 1 : Math.round(difficulty)
+}
+
+export function damageShipment(shipment, difficulty) {
+  const options = ['miss', 'miss', 'keys', 'vals', 'vals']
+  const weights = { miss: 1, keys: 0.2, vals: 0.6 }
+  let max = difficulty * 1.2
+  const props = { ...diffCodeMap }
+  const damages = { miss: {}, vals: {}, keys: {} }
+  if (difficulty > 3) { shipment.missingProperties.push('trackingNumber'); damages.miss.trackingNumber = 5 }
+  if (difficulty > 6) { shipment.missingProperties.push('recipient'); damages.miss.recipient = 4 }
+  if (difficulty > 10) { max *= 1.15 }
+  if (difficulty > 17) { max *= 1.15 }
+
+  for (let points = 0; max >= points; points += 0) {
+    const weight = random(Object.keys(props))
+    const prop = random(props[weight])
+    const rand = random(options)
+    // logger.log('random picked', shipment.recipient, 'd' + difficulty, 'm' + max, 'p' + points, rand, prop, 'w' + weight)
+    switch (rand) {
+      case 'miss':
+        points += pointCalc(damages, prop, weight, rand) * weights.miss
+        shipment.missingProperties.push(prop)
+        props[weight] = props[weight].filter(p => p !== prop)
+        if (damages.vals[prop]) points -= parseFloat(damages.vals[prop]) * weights.vals
+        if (damages.keys[prop]) points -= parseFloat(damages.keys[prop]) * weights.keys
+        break
+      case 'vals':
+        points += pointCalc(damages, prop, weight, rand) * weights.vals
+        shipment.damagedProperties[prop] = damageProperty(shipment[prop])
+        break
+      case 'keys':
+        points += pointCalc(damages, prop, weight, rand) * weights.keys
+        shipment.damagedKeys[prop] = damageProperty(prop)
+        break
+    }
+    if (props[weight].length === 0) delete props[weight]
+    // if (max < points)logger.error('Done', shipment.recipient, 'd' + difficulty, 'm' + max, 'p' + points, damages, shipment)
+  }
+}
+
+function pointCalc(damages, prop, weight, rand) {
+  if (damages.miss[prop] || damages[rand][prop]) {
+    return 0
+  }
+  damages[rand][prop] = weight
+  return parseFloat(weight)
 }

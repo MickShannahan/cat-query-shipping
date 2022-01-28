@@ -5,7 +5,7 @@ import { accountService } from './AccountService'
 
 class ShipmentsService {
   async create(body) {
-    logger.log(body)
+    // logger.log(body)
     const shipment = await dbContext.Shipments.create(body)
     return await shipment
   }
@@ -40,6 +40,13 @@ class ShipmentsService {
       throw new BadRequest('Invalid Id')
     }
     return shipment.toObject()
+  }
+
+  async getBell() {
+    for (let i = 1; i <= 20; i++) {
+      logger.log(`DR:${i}- ${await dbContext.Shipments.count({ difficultyRating: i })}`)
+    }
+    return 'check server console'
   }
 }
 

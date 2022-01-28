@@ -76,13 +76,13 @@
         <div class="col-2 bozko-container">
           <!-- Boz Base -->
           <img
-           v-if="!casualFriday"
+            v-if="!casualFriday"
             src="../assets/img/Boz/CUPS-Manager-animate.gif"
             class="bozko"
             :class="{ 'hide-bozko': bozkoHide }"
           />
           <img
-          v-else
+            v-else
             src="../assets/img/Boz/BozCasualFriday.gif"
             class="bozko"
             :class="{ 'hide-bozko': bozkoHide }"
@@ -112,7 +112,7 @@ import { AppState } from '../AppState';
 import { computed, reactive, onMounted, ref, watchEffect } from 'vue';
 import { chatService } from '../services/ChatService'
 import { logger } from '../utils/Logger';
-import {Offcanvas} from "bootstrap";
+import { Offcanvas } from "bootstrap";
 import AEI from '../assets/img/Boz/BozPhonicAEI.png'
 import ELTH from '../assets/img/Boz/BozPhonicELTH.png'
 import FVJ from '../assets/img/Boz/BozPhonicFVJ.png'
@@ -137,7 +137,7 @@ export default {
       })
       // Start bozko blink
       bozkoBlink()
-      if(!AppState.user.isAuthenticated){
+      if (!AppState.user.isAuthenticated) {
         Offcanvas.getOrCreateInstance(dialogue).show()
         bozkoChat('[Get Started]')
       }
@@ -172,18 +172,18 @@ export default {
         }, timeBetweenChar))
       }
     })
-    function bozPhonic(sound){
+    function bozPhonic(sound) {
       const sounds = /r|a|e|i|o|u|t|v|q|r/ig
-      if(sounds.test(sound)){
-      const pics = [AEI, ELTH, R, OUQ, FVJ]
-      let randomPhonic =  pics[Math.floor(Math.random()*pics.length)]
-      bozkoTalking.value = randomPhonic
+      if (sounds.test(sound)) {
+        const pics = [AEI, ELTH, R, OUQ, FVJ]
+        let randomPhonic = pics[Math.floor(Math.random() * pics.length)]
+        bozkoTalking.value = randomPhonic
       }
     }
     return {
       chatBranch: computed(() => AppState.chatBranch),
       bozkoText: computed(() => AppState.chatBranch?.text),
-      casualFriday: computed(()=> new Date().getDay()== 5),
+      casualFriday: computed(() => new Date().getDay() == 5),
       bozkoStatus,
       bozkoSpoken,
       bozkoTalking,
@@ -201,11 +201,15 @@ export default {
 
 
 <style lang='scss' scoped>
-.load-images{
+.load-images {
   height: 1px;
   width: 1px;
   opacity: 0;
-  background-image: url('../assets/img/Boz/BozPhonicAEI.png'), url('../assets/img/Boz/BozPhonicELTH.png'), url('../assets/img/Boz/BozPhonicFVJ.png'), url('../assets/img/Boz/BozPhonicOUQ.png'), url('../assets/img/Boz/BozPhonicR.png');
+  background-image: url("../assets/img/Boz/BozPhonicAEI.png"),
+    url("../assets/img/Boz/BozPhonicELTH.png"),
+    url("../assets/img/Boz/BozPhonicFVJ.png"),
+    url("../assets/img/Boz/BozPhonicOUQ.png"),
+    url("../assets/img/Boz/BozPhonicR.png");
 }
 
 .help-button {

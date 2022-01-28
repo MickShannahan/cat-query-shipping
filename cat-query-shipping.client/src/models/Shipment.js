@@ -6,9 +6,11 @@ export class Shipment{
     this.recipient = data.recipient
     this.trackingNumber = data.trackingNumber
     this.description = data.description
+    this.fragile = data.fragile
     this.shippingTier = data.shippingTier
-    this.postageCost = data.postageCrypto
-    this.postageCrypto = data.postageCrypto
+    this.shippingCost = data.shippingCost
+    this.totalCost = data.totalCost
+    this.currency = data.currency
     this.shippingDate = data.shippingDate
     this.dateFormat = data.dateFormat
     this.delivered = data.delivered
@@ -20,7 +22,7 @@ export class Shipment{
     this.insuredCost = data.insuredCost
 
     this.sector = data.sector
-    this.hasQuadrantCode = data.hasQuadrantCode
+    this.inQuadrant = data.inQuadrant
     this.quadrantCode = data.quadrantCode
 
     this.galaxy = data.galaxy
@@ -38,6 +40,6 @@ export class Shipment{
   }
 
   static regex(){
-    return /recipient|trackingNumber|description|shippingTier|postageCost|postageCrypto|shippingDate|dateFormat|delivered|postalStation|postalHistory|pirateCoverage|insuredCost|insured|sector|hasQuadrantCode|quadrantCode|galaxyCode|galaxy|planetCode|planetNumber|planet|containsHazard|hazard|creditsWorth/g
+    return /recipient|trackingNumber|shippingTier|currency|shippingDate|dateFormat|delivered|postalStation|shippingCost|totalCost|postalHistory|pirateCoverage|insured|sector|inQuadrant|quadrantCode|galaxy|planetCode|planetNumber|planet|containsHazard|hazard|creditsWorth|fragile/g
   }
 }

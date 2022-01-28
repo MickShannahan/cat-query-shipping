@@ -1,6 +1,7 @@
 import { AppState } from '../AppState'
 import { Shipment } from '../models/Shipment'
 import { logger } from '../utils/Logger'
+import { accountService } from './AccountService'
 import { api } from './AxiosService'
 
 export const unsafeChars = [ ' ', '[', ']', '{', '}', '<', '>', '|', '\\', '^', '%']
@@ -13,22 +14,25 @@ class ShipmentService{
     AppState.lostShipment = res.data
   }
 
-  async getLostShipment(){
+  async getLostShipment(query = ''){
     AppState.loading.lostShipment = true
-    let res = await api.get('api/shipments/lost')
+    let res = await api.get('api/shipments/lost' + query)
     logger.log('lost shipment ', res.data)
     setTimeout(()=>{
       AppState.lostShipment = res.data
       AppState.loading.lostShipment = false
+      AppState.searchResults = {results: []}
+      accountService.getAccount()
     },1000)
   }
 
   async searchShipmentDatabase(queryString){
     AppState.loading.thread = true
     AppState.searchResults = {results: []}
+    AppState.account.currentRequestsMade++
     logger.log('searching',queryString)
     let res = await api.get('api/shipments'+ queryString)
-    logger.log('search ',res.data)
+    logger.log('search ', res.data)
     AppState.searchResults.hits = res.data.hits
     // Animate
     let interval = null
@@ -36,11 +40,12 @@ class ShipmentService{
         let s = res.data.results.shift()
         if(s){
           AppState.searchResults.results.unshift(new Shipment(s))
+          AppState.account.currentPagesPrinted++
         }else {
           clearInterval(interval)
           AppState.loading.thread = false
         }
-      }, 110)
+      }, 200)
   }
 
   async searchWithQueryObject(qString){

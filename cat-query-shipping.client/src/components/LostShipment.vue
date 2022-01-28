@@ -1,4 +1,5 @@
 <template>
+  <button class="btn btn-outline-light" @click="getLostShipment">+</button>
   <div class="lost-shipment row bg-primary physical-border my-2 p-screen">
     <div class="col-12 screen text-info">
       <div class="row p-2">
@@ -16,9 +17,9 @@
                 @click="copy"
                 >{{ key }}</span
               >:
-              <span class="hover line" @click="copy" :data-text="value">{{
-                value
-              }}</span>
+              <span class="hover line" @click="copy" :data-text="value">
+                {{ value }}</span
+              >
             </div>
           </div>
         </div>
@@ -66,13 +67,13 @@
 
   <script>
 import { AppState } from '../AppState';
-import { computed, reactive, onMounted } from 'vue';
+import { computed, reactive, onMounted, ref } from 'vue';
 import { shipmentService } from '../services/ShipmentService';
 import Pop from '../utils/Pop';
 import { logger } from '../utils/Logger';
 export default {
   setup() {
-
+    const newDifficulty = ref(1)
     return {
       account: computed(() => AppState.account),
       creditsWorth: computed(() => AppState.lostShipment.creditsWorth),
@@ -83,13 +84,17 @@ export default {
         return AppState.lostShipment
       }),
       getLostShipment() {
-        shipmentService.getLostShipment()
+        shipmentService.getLostShipment(``)
+      },
+      difficultyChange(val) {
+        newDifficulty.value += val
+        newDifficulty.value = newDifficulty.value <= 1 ? 1 : newDifficulty.value >= 20 ? 20 : newDifficulty.value
       },
       copy() {
         let elem = event.target
         logger.log(elem)
         navigator.clipboard.writeText(elem.innerText)
-        Pop.toast('copied ' + elem.innerText)
+        Pop.toast('copied ' + elem.innerText, 'success', 'top')
       },
       visible(key) {
         let notShown = ['_id', 'id', '__v', 'creditsWorth', 'difficultyRating']
