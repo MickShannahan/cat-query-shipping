@@ -35,6 +35,9 @@ export class AccountController extends BaseController {
   async getAccountShipment(req, res, next) {
     try {
       const account = await accountService.getAccount(req.userInfo)
+      if (!account.lostShipmentId) {
+        await gameService.getLostShipment({}, req.userInfo)
+      }
       const shipment = await shipmentsService.getLostById(account.lostShipmentId.toString())
       return res.send(shipment)
     } catch (error) {

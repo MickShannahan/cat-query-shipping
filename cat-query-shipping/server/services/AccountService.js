@@ -1,5 +1,7 @@
 import { dbContext } from '../db/DbContext'
+import { RandomShipment } from '../models/Shipment'
 import { logger } from '../utils/Logger'
+import { shipmentsService } from './ShipmentsService'
 
 // Private Methods
 
@@ -89,6 +91,10 @@ class AccountService {
     account.totalRequestsMade += data.requests
     account.currentPagesPrinted += data.pages
     account.currentRequestsMade += data.requests
+    if (account.currentPagesPrinted >= 50 && account.currentRequestsMade === 3) {
+      const shipment = new RandomShipment(Math.ceil(Math.random() * 20))
+      await shipmentsService.create(shipment)
+    }
     logger.log(data)
     account.averagePagesPrinted = data.averagePages ? Math.round((account.averagePagesPrinted + data.averagePages) / 2) : account.averagePagesPrinted
     account.averageRequestsMade = data.averageRequests ? Math.round((account.averageRequestsMade + data.averageRequests) / 2) : account.averageRequestsMade
