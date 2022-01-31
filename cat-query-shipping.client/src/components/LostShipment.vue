@@ -5,7 +5,8 @@
       <transition name="slot">
       <DataCard v-if="lostShipment.id" :data="lostShipment"/>
       </transition>
-      <div class="card-slot"></div>
+      <div class="card-slot-bottom"></div>
+      <div class="card-slot-top"></div>
     </div>
       <CardTray/>
     <div class="col-11 screen text-info">
@@ -118,13 +119,23 @@ export default {
   min-height: 40vh;
 }
 
-.card-slot{
+.card-slot-bottom{
+  width: 40px;
+  height: 180px;
+  background: var(--bs-dark);
+  border-left: 8px var(--bs-primary) inset;
+  border-top : 8px var(--bs-primary) inset;
+  border-bottom: 8px #55a6a8 inset;
+  border-radius: 8px;
+}
+.card-slot-top{
   z-index: 500;
-  width: 200px;
+  width: 400px;
   height: 180px;
   background: var(--bs-primary);
-  border-left: 8px var(--bs-primary) inset;
-  border-radius: 2px;
+  border-left:4px #55a6a8 solid;
+  border-radius: 4px;
+  transform: translateX(-4px);
 }
 
 .slot-enter-active,
