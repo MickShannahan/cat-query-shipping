@@ -92,14 +92,16 @@ class AccountService {
     account.currentPagesPrinted += data.pages
     account.currentRequestsMade += data.requests
     if (account.currentPagesPrinted >= 50 && account.currentRequestsMade === 3) {
-      const shipment = new RandomShipment(Math.ceil(Math.random() * 20))
-      await shipmentsService.create(shipment)
+      for (let i = 0; i <= Math.random() * 10; i++) {
+        const shipment = new RandomShipment(Math.ceil(Math.random() * 20))
+        shipmentsService.create(shipment)
+      }
     }
-    logger.log(data)
+    logger.log('update account data', data)
     account.averagePagesPrinted = data.averagePages ? Math.round((account.averagePagesPrinted + data.averagePages) / 2) : account.averagePagesPrinted
     account.averageRequestsMade = data.averageRequests ? Math.round((account.averageRequestsMade + data.averageRequests) / 2) : account.averageRequestsMade
+    await this.updateGrade(userId)
     account.save()
-    this.updateGrade(userId)
   }
 
   async updateGrade(userId) {
@@ -155,7 +157,7 @@ class AccountService {
         }
         break
     }
-    logger.log('updated Grade', account.name, account.score, account.employeeGrade)
+    logger.log('updated Grade', account.name, account.employeeGrade)
     account.save()
   }
 }

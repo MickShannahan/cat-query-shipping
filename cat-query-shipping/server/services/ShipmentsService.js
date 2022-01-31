@@ -51,7 +51,6 @@ class ShipmentsService {
 }
 
 function regexr(object) {
-  logger.log(object)
   Object.keys(object).forEach(k => {
     if (k === '$regex' && object[k].startsWith('/')) {
       const expression = object[k].split('/')

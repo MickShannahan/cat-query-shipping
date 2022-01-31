@@ -3,12 +3,14 @@ import { logger } from '../utils/Logger'
 import Pop from '../utils/Pop'
 import { api } from './AxiosService'
 import { shipmentService } from './ShipmentService'
+import { lcStorage } from "./Storage"
 class AccountService {
   async getAccount() {
     try {
       const res = await api.get('/account')
       AppState.account = res.data
       AppState.currentGuesses = res.data.currentGuesses
+      lcStorage.saveUser(res.data)
     } catch (err) {
       logger.error('HAVE YOU STARTED YOUR SERVER YET???', err)
     }

@@ -95,6 +95,7 @@ import { computed, onMounted, reactive, ref, watch, watchEffect } from 'vue'
 import { logger } from "../utils/Logger"
 import { accountService } from '../services/AccountService'
 import { useRoute } from 'vue-router'
+import { lcStorage} from '../services/Storage'
 export default {
   setup() {
     const route = useRoute()
@@ -136,6 +137,7 @@ export default {
       },
       async login() {
         AuthService.loginWithPopup()
+        lcStorage.loadUsers()
       },
       async logout() {
         AuthService.logout({ returnTo: window.location.origin })

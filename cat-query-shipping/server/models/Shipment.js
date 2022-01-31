@@ -101,7 +101,7 @@ export const ShipmentSchema = new Schema(
           delete ret.postalHistory
           delete ret.hazard
         } catch (error) {
-          logger.log(error)
+          logger.error(error)
         }
       }
     }

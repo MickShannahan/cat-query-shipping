@@ -1,7 +1,13 @@
 <template>
-  <button class="btn btn-outline-light" @click="getLostShipment">+</button>
-  <div class="lost-shipment row bg-primary physical-border my-2 p-screen">
-    <div class="col-12 screen text-info">
+  <div class="lost-shipment row bg-primary physical-border my-2 p-2">
+    <div class="col-1 border border-light d-flex">
+      <button class="btn btn-outline-light h-25" @click="getLostShipment">get new</button>
+      <transition name="fade">
+      <DataCard v-if="lostShipment" :data="lostShipment"/>
+      </transition>
+      <CardTray/>
+    </div>
+    <div class="col-11 screen text-info">
       <div class="row p-2">
         <div class="col-9 pe-3">
           <div class="row border border-info">
@@ -111,12 +117,7 @@ export default {
   min-height: 40vh;
 }
 
-.p-screen {
-  padding-top: 1.2em;
-  padding-right: 1.2em;
-  padding-bottom: 1.2em;
-  padding-left: 4em;
-}
+
 
 .paper-edge {
   height: 100%;
