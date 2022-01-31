@@ -19,7 +19,6 @@ root
     mounted:(el, binding) =>{
       el.ondragstart= ()=> false
       el.style.cursor = 'grab'
-      el.ondragend= ()=> logger.log('end drag')
       let width = el.offsetWidth
       let height = el.offsetHeight
       let screen = document.documentElement
@@ -32,6 +31,7 @@ root
       let startingRot = elmStyle.transform
       let startingZ = elmStyle.zIndex
       let inDrop = false
+      let droppable = null
       let dropX = startingLeft
       let dropY = startingTop
       let dropZ = startingZ
@@ -42,7 +42,7 @@ root
         el.hidden = true;
         let elmBelow = document.elementFromPoint(event.clientX, event.clientY);
         el.hidden = false;
-        let droppable = elmBelow.closest('.drop-zone');
+        droppable = elmBelow.closest('.drop-zone');
         // in drop zone
         if(droppable) {
           inDrop = true
@@ -54,7 +54,6 @@ root
           dropZ = dropStyle.zIndex
           dropH = dropRect.height
           dropW = dropRect.width
-          logger.log(dropX, dropY, dropZ)
         } else { inDrop = false; el.style.filter = null }
 
         let style = window.getComputedStyle(el)
@@ -70,13 +69,15 @@ root
         // if(Math.abs(lag) > 5) lag = 5 * movementX;
         // el.style.transform = `rotate(${lag}deg)`
       }
-
+        // Pickup
       el.addEventListener('mousedown', ()=>{
         binding.value(event)
         sessionStorage.setItem('pickup'  , el.dataset.pickup)
         el.addEventListener('mousemove', drag)
         el.style.transform = 'scale(1.02)'
         el.style.zIndex= 10000
+
+        // Drop
       document.addEventListener('mouseup', ()=> {
         el.hidden = true;
         el.removeEventListener('mousemove', drag)
@@ -88,7 +89,7 @@ root
           el.style.top = startingTop
         }
         if(inDrop){
-          logger.log('dropped in zone', dropX, dropY, dropW, dropH)
+          if(droppable.drop) droppable.drop()
           el.style.left = dropX + (dropW/2) - (elmRect.width/2) + 'px'
           el.style.top = dropY + (dropH/2) - (elmRect.height/2) + 'px'
           el.style.zIndex = dropZ + 1
@@ -98,30 +99,10 @@ root
     }
   })
   .directive('drop', {
-    beforeMount:(el, binding)=>{
+    mounted:(el, binding)=>{
       el.classList.add('drop-zone')
       el.style.zIndex = 500
-
-      let outsideClick = false;
-      let mouseIn = false;
-      document.addEventListener('mousedown', ()=> {
-        outsideClick = !mouseIn ? true : false
-      })
-      document.addEventListener('mouseup', ()=> setTimeout(()=>outsideClick = false, 10))
-      el.addEventListener('mouseenter', ()=> {
-        mouseIn = true
-      })
-      el.addEventListener('mouseleave', ()=> {
-        mouseIn = false
-        outsideClick = false
-      })
-      el.addEventListener('mouseenter', ()=>{
-        if(mouseIn == true && outsideClick == true ){
-          binding.value(event)
-          logger.log('DROPPED!')
-          logger.log(JSON.parse(sessionStorage.getItem('pickup')))
-        }
-      })
+      el.drop = ()=> {binding.value(event, JSON.parse(sessionStorage.getItem('pickup')))}
     }
   })
   .use(router)

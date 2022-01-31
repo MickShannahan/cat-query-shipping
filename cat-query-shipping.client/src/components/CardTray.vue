@@ -34,9 +34,10 @@ setup(){
   })
   return{
     trayOpen: computed(()=> AppState.cardTray.open),
-    closeTray(){
-      Offcanvas.getOrCreateInstance(document.getElementById('cardTray')).hide()
-      shipmentService.getLostShipment()
+    closeTray(ev, payload){
+      logger.log('payload from tray', payload)
+      // Offcanvas.getOrCreateInstance(document.getElementById('cardTray')).hide()
+      // shipmentService.getLostShipment()
     }
   }
 }
