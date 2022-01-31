@@ -19,12 +19,12 @@ root
     mounted:(el, binding) =>{
       el.ondragstart= ()=> false
       el.style.cursor = 'grab'
+      el.style.position = 'absolute'
+      el.style.transition = 'transform 0.1s ease'
       let width = el.offsetWidth
       let height = el.offsetHeight
       let screen = document.documentElement
-      el.style.position = 'absolute'
-      el.style.transition = 'transform 0.1s ease'
-      let elmStyle = window.getComputedStyle(el)
+      let elmStyle = getComputedStyle(el)
       let elmRect = el.getBoundingClientRect()
       let startingLeft = elmStyle.left
       let startingTop = elmStyle.top
@@ -78,23 +78,23 @@ root
         el.style.zIndex= 10000
 
         // Drop
-      document.addEventListener('mouseup', ()=> {
-        el.hidden = true;
-        el.removeEventListener('mousemove', drag)
-        el.hidden = false;
-        el.style.transform = `scale(1) ${startingRot}`
-        el.style.zIndex=startingZ
-        if(binding.arg == 'anchor' && !inDrop){
-          el.style.left = startingLeft
-          el.style.top = startingTop
-        }
-        if(inDrop){
-          if(droppable.drop) droppable.drop()
-          el.style.left = dropX + (dropW/2) - (elmRect.width/2) + 'px'
-          el.style.top = dropY + (dropH/2) - (elmRect.height/2) + 'px'
-          el.style.zIndex = dropZ + 1
-        }
-      })
+        document.addEventListener('mouseup', ()=> {
+          el.hidden = true;
+          el.removeEventListener('mousemove', drag)
+          el.hidden = false;
+          el.style.transform = `scale(1) ${startingRot}`
+          el.style.zIndex=startingZ
+          if(binding.arg == 'anchor' && !inDrop){
+            el.style.left = startingLeft
+            el.style.top = startingTop
+          }
+          if(inDrop){
+            if(droppable.drop) droppable.drop()
+            el.style.left = dropX + (dropW/2) - (elmRect.width/2) + 'px'
+            el.style.top = dropY + (dropH/2) - (elmRect.height/2) + 'px'
+            el.style.zIndex = dropZ + 1
+          }
+        })
       })
     }
   })
