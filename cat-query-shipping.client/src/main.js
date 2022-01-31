@@ -90,8 +90,10 @@ root
           }
           if(inDrop){
             if(droppable.drop) droppable.drop()
-            el.style.left = dropX + (dropW/2) - (elmRect.width/2) + 'px'
-            el.style.top = dropY + (dropH/2) - (elmRect.height/2) + 'px'
+            if(droppable.dataset.anchor){
+              el.style.left = dropX + (dropW/2) - (elmRect.width/2) + 'px'
+              el.style.top = dropY + (dropH/2) - (elmRect.height/2) + 'px'
+            }
             el.style.zIndex = dropZ + 1
           }
         })
@@ -101,8 +103,13 @@ root
   .directive('drop', {
     mounted:(el, binding)=>{
       el.classList.add('drop-zone')
+      if(binding.arg == 'anchor') {
+        el.setAttribute('data-anchor', true)
+      }
       el.style.zIndex = 500
-      el.drop = ()=> {binding.value(event, JSON.parse(sessionStorage.getItem('pickup')))}
+      el.drop = ()=> {
+        if(binding.value) binding.value(event, JSON.parse(sessionStorage.getItem('pickup')))
+      }
     }
   })
   .use(router)

@@ -1,5 +1,5 @@
 <template>
-<div class="offcanvas offcanvas-bottom card-tray" tabindex="-1" id="cardTray" aria-labelledby="cardTrayLabel" data-bs-backdrop="false">
+<div class="offcanvas offcanvas-bottom card-tray" tabindex="-1" id="cardTray" aria-labelledby="cardTrayLabel" data-bs-backdrop="false" v-drop="">
   <div class="offcanvas-header">
     <h5 class="offcanvas-title text-light" id="cardTrayLabel">Saved Cards</h5>
     <button class="btn btn-outline-light">get new shipment</button>
@@ -7,7 +7,7 @@
   </div>
   <div class="offcanvas-body small container-fluid">
     <div class="row h-100">
-      <div class="col-4 border border-light rounded h-100" v-drop="closeTray">
+      <div class="col-4 border border-light rounded h-100" v-drop:anchor="closeTray">
         drop zone
       </div>
     </div>
