@@ -1,7 +1,8 @@
 <template>
-  <div :id="'dataChip'+data.id" class="data-card text-dark lighten-20 " draggable="true"  v-pickup="something">
+  <div :id="'dataChip'+data.id" class="data-card text-dark lighten-20 " draggable="true"  v-pickup="something" :data-pickup="JSON.stringify(data)">
     <div class="label">{{data.id}}</div>
     <img :src="cards[Math.round(data.difficultyRating/2)-1]" alt="" draggable="false">
+    <div v-if="cardTray.open">open tray</div>
   </div>
 </template>
 
@@ -19,7 +20,8 @@ import card10 from '../assets/img/DataCard10.png'
 
 import { Offcanvas } from "bootstrap"
 import { logger } from "../utils/Logger"
-import { onBeforeMount, onMounted, watchEffect } from "@vue/runtime-core"
+import { computed, onBeforeMount, onMounted, watchEffect } from "@vue/runtime-core"
+import { AppState } from "../AppState"
 export default {
   props: {data:{type: Object, default: {id: 'REDACTED'}}},
   setup(props){
@@ -34,7 +36,8 @@ export default {
         logger.log('moving data card')
         Offcanvas.getOrCreateInstance(document.getElementById('cardTray')).show()
       },
-      cards : [card1, card2, card3, card4, card5, card6, card7, card8, card9, card10]
+      cards : [card1, card2, card3, card4, card5, card6, card7, card8, card9, card10],
+      cardTray: computed(()=> AppState.cardTray)
     }
   }
 }

@@ -1,9 +1,7 @@
 <template>
   <div class="row no-overflow-x justify-content-center">
     <div v-if="account.id" class="col-lg-10 p-0 m-0">
-      <transition name="lost">
         <LostShipment v-show="!lostShipmentLoading" />
-      </transition>
       <transition name="flip">
         <Search v-if="compScreen == 'http'" @switch="switchScreen" />
         <CodeSearch v-else @switch="switchScreen" />

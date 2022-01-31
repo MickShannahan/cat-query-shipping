@@ -1,6 +1,6 @@
 <template>
   <div class="lost-shipment row bg-primary physical-border my-2 p-2">
-    <div class="col-1 border border-light d-flex">
+    <div class="col-1 border border-light d-flex" v-drop="">
       <button class="btn btn-outline-light h-25" @click="getLostShipment">get new</button>
       <transition name="fade">
       <DataCard v-if="lostShipment" :data="lostShipment"/>

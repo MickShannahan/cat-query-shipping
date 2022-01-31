@@ -14,6 +14,7 @@ export const AppState = reactive({
     lostShipment: false,
     thread: false
   },
+  cardTray: {open: false},
   currentGuesses: [],
   lastDocPage: 'Orientation',
   chatBranch: {},
