@@ -16,6 +16,7 @@ class ShipmentService{
 
   async getLostShipment(query = ''){
     AppState.loading.lostShipment = true
+    AppState.lostShipment = {}
     let res = await api.get('api/shipments/lost' + query)
     logger.log('lost shipment ', res.data)
     setTimeout(()=>{

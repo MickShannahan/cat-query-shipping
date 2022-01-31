@@ -2,13 +2,12 @@
 <div class="offcanvas offcanvas-bottom card-tray" tabindex="-1" id="cardTray" aria-labelledby="cardTrayLabel" data-bs-backdrop="false" v-drop="">
   <div class="offcanvas-header">
     <h5 class="offcanvas-title text-light" id="cardTrayLabel">Saved Cards</h5>
-    <button class="btn btn-outline-light">get new shipment</button>
     <button type="button" class="btn-close text-reset text-light" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body small container-fluid">
     <div class="row h-100">
       <div class="col-4 border border-light rounded h-100" v-drop:anchor="closeTray">
-        drop zone
+        drop here to get a new shipment
       </div>
     </div>
   </div>
@@ -34,10 +33,10 @@ setup(){
   })
   return{
     trayOpen: computed(()=> AppState.cardTray.open),
-    closeTray(ev, payload){
+    async closeTray(ev, payload){
       logger.log('payload from tray', payload)
-      // Offcanvas.getOrCreateInstance(document.getElementById('cardTray')).hide()
-      // shipmentService.getLostShipment()
+     await shipmentService.getLostShipment()
+      Offcanvas.getOrCreateInstance(document.getElementById('cardTray')).hide()
     }
   }
 }

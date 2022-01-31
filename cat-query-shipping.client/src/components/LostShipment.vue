@@ -1,13 +1,13 @@
 <template>
   <div class="lost-shipment row bg-primary physical-border my-2 p-2">
-    <div class="col-1  d-flex">
-      <button class="btn btn-outline-light h-25" @click="getLostShipment">get new</button>
-      <transition name="fade">
-      <DataCard v-if="lostShipment" :data="lostShipment"/>
+    <div class="col-1  d-flex align-items-end justify-content-end  ps-0">
+      <!-- <button class="btn btn-outline-light h-25" @click="getLostShipment">get new</button> -->
+      <transition name="slot">
+      <DataCard v-if="lostShipment.id" :data="lostShipment"/>
       </transition>
-      <div class="border border-light"> drop zone</div>
-      <CardTray/>
+      <div class="card-slot"></div>
     </div>
+      <CardTray/>
     <div class="col-11 screen text-info">
       <div class="row p-2">
         <div class="col-9 pe-3">
@@ -118,6 +118,24 @@ export default {
   min-height: 40vh;
 }
 
+.card-slot{
+  z-index: 500;
+  width: 200px;
+  height: 180px;
+  background: var(--bs-primary);
+  border-left: 8px var(--bs-primary) inset;
+  border-radius: 2px;
+}
+
+.slot-enter-active,
+.slot-leave-active {
+  transition: opacity  01s ease;
+  opacity: 1;
+}
+.slot-enter-from,
+.slot-leave-to {
+  opacity: 0;
+}
 
 
 .paper-edge {

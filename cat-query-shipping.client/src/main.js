@@ -54,7 +54,7 @@ root
           dropZ = dropStyle.zIndex
           dropH = dropRect.height
           dropW = dropRect.width
-        } else { inDrop = false; el.style.filter = null }
+        } else {  el.style.filter = null }
 
         let style = window.getComputedStyle(el)
         let left = parseInt(style.left)
@@ -79,23 +79,24 @@ root
 
         // Drop
         document.addEventListener('mouseup', ()=> {
-          el.hidden = true;
           el.removeEventListener('mousemove', drag)
+          el.hidden = true;
           el.hidden = false;
           el.style.transform = `scale(1) ${startingRot}`
           el.style.zIndex=startingZ
           // FIXME this snapping needs correcting
-          if(binding.arg == 'anchor' && (!droppable.dataset.anchor|| !inDrop)){
+          if(binding.arg == 'anchor' &&  !inDrop){
             el.style.left = startingLeft
             el.style.top = startingTop
           }
           if(inDrop){
-            if(droppable.drop) droppable.drop()
-            if(droppable.dataset.anchor){
-              el.style.left = dropX + (dropW/2) - (elmRect.width/2) + 'px'
-              el.style.top = dropY + (dropH/2) - (elmRect.height/2) + 'px'
-            }
-            el.style.zIndex = dropZ + 1
+              if(droppable.drop) droppable.drop()
+              if(droppable.dataset.anchor){
+                el.style.left = dropX + (dropW/2) - (elmRect.width/2) + 'px'
+                el.style.top = dropY + (dropH/2) - (elmRect.height/2) + 'px'
+              }
+              el.style.zIndex = dropZ + 1
+              inDrop=false
           }
         })
       })

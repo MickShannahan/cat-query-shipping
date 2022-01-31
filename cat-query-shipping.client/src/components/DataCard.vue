@@ -1,8 +1,7 @@
 <template>
-  <div :id="'dataChip'+data.id" class="data-card text-dark lighten-20 " draggable="true"  v-pickup="something" :data-pickup="JSON.stringify(data)">
+  <div :id="'dataChip'+data.id" class="data-card text-dark lighten-20 " draggable="true"  v-pickup:anchor="something" :data-pickup="JSON.stringify(data)">
     <div class="label">{{data.id}}</div>
     <img :src="cards[Math.round(data.difficultyRating/2)-1]" alt="" draggable="false">
-    <div v-if="cardTray.open">open tray</div>
   </div>
 </template>
 
@@ -26,7 +25,7 @@ export default {
   props: {data:{type: Object, default: {id: 'REDACTED'}}},
   setup(props){
     watchEffect(()=>{
-      let dataChip = document.getElementById('dataChip'+props.data.id)
+      let dataChip = document.getElementById('dataChip'+ props.data.id)
       if(dataChip){
         dataChip.style.top = '30px'
       }
@@ -45,6 +44,7 @@ export default {
 
 <style lang="scss">
 .data-card{
+  left: 3.5vw;
   height: 175px;
   width: 175px;
   transform: rotateZ(90deg);
