@@ -84,7 +84,8 @@ root
           el.hidden = false;
           el.style.transform = `scale(1) ${startingRot}`
           el.style.zIndex=startingZ
-          if(binding.arg == 'anchor' && !inDrop){
+          // FIXME this snapping needs correcting
+          if(binding.arg == 'anchor' && (!droppable.dataset.anchor|| !inDrop)){
             el.style.left = startingLeft
             el.style.top = startingTop
           }
