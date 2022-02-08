@@ -1,5 +1,8 @@
 <template>
-  <div class="row px-3 results-thread justify-content-center mt-2">
+  <div
+    v-infinite-scroll="scrolling"
+    class="row px-3 results-thread justify-content-center mt-2"
+  >
     <div
       class="col-lg-12 rounded p-0 printer-sides px-5 mx-3"
       :class="{ 'printer-sides-loading': loading }"
@@ -14,7 +17,8 @@
             'text-danger': hits >= 25 || hits == 0,
           }"
         >
-          Matching Records : {{ hits }} <span v-if="hits >= 50"> !MAX 50 PRINTED!</span>
+          Matching Records : {{ hits }}
+          <span v-if="hits >= 50"> !MAX 50 PRINTED!</span>
         </div>
       </div>
     </div>
@@ -35,13 +39,17 @@
 <script>
 import { AppState } from '../AppState';
 import { computed, reactive, onMounted } from 'vue';
+import { logger } from '../utils/Logger';
 export default {
   setup() {
 
     return {
       loading: computed(() => AppState.loading.thread),
       shipments: computed(() => AppState.searchResults.results),
-      hits: computed(() => AppState.searchResults.hits)
+      hits: computed(() => AppState.searchResults.hits),
+      scrolling() {
+        logger.log('infinite scrolling')
+      }
     }
   }
 };

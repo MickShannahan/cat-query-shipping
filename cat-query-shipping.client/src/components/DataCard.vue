@@ -1,7 +1,16 @@
 <template>
-  <div :id="'dataChip'+data.id" class="data-card text-dark lighten-20 " draggable="true"  v-pickup:anchor="something" :data-pickup="JSON.stringify(data)">
-    <div class="label">{{data.id}}</div>
-    <img :src="cards[Math.round(data.difficultyRating/2)-1]" alt="" draggable="false">
+  <div
+    :id="'dataChip' + data.id"
+    class="data-card text-dark lighten-20"
+    v-pickup:anchor="something"
+    :data-pickup="JSON.stringify(data)"
+  >
+    <div class="label">{{ data.id }}</div>
+    <img
+      :src="cards[Math.round(data.difficultyRating / 2) - 1]"
+      alt=""
+      draggable="false"
+    />
   </div>
 </template>
 
@@ -22,38 +31,38 @@ import { logger } from "../utils/Logger"
 import { computed, onBeforeMount, onMounted, watchEffect } from "@vue/runtime-core"
 import { AppState } from "../AppState"
 export default {
-  props: {data:{type: Object, default: {id: 'REDACTED'}}},
-  setup(props){
-    watchEffect(()=>{
-      let dataChip = document.getElementById('dataChip'+ props.data.id)
-      if(dataChip){
+  props: { data: { type: Object, default: { id: 'REDACTED' } } },
+  setup(props) {
+    watchEffect(() => {
+      let dataChip = document.getElementById('dataChip' + props.data.id)
+      if (dataChip) {
         dataChip.style.top = '30px'
       }
     })
-    return{
-      something(){
+    return {
+      something() {
         logger.log('moving data card')
         Offcanvas.getOrCreateInstance(document.getElementById('cardTray')).show()
       },
-      cards : [card1, card2, card3, card4, card5, card6, card7, card8, card9, card10],
-      cardTray: computed(()=> AppState.cardTray)
+      cards: [card1, card2, card3, card4, card5, card6, card7, card8, card9, card10],
+      cardTray: computed(() => AppState.cardTray)
     }
   }
 }
 </script>
 
 <style lang="scss">
-.data-card{
+.data-card {
   left: 3.5vw;
   height: 175px;
   width: 175px;
   transform: rotateZ(90deg);
   user-select: none;
-  img{
+  img {
     image-rendering: pixelated;
     height: 100%;
   }
-  .label{
+  .label {
     position: absolute;
     top: 122px;
     width: 100%;
@@ -65,5 +74,4 @@ export default {
     word-wrap: break-word;
   }
 }
-
 </style>
