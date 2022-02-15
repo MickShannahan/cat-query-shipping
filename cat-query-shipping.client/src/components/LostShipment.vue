@@ -3,10 +3,17 @@
     <div class="col-1 d-flex align-items-end justify-content-end ps-0">
       <!-- <button class="btn btn-outline-light h-25" @click="getLostShipment">get new</button> -->
       <transition name="slot">
-        <DataCard v-if="lostShipment.id" :data="lostShipment" />
+        <button
+          class="comp-button comp-yellow p-2 mb-5 w-100"
+          title="get new lost shipment"
+        >
+          <i class="mdi mdi-card-bulleted-outline"></i>
+        </button>
+        <!-- TODO better datacard usage -->
+        <!-- <DataCard v-if="lostShipment.id" :data="lostShipment" /> -->
       </transition>
-      <div class="card-slot-bottom"></div>
-      <div class="card-slot-top"></div>
+      <!-- <div class="card-slot-bottom"></div>
+      <div class="card-slot-top"></div> -->
     </div>
     <CardTray />
     <div class="col-11 screen text-info">
