@@ -9,7 +9,7 @@
       </transition>
     </router-view>
   </main>
-  <footer class="container-fluid">
+  <footer class="container-fluid fixed-bottom">
     <div class="text-light text-center p-2">
       Made with your <i class="mdi mdi-google-podcast"></i> Union Tax Credits
     </div>

@@ -6,7 +6,6 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { registerGlobalComponents } from './registerGlobalComponents'
 import { router } from './router'
-import InfiniteScroll from './services/InfiniteScroll'
 
 const root = createApp(App)
 registerGlobalComponents(root)
@@ -125,6 +124,5 @@ root
         }
     }
   })
-  .use(InfiniteScroll)
   .use(router)
   .mount('#app')

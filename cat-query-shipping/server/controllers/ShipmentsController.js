@@ -99,7 +99,8 @@ export class ShipmentsController extends BaseController {
   async runQuery(req, res, next) {
     try {
       logger.log('query', req.body)
-      const shipments = await shipmentsService.getAll(req.body)
+      const user = req.userInfo
+      const shipments = await shipmentsService.getAll(req.body, user.id)
       return res.send(shipments)
     } catch (error) {
       next(error)

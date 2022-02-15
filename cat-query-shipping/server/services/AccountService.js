@@ -86,6 +86,7 @@ class AccountService {
   }
 
   async updateAccountStats(userId, data) {
+    logger.log('updating user', userId)
     const account = await dbContext.Account.findById(userId)
     account.totalPagesPrinted += data.pages
     account.totalRequestsMade += data.requests
