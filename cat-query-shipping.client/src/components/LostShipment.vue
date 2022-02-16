@@ -5,7 +5,7 @@
       <transition name="slot">
         <button
           class="comp-button comp-yellow p-2 mb-5 w-100"
-          title="get new lost shipment"
+          v-tooltip:bottom="'get new lost shipment'"
         >
           <i class="mdi mdi-card-bulleted-outline"></i>
         </button>

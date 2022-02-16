@@ -288,7 +288,7 @@
         </p>
         <em class="col-11 text-danger lighten-10">filter object</em>
         <div class="col-12 bg-dark lighten-20 border-fig rounded text-primary">
-          const query = {recipient: { $regex: "Snibblysmith" }}
+          const query = {recipient: { $regex: /Snibblysmith/g }}
         </div>
         <em class="col-11 text-danger lighten-10 mt-2">shipment in database</em>
         <div class="col-12 bg-dark lighten-20 border-fig rounded text-primary">
@@ -316,13 +316,18 @@
         included the string "Snibblysmith" they too would be returned.
       </p>
       <p>
-        Check out this link for more in depth examples of Mongo Projection
-        Operators, and the full list of Projection Operators.
+        Check out the links for more in depth examples of Mongo Projection
+        Operators and more regex.
       </p>
       <a
         target="_blank"
         href="https://docs.mongodb.com/manual/reference/operator/query/"
         >Mongo Query and Projection Operators</a
+      >
+      <a
+        target="_blank"
+        href="https://codeworksacademy.com/fs-student-guide/resources/wk2/04-Regex/"
+        >Codeworks acedemy Regex</a
       >
     </div>
   </div>

@@ -79,7 +79,7 @@ export const shipmentService = new ShipmentService()
 
 function stringToObject(str){
 let out = {}
-let flat = /(const query( |)=( |){)|query|const|let|var|\n|\s(?=(?:"[^"]*"|[^"])*$)/g
+let flat = /(const query( |)=( |){)|query|const|let|var|\n|\s(?=(?:'[^']*'|[^'])*$)(?=(?:"[^"]*"|[^"])*$)(?=(?:\/[^/]*\/|[^/])*$)/g
 str = str.replace(flat, '')
 if(str.startsWith('{')) str = str.slice(1)
 if(str.endsWith('}')) str = str.slice(0,str.length-1)

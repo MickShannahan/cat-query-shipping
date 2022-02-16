@@ -1,6 +1,8 @@
 import '@mdi/font/css/materialdesignicons.css'
 import 'bootstrap'
+import { Tooltip } from 'bootstrap'
 import 'monaco-editor'
+import 'popper.js'
 import { createApp } from 'vue'
 // @ts-ignore
 import App from './App.vue'
@@ -122,6 +124,22 @@ root
         el.drop = ()=> {
           if(binding.value) binding.value(event, JSON.parse(sessionStorage.getItem('pickup')))
         }
+    }
+  })
+  .directive('tooltip', {
+    mounted: (el, binding) => {
+      el.title = binding.value
+      let tip = new Tooltip(el, {
+        placement: binding.arg,
+        offset: [10,0],
+        popperConfig: {}
+      })
+    },
+    updated: (el, binding) => {
+      el.title = binding.value
+      let tip = new Tooltip(el, {
+        placement: binding.arg
+      })
     }
   })
   .use(router)
