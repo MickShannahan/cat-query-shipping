@@ -12,12 +12,22 @@ export class AccountController extends BaseController {
       .get('', this.getUserAccount)
       .get('/lostshipment/answer/:id', this.checkShipmentAnswer)
       .get('/shipment', this.getAccountShipment)
+      .put('', this.editAccount)
   }
 
   async getUserAccount(req, res, next) {
     try {
       const account = await accountService.getAccount(req.userInfo)
       res.send(account)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async editAccount(req, res, next) {
+    try {
+      const account = await accountService.updateAccount(req.userInfo, req.body)
+      return res.send(account)
     } catch (error) {
       next(error)
     }

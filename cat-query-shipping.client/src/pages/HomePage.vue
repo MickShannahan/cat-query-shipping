@@ -27,7 +27,6 @@ export default {
     const route = useRoute()
     const showTabs = ref(false)
     const compScreen = ref('http')
-    const loadTour = ref(false)
     onMounted(() => {
       window.addEventListener('keydown', (e) => {
         if (e.ctrlKey && e.key == 's') {
@@ -40,7 +39,7 @@ export default {
     return {
       compScreen,
       showTabs,
-      loadTour,
+      loadTour: computed(() => AppState.account?.needsTour),
       lostShipmentLoading: computed(() => AppState.loading.lostShipment),
       account: computed(() => AppState.account),
       switchScreen() {

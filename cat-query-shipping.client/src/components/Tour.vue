@@ -4,6 +4,7 @@
 
 <script>
 import { AppState } from '../AppState'
+import { accountService } from '../services/AccountService'
 export default {
   name: 'my-tour',
   data() {
@@ -14,7 +15,7 @@ export default {
       mounted: function () {
         if (AppState.account?.needsTour) {
           this.$tours['myTour'].start()
-
+          accountService.editAccount({ needsTour: false })
         }
       },
       bozInsert,
