@@ -7,11 +7,11 @@
     <h5 class="col-12 text-primary text-start">What is it?</h5>
     <p class="col-11">
       The trade tool of choice for each shipment sleuth here at C.U.P.S is the
-      HTTP Terminal. Each C.U.P.S employee is is asigned a top of the line
-      'hindsight transprot tracking puter 2', powered by a K.i.t-10 proccesor.
-      These machines are capable of pinging all registerd satalites and stations
-      within a 10 quadrants. Those pings bounce to other satalites in thier
-      range and so on and so forth until eventually all bounce back to the
+      HTTP Terminal. Each C.U.P.S employee is is assigned a top of the line
+      'hindsight transport tracking puter 2', powered by a K.i.t-10 processor.
+      These machines are capable of pinging all registered satellites and
+      stations within a 10 quadrants. Those pings bounce to other satellites in
+      their range and so on and so forth until eventually all bounce back to the
       terminal. These are compiled then the results are printed out.
     </p>
     <h5 class="col-12 text-primary text-start">How to use it</h5>
@@ -75,8 +75,8 @@
       'reserved' characters and 'unsafe' characters are detected. Unsafe
       characters will be highlighted in
       <span class="text-danger darken-10">red</span> and reserved characters are
-      highligted in <span class="text-warning darken-40">yellow</span>. An added
-      feature is that searchable fields will be highlighted in
+      highlighted in <span class="text-warning darken-40">yellow</span>. An
+      added feature is that searchable fields will be highlighted in
       <span class="text-info darken-30"> light green</span>. Unsafe characters
       cannot be sent in the URL and if one is spotted, the search function will
       lock up. While reserved characters are allowed to be sent, in the wrong

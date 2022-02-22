@@ -79,20 +79,21 @@ export const shipmentService = new ShipmentService()
 
 function stringToObject(str){
 let out = {}
-let flat = /query|=|const|let|var|\n| /g
+let flat = /(const query( |)=( |){)|query|const|let|var|\n|\s(?=(?:'[^']*'|[^'])*$)(?=(?:"[^"]*"|[^"])*$)(?=(?:\/[^/]*\/|[^/])*$)/g
 str = str.replace(flat, '')
 if(str.startsWith('{')) str = str.slice(1)
 if(str.endsWith('}')) str = str.slice(0,str.length-1)
 
 let dataArr = betterSplit(str)
-// console.log('dataArr',dataArr)
+console.log('dataArr',dataArr)
 dataArr.forEach(d=>{
   let index = d.indexOf(':')
   let key = d.slice(0, index)
   let value = dataTyper(d.slice(index + 1))
+  console.log(out)
   out[key] = value
 })
-// console.log('out',out)
+console.log('out',out)
 return out
 }
 
@@ -112,13 +113,11 @@ if(Math.abs(1 + value) > 1){
   } else if(value.startsWith('{')){
     out = stringToObject(value)
   } else if(value.startsWith('[')){
-
     out = betterSplit(value.slice(1, value.length-1)).map(v => dataTyper(v))
-
   } else if (value == null){
     out = null
   } else {
-    out = value.replace(unquote, '')
+    out = value.trim().replace(unquote, '')
   }
   return out
 }

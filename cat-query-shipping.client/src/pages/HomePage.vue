@@ -1,16 +1,23 @@
 <template>
-  <div class="row no-overflow-x justify-content-center">
-    <div v-if="account.id" class="col-lg-10 p-0 m-0">
-        <LostShipment  />
-      <transition name="flip">
-        <Search v-if="compScreen == 'http'" @switch="switchScreen" />
-        <CodeSearch v-else @switch="switchScreen" />
-      </transition>
-      <ShipmentsThread />
-    </div>
-    <Dialogue />
-    <Docs />
-  </div>
+  <Suspense>
+    <template #default>
+      <div class="row no-overflow-x justify-content-center">
+        <div v-if="account.id" class="col-lg-10 p-0 m-0">
+          <LostShipment />
+          <transition name="flip">
+            <Search v-if="compScreen == 'http'" @switch="switchScreen" />
+            <CodeSearch v-else @switch="switchScreen" />
+          </transition>
+          <ShipmentsThread />
+        </div>
+        <Dialogue />
+        <Docs />
+      </div>
+    </template>
+    <template #fallback>
+      <div class="bg-light p-2">loading</div>
+    </template>
+  </Suspense>
 </template>
 
 <script>

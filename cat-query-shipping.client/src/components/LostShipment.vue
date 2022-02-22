@@ -1,14 +1,21 @@
 <template>
   <div class="lost-shipment row bg-primary physical-border my-2 p-2">
-    <div class="col-1  d-flex align-items-end justify-content-end  ps-0">
+    <div class="col-1 d-flex align-items-end justify-content-end ps-0">
       <!-- <button class="btn btn-outline-light h-25" @click="getLostShipment">get new</button> -->
       <transition name="slot">
-      <DataCard v-if="lostShipment.id" :data="lostShipment"/>
+        <button
+          class="comp-button comp-yellow p-2 mb-5 w-100"
+          v-tooltip:bottom="'get new lost shipment'"
+        >
+          <i class="mdi mdi-card-bulleted-outline"></i>
+        </button>
+        <!-- TODO better datacard usage -->
+        <!-- <DataCard v-if="lostShipment.id" :data="lostShipment" /> -->
       </transition>
-      <div class="card-slot-bottom"></div>
-      <div class="card-slot-top"></div>
+      <!-- <div class="card-slot-bottom"></div>
+      <div class="card-slot-top"></div> -->
     </div>
-      <CardTray/>
+    <CardTray />
     <div class="col-11 screen text-info">
       <div class="row p-2">
         <div class="col-9 pe-3">
@@ -119,35 +126,34 @@ export default {
   min-height: 40vh;
 }
 
-.card-slot-bottom{
+.card-slot-bottom {
   width: 40px;
   height: 180px;
   background: var(--bs-dark);
   border-left: 8px var(--bs-primary) inset;
-  border-top : 8px var(--bs-primary) inset;
+  border-top: 8px var(--bs-primary) inset;
   border-bottom: 8px #55a6a8 inset;
   border-radius: 8px;
 }
-.card-slot-top{
+.card-slot-top {
   z-index: 500;
   width: 400px;
   height: 180px;
   background: var(--bs-primary);
-  border-left:4px #55a6a8 solid;
+  border-left: 4px #55a6a8 solid;
   border-radius: 4px;
   transform: translateX(-4px);
 }
 
 .slot-enter-active,
 .slot-leave-active {
-  transition: opacity  01s ease;
+  transition: opacity 01s ease;
   opacity: 1;
 }
 .slot-enter-from,
 .slot-leave-to {
   opacity: 0;
 }
-
 
 .paper-edge {
   height: 100%;
