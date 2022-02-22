@@ -46,8 +46,8 @@ class AccountService {
     }, 30)
   }
 
-  async editAccount(){
-    let res = await api.put('account', AppState.account)
+  async editAccount(body){
+    let res = await api.put('account', body)
     logger.log(res)
   }
 }

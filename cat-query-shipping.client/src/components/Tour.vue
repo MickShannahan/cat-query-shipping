@@ -1,23 +1,17 @@
 <template>
-  <v-tour name="myTour" :steps="steps"></v-tour>
+  <v-tour name="tutorial" :steps="steps"></v-tour>
 </template>
 
 <script>
-import { AppState } from '../AppState'
 import { accountService } from '../services/AccountService'
+import { logger } from '../utils/Logger'
 export default {
-  name: 'my-tour',
+  name: "Tour",
   data() {
     function bozInsert(message) {
       return `<div class="tour-boz" ></div><b class="me-5">${message}</b>`
     }
     return {
-      mounted: function () {
-        if (AppState.account?.needsTour) {
-          this.$tours['myTour'].start()
-          accountService.editAccount({ needsTour: false })
-        }
-      },
       bozInsert,
       steps: [
         {
@@ -122,5 +116,10 @@ export default {
       ]
     }
   },
+  mounted: function () {
+    logger.log('touring')
+    this.$tours['tutorial'].start()
+    accountService.editAccount({ needsTour: false })
+  }
 }
 </script>

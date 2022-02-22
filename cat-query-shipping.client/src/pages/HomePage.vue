@@ -10,12 +10,12 @@
     </div>
     <Dialogue />
     <Docs />
-    <Tour v-if="loadTour" />
+    <Tour v-if="account.needsTour" />
   </div>
 </template>
 
 <script>
-import { computed, onMounted, ref } from '@vue/runtime-core'
+import { computed, onMounted, reactive, ref, toRefs } from '@vue/runtime-core'
 import Pop from '../utils/Pop'
 import { shipmentService } from '../services/ShipmentService'
 import { logger } from "../utils/Logger"
@@ -34,12 +34,10 @@ export default {
           Pop.toast('Saving Union documents is stricly prohibited', 'warning', 'bottom')
         }
       })
-      setTimeout(() => loadTour.value = true, 1000)
     })
     return {
       compScreen,
       showTabs,
-      loadTour: computed(() => AppState.account?.needsTour),
       lostShipmentLoading: computed(() => AppState.loading.lostShipment),
       account: computed(() => AppState.account),
       switchScreen() {
