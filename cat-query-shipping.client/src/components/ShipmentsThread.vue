@@ -1,6 +1,7 @@
 <template>
   <div class="row px-3 results-thread justify-content-center mt-2">
     <div
+      id="tour-printer"
       class="col-lg-12 rounded p-0 printer-sides px-5 mx-3"
       :class="{ 'printer-sides-loading': loading }"
     >

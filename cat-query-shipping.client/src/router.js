@@ -1,4 +1,4 @@
-import { authGuard } from '@bcwdev/auth0provider-client'
+import { authGuard, authSettled } from '@bcwdev/auth0provider-client'
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 function loadPage(page) {
@@ -10,7 +10,7 @@ const routes = [
     path: '/',
     name: 'Home',
     component: loadPage('HomePage'),
-    // beforeEnter: authSettled,
+    beforeEnter: authSettled,
     children: [
       {
         path: 'docs/orientation',

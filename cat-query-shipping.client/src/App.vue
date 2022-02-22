@@ -29,6 +29,17 @@ export default {
 }
 </script>
 <style lang="scss">
+.tour-boz {
+  position: absolute;
+  top: -80px;
+  right: -20px;
+  background-image: url("./assets/img/Boz/CUPS Manager.png");
+  height: 120px;
+  width: 120px;
+  background-position: top;
+  // border: 1px solid var(--bs-info);
+}
+
 body {
   background-image: radial-gradient(rgba(2, 0, 36, 0), rgba(34, 65, 60, 0.7)),
     url("./assets/img/CUPS-bgFilter.png");

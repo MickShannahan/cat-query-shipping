@@ -4,10 +4,13 @@ import { Tooltip } from 'bootstrap'
 import 'monaco-editor'
 import 'popper.js'
 import { createApp } from 'vue'
+import Vue3Tour from 'vue3-tour'
+import 'vue3-tour/dist/vue3-tour.css'
 // @ts-ignore
 import App from './App.vue'
 import { registerGlobalComponents } from './registerGlobalComponents'
 import { router } from './router'
+
 
 const root = createApp(App)
 registerGlobalComponents(root)
@@ -142,5 +145,6 @@ root
       })
     }
   })
+  .use(Vue3Tour)
   .use(router)
   .mount('#app')

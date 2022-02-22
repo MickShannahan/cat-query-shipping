@@ -20,7 +20,9 @@ export const AccountSchema = new Schema(
     averageRequestsMade: { type: Number, default: 1 },
     employeeGrade: { type: String, enum: ['S+', 'S', 'A', 'B', 'C', 'D', 'Bob Cat', 'Tabby', 'Kitten', 'Trainee'], default: 'Trainee' },
     minDifficulty: { type: Number, default: 1 },
-    maxDifficulty: { type: Number, default: 5 }
+    maxDifficulty: { type: Number, default: 5 },
+
+    needsTour: { type: Boolean, default: true }
     // NOTE If you wish to add additional properties do so here
   },
   { timestamps: true, toJSON: { virtuals: true } }

@@ -24,7 +24,7 @@
           mongo
         </button>
       </div>
-      <div class="input-group">
+      <div id="tour-search" class="input-group">
         <span class="input-group-text bg-dark text-success" id="basic-addon3">{{
           baseUrl
         }}</span>

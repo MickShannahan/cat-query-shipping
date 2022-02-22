@@ -1,6 +1,7 @@
 <template>
   <div class="row justify-content-end">
     <button
+      id="tour-docs"
       class="
         btn btn-success
         help-button

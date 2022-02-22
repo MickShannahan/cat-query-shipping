@@ -1,11 +1,14 @@
 <template>
   <div class="lost-shipment row bg-primary physical-border my-2 p-2">
+    <!-- STUB side bar -->
     <div class="col-1 d-flex align-items-end justify-content-end ps-0">
       <!-- <button class="btn btn-outline-light h-25" @click="getLostShipment">get new</button> -->
       <transition name="slot">
         <button
+          id="tour-new-shipment"
           class="comp-button comp-yellow p-2 mb-5 w-100"
           v-tooltip:bottom="'get new lost shipment'"
+          @click="getLostShipment"
         >
           <i class="mdi mdi-card-bulleted-outline"></i>
         </button>
@@ -16,29 +19,43 @@
       <div class="card-slot-top"></div> -->
     </div>
     <CardTray />
-    <div class="col-11 screen text-info">
+    <!-- STUB Screen -->
+    <div id="tour-shipment-panel" class="col-11 screen text-info">
       <div class="row p-2">
-        <div class="col-9 pe-3">
-          <div class="row border border-info">
-            <div
-              v-for="(value, key) in lostShipment"
-              v-show="visible(key)"
-              :key="key + value"
-              class="col-6 glitch"
-            >
-              <span
-                class="hover text-secondary lighten-30 line"
-                :data-text="key"
-                @click="copy"
-                >{{ key }}</span
-              >:
-              <span class="hover line" @click="copy" :data-text="value">
-                {{ value }}</span
+        <!-- STUB shipment side -->
+        <div id="tour-shipment-details" class="col-9 pe-3">
+          <transition name="screenEffect" mode="out-in">
+            <div v-if="lostShipment.id" class="row border border-info">
+              <div
+                v-for="(value, key) in lostShipment"
+                v-show="visible(key)"
+                :key="key + value"
+                class="col-6 glitch"
               >
+                <span
+                  class="hover text-secondary lighten-30 line"
+                  :data-text="key"
+                  @click="copy"
+                  >{{ key }}</span
+                >:
+                <span class="hover line" @click="copy" :data-text="value">
+                  {{ value }}</span
+                >
+              </div>
             </div>
-          </div>
+            <div v-else class="row justify-content-center border border-info">
+              <div class="col-6 text-center">
+                <img
+                  class="img-correction"
+                  src="../assets/img/CUPS-loadingLow.gif"
+                />
+                <p>loading...</p>
+              </div>
+            </div>
+          </transition>
         </div>
-        <div class="col-3">
+        <!-- STUB Stats side -->
+        <div id="tour-shipment-stats" class="col-3">
           <div class="row h-100">
             <div class="col-12 border border-info mb-1">
               <div class="row">
@@ -155,6 +172,17 @@ export default {
   opacity: 0;
 }
 
+.screenEffect-enter-active,
+.screenEffect-leave-active {
+  opacity: 1;
+  transition: all 0.3s linear;
+  transition-timing-function: steps(2, end);
+}
+.screenEffect-enter-from,
+.screenEffect-leave-to {
+  opacity: 0;
+}
+
 .paper-edge {
   height: 100%;
   background-image: url("../assets/img/yellowPageEdge.png");
@@ -165,6 +193,10 @@ export default {
 
 .component {
   position: relative;
+}
+
+.img-correction {
+  filter: hue-rotate(-33deg) saturate(0.8) brightness(1.6);
 }
 
 .hover {

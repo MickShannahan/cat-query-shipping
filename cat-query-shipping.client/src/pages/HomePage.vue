@@ -1,23 +1,17 @@
 <template>
-  <Suspense>
-    <template #default>
-      <div class="row no-overflow-x justify-content-center">
-        <div v-if="account.id" class="col-lg-10 p-0 m-0">
-          <LostShipment />
-          <transition name="flip">
-            <Search v-if="compScreen == 'http'" @switch="switchScreen" />
-            <CodeSearch v-else @switch="switchScreen" />
-          </transition>
-          <ShipmentsThread />
-        </div>
-        <Dialogue />
-        <Docs />
-      </div>
-    </template>
-    <template #fallback>
-      <div class="bg-light p-2">loading</div>
-    </template>
-  </Suspense>
+  <div class="row no-overflow-x justify-content-center">
+    <div class="col-lg-10 p-0 m-0">
+      <LostShipment />
+      <transition name="flip">
+        <Search v-if="compScreen == 'http'" @switch="switchScreen" />
+        <CodeSearch v-else @switch="switchScreen" />
+      </transition>
+      <ShipmentsThread />
+    </div>
+    <Dialogue />
+    <Docs />
+    <Tour v-if="loadTour" />
+  </div>
 </template>
 
 <script>
@@ -33,6 +27,7 @@ export default {
     const route = useRoute()
     const showTabs = ref(false)
     const compScreen = ref('http')
+    const loadTour = ref(false)
     onMounted(() => {
       window.addEventListener('keydown', (e) => {
         if (e.ctrlKey && e.key == 's') {
@@ -40,11 +35,12 @@ export default {
           Pop.toast('Saving Union documents is stricly prohibited', 'warning', 'bottom')
         }
       })
-
+      setTimeout(() => loadTour.value = true, 1000)
     })
     return {
       compScreen,
       showTabs,
+      loadTour,
       lostShipmentLoading: computed(() => AppState.loading.lostShipment),
       account: computed(() => AppState.account),
       switchScreen() {

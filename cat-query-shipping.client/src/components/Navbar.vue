@@ -39,6 +39,7 @@
         <div class="d-flex align-items-center dropdown my-2 my-lg-0" v-else>
           <div class="me-2">{{ account.employeeGrade }}</div>
           <div
+            id="tour-employee-stats"
             class="me-5 text-warning credits"
             :style="`transform: scale(${creditScale});`"
           >
@@ -95,7 +96,7 @@ import { computed, onMounted, reactive, ref, watch, watchEffect } from 'vue'
 import { logger } from "../utils/Logger"
 import { accountService } from '../services/AccountService'
 import { useRoute } from 'vue-router'
-import { lcStorage} from '../services/Storage'
+import { lcStorage } from '../services/Storage'
 export default {
   setup() {
     const route = useRoute()
