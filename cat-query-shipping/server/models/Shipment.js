@@ -109,34 +109,34 @@ export const ShipmentSchema = new Schema(
 )
 
 export class RandomShipment {
-  constructor(rating) {
-    this.recipient = Cat.getName()
-    this.trackingNumber = tracking()
-    this.description = description()
-    this.fragile = bool()
-    this.shippingTier = shippingTier()
+  constructor(rating, data = {}) {
+    this.recipient = data.recipient || Cat.getName()
+    this.trackingNumber = data.trackingNumber || tracking()
+    this.description = data.description || description()
+    this.fragile = data.fragile || bool()
+    this.shippingTier = data.shippingTier || shippingTier()
     this.shippingCost = shippingCost(this.shippingTier)
-    this.currency = crypto()
-    this.insured = bool()
-    this.pirateCoverage = bool()
+    this.currency = data.currency || crypto()
+    this.insured = data.insured || bool()
+    this.pirateCoverage = data.pirateCoverage || bool()
     this.totalCost = totalCost(this.shippingTier, this.insured, this.pirateCoverage, this.currency)
 
-    this.dateFormat = dateFormat()
-    this.shippingDate = spaceDate(this.dateFormat)
-    this.postalStation = postalStation()
-    this.postalHistory = [postalHistory()]
+    this.dateFormat = data.dateFormat || dateFormat()
+    this.shippingDate = data.shippingDate || spaceDate(this.dateFormat)
+    this.postalStation = data.postalStation || postalStation()
+    this.postalHistory = data.postalHistory || [postalHistory()]
 
-    this.sector = code()
-    this.inQuadrant = bool()
-    this.quadrantCode = quadrantCode(this.inQuadrant)
+    this.sector = data.code || code()
+    this.inQuadrant = data.inQuadrant || bool()
+    this.quadrantCode = data.quadrantCod || quadrantCode(this.inQuadrant)
 
     this.galaxy = 'milky way'
 
-    this.planet = planet()
+    this.planet = data.planet || planet()
     this.planetNumber = planetNumber(this.planet)
     this.planetCode = planetCode(this.planet)
 
-    this.containsHazard = bool()
+    this.containsHazard = data.contains || bool()
     this.hazard = null
 
     this.difficultyRating = rating

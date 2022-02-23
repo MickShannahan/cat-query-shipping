@@ -140,7 +140,7 @@ export default {
 
 <style lang="scss" scoped>
 .lost-shipment {
-  min-height: 40vh;
+  min-height: 30vh;
 }
 
 .card-slot-bottom {

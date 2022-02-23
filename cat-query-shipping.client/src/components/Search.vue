@@ -98,7 +98,7 @@ export default {
       httpValidizer() {
         if (!query.value.startsWith('?')) query.value += '?'
         let regx = /\[|\]|\{|\}|\\|\||\<|\>|\%|\^| |\&|\$|\+|,|\/|\?|\:|\;|\=|\@/g
-        let unsafeRgx = /\[|\]|\{|\}|\\|\||\<|\>|\%|\^| /g
+        let unsafeRgx = /\[|\]|\{|\}|\\|\||\<|\>|\^| /g
         let reservedRgx = /\&|\$|\+|,|\/|\?|\:|\;|\=|\@/g
         let validKey = Shipment.regex()
         let str = query.value

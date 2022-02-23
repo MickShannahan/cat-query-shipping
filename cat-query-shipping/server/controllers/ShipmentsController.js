@@ -61,7 +61,8 @@ export class ShipmentsController extends BaseController {
 
   async createShipment(req, res, next) {
     try {
-      req.body = new RandomShipment()
+      if (!req.body.difficultyRating) { throw new Error('need difficulty rating to create') }
+      req.body = new RandomShipment(req.body.difficultyRating, req.body)
       const shipment = await shipmentsService.create(req.body)
       return res.send(shipment)
     } catch (error) {

@@ -45,11 +45,11 @@ class GameService {
       account.currentRequestsMade = 0
       await account.save()
       logger.log('correct guess', shipment, account)
-      return { result: true, currentGuesses: account.currentGuesses }
+      return { result: true, currentGuesses: account.currentGuesses, shipment: shipment }
     } else {
       account.currentGuesses.push(shipmentId)
       await account.save()
-      return { result: false, currentGuesses: account.currentGuesses }
+      return { result: false, currentGuesses: account.currentGuesses, shipment: null }
     }
   }
 }

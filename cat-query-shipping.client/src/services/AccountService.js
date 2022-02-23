@@ -16,6 +16,7 @@ class AccountService {
     }
   }
 
+  confirms = ['give me another', 'next', 'nex shipment', 'what\'s next', 'another shipment please', 'hit me']
   async checkAnswer(answerId){
     try {
       logger.log('checking', answerId)
@@ -24,6 +25,7 @@ class AccountService {
       AppState.currentGuesses = res.data.currentGuesses
       if(res.data.result){
         Pop.toast("You found the shipment",'success','top',5000)
+        Pop.confirm("Shipment Found",'inside you find: \n'+ res.data.shipment.description, 'success', this.confirms[Math.floor(Math.random()*this.confirms.length)],false)
         this.countUpCredits(AppState.lostShipment.creditsWorth)
         await shipmentService.getLostShipment()
       } else {
