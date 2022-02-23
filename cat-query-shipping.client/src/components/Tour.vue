@@ -53,7 +53,7 @@ export default {
           header: {
             title: bozInsert('Search Module'),
           },
-          content: 'This device here is where you will enter your search queries to search the shipment database. Just type in your search URL and hit <b>search</b>. The secondary screen will highlight using the shipments context, it\'s mostly there to help bad spellers.',
+          content: 'This device here is where you will enter your search queries to ping lost shipment relays to find lost shipments. The base url is fixed so you just have to enter a query and hit <b>search</b>. The secondary screen will highlight using some shipment\'s context, it\'s mostly there to help bad spellers.',
           params: {
             placement: 'top-end',
             enableScrolling: false
@@ -97,7 +97,7 @@ export default {
           header: {
             title: bozInsert('Ask Boz'),
           },
-          content: 'Press this to call me over if you need any help.',
+          content: 'Press this to call me over if you need any help. Also Great place to get started.',
           params: {
             placement: 'left-start',
             enableScrolling: false
@@ -126,22 +126,33 @@ export default {
 </script>
 
 <style lang="scss" >
-.v-step{
-  background-color: #2a2f32a4!important;
+.v-step {
+  background-color: #2a2f32a4 !important;
   backdrop-filter: blur(20px);
   border-bottom: 2px solid #15181aa4;
-  .v-step__header{
-    background: var(--bs-warning)!important;
-    color: var(--bs-dark)
+  .v-step__header {
+    background: var(--bs-warning) !important;
+    color: var(--bs-dark);
   }
-  .v-step__content{ text-align: start; }
-  .v-step__buttons{
+  .v-step__content {
+    text-align: start;
+  }
+  .v-step__buttons {
     text-align: end;
-    .v-step__button{ border-radius: 3px;}
-    .v-step__button-skip{border: none; color: var(--bs-light)}
-    .v-step__button-skip:hover{color: var(--bs-danger)}
-    .v-step__button-next{border: 1px solid var(--bs-info)}
+    .v-step__button {
+      border-radius: 3px;
     }
+    .v-step__button-skip {
+      border: none;
+      color: var(--bs-light);
+    }
+    .v-step__button-skip:hover {
+      color: var(--bs-danger);
+    }
+    .v-step__button-next {
+      border: 1px solid var(--bs-info);
+    }
+  }
   // .v-step__arrow{border-bottom-color: #fbe8a5!important} FIXME this reacts weirdly with different angles
 }
 </style>

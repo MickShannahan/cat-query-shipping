@@ -41,34 +41,29 @@ export default {
     })
     return {
       shipmentModel: {
-        recipient: `Name of shipment's reciever`,
-        trackingNumber: '###-###-###-###-#',
-        description: `String description of package
-              <span class="text-danger key">[ommited]</span>`,
-        shippingTier: `[1LTYR, 2LTYR, METEOR-FREIGHT, GALAXY-EXPRESS, TELEPORT+, INTERPLANETARY/DOMESTIC, STANDARD, STANDARD+, WARP-FREIGHT]`,
-        postageCost: `Number based off 'shippingTier'`,
-        postageCrypto: 'Must be Union applicable crypto (see section on cryptos)',
+        recipient: `Name of shipment's receiver`,
+        trackingNumber: 'Alphanumeric code used to track and identify shipments, formatted as such ###-###-#',
+        description: `String description of package contents
+              <span class="text-danger key">[omitted]</span>`,
+        shippingTier: `[INTERPLANETARY/DOMESTIC, 2LTYR, 1LTYR, METEOR-FREIGHT, GALAXY-EXPRESS, WARP, WARP+, WARP-FREIGHT]`,
+        shippingCost: `Cost based off 'shippingTier' as follows: [25, 50, 70, 50, 40, 75, 95, 100]`,
+        currency: 'Must be on of the Union accepted Currency; Union, KITCOIN, M0nSER4T, Scratch, Ca+N!p',
         shippingDate: 'Two digit number representing day of current cycle',
+        insured: 'whether the shipment is insured under the flat rate shipping insurance (50)',
+        pirateCoverage: 'Whether the shipment has coverage for the case of any delays or damages cause by pirates (25)',
+        totalCost: 'calculated cost based the shippingCost, insured and pirateCoverage values, adjusted for Currency values.',
         dateFormat: 'date format local to recipient [Sol, Tera, Minkow, Dominion]',
-        delivered: 'whether shipment was reported to be delivered by shipper',
         postalStation: 'postal station shipment was registered at',
-        insured: 'whether the shipment was insured [true, false]',
-        pirateCoverage: 'whether shipment was coverered for instance of pirate raid [true, false]',
-        insuredCost: 'calculated cost based on postageCost, insured(pc x 2)and pirateCoverage(pc x 2.5)',
-        insuredCrypto: 'Must be same crypto used for postageCost',
-        sector: `coordinates of senders' and reciever's radii`,
-        quadrant: `galaxy quadrant on quadrant grid`,
-        hasQuadrantCode: 'if delivery personel need pass-phrase to enter quadrant',
-        quadrantCode: 'if applicable, pass-phrase to enter quadrant.',
+        sector: `coordinates of senders' and receiver's radii`,
+        inQuadrant: 'if delivery personal need pass-phrase to enter secure quadrant',
+        quadrantCode: 'if applicable, code to aquire pass-phrase to enter quadrant.',
         id: '[REDACTED]',
-        galaxy: 'galaxy of origin',
-        galaxyCode: `locational number data of reciver's galaxy location'`,
+        galaxy: 'galaxy of shipping coverage',
         planet: 'planet for shipment to be delivered to',
         planetNumber: 'number data for planet as discovered',
         planetCode: 'system code for shipment system to identify planet',
         containsHazard: 'whether the shipment contents and effects are hazardous to feline health',
-        hazard: 'if applicable, details shipments hazardous contents and effects',
-        creditsWorth: 'bount for lost shipment found in UC'
+        hazard: 'if applicable, details shipments hazardous contents and effects'
 
       }
     }

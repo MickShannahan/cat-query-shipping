@@ -23,9 +23,10 @@
       <span class="navbar-text">
         <button
           class="
-            btn
+            btn btn-info
             selectable
-            text-success
+            text-black
+            px-4
             lighten-30
             text-uppercase
             my-2 my-lg-0
@@ -55,12 +56,14 @@
             id="authDropdown"
           >
             <img
-              :src="account?.picture"
+              :src="account?.picture || user.picture"
               alt="user photo"
               height="40"
               class="rounded"
             />
-            <span class="mx-3 text-success lighten-30">{{ account?.name }}</span>
+            <span class="mx-3 text-success lighten-30">{{
+              account?.name || user.name
+            }}</span>
           </div>
           <div
             class="dropdown-menu p-0 list-group w-100"

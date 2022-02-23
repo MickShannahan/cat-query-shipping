@@ -14,31 +14,30 @@
           <hr class="w-50 mx-auto mt-2 border-bottom border-danger" />
         </div>
         <div class="col-8 mt-2 p-2">
+          <p>Greetings [employee-name-here]!</p>
           <p>
-            <b>What is Expected of you</b>
-            Always ensure to lay down in such a manner that tail can lightly
-            brush human's nose with tail in the air or murf pratt ungow ungow.
-            Shake treat bag meow meow, i tell my human run in circles, and floof
-            tum, tickle bum, jellybean footies curly toes so sugar, my siamese,
-            stalks me (in a good way), day and night . Ask to be pet then attack
-            owners hand sleep and wake up human for food at 4am at four in the
-            morning wake up owner meeeeeeooww scratch at legs and beg for food
-            then cry and yowl until they wake up at two pm jump on window and
-            sleep while observing the bootyful cat next door that u really like
-            but who already has a boyfriend end up making babies with her and
-            let her move in i love cuddles. Fish i must find my red catnip fishy
-            fish attack feet. Sit on human they not getting up ever love you,
-            then bite you or make meme, make cute face fall asleep on the
-            washing machine time to go zooooom for that box? i can fit in that
-            box. Sniff all the things chase ball of string leave hair on owner's
-            clothes. If it fits, i sits sit on the laptop for spit up on light
-            gray carpet instead of adjacent linoleum. Scratch at the door then
-            walk away all of a sudden cat goes crazy cats are a queer kind of
-            folk but ask to be pet then attack owners hand. Try to hold own back
-            foot to clean it but foot reflexively kicks you in face, go into a
-            rage and bite own foot, hard my left donut is missing, as is my
-            right stare at the wall.
+            Welcome, we are very excited you are have joined us in the exciting
+            field of universal package delivery. We at Cats Universal Postal
+            Service are committed to excellence when it comes to getting
+            shipments delivered to every corner of the universe. We aim to
+            increase value added to our customers with a win-win delivery
+            system. We bring people together with the unionization of postal
+            delivery, identifying new ways to bring a new synergistic approach
+            to the ever changing field of delivering boxes.
           </p>
+          <p>
+            Our mission at CUPS is delivering shipments with refinement, grace,
+            and elegance. We seek to dynamically introduce shipping solutions
+            that fall in line with all universal regulations, unlike our
+            competitor the Delivery Of Goods Service.
+          </p>
+          <p>
+            We hope you enjoy your time here at CUPS, where you will you will be
+            sure to grow into a productive worker over the course of many of
+            your lives.
+          </p>
+          <h1 class="font-cursive mt-5">Professor Tofu Alexander Hobbes</h1>
+          <p>-Postmaster General</p>
         </div>
       </div>
     </div>
@@ -50,6 +49,7 @@
 import { AppState } from '../AppState';
 import { computed, reactive, onMounted } from 'vue';
 export default {
+
   setup() {
     const state = reactive({
 
