@@ -17,6 +17,8 @@
           >make a query to find the lost shipment</label
         >
         <button
+          :disabled="unlockMongo"
+          :class="{'cursor-locked': unlockMongo}"
           class="switch-button comp-button ms-auto mb-2 p-1 px-2"
           type="button"
           @click="switchScreen"
@@ -42,7 +44,7 @@
     </div>
 
     <div
-      class="col-8 screen bg-black rounded glow p-2 text-success cursor-locked"
+      class="col-8 screen bg-black rounded glow p-2 text-success no-click"
       v-html="httpQuery"
     ></div>
     <button class="col-1 comp-button comp-yellow" @click="clearInput">
@@ -79,6 +81,7 @@ export default {
       query,
       httpQuery,
       unsafeUrl,
+      unlockMongo: computed(()=> !AppState.account.unlocks?.includes('mongo-terminal')),
       baseUrl: computed(() => AppState.baseUrl),
       searchShipmentDatabase() {
         try {

@@ -3,11 +3,12 @@
 </template>
 
 <script>
+import { AppState } from "../AppState"
 import { accountService } from '../services/AccountService'
 import { logger } from '../utils/Logger'
 export default {
   name: "Tour",
-  data() {
+  setup() {
     function bozInsert(message) {
       return `<div class="tour-boz" ></div><b class="me-5">${message}</b>`
     }

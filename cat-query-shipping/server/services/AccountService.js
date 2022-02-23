@@ -89,6 +89,9 @@ class AccountService {
   async updateAccountStats(userId, data) {
     logger.log('updating user', userId)
     const account = await dbContext.Account.findById(userId)
+    account.unlocks = account.unlocks ? account.unlocks : []
+    // TODO write unlocks better
+    if (new Date().getTime() - new Date(account.createdAt).getTime() > 86400000 * 3) { account.unlocks.push('mongo-terminal') }
     account.totalPagesPrinted += data.pages
     account.totalRequestsMade += data.requests
     account.currentPagesPrinted += data.pages
@@ -115,6 +118,8 @@ class AccountService {
       case 10:
         account.employeeGrade = 'Tabby'
         account.maxDifficulty = 10
+        // TODO handle unlocks better
+        account.unlocks.push('mongo-terminal')
         break
       case 20:
         account.employeeGrade = 'Bob Cat'

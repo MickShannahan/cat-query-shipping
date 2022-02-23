@@ -15,7 +15,7 @@
             'text-danger': hits >= 25 || hits == 0,
           }"
         >
-          Matching Records : {{ hits }}
+          Shipments Pinged : {{ hits }}
           <span v-if="hits >= 50"> !MAX 50 PRINTED!</span>
         </div>
       </div>
@@ -116,6 +116,7 @@ export default {
 
 .shipments-enter-from,
 .shipments-leave-to {
+  overflow: none;
   opacity: 0;
   transform: scaleY(20%);
 }
