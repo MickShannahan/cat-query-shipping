@@ -123,3 +123,24 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" >
+.v-step{
+  background-color: #2a2f32a4!important;
+  backdrop-filter: blur(20px);
+  border-bottom: 2px solid #15181aa4;
+  .v-step__header{
+    background: var(--bs-warning)!important;
+    color: var(--bs-dark)
+  }
+  .v-step__content{ text-align: start; }
+  .v-step__buttons{
+    text-align: end;
+    .v-step__button{ border-radius: 3px;}
+    .v-step__button-skip{border: none; color: var(--bs-light)}
+    .v-step__button-skip:hover{color: var(--bs-danger)}
+    .v-step__button-next{border: 1px solid var(--bs-info)}
+    }
+  // .v-step__arrow{border-bottom-color: #fbe8a5!important} FIXME this reacts weirdly with different angles
+}
+</style>
