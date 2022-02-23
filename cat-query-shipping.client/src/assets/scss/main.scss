@@ -42,10 +42,10 @@ textarea,
 select {
   &:not(:placeholder-shown) {
     &:valid {
-      border: 1px solid $success;
+      border: 2px solid $warning;
     }
     &:invalid {
-      border: 1px solid $danger;
+      border: 2px dashed $danger;
     }
   }
 }
@@ -53,6 +53,14 @@ select {
 form:invalid button[type="submit"] {
   filter: grayscale(1);
   pointer-events: none;
+}
+
+.no-click{
+  cursor: not-allowed;
+}
+
+.cursor-locked{
+  cursor: url(../img/) 5 5, not-allowed;
 }
 
 
