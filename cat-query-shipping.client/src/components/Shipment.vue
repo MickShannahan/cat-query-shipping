@@ -8,11 +8,12 @@
           'bg-danger lighten-30': hasBeenGuessed,
         }"
       >
-        <div class="col-12">
+        <div class="col-12 action">
           <div class="row p-2 ps-3">
-            <div class="col-6" v-for="(value, key) in shipment" :key="key">
-              <b class="hover">{{ key }}</b
-              ><span class="hover text-dark lighten-20">: {{ value }}</span>
+            <div  class="col-6" v-for="(value, key) in shipment" :key="key" >
+              <b  class="">{{ key }}</b>
+              <span  v-if="key != 'description'" class=" text-dark lighten-20">: {{ value }}</span>
+              <span v-else class=" text-dark lighten-20">: [omitted]</span>
             </div>
           </div>
         </div>

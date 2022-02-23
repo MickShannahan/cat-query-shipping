@@ -71,7 +71,14 @@
           >
             Mongoose Terminal
           </button>
-          <button class="btn mb-2 mt-4 docs-tab tab1 mt-auto mb-5">
+             <button class="btn mb-2 mt-4 docs-tab tab2 mt-auto mb-3">
+            <span
+              class="text-dark"
+              @click="resetTour"
+              >Restart Tour</span
+            >
+          </button>
+          <button class="btn mb-2 mt-4 docs-tab tab1  mb-5">
             <a
               class="text-dark"
               href="https://github.com/MickShannahan/cat-query-shipping/issues"
@@ -120,6 +127,10 @@ export default {
         }
         router.push({ name: name })
         AppState.lastDocPage = name
+      },
+      resetTour(){
+        AppState.account.needsTour = false
+        setTimeout(()=> AppState.account.needsTour = true, 200)
       }
     }
   }

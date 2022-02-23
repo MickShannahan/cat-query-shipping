@@ -24,7 +24,7 @@ class ShipmentService{
       AppState.loading.lostShipment = false
       AppState.searchResults = {results: []}
       accountService.getAccount()
-    },1000)
+    },3000)
   }
 
   async searchShipmentDatabase(queryString){

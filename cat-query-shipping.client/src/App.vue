@@ -1,4 +1,4 @@
-<template>
+<template data-simplebar>
   <header>
     <Navbar />
   </header>

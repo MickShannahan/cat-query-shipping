@@ -2,21 +2,27 @@
   <div class="container  text-center">
     <div class="row mt-5 about justify-content-center">
 
-    <div class="col-4 me-5 p-0">
+<!-- STUB Your Account -->
+    <div class="col-12 col-lg-5 me-lg-5 mb-3 p-lg-0">
       <div class="row bg-warning rounded lighten-10 shadow p-3 ">
         <div class="col-4">
-          <img class="img-fluid border-2 border-warningS rounded-1" :src="account.picture" alt="">
+          <img v-if="!editMode" class="img-fluid border-2 border-warningS rounded-1" :src="account.picture" alt="" >
+          <input v-else class="form-control w-100" type="text" placeholder="Enter image url.." v-model="editable.picture" required >
         </div>
-        <div class="col-8 text-start">
-          <h5 class="text-primary">{{account.name}}</h5>
+        <div class="col-8 text-start position-relative">
+          <i v-show="editMode"  class="mdi mdi-cancel me-5 icon selectable text-danger darken-10 p-1 px-2 rounded" @click="editMode = !editMode" v-tooltip:auto="'cancel'"></i>
+          <i  class="mdi mdi-pencil icon selectable text-warning darken-40 p-1 px-2 rounded" @click="editAccount" v-tooltip:auto="editTip"></i>
+          <h5 v-if="!editMode" class="text-primary">{{account.name}}</h5>
+          <input v-else class="form-control w-75"  type="text" placeholder="Enter Name.." v-model="editable.name" minlength="5" maxlength="15" required>
             <div><i class="mdi mdi-google-podcast mx-1"></i>{{account.credits}}</div>
-            <div> <b>Recovered Shipments:</b> {{account.shipmentsFound.length}}</div>
+            <div> <b>Recovered Shipments:</b> {{account.shipmentsFound?.length}}</div>
             <h4><b class="text-primary"> {{account?.employeeGrade}}</b></h4>
         </div>
       </div>
     </div>
 
-    <div class="col-6 shadow bg-primary lighten-20 rounded p-3">
+<!-- STUB Leaderboard -->
+    <div class="col-lg-6 shadow bg-primary lighten-20 rounded p-3">
       <div class="row justif-content-center leader-border p-2 mx-3">
         <h4 class="col-12 text-center"><i class="mdi mdi-cat mx-1"></i>Employee of the Cycle<i class="mdi mdi-cat mx-1"></i></h4>
         <div class="col-6">
@@ -62,24 +68,59 @@
 </template>
 
 <script>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref, watchEffect } from 'vue'
 import { AppState } from '../AppState'
 import {profilesService} from '../services/ProfilesService'
+import { accountService } from "../services/AccountService"
+import Pop from "../utils/Pop"
+import { logger } from "../utils/Logger"
 export default {
   name: 'Account',
   setup() {
-    onMounted(() =>{
+    const editMode = ref(false)
+    const editable = ref({})
+    const editTip = ref('edit employee record')
+    watchEffect(() =>{
       profilesService.getProfiles()
+      editable.value = AppState.account
     })
     return {
+      editMode,
+      editable,
+      editTip,
       account: computed(() => AppState.account),
-      leaderboard: computed(()=> AppState.profiles.sort((a,b)=> b.credits - a.credits))
+      leaderboard: computed(()=> AppState.profiles.sort((a,b)=> b.credits - a.credits)),
+     async editAccount(){
+        try {
+          if(editMode.value){
+            await accountService.editAccount(editable.value)
+          Pop.toast('Employee record updated', 'success')
+          editMode.value = false
+          editTip.value = 'edit employee record'
+          } else {
+            editMode.value = true
+            editTip.value = 'save record'
+          }
+        } catch (error) {
+          Pop.toast(error?.error)
+          logger.error(error)
+        }
+      }
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.position-relative{
+  position: relative;
+}
+
+.icon{
+  position: absolute;
+  right: 0px;
+}
+
 .leaderboard{
   max-height: 60vh;
 }

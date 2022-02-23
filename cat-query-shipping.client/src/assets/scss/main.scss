@@ -42,10 +42,10 @@ textarea,
 select {
   &:not(:placeholder-shown) {
     &:valid {
-      border: 1px solid $success;
+      border: 2px solid $warning;
     }
     &:invalid {
-      border: 1px solid $danger;
+      border: 2px dashed $danger;
     }
   }
 }
@@ -53,6 +53,35 @@ select {
 form:invalid button[type="submit"] {
   filter: grayscale(1);
   pointer-events: none;
+}
+// STUB SCROLL BAR
+
+ body,main,div{
+   &::-webkit-scrollbar-track{
+  position: absolute;
+  //  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+   border-radius: 10px;
+   background-color: transparent;
+ }
+ &::-webkit-scrollbar-thumb{
+   border-radius: 10px;
+   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+   background-color: var(--bs-warning);
+ }
+ &::-webkit-scrollbar {
+    position: absolute;
+   width: 4px;
+   background-color: transparent;
+ }
+
+ }
+.no-click{
+  cursor: not-allowed;
+}
+
+
+.cursor-locked{
+  cursor: url('../../../src/assets/img/locked.png') 1 1, not-allowed!important;
 }
 
 

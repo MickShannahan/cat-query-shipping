@@ -57,6 +57,7 @@ export default {
 
 .lost-enter-active,
 .lost-leave-active {
+  overflow: hidden;
   transition: all 0.7s cubic-bezier(0.54, -0.35, 0.45, 1.41) 0.5s;
 }
 .lost-enter-from {
