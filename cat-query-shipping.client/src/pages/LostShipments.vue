@@ -4,7 +4,7 @@
       <div class="row justify-content-center">
         <div class="col-12">
           <h2 class="mt-1 text-danger darken-10">Lost Shipments</h2>
-          <div class="mt-1 text-grey">(what are they? Where are they?)</div>
+          <div class="mt-1 text-grey">(What are they? Where are they?)</div>
           <hr class="w-50 mt-2 border-bottom border-danger" />
         </div>
         <div class="col-md-12 p-2 border-example text-dark">
@@ -48,22 +48,22 @@ export default {
         shippingTier: `[INTERPLANETARY/DOMESTIC, 2LTYR, 1LTYR, METEOR-FREIGHT, GALAXY-EXPRESS, WARP, WARP+, WARP-FREIGHT]`,
         shippingCost: `Cost based off 'shippingTier' as follows: [25, 50, 70, 50, 40, 75, 95, 100]`,
         currency: 'Must be on of the Union accepted Currency; Union, KITCOIN, M0nSER4T, Scratch, Ca+N!p',
-        shippingDate: 'Two digit number representing day of current cycle',
-        insured: 'whether the shipment is insured under the flat rate shipping insurance (50)',
+        insured: 'Whether the shipment is insured under the flat rate shipping insurance (50)',
         pirateCoverage: 'Whether the shipment has coverage for the case of any delays or damages cause by pirates (25)',
-        totalCost: 'calculated cost based the shippingCost, insured and pirateCoverage values, adjusted for Currency values.',
-        dateFormat: 'date format local to recipient [Sol, Tera, Minkow, Dominion]',
-        postalStation: 'postal station shipment was registered at',
-        sector: `coordinates of senders' and receiver's radii`,
-        inQuadrant: 'if delivery personal need pass-phrase to enter secure quadrant',
-        quadrantCode: 'if applicable, code to aquire pass-phrase to enter quadrant.',
+        totalCost: 'Calculated cost based the shippingCost, insured and pirateCoverage values, adjusted for Currency values',
+        dateFormat: 'Date format local to recipient [Sol, Tera, Minkow, Dominion]',
+        shippingDate: 'Date of shipment sent formatted to match date format',
+        postalStation: 'Postal station shipment was registered at',
+        sector: `Coordinates of senders' and receiver's radii`,
+        inQuadrant: 'If delivery personal need pass-phrase to enter secure quadrant',
+        quadrantCode: 'If applicable, code to acquire pass-phrase to enter quadrant',
         id: '[REDACTED]',
-        galaxy: 'galaxy of shipping coverage',
-        planet: 'planet for shipment to be delivered to',
-        planetNumber: 'number data for planet as discovered',
-        planetCode: 'system code for shipment system to identify planet',
-        containsHazard: 'whether the shipment contents and effects are hazardous to feline health',
-        hazard: 'if applicable, details shipments hazardous contents and effects'
+        galaxy: 'Galaxy of shipping coverage',
+        planet: 'Planet for shipment to be delivered to',
+        planetNumber: 'Number data for planet as discovered',
+        planetCode: 'System code for shipment system to identify planet',
+        containsHazard: 'Whether the shipment contents and effects are hazardous to feline health',
+        hazard: 'If applicable, details shipments hazardous contents and effects'
 
       }
     }
