@@ -71,14 +71,10 @@
           >
             Mongoose Terminal
           </button>
-             <button class="btn mb-2 mt-4 docs-tab tab2 mt-auto mb-3">
-            <span
-              class="text-dark"
-              @click="resetTour"
-              >Restart Tour</span
-            >
+          <button class="btn mb-2 mt-4 docs-tab tab2 mt-auto mb-3">
+            <span class="text-dark" @click="resetTour">Restart Tour</span>
           </button>
-          <button class="btn mb-2 mt-4 docs-tab tab1  mb-5">
+          <button class="btn mb-2 mt-4 docs-tab tab1 mb-5">
             <a
               class="text-dark"
               href="https://github.com/MickShannahan/cat-query-shipping/issues"
@@ -115,6 +111,7 @@
 import { AppState } from '../AppState';
 import { computed, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { Offcanvas } from 'bootstrap';
 
 export default {
   setup() {
@@ -128,9 +125,10 @@ export default {
         router.push({ name: name })
         AppState.lastDocPage = name
       },
-      resetTour(){
+      resetTour() {
         AppState.account.needsTour = false
-        setTimeout(()=> AppState.account.needsTour = true, 200)
+        setTimeout(() => AppState.account.needsTour = true, 200)
+        Offcanvas.getOrCreateInstance(document.getElementById('docsOffCanvas')).hide()
       }
     }
   }
