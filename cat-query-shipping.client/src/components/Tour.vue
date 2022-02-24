@@ -1,5 +1,5 @@
 <template>
-  <v-tour name="tutorial" :steps="steps"></v-tour>
+  <v-tour name="tutorial" :steps="steps" :callbacks="tourCallbacks"></v-tour>
 </template>
 
 <script>
@@ -14,6 +14,10 @@ export default {
     }
     return {
       bozInsert,
+      tourCallbacks: {
+        onFinish: (() => accountService.editAccount({ needsTour: false })),
+        onSkip: (() => accountService.editAccount({ needsTour: false }))
+      },
       steps: [
         {
           target: '#tour-shipment-panel',
@@ -120,7 +124,6 @@ export default {
   mounted: function () {
     logger.log('touring')
     this.$tours['tutorial'].start()
-    accountService.editAccount({ needsTour: false })
   }
 }
 </script>

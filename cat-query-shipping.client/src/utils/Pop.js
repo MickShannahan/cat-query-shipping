@@ -49,7 +49,12 @@ export default class Pop {
       timer: timer,
       timerProgressBar: progressBar,
       toast: true,
-      showConfirmButton: false
+      showConfirmButton: false,
+      customClass:{
+        popup: 'bg-warning lighten-30',
+        title: 'text-dark',
+        timerProgressBar: 'h-100'
+      }
     })
   }
 }
