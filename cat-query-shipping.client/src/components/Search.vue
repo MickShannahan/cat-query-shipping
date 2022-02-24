@@ -52,6 +52,7 @@
     </button>
     <button
       class="col-2 comp-button comp-green"
+      :class="{'cursor-invalid-url': unsafeUrl}"
       :disabled="unsafeUrl"
       @click="searchShipmentDatabase"
     >

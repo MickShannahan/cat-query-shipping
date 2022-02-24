@@ -88,6 +88,10 @@ form:invalid button[type="submit"] {
   cursor: url('../../../src/assets/img/locked.png') 1 1, not-allowed!important;
 }
 
+.cursor-invalid-url{
+  cursor: url('../../../src/assets/img/invalidurl.png') 1 1, not-allowed!important;
+}
+
 
 // PHYSICAL BUTTONS AND STUFF
 
