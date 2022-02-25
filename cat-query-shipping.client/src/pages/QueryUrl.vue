@@ -1,11 +1,11 @@
 <template>
-  <div class="row letter-head flex-column align-items-center p-4">
-    <h3 class="col-12 text-primary text-center">
+  <div class="row letter-head flex-column  align-items-center p-4">
+    <h3 class="col-11 text-primary text-center">
       Query the Shipment Database using the HTTP Terminal
     </h3>
     <div class="line-break w-75"></div>
-    <h5 class="col-12 text-primary text-start">What is it?</h5>
-    <p class="col-11">
+    <h5 class="col-11 text-primary text-start">What is it?</h5>
+    <p class="col-10">
       The trade tool of choice for each shipment sleuth here at C.U.P.S is the
       HTTP Terminal. Each C.U.P.S employee is is assigned a top of the line
       'hindsight transport tracking puter 2', powered by a K.i.t-10 processor.
@@ -14,8 +14,8 @@
       their range and so on and so forth until eventually all bounce back to the
       terminal. These are compiled then the results are printed out.
     </p>
-    <h5 class="col-12 text-primary text-start">How to use it</h5>
-    <div class="col-11">
+    <h5 class="col-11 text-primary text-start">How to use it</h5>
+    <div class="col-10">
       The HTTP terminal allows users to query the shipment database by typing in
       thier own query components into the URL. The query component (seen bellow
       in black) contains non-hierarchical data that, along with data in the path
@@ -40,8 +40,8 @@
         />
       </div>
     </div>
-    <h5 class="col-12 text-primary text-start mt-3">Advanced Use</h5>
-    <div class="col-11">
+    <h5 class="col-11 text-primary text-start mt-3">Advanced Use</h5>
+    <div class="col-10">
       Well rounded shipment searchers will often want to search using more than
       just one query 'parameter' or key=value pair. When this is the case the
       reserved character '&' is used. This signifies another field to search by.
@@ -65,8 +65,8 @@
         />
       </div>
     </div>
-    <h5 class="col-12 text-primary text-start mt-3">Special Characters</h5>
-    <div class="col-11">
+    <h5 class="col-11 text-primary text-start mt-3">Special Characters</h5>
+    <div class="col-10">
       Not all characters on your Terminal's paw typer interface are able to be
       used in queries let alone URLs. Certain characters have special uses
       within the URL and must be changed out to keep our URL safe. Your

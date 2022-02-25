@@ -92,7 +92,7 @@ export default {
           },
           content: 'If you click on your name here you can see more details about your employee record and view the records of other employees.  Ya\'know for a little friendly workplace competition.',
           params: {
-            placement: 'bottom',
+            placement: 'bottom-end',
             enableScrolling: false
           }
         },
@@ -158,4 +158,19 @@ export default {
   }
   // .v-step__arrow{border-bottom-color: #fbe8a5!important} FIXME this reacts weirdly with different angles
 }
+  .v-step[x-placement^=bottom] .v-step__arrow{
+    border-width: 0em 1.2em 1.2em 1.2em !important;
+    top: -1.2em!important;
+    border-bottom-color: var(--bs-warning);
+  }
+   .v-step[x-placement^=top] .v-step__arrow{
+    border-width: 1.2em 1.2em 0em 1.2em !important;
+    bottom: -1.2em!important;
+    border-top-color: var(--bs-warning);
+  }
+   .v-step[x-placement^=left] .v-step__arrow{
+    border-width: 1.2em 0em 1.2em 1.2em !important;
+    right: -1.2em!important;
+    border-left-color: var(--bs-warning);
+  }
 </style>

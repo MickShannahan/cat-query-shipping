@@ -9,6 +9,7 @@
         <div
           class="offset-2 col-6 col-lg-4 results screen text-center p-1 rounded"
           :class="{
+            'text-primary darken-10': hits == undefined,
             'text-success': hits == 1,
             'text-info': hits < 5,
             'text-warning': hits < 24,
@@ -36,7 +37,7 @@
 
 <script>
 import { AppState } from '../AppState';
-import { computed, reactive, onMounted } from 'vue';
+import { computed } from 'vue';
 import { logger } from '../utils/Logger';
 export default {
   setup() {

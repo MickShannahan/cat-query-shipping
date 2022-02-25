@@ -11,9 +11,9 @@
             alt=""
             srcset=""
           />
-          <hr class="w-50 mx-auto mt-2 border-bottom border-danger" />
+          <hr class="w-75 mx-auto mt-2 border-bottom border-danger" />
         </div>
-        <div class="col-8 mt-2 p-2">
+        <div class="col-11 mt-2 p-2">
           <p>Greetings [employee-name-here]!</p>
           <p>
             Welcome, we are very excited you have joined us in the exciting

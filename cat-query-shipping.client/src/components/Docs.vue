@@ -45,8 +45,9 @@
           Documentation
         </h5>
       </div>
-      <div class="offcanvas-body row pb-0">
-        <div class="col-2 tabs-col order-first d-flex flex-column pe-0">
+      <div class="offcanvas-body row justify-content-center pb-0 me-5">
+        <div class="col-2 tabs-col order-first h-100 sticky-top  pe-0">
+          <div class="sticky-top d-flex flex-column align-items-end">
           <button
             class="btn mb-2 mt-4 docs-tab tab1"
             @click="navigateTo('Orientation')"
@@ -66,12 +67,12 @@
             Query the Url
           </button>
           <button
-            class="btn mb-2 mt-4 docs-tab tab4"
+            class="btn mb-5 mt-4 docs-tab tab4"
             @click="navigateTo('MongooseTerminal')"
           >
             Mongoose Terminal
           </button>
-          <button class="btn mb-2 mt-4 docs-tab tab2 mt-auto mb-3">
+          <button class="btn mb-2 mt-4 docs-tab tab2 mt-7 mb-3">
             <span class="text-dark" @click="resetTour">Restart Tour</span>
           </button>
           <button class="btn mb-2 mt-4 docs-tab tab1 mb-5">
@@ -82,17 +83,18 @@
               >Report an issue</a
             >
           </button>
+          </div>
         </div>
         <div
           class="
             docs-scroll
+            docs-page
             col-md-9
             bg-light
             border border-primary
-            col-md-3
             d-flex
             order-md-first order-last
-            justify-content-between
+            align-items-end
             flex-column
             shadow-sm
           "
@@ -158,6 +160,24 @@ export default {
   overflow: hidden;
 }
 
+.mt-7{
+  margin-top: 18em!important;
+}
+
+.docs-page{
+  max-width: 130ch;
+  padding: 0;
+  .row{
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    justify-content: center;
+    [class*=col-]{
+      max-width: 90ch;
+    }
+  }
+}
+
 .docs-tab {
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.356);
   border-top-right-radius: 0px;
@@ -166,6 +186,7 @@ export default {
   transition: all 0.1s ease;
   cursor: pointer;
 }
+
 .docs-tab:hover {
   transform: rotateZ(0deg) translateX(2px);
 }
