@@ -21,7 +21,7 @@
             Service are committed to excellence when it comes to getting
             shipments delivered to every corner of the universe. We aim to
             increase value added to our customers with a win-win delivery
-            system. We bring people together with the unionization of postal
+            system. We bring felines together with the unionization of postal
             delivery, identifying new ways to bring a synergistic approach to
             the ever changing field of delivering boxes.
           </p>
