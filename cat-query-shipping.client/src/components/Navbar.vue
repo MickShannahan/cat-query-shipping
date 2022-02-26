@@ -18,6 +18,7 @@
     >
       <span class="navbar-toggler-icon" />
     </button>
+      <ShipmentCounter/>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto"></ul>
       <span class="navbar-text">
@@ -113,13 +114,11 @@ export default {
       logger.log(route.name)
     })
     watch(() => state.credits, () => {
-      logger.log('watched triggered', state.credits,)
       creditScale.value += 0.012
       if (!interval.value) {
         // setTimeout(() => clearInterval(interval.value), 10000)
         interval.value = setInterval(() => {
           if (creditScale.value > 1) {
-            logger.log('decay')
             creditScale.value -= 0.01
           } else {
             creditScale.value = 1
@@ -151,7 +150,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
+
 .site-header {
   color: var(--bs-warning);
   font-weight: bold;

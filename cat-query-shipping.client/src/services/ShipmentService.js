@@ -69,6 +69,11 @@ class ShipmentService{
       }, 110)
   }
 
+  async getCount(){
+    const res = await api.get('api/shipments/count')
+    logger.log('count of shipments', res.data)
+    AppState.shipmentsRemaining = res.data.count
+  }
 
 
 }

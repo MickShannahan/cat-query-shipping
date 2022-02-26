@@ -17,6 +17,11 @@ class ShipmentsService {
     return { hits: shipments.length, results: shipments.slice(0, 49) }
   }
 
+  async getCount(query = {}) {
+    const count = await dbContext.Shipments.count({ ...query, found: false })
+    return { count }
+  }
+
   async searchLostShipments(query) {
     const shipments = await dbContext.Shipments.find(query)
     logger.log(shipments)

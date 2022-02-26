@@ -1,4 +1,5 @@
 import { dbContext } from '../db/DbContext'
+import { socketProvider } from '../SocketProvider'
 import { logger } from '../utils/Logger'
 import { accountService } from './AccountService'
 import { shipmentsService } from './ShipmentsService'
@@ -45,6 +46,7 @@ class GameService {
       account.currentRequestsMade = 0
       await account.save()
       logger.log('correct guess', shipment, account)
+      socketProvider.messageRoom('GENERAL', 'shipment:found', account)
       return { result: true, currentGuesses: account.currentGuesses, shipment: shipment }
     } else {
       account.currentGuesses.push(shipmentId)

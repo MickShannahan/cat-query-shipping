@@ -7,6 +7,8 @@ export const AppState = reactive({
   account: {},
   profiles: [],
   lostShipment: {},
+  shipmentsRemaining: null,
+  recentFoundUsers: [],
   baseUrl: 'http://localhost:3000/api/shipments',
   searchValid:{ valid:true, noReserved:true, noUnsafe:true },
   searchResults: [],

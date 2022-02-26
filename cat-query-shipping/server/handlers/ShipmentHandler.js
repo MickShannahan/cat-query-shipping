@@ -1,6 +1,7 @@
 import { SocketHandler } from '../utils/SocketHandler'
+import { logger } from '../utils/Logger'
 
-export class TestHandler extends SocketHandler {
+export class ShipmentHandler extends SocketHandler {
   /**
    * @param {import("socket.io").Server} io
    * @param {import("socket.io").Socket} socket
@@ -9,6 +10,13 @@ export class TestHandler extends SocketHandler {
     super(io, socket)
     this
       .on('SOCKET_TEST', this.testEvent)
+      .on('join:room', this.joinRoom)
+  }
+
+  async joinRoom(payload) {
+    logger.log('user joining room', payload)
+    this.socket.join(payload.roomName)
+    this.socket.emit('joined:room', payload)
   }
 
   async testEvent(payload) {

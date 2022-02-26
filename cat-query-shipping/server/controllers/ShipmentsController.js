@@ -14,6 +14,7 @@ export class ShipmentsController extends BaseController {
   constructor() {
     super('api/shipments')
     this.router
+      .get('/count', this.getCount)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getAll)
       .get('/search', this.searchLostShipments)
@@ -33,6 +34,15 @@ export class ShipmentsController extends BaseController {
       return res.send(shipments)
     } catch (error) {
       logger.log(error)
+      next(error)
+    }
+  }
+
+  async getCount(req, res, next) {
+    try {
+      const count = await shipmentsService.getCount(req.query)
+      return res.send(count)
+    } catch (error) {
       next(error)
     }
   }
