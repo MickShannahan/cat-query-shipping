@@ -30,17 +30,21 @@
                 v-for="(value, key) in lostShipment"
                 v-show="visible(key)"
                 :key="key + value"
-                class="col-6 glitch"
+                class="col-6"
               >
-                <span
-                  class="hover text-secondary lighten-30 line"
-                  :data-text="key"
-                  @click="copy"
-                  >{{ key }}</span
-                >:
-                <span class="hover line" @click="copy" :data-text="value">
-                  {{ value }}</span
-                >
+                <div class="glitch">
+                  <span
+                    class="hover text-secondary lighten-30 line"
+                    :data-text="key"
+                    @click="copy"
+                    >{{ key }}</span
+                  >:
+                </div>
+                <span class="glitch">
+                  <span class="hover line" @click="copy" :data-text="value">
+                    {{ value }}</span
+                  >
+                </span>
               </div>
             </div>
             <div v-else class="row justify-content-center border border-info">
@@ -214,6 +218,7 @@ export default {
 
 .glitch {
   position: relative;
+  display: inline-block;
 }
 
 .line:hover {
@@ -221,8 +226,8 @@ export default {
   &:before {
     content: attr(data-text);
     position: absolute;
-    top: 0;
-    left: 13px;
+    top: 0px;
+    left: 3px;
   }
 
   &:after,

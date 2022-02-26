@@ -1,11 +1,13 @@
 <template>
   <div class="row no-overflow-x justify-content-center">
-    <div class="col-lg-10 p-0 m-0">
+    <div class="col-md-10 col-lg-8 p-0 m-0">
       <LostShipment />
       <transition name="flip">
         <Search v-if="compScreen == 'http'" @switch="switchScreen" />
         <CodeSearch v-else @switch="switchScreen" />
       </transition>
+    </div>
+    <div class="col-md-11 col-lg-9">
       <ShipmentsThread />
     </div>
     <Dialogue />
