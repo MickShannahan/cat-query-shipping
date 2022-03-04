@@ -108,10 +108,10 @@ export default {
 }
 
 .shipments-item {
-  transition: all 0.1s ease;
+  // transition: all 0.1s ease;
   display: inline-block;
   margin-right: 10px;
-  animation: 0.2s print 1 forwards;
+  // animation: 0.2s print 1 forwards;
 }
 
 @keyframes print {

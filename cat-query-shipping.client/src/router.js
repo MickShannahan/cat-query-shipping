@@ -49,6 +49,11 @@ const routes = [
     name: 'Account',
     component: loadPage('AccountPage'),
     beforeEnter: authGuard
+  },
+  {
+    path: '/anime',
+    name: 'Anime',
+    component: loadPage('AnimePlayground'),
   }
 ]
 

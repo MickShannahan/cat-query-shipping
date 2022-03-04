@@ -35,9 +35,17 @@
 import { AppState } from '../AppState';
 import { computed, reactive, onMounted } from 'vue';
 import { accountService } from '../services/AccountService'
+import anime from "animejs";
 export default {
   props: { shipment: { type: Object, required: true } },
   setup(props) {
+    onMounted(()=>{
+      anime({
+          targets: '.shipment',
+          scaleY: 1,
+          duration: 500
+        });
+    })
     return {
       hasBeenGuessed: computed(() => AppState.currentGuesses.includes(props.shipment._id)),
       checkAnswer() {
@@ -51,7 +59,8 @@ export default {
 
 <style lang="scss" scoped>
 .shipment {
-  transition: all 0.15s ease;
+  transform: scaleY(0);
+  // transition: all 0.15s ease;
 }
 // .shipment:hover {
 //   outline: 1px solid #a4d5a5;
