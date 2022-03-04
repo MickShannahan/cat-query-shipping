@@ -13,7 +13,6 @@ export class Shipment{
     this.currency = data.currency
     this.shippingDate = data.shippingDate
     this.dateFormat = data.dateFormat
-    this.delivered = data.delivered
     this.postalStation = data.postalStation
     this.postalHistory = data.postalHistory
 
@@ -26,7 +25,6 @@ export class Shipment{
     this.quadrantCode = data.quadrantCode
 
     this.galaxy = data.galaxy
-    this.galaxyCode = data.galaxyCode
 
     this.planet = data.planet
     this.planetNumber = data.planetNumber

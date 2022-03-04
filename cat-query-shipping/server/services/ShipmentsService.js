@@ -12,9 +12,10 @@ class ShipmentsService {
 
   async getAll(query = {}, userId) {
     query = regexr(query)
-    const shipments = await dbContext.Shipments.find(query)
+    const count = await dbContext.Shipments.count(query)
+    const shipments = await dbContext.Shipments.find(query).limit(50)
     accountService.updateAccountStats(userId, { pages: shipments.length > 50 ? 50 : shipments.length, requests: 1 })
-    return { hits: shipments.length, results: shipments.slice(0, 49) }
+    return { hits: count, results: shipments }
   }
 
   async getCount(query = {}) {

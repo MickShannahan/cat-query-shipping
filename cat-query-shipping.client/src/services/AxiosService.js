@@ -2,7 +2,7 @@ import Axios from 'axios';
 import { baseURL, dev } from '../env';
 export const api = Axios.create({
   baseURL,
-  timeout: dev? 30000 : 8000
+  timeout: dev? 30000 : 15000
 
 })
 

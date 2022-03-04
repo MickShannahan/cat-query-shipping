@@ -23,14 +23,12 @@
     </div>
     <div class="col-11 printer-port">
       <div class="printer-hole"></div>
-      <transition-group name="shipments">
-        <Shipment
-          v-for="s in shipments"
-          :key="s.trackingNumber"
-          :shipment="s"
-          class="shipments-item"
-        />
-      </transition-group>
+      <Shipment
+        v-for="s in shipments"
+        :key="s.trackingNumber"
+        :shipment="s"
+        class="shipments-item"
+      />
     </div>
   </div>
 </template>
@@ -113,16 +111,26 @@ export default {
   transition: all 0.1s ease;
   display: inline-block;
   margin-right: 10px;
+  animation: 0.2s print 1 forwards;
 }
 
-.shipments-enter-from,
-.shipments-leave-to {
-  overflow: none;
-  opacity: 0;
-  transform: scaleY(20%);
+@keyframes print {
+  0% {
+    transform: scaleY(0.2) translateY(-50%);
+  }
+  100% {
+    transform: scaleX(1) translateY(0%);
+  }
 }
 
-.shipments-leave-active {
-  position: absolute;
-}
+// .shipments-enter-from,
+// .shipments-leave-to {
+//   overflow: none;
+//   opacity: 0;
+//   transform: scaleY(20%);
+// }
+
+// .shipments-leave-active {
+//   position: absolute;
+// }
 </style>

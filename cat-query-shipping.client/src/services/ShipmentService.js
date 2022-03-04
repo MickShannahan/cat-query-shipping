@@ -49,7 +49,9 @@ class ShipmentService{
       }, 200)
   }
 
+   interval = null
   async searchWithQueryObject(qString){
+    clearInterval(this.interval)
     AppState.loading.thread = true
     const qObject = stringToObject(qString)
     AppState.searchResults = {results: []}
@@ -57,8 +59,7 @@ class ShipmentService{
     logger.log('search object',res.data)
     AppState.searchResults.hits = res.data.hits
     // Animate
-    let interval = null
-      interval = setInterval(()=>{
+      this.interval = setInterval(()=>{
         let s = res.data.results.shift()
         if(s){
           AppState.searchResults.results.unshift(new Shipment(s))
