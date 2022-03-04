@@ -21,6 +21,7 @@ export const AppState = reactive({
   lastDocPage: 'Orientation',
   chatBranch: {},
   lastBranches: [],
+  bozNotification: '',
   chatTree:{
     "[Get Started]": {
       text: "Hi there! I'm so excited to see you join the team as one of our lost shipment search operators! Why don't you get started by clocking in, that's the button in the top right corner there.  Once you've done that, feel free to have a seat at one of the open terminals and get started!... *exhales* I'm not one for all that peppy intro stuff. Listen kid, the job pays by each shipment found so you might as well get to it you want to get paid.  I'll be in my office, let me know if you need any more help."

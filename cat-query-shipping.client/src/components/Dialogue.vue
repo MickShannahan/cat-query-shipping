@@ -16,8 +16,10 @@
       data-bs-toggle="offcanvas"
       data-bs-target="#dialogueOffCanvas"
       aria-controls="offcanvasBottom"
-      @click="bozkoChat(`[Open Window]`)"
+      @click="bozkoChat(notifyChat)"
     >
+      <div v-if="notifyChat" class="pop-bubble">!</div>
+      <div class="pop-bubble">!</div>
       Ask Boz
     </button>
 
@@ -149,6 +151,7 @@ export default {
       setTimeout(bozkoBlink, (Math.random() * 4000) + 2000)
     }
     function bozkoChat(option) {
+      option = option ? option : '[Open Window]'
       chatService.chat(option)
     }
     // TODO This is all for the text to type out and should be abstracted
@@ -183,6 +186,7 @@ export default {
     }
     return {
       chatBranch: computed(() => AppState.chatBranch),
+      notifyChat: computed(() => AppState.bozNotification),
       bozkoText: computed(() => AppState.chatBranch?.text),
       casualFriday: computed(() => new Date().getDay() == 5),
       bozkoStatus,
@@ -253,6 +257,34 @@ export default {
   .bozko:hover {
     opacity: 0.5;
     transform: translateX(5vw);
+  }
+}
+
+.pop-bubble {
+  padding-top: 6px;
+  font-size: 18px;
+  text-align: center;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  color: var(--bs-primary);
+  background: var(--bs-warning);
+  border: 1px solid var(--bs-primary);
+  position: absolute;
+  left: -31px;
+  top: -2px;
+  animation: pop 0.5s forwards 1;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0) rotateZ(10deg);
+  }
+  50% {
+    transform: scale(2.5) rotateZ(-10deg);
+  }
+  100% {
+    transform: scale(1) rotateZ(0deg);
   }
 }
 </style>

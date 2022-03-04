@@ -1,5 +1,6 @@
 import { Auth0Provider } from '@bcwdev/auth0provider'
 import { accountService } from '../services/AccountService'
+import { Forbidden } from './Errors'
 
 export async function AccountValidator(req, res, next) {
   try {
@@ -16,4 +17,12 @@ export async function AccountValidator(req, res, next) {
   } catch (e) {
     next(e)
   }
+}
+
+export function _checkAdmin(req, res, next) {
+  const isAdmin = req.userInfo.roles.find(r => r === 'admin')
+  if (!isAdmin) {
+    throw new Forbidden('this is only accessible by the postmaster general')
+  }
+  next()
 }

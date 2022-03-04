@@ -1,6 +1,8 @@
 import { dbContext } from '../db/DbContext'
 import { RandomShipment } from '../models/Shipment'
+import { socketProvider } from '../SocketProvider'
 import { logger } from '../utils/Logger'
+import { chatsService } from './ChatsService'
 import { shipmentsService } from './ShipmentsService'
 
 // Private Methods
@@ -89,6 +91,7 @@ class AccountService {
   async updateAccountStats(userId, data) {
     logger.log('updating user', userId)
     const account = await dbContext.Account.findById(userId)
+    const oldAccount = account.toObject()
     account.unlocks = account.unlocks ? account.unlocks : []
     // TODO write unlocks better
     if (new Date().getTime() - new Date(account.createdAt).getTime() > 86400000 * 3) { account.unlocks.push('mongo-terminal') }
@@ -96,6 +99,7 @@ class AccountService {
     account.totalRequestsMade += data.requests
     account.currentPagesPrinted += data.pages
     account.currentRequestsMade += data.requests
+    // if doing bad loose a package
     if (account.currentPagesPrinted >= 50 && account.currentRequestsMade === 3) {
       for (let i = 0; i <= Math.random() * 10; i++) {
         const shipment = new RandomShipment(Math.ceil(Math.random() * 20))
@@ -103,14 +107,16 @@ class AccountService {
       }
     }
     logger.log('update account data', data)
+    // eslint-disable-next-line eqeqeq
     account.averagePagesPrinted = data.averagePages ? Math.round((account.averagePagesPrinted + data.averagePages) / 2) : account.averagePagesPrinted
     account.averageRequestsMade = data.averageRequests ? Math.round((account.averageRequestsMade + data.averageRequests) / 2) : account.averageRequestsMade
-    await this.updateGrade(userId)
+    await chatsService.employeeFeedback(account, oldAccount)
     account.save()
   }
 
   async updateGrade(userId) {
     const account = await dbContext.Account.findById(userId)
+    const oldGrade = account.employeeGrade
     switch (account.shipmentsFound.length) {
       case 5:
         account.employeeGrade = 'Kitten'
@@ -119,6 +125,7 @@ class AccountService {
         account.employeeGrade = 'Tabby'
         account.maxDifficulty = 10
         // TODO handle unlocks better
+        socketProvider.messageUser(userId, 'boz:notification', { data: account, chat: { 'Updated Record': { text: `Hey I just updated your employed record kid. Looks like your are now a ${account.employeeGrade} grade. With that I unlocked the Mongo Terminal for you too, so you can start using that to refine your searches.` } } })
         account.unlocks.push('mongo-terminal')
         break
       case 20:
@@ -164,8 +171,12 @@ class AccountService {
         }
         break
     }
-    logger.log('updated Grade', account.name, account.employeeGrade)
     account.save()
+
+    logger.log('need notification?', oldGrade, account.employeeGrade)
+    if (oldGrade !== account.employeeGrade) {
+      logger.log('updated Grade', account.name, account.employeeGrade)
+    }
   }
 }
 export const accountService = new AccountService()

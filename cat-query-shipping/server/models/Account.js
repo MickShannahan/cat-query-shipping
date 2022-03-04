@@ -21,6 +21,8 @@ export const AccountSchema = new Schema(
     employeeGrade: { type: String, enum: ['S+', 'S', 'A', 'B', 'C', 'D', 'Bob Cat', 'Tabby', 'Kitten', 'Trainee'], default: 'Trainee' },
     minDifficulty: { type: Number, default: 1 },
     maxDifficulty: { type: Number, default: 5 },
+    scolded: [{ type: String, default: [] }],
+    praised: [{ type: String, default: [] }],
 
     needsTour: { type: Boolean, default: true },
     unlocks: [{ type: String }]

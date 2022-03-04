@@ -2,6 +2,7 @@ import { AppState } from "../AppState"
 import { logger } from "../utils/Logger"
 import Pop from '../utils/Pop'
 import { SocketHandler } from '../utils/SocketHandler'
+import { chatService } from "./ChatService"
 
 class SocketService extends SocketHandler {
   constructor() {
@@ -10,6 +11,7 @@ class SocketService extends SocketHandler {
       .on('error', this.onError)
       .on('shipment:found', this.shipmentFound)
       .on('joined:room', this.joinedRoom)
+      .on('boz:notification', this.bozNotification)
   }
 
   // OUTS
@@ -32,6 +34,11 @@ class SocketService extends SocketHandler {
     AppState.shipmentsRemaining--
     AppState.recentFoundUsers.push(payload)
 
+  }
+
+  bozNotification(payload){
+    logger.log('[boz:notification]',payload)
+    chatService.addChat(payload.chat, Object.keys(payload.chat)[0])
   }
 }
 

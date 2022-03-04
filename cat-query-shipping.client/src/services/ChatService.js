@@ -6,6 +6,7 @@ import { logger } from "../utils/Logger"
 class ChatService{
 
   chat(youSay, lastBranch){
+    AppState.bozNotification = ''
     let branches = AppState.chatTree
     if(youSay == '[Go Back]'){
       AppState.chatBranch = AppState.lastBranches.pop()
@@ -17,7 +18,10 @@ class ChatService{
     }
   }
 
-
+  addChat(branch, notification){
+    AppState.chatTree = {...AppState.chatTree, ...branch}
+    AppState.bozNotification = notification
+  }
 }
 
 
