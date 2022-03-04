@@ -19,7 +19,7 @@
       @click="bozkoChat(notifyChat)"
     >
       <div v-if="notifyChat" class="pop-bubble">!</div>
-      <div class="pop-bubble">!</div>
+      <!-- <div class="pop-bubble">!</div> -->
       Ask Boz
     </button>
 
