@@ -9,7 +9,6 @@
         <div
           class="offset-2 col-6 col-lg-4 results screen text-center p-1 rounded"
           :class="{
-            'text-primary darken-10': hits == undefined,
             'text-success': hits == 1,
             'text-info': hits < 5,
             'text-warning': hits < 24,
@@ -23,23 +22,24 @@
     </div>
     <div class="col-11 printer-port">
       <div class="printer-hole"></div>
-      <Shipment
-        v-for="s in shipments"
-        :key="s.trackingNumber"
-        :shipment="s"
-        class="shipments-item"
-      />
+      <transition-group name="shipments">
+        <Shipment
+          v-for="s in shipments"
+          :key="s.trackingNumber"
+          :shipment="s"
+          class="shipments-item"
+        />
+      </transition-group>
     </div>
   </div>
 </template>
 
 <script>
 import { AppState } from '../AppState';
-import { computed } from 'vue';
+import { computed, reactive, onMounted } from 'vue';
 import { logger } from '../utils/Logger';
 export default {
   setup() {
-
     return {
       loading: computed(() => AppState.loading.thread),
       shipments: computed(() => AppState.searchResults.results),
@@ -59,32 +59,27 @@ export default {
   margin-left: auto;
   margin-right: auto;
 }
-
 .printer {
   background: url("../assets/img/PrinterBody.png");
   background-size: contain;
   image-rendering: pixelated;
   min-height: 8em;
 }
-
 .printer-sides {
   background: url("../assets/img/PrinterSides.png");
   background-size: contain;
   image-rendering: pixelated;
   background-repeat: round;
 }
-
 .printer-sides-loading {
   background: url("../assets/img/PrinterSidesLoading.gif");
   background-size: contain;
   image-rendering: pixelated;
   background-repeat: round;
 }
-
 .printer-port {
   transform: translateY(-3em);
 }
-
 .printer-hole {
   min-height: 1em;
   border-radius: 45px;
@@ -95,7 +90,6 @@ export default {
   border-bottom: 6px inset #ffcf48;
   border-right: 6px inset #ffcf48;
 }
-
 .screen {
   height: 3em;
   outline: 2px solid #f2962f;
@@ -106,31 +100,19 @@ export default {
   border-bottom: 4px inset #ffcf48;
   border-right: 4px inset #ffcf48;
 }
-
 .shipments-item {
-  // transition: all 0.1s ease;
+  transition: all 0.1s ease;
   display: inline-block;
   margin-right: 10px;
-  // animation: 0.2s print 1 forwards;
 }
-
-@keyframes print {
-  0% {
-    transform: scaleY(0.2) translateY(-50%);
-  }
-  100% {
-    transform: scaleX(1) translateY(0%);
-  }
+.shipments-move,
+.shipments-enter-from,
+.shipments-leave-to {
+  overflow: none;
+  opacity: 0;
+  transform: scaleY(20%);
 }
-
-// .shipments-enter-from,
-// .shipments-leave-to {
-//   overflow: none;
-//   opacity: 0;
-//   transform: scaleY(20%);
-// }
-
-// .shipments-leave-active {
-//   position: absolute;
-// }
+.shipments-leave-active {
+  position: absolute;
+}
 </style>

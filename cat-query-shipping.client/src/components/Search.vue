@@ -18,7 +18,7 @@
         >
         <button
           :disabled="unlockMongo"
-          :class="{'cursor-locked': unlockMongo}"
+          :class="{ 'cursor-locked': unlockMongo }"
           class="switch-button comp-button ms-auto mb-2 p-1 px-2"
           type="button"
           @click="switchScreen"
@@ -52,7 +52,7 @@
     </button>
     <button
       class="col-2 comp-button comp-green"
-      :class="{'cursor-invalid-url': unsafeUrl}"
+      :class="{ 'cursor-invalid-url': unsafeUrl }"
       :disabled="unsafeUrl"
       @click="searchShipmentDatabase"
     >
@@ -82,13 +82,14 @@ export default {
       query,
       httpQuery,
       unsafeUrl,
-      unlockMongo: computed(()=> !AppState.account.unlocks?.includes('mongo-terminal')),
+      unlockMongo: computed(() => !AppState.account.unlocks?.includes('mongo-terminal')),
       baseUrl: computed(() => AppState.baseUrl),
-      searchShipmentDatabase() {
+      async searchShipmentDatabase() {
         try {
-          shipmentService.searchShipmentDatabase(query.value)
+          await shipmentService.searchShipmentDatabase(query.value)
         } catch (error) {
-          Pop.toast('**BRR** ' + error.message, 'error', 'center')
+          logger.error(error)
+          Pop.error(error)
         }
       },
       clearInput() {
@@ -128,9 +129,9 @@ export default {
 
 
 <style lang="scss" scoped>
-input{
-  &:valid{
-    border: 1px solid var(--bs-info)
+input {
+  &:valid {
+    border: 1px solid var(--bs-info);
   }
 }
 

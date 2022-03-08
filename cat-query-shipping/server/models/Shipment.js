@@ -9,8 +9,8 @@ const HazardSchema = new Schema(
   {
     notes: { type: String },
     grade: { type: String, enum: ['A', 'B', 'E', 'X', 'LAZER', 'CONVICT'] },
-    isWeapon: { type: Boolean },
-    isValidated: { type: Boolean },
+    isWeapon: { type: String, enum: ['true', 'false'], lowercase: true },
+    isValidated: { type: String, enum: ['true', 'false'], lowercase: true },
     expirationDate: { type: String, validate: function(val) { return dateReg.test(val) }, default: spaceDate() }
   }
 )
@@ -20,12 +20,12 @@ export const ShipmentSchema = new Schema(
     recipient: { type: String, required: true },
     trackingNumber: { type: String, validate: function(val) { return trackingReg.test(val) } },
     description: { type: String },
-    fragile: { type: Boolean },
+    fragile: { type: String, enum: ['true', 'false'], lowercase: true },
     shippingTier: { type: String, enum: shippingTiers },
     shippingCost: { type: Number },
     currency: { type: String, enum: cryptos },
-    insured: { type: Boolean },
-    pirateCoverage: { type: Boolean },
+    insured: { type: String, enum: ['true', 'false'], lowercase: true },
+    pirateCoverage: { type: String, enum: ['true', 'false'], lowercase: true },
     totalCost: { type: Number },
 
     shippingDate: { type: String },
@@ -35,7 +35,7 @@ export const ShipmentSchema = new Schema(
 
     sector: { type: String, validate: function(val) { return codeReg.test(val) } },
 
-    inQuadrant: { type: Boolean },
+    inQuadrant: { type: String, enum: ['true', 'false'], lowercase: true },
     quadrantCode: { type: String },
 
     galaxy: { type: String },
@@ -44,7 +44,7 @@ export const ShipmentSchema = new Schema(
     planetNumber: { type: Number },
     planetCode: { type: String, minlength: 4, maxlength: 4 },
 
-    containsHazard: { type: Boolean, required: true },
+    containsHazard: { type: String, enum: ['true', 'false'], lowercase: true, required: true },
     hazard: { type: HazardSchema },
 
     creatorId: { type: Schema.Types.ObjectId, ref: 'Profile' },
