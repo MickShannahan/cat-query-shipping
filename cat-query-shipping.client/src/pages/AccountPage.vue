@@ -91,7 +91,7 @@
             </div>
             <div>
               <b>Recovered Shipments:</b>
-              {{ leaderboard[0]?.shipmentsFound.length }}
+              {{ leaderboard[0]?.shipmentsFound?.length }}
             </div>
             <h4>
               <b class="text-primary"> {{ leaderboard[0]?.employeeGrade }}</b>
@@ -130,7 +130,7 @@
                 {{ player.credits }}
               </div>
               <div class="col-2 list-border">
-                {{ player.shipmentsFound.length }}
+                {{ player.shipmentsFound?.length }}
               </div>
               <div class="col-3 list-border">
                 {{ player.employeeGrade }}
