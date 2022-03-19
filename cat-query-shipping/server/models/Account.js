@@ -8,7 +8,7 @@ export const AccountSchema = new Schema(
     name: { type: String, required: true },
     picture: { type: String },
     credits: { type: Number, default: 0 },
-    lostShipmentId: { type: Schema.Types.ObjectId, ref: 'Shipment', default: '6215630fd78265ef342b5507' },
+    lostShipmentId: { type: Schema.Types.ObjectId, ref: 'Shipment', default: '62361f3836ac2a5a2a7eab53' },
     currentGuesses: [{ type: Schema.Types.ObjectId }],
     shipmentsFound: [{ type: Schema.Types.ObjectId }],
     shipmentsAbandoned: [{ type: Schema.Types.ObjectId }],

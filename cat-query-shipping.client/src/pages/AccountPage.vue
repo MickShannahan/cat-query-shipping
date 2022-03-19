@@ -165,7 +165,7 @@ export default {
       editable,
       editTip,
       account: computed(() => AppState.account),
-      leaderboard: computed(() => AppState.profiles.sort((a, b) => b.credits - a.credits)),
+      leaderboard: computed(() => AppState.profiles.filter(a => a.credits > 0).sort((a, b) => b.credits - a.credits)),
       async editAccount() {
         try {
           if (editMode.value) {
