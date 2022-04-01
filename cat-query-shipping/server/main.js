@@ -10,15 +10,17 @@ const app = express()
 const port = process.env.PORT || 3000
 
 // Set Redirect for Heroku
-app.enable('trust proxy')
-app.use(function(req, res, next) {
-  logger.log(req)
-  if (process.env.NODE_ENV !== 'dev' && !req.secure) {
-    console.log('redirecting to https://', req.headers.host + req.url)
-    return res.redirect('https://' + req.headers.host + req.url)
-  }
-  next()
-})
+if (process.env.NODE_ENV !== 'dev') {
+  app.enable('trust proxy')
+  app.use(function(req, res, next) {
+    logger.log(req)
+    if (!req.secure) {
+      console.log('redirecting to https://', req.headers.host + req.url)
+      return res.redirect('https://' + req.headers.host + req.url)
+    }
+    next()
+  })
+}
 
 const httpServer = createServer(app)
 Startup.ConfigureGlobalMiddleware(app)
