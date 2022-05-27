@@ -57,9 +57,13 @@ export default class Pop {
     })
   }
 
+/**
+ * @param {string} error error object
+ * @param {string} display 'success', 'error', 'info', 'warning', or 'question'.
+ */
   static error(error ={}, position = 'top-end') {
     Swal.fire({
-      title: error.response?.data?.error?.message || error.response?.data || error.message,
+      title: '**brr**' + error.response?.data?.error?.message || '**brr**'+ error.response?.data || '**brr**'+ error.message,
       icon: 'error',
       position: position,
       timer: 4000,
