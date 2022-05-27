@@ -1,5 +1,6 @@
 import Swal from 'sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
+import { logger } from './Logger'
 
 export default class Pop {
   /**
@@ -62,6 +63,7 @@ export default class Pop {
  * @param {string} display 'success', 'error', 'info', 'warning', or 'question'.
  */
   static error(error ={}, position = 'top-end') {
+    logger.log(error)
     Swal.fire({
       title: '**brr**' + error.response?.data?.error?.message || '**brr**'+ error.response?.data || '**brr**'+ error.message,
       icon: 'error',
