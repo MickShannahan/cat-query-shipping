@@ -105,7 +105,6 @@ export default {
   display: inline-block;
   margin-right: 10px;
 }
-.shipments-move,
 .shipments-enter-from,
 .shipments-leave-to {
   overflow: none;

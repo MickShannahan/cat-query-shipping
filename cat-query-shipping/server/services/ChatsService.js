@@ -41,6 +41,7 @@ class ChatsService {
       const newName = Cat.getName()
       socketProvider.messageUser(account.id, 'boz:notification', { data: account, chat: { 'Too Many Pages': { text: `Ok, so here's the deal kid, I can't keep pretending like you printing all these pages is ok. Less trees were destroyed by the 193U-Solar flare on Earth II a couple cycles ago compared to this printer you've got here registered to you... The Postmaster is already breathing down my neck when it comes to staff efficiencies with our budget. If he see's these logs and realized I didn't do something we will both be moved to the mail room out in the Kuiper belt. So if anyone asks, you're not ${account.name}, you're now ${newName}. got that? I'll handle the paperwork. Just please...please stop printing so much.` } } })
       account.name = newName
+      account.scolded.push('name-change')
       return
     }
     // too many requests
