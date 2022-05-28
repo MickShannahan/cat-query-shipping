@@ -1,14 +1,24 @@
 <template>
-  <div class="row" draggable="false">
+  <div v-if="draggable" class="row" draggable="false">
       <div class="col-12 wrapper" v-pickup="handlePickup" >
         <img class="empCard" src="../assets/img/employeeBadge.png" alt="empBadge" draggable="false">
         <div class="picture"></div>
         <div class="name">{{user.name}}</div>
-        <div class="grade text-center">{{user.grade}}</div>
+        <div class="grade text-center">{{user.employeeGrade}}</div>
         <div class="subTitle text-center">C.U.P.S  Lost Shipment
           Recovery Team</div>
       </div>
   </div>
+  <div v-else class="row static" draggable="false">
+    <div class="col-12 wrapper" >
+      <img class="empCard" src="../assets/img/employeeBadge.png" alt="empBadge" draggable="false">
+      <div class="picture"></div>
+      <div class="name">{{user.name}}</div>
+      <div class="grade text-center">{{user.employeeGrade}}</div>
+      <div class="subTitle text-center">C.U.P.S  Lost Shipment
+        Recovery Team</div>
+    </div>
+</div>
 </template>
 
 <script>
@@ -16,7 +26,7 @@ import { computed } from "@vue/reactivity"
 import { User } from "../models/User"
 import { logger } from "../utils/Logger"
 export default {
-  props: {user: {type: User, required: true}},
+  props: {user: {type: User, required: true}, draggable: {type: Boolean, default: true}},
   setup(props){
     return{
       empPicture: computed(()=> `url(${props.user.picture})`),
@@ -38,10 +48,16 @@ export default {
     position: absolute;
   }
 }
+.static{
+  padding: 0;
+  .wrapper{
+    position: absolute
+  }
+}
 .empCard{
   image-rendering: pixelated;
   filter: drop-shadow(2px 2px 3px rgba(14, 27, 31, 0.336));
-  width: 250px;
+  width: 220px;
 }
 
 .picture{
@@ -50,17 +66,18 @@ export default {
   background-position: center;
   background-size: cover;
   overflow: hidden;
-  width: 173px;
-  height: 145px;
-  top: 66px;
-  left: 54px;
+  width: 151px;
+  height: 128px;
+  top: 58px;
+  left: 50px;
 
 }
 
 .name{
 color: var(--bs-light);
-bottom: 20px;
-left: 32px;
+width: 100%;
+text-align: center;
+bottom: 15px;
 font-weight: 200;
 }
 
@@ -68,15 +85,16 @@ font-weight: 200;
   color: var(--bs-primary);
   bottom: 100px;
   width:100%;
-  font-size: 32px;
+  font-size: 24px;
   font-weight: bold;
 }
 
 .subTitle{
   color: var(--bs-primary);
   bottom: 60px;
-  width:100%;
-  font-size: 18px;
+  width: 100%;
+  padding: 0 2.2em;
+  font-size: 14px;
   line-height: 1.1;
 }
 

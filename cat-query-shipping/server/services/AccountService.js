@@ -95,10 +95,15 @@ class AccountService {
     account.unlocks = account.unlocks ? account.unlocks : []
     // TODO write unlocks better
     if (new Date().getTime() - new Date(account.createdAt).getTime() > 86400000 * 3) { account.unlocks.push('mongo-terminal') }
-    account.totalPagesPrinted += data.pages
+    // update page/search stats
+    if (data.pages > 0) {
+      account.totalPagesPrinted += data.pages
+      account.currentPagesPrinted += data.pages
+      account.pagesHistory = [account.currentPagesPrinted, ...account.pagesHistory.splice(0, 5)]
+    }
     account.totalRequestsMade += data.requests
-    account.currentPagesPrinted += data.pages
     account.currentRequestsMade += data.requests
+    account.requestsHistory = [account.currentRequestsMade, ...account.requestsHistory.splice(0, 5)]
     // if doing bad loose a package
     if (account.currentPagesPrinted >= 50 && account.currentRequestsMade === 3) {
       for (let i = 0; i <= Math.random() * 10; i++) {
@@ -106,10 +111,10 @@ class AccountService {
         shipmentsService.create(shipment)
       }
     }
-    logger.log('update account data', data)
+    logger.log('update account data', account)
     // eslint-disable-next-line eqeqeq
-    account.averagePagesPrinted = data.averagePages ? Math.round((account.averagePagesPrinted + data.averagePages) / 2) : account.averagePagesPrinted
-    account.averageRequestsMade = data.averageRequests ? Math.round((account.averageRequestsMade + data.averageRequests) / 2) : account.averageRequestsMade
+    account.averagePagesPrinted = Math.round(account.pagesHistory.reduce((v, a) => a + v) / account.pagesHistory.length)
+    account.averageRequestsMade = Math.round(account.requestsHistory.reduce((v, a) => a + v) / account.requestsHistory.length)
     await chatsService.employeeFeedback(account, oldAccount)
     account.save()
   }
@@ -177,6 +182,10 @@ class AccountService {
     if (oldGrade !== account.employeeGrade) {
       logger.log('updated Grade', account.name, account.employeeGrade)
     }
+  }
+
+  async unlock(account, unlockName) {
+
   }
 }
 export const accountService = new AccountService()

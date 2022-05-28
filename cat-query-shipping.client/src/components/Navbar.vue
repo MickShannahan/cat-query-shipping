@@ -1,95 +1,16 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark-glass px-3">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark-glass ps-3">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex align-items-center">
-        <img alt="logo" src="../assets/img/CUPS-Logo.png" height="50" />
+        <img alt="logo" src="../assets/img/CUPS-Logo.png" height="40" />
         <h3 class="site-header ms-2">C.U.P.S</h3>
         <small class="text-dark ms-3">alpha v.0.0.early.as.heck</small>
       </div>
     </router-link>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarText"
-      aria-controls="navbarText"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon" />
-    </button>
       <ShipmentCounter/>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto"></ul>
-      <span class="navbar-text">
-        <button
-          class="
-            btn btn-info
-            selectable
-            text-black
-            px-4
-            lighten-30
-            text-uppercase
-            my-2 my-lg-0
-          "
-          @click="login"
-          v-if="!user.isAuthenticated"
-        >
-          clock in
-        </button>
-
-        <div class="d-flex align-items-center dropdown my-2 my-lg-0" v-else>
-          <div class="me-2">{{ account.employeeGrade }}</div>
-          <div
-            id="tour-employee-stats"
-            class="me-5 text-warning credits"
-            :style="`transform: scale(${creditScale});`"
-          >
-            <!-- <button class="btn btn-outline-info" @click="testCredits">
-              test
-            </button> -->
-            <i class="mdi mdi-google-podcast mx-1"></i>{{ state.credits }}
-          </div>
-          <div
-            class="dropdown-toggle selectable"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-            id="authDropdown"
-          >
-            <img
-              :src="account?.picture || user.picture"
-              alt="user photo"
-              height="40"
-              class="rounded"
-            />
-            <span class="mx-3 text-success lighten-30">{{
-              account?.name || user.name
-            }}</span>
-          </div>
-          <div
-            class="dropdown-menu p-0 list-group w-100"
-            aria-labelledby="authDropdown"
-          >
-            <router-link :to="{ name: 'Account' }">
-              <div class="list-group-item list-group-item-action hoverable">
-                Performance Report
-              </div>
-            </router-link>
-            <div
-              class="
-                list-group-item list-group-item-action
-                hoverable
-                text-danger
-              "
-              @click="logout"
-            >
-              <i class="mdi mdi-logout"></i>
-              clock out
-            </div>
-          </div>
-        </div>
-      </span>
-    </div>
+      <div class="d-flex justify-content-end w-100">
+        <CardReader/>
+      </div>
   </nav>
 </template>
 

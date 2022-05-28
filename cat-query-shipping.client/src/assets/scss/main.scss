@@ -92,6 +92,22 @@ form:invalid button[type="submit"] {
   cursor: url('assets/img/invalidurl.png') 1 1, not-allowed!important;
 }
 
+@mixin console-border($color, $dir: 1, $reverse: false, $radius: 10px){
+  border-style: solid;
+  border-radius: $radius;
+  @if($reverse == false){
+    border-top: 5px solid lighten(adjust-hue($color, -10 * $dir), 5);
+    border-left: 5px solid lighten(adjust-hue($color, -10 * $dir), 5);
+    border-right: 5px solid saturate(darken(adjust-hue($color, 20 * $dir), 5), 10);
+    border-bottom: 5px solid saturate(darken(adjust-hue($color, 20 * $dir ), 5), 10);
+  } @else{
+    border-top: 5px solid saturate(darken(adjust-hue($color, 20 * $dir ), 5), 10);
+    border-left: 5px solid saturate(darken(adjust-hue($color, 20 * $dir), 5), 10);
+    border-right: 5px solid lighten(adjust-hue($color, -10 * $dir), 5);
+    border-bottom: 5px solid lighten(adjust-hue($color, -10 * $dir), 5);
+  }
+}
+
 
 // PHYSICAL BUTTONS AND STUFF
 
@@ -185,9 +201,10 @@ form:invalid button[type="submit"] {
 }
 
 .physical-border {
-  border-radius: 10px;
-  border-top: 5px solid #55a6a8;
-  border-left: 5px solid #55a6a8;
-  border-right: 5px solid #315f8a;
-  border-bottom: 5px solid #315f8a;
+  @include console-border($primary)
+  // border-radius: 10px;
+  // border-top: 5px solid #55a6a8;
+  // border-left: 5px solid #55a6a8;
+  // border-right: 5px solid #315f8a;
+  // border-bottom: 5px solid #315f8a;
 }

@@ -12,15 +12,20 @@ export const AccountSchema = new Schema(
     currentGuesses: [{ type: Schema.Types.ObjectId }],
     shipmentsFound: [{ type: Schema.Types.ObjectId }],
     shipmentsAbandoned: [{ type: Schema.Types.ObjectId }],
+
     totalPagesPrinted: { type: Number, default: 0 },
     currentPagesPrinted: { type: Number, default: 0 },
     averagePagesPrinted: { type: Number, default: 1 },
     totalRequestsMade: { type: Number, default: 0 },
     currentRequestsMade: { type: Number, default: 0 },
     averageRequestsMade: { type: Number, default: 1 },
+    pagesHistory: [{ type: Number, default: [] }],
+    requestsHistory: [{ type: Number, default: [] }],
+
     employeeGrade: { type: String, enum: ['S+', 'S', 'A', 'B', 'C', 'D', 'Bob Cat', 'Tabby', 'Kitten', 'Trainee'], default: 'Trainee' },
     minDifficulty: { type: Number, default: 1 },
     maxDifficulty: { type: Number, default: 5 },
+
     scolded: [{ type: String, default: [] }],
     praised: [{ type: String, default: [] }],
 

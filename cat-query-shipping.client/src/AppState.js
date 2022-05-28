@@ -9,7 +9,7 @@ export const AppState = reactive({
   lostShipment: {},
   shipmentsRemaining: null,
   recentFoundUsers: [],
-  baseUrl: 'http://localhost:3000/api/shipments',
+  baseUrl: 'cupshipments.mw/api/shipments',
   searchValid:{ valid:true, noReserved:true, noUnsafe:true },
   searchResults: [],
   loading: {

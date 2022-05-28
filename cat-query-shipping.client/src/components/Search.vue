@@ -44,7 +44,7 @@
     </div>
 
     <div
-      class="col-8 screen bg-black rounded glow p-2 text-success no-click"
+      class="col-8 screen bg-black rounded glow p-2 text-success no-click clip-text"
       v-html="httpQuery"
     ></div>
     <button class="col-1 comp-button comp-yellow" @click="clearInput">

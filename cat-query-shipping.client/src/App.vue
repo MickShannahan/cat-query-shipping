@@ -42,7 +42,7 @@ export default {
 
 body {
   background-image: radial-gradient(rgba(2, 0, 36, 0), rgba(34, 65, 60, 0.7)),
-    url("./assets/img/CUPS-bgFilter.png");
+    url("./assets/img/CUPS room dark.png");
   background-position: center;
   background-size: cover;
   background-attachment: fixed;

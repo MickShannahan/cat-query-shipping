@@ -13,9 +13,7 @@ const port = process.env.PORT || 3000
 if (process.env.NODE_ENV !== 'dev') {
   app.enable('trust proxy')
   app.use(function(req, res, next) {
-    logger.log(req)
     if (!req.secure) {
-      console.log('redirecting to https://', req.headers.host + req.url)
       return res.redirect('https://' + req.headers.host + req.url)
     }
     next()
