@@ -4,16 +4,23 @@
       <div
         class="shipment row my-0 mx-5 perferated-edge-bottom px-2"
         :class="{
-          'bg-light': !hasBeenGuessed,
+          'bg-paper': !hasBeenGuessed,
           'bg-danger lighten-30': hasBeenGuessed,
         }"
       >
         <div class="col-12 action">
           <div class="row p-2 ps-3">
-            <div  class="col-6" v-for="(value, key) in shipment" :key="key" >
-              <b  class="">{{ key }}</b>
-              <span  v-if="key != 'description'" class=" text-dark lighten-20">: {{ value }}</span>
-              <span v-else class=" text-dark lighten-20">: [omitted]</span>
+            <div
+              class="col-6"
+              v-for="(value, key) in shipment"
+              v-show="visible(key)"
+              :key="key"
+            >
+              <b class="">{{ key }}</b>
+              <span v-if="key != 'description'" class="text-dark lighten-20"
+                >: {{ value }}</span
+              >
+              <span v-else class="text-dark lighten-20">: [omitted]</span>
             </div>
           </div>
         </div>
@@ -39,17 +46,24 @@ import anime from "animejs";
 export default {
   props: { shipment: { type: Object, required: true } },
   setup(props) {
-    onMounted(()=>{
+    onMounted(() => {
       anime({
-          targets: '.shipment',
-          scaleY: 1,
-          duration: 500
-        });
+        targets: '.shipment',
+        scaleY: 1,
+        duration: 500
+      });
     })
     return {
       hasBeenGuessed: computed(() => AppState.currentGuesses.includes(props.shipment._id)),
+      backgroundColor: computed(() => AppState.lostShipment.glitch ? ' #fce9a4' : '#e9ecef'),
+      perfEdge: computed(() => AppState.lostShipment.glitch ? ' #fce9a4' : '#e9ecef'),
+      paperEdge: computed(() => `url(${AppState.lostShipment.glitch ? '../assets/img/yellowPageEdge.png' : '../assets/img/whitePageEdge.png'})`),
       checkAnswer() {
         accountService.checkAnswer(props.shipment._id)
+      },
+      visible(key) {
+        let notShown = ['_id', 'id', '__v', 'creditsWorth', 'difficultyRating', 'glitch', 'postalHistory', 'insuredCost', 'hazard', 'description', 'postalStation', 'glitchData']
+        return !notShown.includes(key)
       }
     }
   }
@@ -58,6 +72,7 @@ export default {
 
 
 <style lang="scss" scoped>
+@import "../assets/scss/main.scss";
 .shipment {
   transform: scaleY(0);
   // transition: all 0.15s ease;
@@ -68,12 +83,17 @@ export default {
 // }
 
 .perferated-edge-bottom {
-  outline: 4px dashed var(--bs-light);
+  outline: 4px dashed;
+  outline-color: v-bind(perfEdge);
+}
+
+.bg-paper {
+  background-color: v-bind(backgroundColor);
 }
 
 .paper-edge {
   height: 100%;
-  background-image: url("../assets/img/whitePageEdge.png");
+  background-image: v-bind(paperEdge);
   background-repeat: space repeat;
   image-rendering: pixelated;
   background-size: 8em;

@@ -75,7 +75,8 @@ b {
       rgba(230, 230, 230, 0.95) 0%,
       rgba(240, 240, 240, 0.95) 100%
     ),
-    url("../assets/img/CUPS-Logo.png");
+    url("../assets/img/CUPS-Logo.png"),
+    url("../assets/img/Textures/light-paper-fibers.png");
   background-position: center;
   background-size: 100%, 50%;
   background-repeat: no-repeat;

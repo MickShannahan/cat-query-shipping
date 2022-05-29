@@ -11,8 +11,8 @@
       The C.U.P.S Central Processing Matrix Server Appliance (CUPSCPMSA) allows
       for a user to submit a formatted object to search the lost shipment
       database instead of a query url. this object will can be formatted in such
-      a way to have matching <kbd>key</kbd> and <kbd>value</kbd> pairs with shipments in the
-      database. Here is an example <em>(fig.a)</em>
+      a way to have matching <kbd>key</kbd> and <kbd>value</kbd> pairs with
+      shipments in the database. Here is an example <em>(fig.a)</em>
     </p>
     <div class="col-11">
       <!-- STUB fig a -->
@@ -20,8 +20,9 @@
       <div class="row border border-secondary rounded p-2">
         <p class="col-12">
           For this example, let's imagine we are searching for a shimpent sent
-          to one <code>Mayor Snibblysmith</code>. We format our object with the property
-          (key): <kbd>recipient</kbd> and the value: <kbd>Mayor Snibblysmith</kbd>.
+          to one <code>Mayor Snibblysmith</code>. We format our object with the
+          property (key): <kbd>recipient</kbd> and the value:
+          <kbd>Mayor Snibblysmith</kbd>.
         </p>
         <em class="col-11 text-danger lighten-10">filter object</em>
         <div class="col-12 bg-dark lighten-10 border-fig rounded text-info">
@@ -52,24 +53,26 @@
       <p>
         Because that object in the database had a match it would be returned. In
         the case that we were looking for one package, the database would return
-        the <code>first</code> one. In the case where we are looking for many, it
-        would return <code>all</code> data objects that contain this match.
+        the <code>first</code> one. In the case where we are looking for many,
+        it would return <code>all</code> data objects that contain this match.
       </p>
       <h5 class="col-12 text-warning darken-40 text-start">
         Filtering by multiple properties
       </h5>
       <p>
-        This <code>filter object</code> can have many properties on it and each <kbd>key value</kbd>
-        pair will <em>have</em> to match on the data objects in the database.
+        This <code>filter object</code> can have many properties on it and each
+        <kbd>key value</kbd> pair will <em>have</em> to match on the data
+        objects in the database.
         <em>(see fig. b)</em>
       </p>
       <!-- STUB fig b -->
       <em class="text-warning darken-40">figure b.</em>
       <div class="row border border-secondary rounded p-2">
         <p class="col-12">
-          Note that this <code>filter object</code> has 2 properties it's filtering by,
-          <code>recipient</code> and <code>sector</code>. In this example only the <b>second</b> object
-          will be included when returned. <code>BOTH</code> <kbd>key value</kbd> pairs in the
+          Note that this <code>filter object</code> has 2 properties it's
+          filtering by, <code>recipient</code> and <code>sector</code>. In this
+          example only the <b>second</b> object will be included when returned.
+          <code>BOTH</code> <kbd>key value</kbd> pairs in the
           <code>filter object</code> have to match.
         </p>
         <em class="col-11 text-danger lighten-10">filter object</em>
@@ -124,11 +127,11 @@
     <div class="col-11 mt-2">
       <p>
         Because only the second data object had matches for both properties in
-        the passed <code>filter object</code>, it will be the only one returned. In the case
-        of trying to find one data object, the more properties included in the
-        data object the more <code>accurate</code> we can be when trying to find. In the case
-        of trying to find many, we can refine our search down to only include
-        results that have both.
+        the passed <code>filter object</code>, it will be the only one returned.
+        In the case of trying to find one data object, the more properties
+        included in the data object the more <code>accurate</code> we can be
+        when trying to find. In the case of trying to find many, we can refine
+        our search down to only include results that have both.
       </p>
       <h5 class="col-12 text-warning darken-40 text-start">
         Filtering by multiple values
@@ -139,8 +142,8 @@
         inclusive. This too can be done but starts to get more complicated.
       </p>
       <p>
-        There are a couple ways to achieve a <code>filter object</code> that is more
-        inclusive with it's results. Take a look at this next example.
+        There are a couple ways to achieve a <code>filter object</code> that is
+        more inclusive with it's results. Take a look at this next example.
         <em>(fig. c)</em>
       </p>
       <!-- STUB fig c -->
@@ -148,9 +151,11 @@
       <div class="row border border-secondary rounded p-2">
         <p class="col-12">
           The <code>filter object</code> this time contains an array of
-          <em>possible</em> <kbd>values</kbd> for the <kbd>key</kbd> <code>recipient</code>. In this case it will
-          return <em>any</em> packages with either <code>Mayor Snibblysmith</code> <em>or </em>
-          <code>Madam Blackwell</code> as the <code>recipient</code>.
+          <em>possible</em> <kbd>values</kbd> for the <kbd>key</kbd>
+          <code>recipient</code>. In this case it will return
+          <em>any</em> packages with either <code>Mayor Snibblysmith</code>
+          <em>or </em> <code>Madam Blackwell</code> as the
+          <code>recipient</code>.
         </p>
         <em class="col-11 text-danger lighten-10">filter object</em>
         <div class="col-12 bg-dark lighten-10 border-fig rounded text-info">
@@ -196,28 +201,30 @@
       </div>
       <p>
         In the case above, both data objects would be returned. Since they both
-        match at least <em>one</em> of the values passed in the <code>recipient</code> array.
+        match at least <em>one</em> of the values passed in the
+        <code>recipient</code> array.
       </p>
       <h5 class="col-12 text-warning darken-40 text-start">
         Filtering using $or
       </h5>
       <p>
         Now this works fine if we are looking for shipments by expanding our
-        scope for <code>recipients</code>, but what if we wanted to find include multiple
-        data objects based off of different properties?
+        scope for <code>recipients</code>, but what if we wanted to find include
+        multiple data objects based off of different properties?
       </p>
       <p>
-        This time we will start to use <b class="text-primary">Mongo Operators</b>. These are
-        identifiable by the <kbd>$</kbd> before the operator. While these can
-        complicate our <code>filter objects</code> further still. They allow us to use more
+        This time we will start to use
+        <b class="text-primary">Mongo Operators</b>. These are identifiable by
+        the <kbd>$</kbd> before the operator. While these can complicate our
+        <code>filter objects</code> further still. They allow us to use more
         logical conditions within our <code>filter object</code>.
       </p>
       <!-- STUB fig d -->
       <em class="text-warning darken-40">figure d.</em>
       <div class="row border border-secondary rounded p-2">
         <p class="col-12">
-          Note the <kbd>$or</kbd> operator used this time. The formatting of this
-          object is very specific.
+          Note the <kbd>$or</kbd> operator used this time. The formatting of
+          this object is very specific.
         </p>
         <em class="col-11 text-danger lighten-10">filter object</em>
         <div class="col-12 bg-dark lighten-10 border-fig rounded text-info">
@@ -271,8 +278,9 @@
         Fuzzy String Searching using $regex
       </h5>
       <p>
-        While there are a lot of <b class="text-primary">Mongo Operators</b> that can be used, we
-        will go over just one more, the <kbd>$regex</kbd> operator. The most notable
+        While there are a lot of
+        <b class="text-primary">Mongo Operators</b> that can be used, we will go
+        over just one more, the <kbd>$regex</kbd> operator. The most notable
         function of the <kbd>$regex</kbd> operator allows us to search partial
         strings, and return matches based upon that partial string. see
         <em>(fig. e)</em>
@@ -283,8 +291,8 @@
         <p class="col-12">
           We might not have the full name of the shipment recipient( or any
           other string value for that matter). Normally this is a problem cause
-          it will look for an exact match. With this <code>filter object</code> it that is no
-          longer the case.
+          it will look for an exact match. With this
+          <code>filter object</code> it that is no longer the case.
         </p>
         <em class="col-11 text-danger lighten-10">filter object</em>
         <div class="col-12 bg-dark lighten-10 border-fig rounded text-info">
@@ -311,9 +319,10 @@
       </div>
       <p>
         In the above case, even though there wasn't a full string match, just
-        matching the <code>Snibblysmith</code> part was enough, and will include this
-        shipment in the return. Note that if there were more <kbd>recipients</kbd> that
-        included the string <code>Snibblysmith</code> they too would be returned.
+        matching the <code>Snibblysmith</code> part was enough, and will include
+        this shipment in the return. Note that if there were more
+        <kbd>recipients</kbd> that included the string
+        <code>Snibblysmith</code> they too would be returned.
       </p>
       <p>
         Check out the links for more in depth examples of Mongo Projection
@@ -351,7 +360,8 @@ export default {
 .letter-head {
   min-height: 100%;
   background: linear-gradient(0deg, #fdf4d6e5 0%, #fdf4d6e5 00%),
-    url("../assets/img/CUPS-Logo.png");
+    url("../assets/img/CUPS-Logo.png"),
+    url("../assets/img/Textures/light-paper-fibers.png");
   background-position: center center;
   background-size: 100%, 60%;
   background-repeat: no-repeat space;

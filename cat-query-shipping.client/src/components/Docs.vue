@@ -11,6 +11,7 @@
         pl-3
         rounded
         shadow-sm
+        docs-scroll
       "
       type="button"
       data-bs-toggle="offcanvas"
@@ -21,15 +22,7 @@
       User Manual
     </button>
     <div
-      class="
-        text-dark
-        docs-offcanvas
-        offcanvas offcanvas-bottom
-        bg-info
-        lighten-10
-        p-0
-        col-12
-      "
+      class="text-dark docs-offcanvas offcanvas offcanvas-bottom p-0 col-12"
       tabindex="-1"
       id="docsOffCanvas"
       aria-labelledby="offcanvasBottomLabel"
@@ -45,49 +38,48 @@
           Documentation
         </h5>
       </div>
-      <div class="offcanvas-body row justify-content-center pb-0 me-5">
-        <div class="col-2 tabs-col order-first h-100 sticky-top  pe-0">
+      <div class="offcanvas-body row justify-content-center pb-0 pe-5 me-1">
+        <div class="col-2 tabs-col order-first h-100 sticky-top pe-0">
           <div class="sticky-top d-flex flex-column align-items-end">
-          <button
-            class="btn mb-2 mt-4 docs-tab tab1"
-            @click="navigateTo('Orientation')"
-          >
-            Orientation
-          </button>
-          <button
-            class="btn mb-2 mt-4 docs-tab tab2"
-            @click="navigateTo('LostShipments')"
-          >
-            Lost Shipments
-          </button>
-          <button
-            class="btn mb-2 mt-2 docs-tab tab3"
-            @click="navigateTo('QueryUrl')"
-          >
-            Query the Url
-          </button>
-          <button
-            class="btn mb-5 mt-4 docs-tab tab4"
-            @click="navigateTo('MongooseTerminal')"
-          >
-            Mongoose Terminal
-          </button>
-          <button class="btn mb-2 mt-4 docs-tab tab2 mt-7 mb-3">
-            <span class="text-dark" @click="resetTour">Restart Tour</span>
-          </button>
-          <button class="btn mb-2 mt-4 docs-tab tab1 mb-5">
-            <a
-              class="text-dark"
-              href="https://github.com/MickShannahan/cat-query-shipping/issues"
-              target="_blank"
-              >Report an issue</a
+            <button
+              class="btn mb-2 mt-4 docs-tab tab1"
+              @click="navigateTo('Orientation')"
             >
-          </button>
+              Orientation
+            </button>
+            <button
+              class="btn mb-2 mt-4 docs-tab tab2"
+              @click="navigateTo('LostShipments')"
+            >
+              Lost Shipments
+            </button>
+            <button
+              class="btn mb-2 mt-2 docs-tab tab3"
+              @click="navigateTo('QueryUrl')"
+            >
+              Query the Url
+            </button>
+            <button
+              class="btn mb-5 mt-4 docs-tab tab4"
+              @click="navigateTo('MongooseTerminal')"
+            >
+              Mongoose Terminal
+            </button>
+            <button class="btn mb-2 mt-4 docs-tab tab2 mt-7 mb-3">
+              <span class="text-dark" @click="resetTour">Restart Tour</span>
+            </button>
+            <button class="btn mb-2 mt-4 docs-tab tab1 mb-5">
+              <a
+                class="text-dark"
+                href="https://github.com/MickShannahan/cat-query-shipping/issues"
+                target="_blank"
+                >Report an issue</a
+              >
+            </button>
           </div>
         </div>
         <div
           class="
-            docs-scroll
             docs-page
             col-md-9
             bg-light
@@ -139,6 +131,7 @@ export default {
 
 
 <style lang='scss' >
+@import "../assets/scss/main.scss";
 .help-button {
   text-align: left;
   position: fixed;
@@ -154,25 +147,29 @@ export default {
 
 .docs-offcanvas {
   height: 90vh;
+  background-color: lighten($info, 5);
+  .offcanvas-body {
+    background-image: url("../assets/img/Textures/notebook.png");
+  }
 }
 
 .tabs-col {
   overflow: hidden;
 }
 
-.mt-7{
-  margin-top: 18em!important;
+.mt-7 {
+  margin-top: 18em !important;
 }
 
-.docs-page{
+.docs-page {
   max-width: 130ch;
   padding: 0;
-  .row{
+  .row {
     margin-left: 0;
     margin-right: 0;
     width: 100%;
     justify-content: center;
-    [class*=col-]{
+    [class*="col-"] {
       max-width: 90ch;
     }
   }
@@ -209,7 +206,7 @@ export default {
 }
 
 .docs-scroll::-webkit-scrollbar {
-  width: 1em;
+  width: 1.5em;
 }
 
 .docs-scroll::-webkit-scrollbar-track {
@@ -217,8 +214,8 @@ export default {
 }
 
 .docs-scroll::-webkit-scrollbar-thumb {
-  background-color: darkgrey;
-  outline: 1px solid slategrey;
+  background-color: darken($info, 10) !important;
+  outline: 1px solid darken($info, 10);
 }
 
 // Page transition

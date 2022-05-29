@@ -1,3 +1,4 @@
+import { logger } from './Logger'
 
 // RegExs
 export const codeReg = /[A-Z][1-9][1-9]/
@@ -7,10 +8,13 @@ export const dateReg = /(Sol|Minkow|Tera|Union):[0-9]{2}/
 const trackingChance = 0.25
 export const dateTypes = ['Sol', 'Minkow', 'Tera', 'Union']
 export const cryptos = ['Union', 'KITCOIN', 'M0nSER4T', 'Scratch', 'Ca+N!p']
+const az = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+const digits = ['0', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 const alph = ['A', 'B', 'C', 'E', 'F', 'G', 'K', 'M', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z']
 const nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 const sectorAlph = ['A', 'C', 'V', 'X', 'Z']
 const sectorNums = ['01', '22', '42', '67', '99']
+export const glitches = ['jumper', 'scrambler', 'burner', 'timer', 'printer', 'trapper', 'speller']
 export const shippingTiers = ['1LTYR', '2LTYR', 'METEOR-FREIGHT', 'GALAXY-EXPRESS', 'INTERPLANETARY/DOMESTIC', 'WARP', 'WARP+', 'WARP-FREIGHT']
 const planets = [
   'Mercury',
@@ -415,7 +419,7 @@ const items = {
   furniture: { brands: ['Kot', 'Iapetus Kat Elegant Appliances', 'Bombay', 'Havana Brown'], items: ['3-level Carpeted tree', 'Cardboard box', '2-level kitten tree', 'Coverd Bed', 'Tunnel', 'Cardboard Tube', 'Folding Cardboard Duplex', 'Excersize Wheel', 'Sock Hamper', 'Heated Keyboard Nap Pad'] },
   electronics: { brands: ['CREX', 'Deveon', 'Korat Electronics', 'Meo', 'Toyger'], items: ['Automatic Mouse', 'Hair Filter', '24inch Virtual Fish Pond', 'Re-winding Yarn Ball', 'Tooth-brush', 'Self-Rolling Felt Ball', 'Personal Space Pod', 'Auto-Stroller', 'Collar bell with 24 ringing sounds', 'CAT-BOUND Radio Transmitter', 'Retractable Feather Wand', 'Scoop Free Automated Litter Box', 'Scoop Free Automated Litter Box+ (25tb)', 'Dryer', 'Holo-Fishbowl', 'Self-Righting Light Tree'] },
   homeGood: { brands: ['Ms. Maine\'s', 'laPerm', 'Manx Manufacturing', 'Munchkin'], items: ['Scratch Board', 'Scratch Board with self healing inserts', 'Classic Yarn Ball', 'Fish Cologne', 'Warm Pad', 'Self-Filling Food Bowl', 'Telescope', 'Gift Card', 'Synthetic wool-lined booties', 'Sequien dress', 'pair of Denim Pants', 'Water Fountain', 'Ol time mouse shaped toy', '"Real Tounge" Grooming brush', 'False Whiskers', 'Bird Bone Hair Brush', 'Synthetic Cactus Plant', 'Litter Box', 'No Sand Litter Box', 'Children\'s Sandbox', 'Hydrophobic Pant', 'Top Hat & Monocle', 'Opera Glasses', 'Eye-Shaped Sunglasses', 'Watermelon Print Helmet', '"Hang In There" Poster', 'Rapier and boots', 'Real Fur Mane'] },
-  collectable: { brands: ['Super Neko Spirit'], items: ['Fighter Figurine', 'Mage Figurine', 'Fighter Poster', 'Mage Poster'] }
+  collectable: { brands: ['Super Neko Spirit'], items: ['Fighter Figurine', 'Mage Figurine', 'Fighter Poster', 'Mage Poster', 'Fighter keychain'] }
 }
 const desc = ['%I% by %B%', '2 %B% brand %I%s', 'A %I%, made by the %B% company', 'One %B% style %I%', 'Some %I%s by %B%', 'A Dozen %I%s of vaious brands', 'One Broken %I%', 'A Pair of %B% %I%s', 'Just some generic %I%', 'A Home-made %I%', 'It\'s just and empty box', 'The %B% %I%', 'One %I%, made by %B%', 'A Simple %I%', 'A Charred %I%', 'A wet %B% %I%', 'One Fresh %B% %I%', 'An assortment of %I%s', 'A bunch of broken %B% %I%s', 'A Single Vintage %I% by the %B% company', 'A Spraypainted %I%, probably %B% in make', 'A Damaged %B% %I%', 'Just the empty box for a %B% %I%', 'A Box of %B% %I%s', 'A mold covered %I%']
 const flavors = ['. The quality looks shotty.', '. The quality is supreme.', ' of average quality.', '. These are rare, you wonder where they were ordered from.', '. Quite ordinary', '. This Sector gets a lot of these...', '. You used to have one just like it.', ', along with a strange smell.', ', along with poorly written note. If only you could read Burmese.', '. By the looks, probably knock-off.', '. Meow.', '. "Daring aren\'t we."', '. Wonder what it tastes like.', '. Bet they are missing that.', '. What kind of Cat would order this.', '. Probably better this stays missing.', '. Reminds you of home.', '. You wonder if this is hazardous.', '. There is a hole in the box...', '.  The box is pretty beat up.', '. It looks like it was burned at some point.', ' and a little vommit.', '. Should return this one to the sender.', ' covered in hair.', '. Should Rush Ship this one next time.', '. Outside of the box says "FRAGILE".', '. The box is kinda soggy.', ' and it stinks.', ' but it seems to be missing something', ' and a note from grandma.', '. The Box has a warning label.', ' and a now long dead mouse.', '. The box is filled with trash.', '.  You wonder how this got lost.', ' in an oversized box.', ' stuffed into a box that is clearly too small.']
@@ -427,16 +431,28 @@ function random(arr, count = 1) {
   }
   return out
 }
+
+function chance(prob) {
+  return Math.round(Math.random() * 100) < prob * 100
+}
+
+function randI(arr) {
+  return Math.floor(Math.random() * arr.length)
+}
+
+function indexWrap(arr, start, move) {
+  return arr[((start + arr.length) + move) % arr.length]
+}
 export function bool() {
   return Math.random() > 0.5
 }
 
 export function description() {
-  const type = Object.keys(items)[Math.floor(Math.random() * Object.keys(items).length)]
-  const brand = items[type].brands[Math.floor(Math.random() * items[type].brands.length)]
-  const item = items[type].items[Math.floor(Math.random() * items[type].items.length)]
-  let descLine = desc[Math.floor(Math.random() * desc.length)]
-  const flav = flavors[Math.floor(Math.random() * flavors.length)]
+  const type = Object.keys(items)[randI(Object.keys(items))]
+  const brand = items[type].brands[randI(items[type])]
+  const item = items[type].items[randI(items[type])]
+  let descLine = desc[randI(desc)]
+  const flav = flavors[randI(flavors)]
   const brRx = /%B%/ig
   const itRx = /%I%/ig
   descLine = descLine.replace(brRx, brand)
@@ -448,8 +464,7 @@ export function tracking() {
   let trackingCode = ''
   for (let i = 1; i <= 2; i++) {
     for (let j = 1; j <= 3; j++) {
-      const chance = Math.random()
-      if (chance > 0.5) {
+      if (chance(0.5)) {
         trackingCode += random(alph)
       } else {
         trackingCode += random(nums)
@@ -601,12 +616,12 @@ export function planetCode(planetName) {
   return transcribed.join('').toUpperCase().slice(0, 4)
 }
 
-export function missingProperties(schemaObject, chance) {
+export function missingProperties(schemaObject, prob) {
   const keys = Object.keys(schemaObject)
   const missingKeys = keys.map(key => {
     // eslint-disable-next-line no-mixed-operators
-    chance = key === 'trackingNumber' ? chance += trackingChance : chance
-    if (Math.random() < chance) {
+    prob = key === 'trackingNumber' ? prob += trackingChance : prob
+    if (Math.random() < prob) {
       return key
     }
     return null
@@ -614,41 +629,45 @@ export function missingProperties(schemaObject, chance) {
   return missingKeys
 }
 
-export function damageProperties(schemaObject, chance) {
+export function damageProperties(schemaObject, prob) {
   const dict = {}
   Object.keys(schemaObject).forEach(k => {
-    chance = k === 'trackingNumber' ? chance += trackingChance : chance
+    prob = k === 'trackingNumber' ? prob += trackingChance : prob
     if (schemaObject[k]) {
-      if (Math.random() < chance) dict[k] = damageProperty(schemaObject[k])
+      if (Math.random() < prob) dict[k] = damageProperty(schemaObject[k])
     }
   })
   return dict
 }
 
-export function damageKeys(schemaObject, chance) {
+export function damageKeys(schemaObject, prob) {
   const dict = {}
   Object.keys(schemaObject).forEach(k => {
-    chance = k === 'trackingNumber' ? chance += trackingChance : chance
-    if (Math.random() < chance) { dict[k] = damageProperty(k) }
+    prob = k === 'trackingNumber' ? prob += trackingChance : prob
+    if (Math.random() < prob) { dict[k] = damageProperty(k) }
   })
   return dict
 }
 
 export function damageProperty(prop) {
-  const reverse = Math.random() < 0.2
   const randomFill = random(glitchFills)
   const rand1 = Math.floor(Math.random() * (prop.toString().length / 2))
   const rand2 = Math.floor(Math.random() * (prop.toString().length / 2) + (prop.length / 2))
   const answers = ['not yet decided', 'maybe', 'unsure', 'ask again later']
   switch (typeof prop) {
     case 'string':
-      if (!reverse) {
+      if (chance(0.4)) {
+        return cypherString(prop)
+      } else if (parseInt(prop) && chance(0.6)) {
+        logger.log('String Binary')
+        return prop.split('').map(c => parseInt(c) ? binary(c) : c).join('')
+      } else {
         prop = prop.split('')
         prop.splice(rand1, rand2, randomFill)
-      } else { prop = prop.split('').reverse() }
+      }
       return prop.join('')
     case 'number' :
-      return prop.toString().split('').reverse().join('')
+      return binary(prop)
     case 'boolean':
       return random(answers)
     default:
@@ -656,36 +675,21 @@ export function damageProperty(prop) {
   }
 }
 
-export function difficultyRating(mProps = [], dProps = {}, dKeys = {}) {
-  let difficulty = 0
-  const hasTracking = !mProps.includes('trackingNumber')
-  const damagedTrackingNumber = Object.keys(dProps).includes('trackingNumber')
-  // logger.log(hasTracking, damagedTrackingNumber)
-  // if usable tracking return 1
-  if (hasTracking && !damagedTrackingNumber) difficulty -= 13.5
-  // if tracking number is just damaged
-  if (hasTracking && damagedTrackingNumber) difficulty -= 4
-  difficulty += (mProps.length * 0.5)
-  difficulty += (Object.keys(dProps).length * 0.3)
-  difficulty += (Object.keys(dKeys).length * 0.1)
-  const curve = (mProps.length + Object.keys(dProps).length + Object.keys(dKeys).length) * 0.3
-  // logger.log(difficulty, curve, `t:${hasTracking}, dt:${damagedTrackingNumber}`)
-  difficulty += curve
-  return difficulty >= 20 ? 20 : difficulty <= 1 ? 1 : Math.round(difficulty)
-}
-
 export function damageShipment(shipment, difficulty) {
   const options = ['miss', 'miss', 'keys', 'vals', 'vals']
   const weights = { miss: 1, keys: 0.2, vals: 0.6 }
+  let glitchChance = false
   let max = difficulty * 1.2
   const props = { ...diffCodeMap }
   const damages = { miss: {}, vals: {}, keys: {} }
   if (difficulty > 3) { shipment.missingProperties.push('trackingNumber'); damages.miss.trackingNumber = 5 }
-  if (difficulty > 6) { shipment.missingProperties.push('recipient'); damages.miss.recipient = 4 }
+  if (difficulty > 7) { shipment.damagedProperties.recipient = damageProperty(shipment.recipient); damages.vals.recipient = 4 }
   if (difficulty > 10) { max *= 1.15 }
-  if (difficulty > 17) { max *= 1.15 }
+  if (difficulty > 10) { glitchChance = chance(0.7) }
+  if (difficulty > 17) { max *= 1.13 }
 
-  for (let points = 0; max >= points; points += 0) {
+  if (glitchChance || shipment.glitch) { shipment.glitch = random(glitches); setGlitchData(shipment.glitch, shipment) }
+  for (let points = 0; max >= points;) {
     const weight = random(Object.keys(props))
     const prop = random(props[weight])
     const rand = random(options)
@@ -718,4 +722,65 @@ function pointCalc(damages, prop, weight, rand) {
   }
   damages[rand][prop] = weight
   return parseFloat(weight)
+}
+
+function cypherString(string) {
+  let out = ''
+  if (chance(0.5)) { // full string cypher
+    const num = Math.ceil(Math.random() * 3) * (chance(0.5) ? 1 : -1)
+    for (let i = 0; i < string.length; i++) {
+      const char = string[i].toLowerCase()
+      if (!az.includes(char) && !digits.includes(char)) { continue }
+      if (parseInt(char) >= 0) {
+        const index = digits.findIndex(d => d === char)
+        out += indexWrap(digits, index, num)
+      } else {
+        const index = az.findIndex(c => c === char)
+        out += indexWrap(az, index, num)
+      }
+    }
+    if (num > 0) {
+      for (let i = 0; i < Math.abs(num); i++) {
+        out += '.'
+      }
+    } else {
+      for (let i = 0; i < Math.abs(num); i++) {
+        out = '.' + out
+      }
+    }
+    return out
+  } else { // per character cypher
+    for (let i = 0; i < string.length; i++) {
+      const char = string[i].toLowerCase()
+      if (!az.includes(char) && !digits.includes(string)) { continue }
+      const num = Math.ceil(Math.random() * 2)
+      if (parseInt(char) >= 0) {
+        const index = digits.findIndex(d => d === char)
+        out += indexWrap(digits, index, num)
+      } else {
+        const index = az.findIndex(c => c === char)
+        out += indexWrap(az, index, num)
+      }
+      const rand = random(['_', '.', '-', '^', char])
+      for (let i = 0; i < Math.abs(num); i++) {
+        out += rand
+      }
+    }
+  }
+  return out
+}
+
+function binary(number) {
+  return (parseInt(number) >>> 0).toString(2)
+}
+function setGlitchData(glitchName, shipment) {
+  logger.log(glitchName, shipment)
+  switch (glitchName) {
+    case 'timer':
+      shipment.glitchData.timeLimit = 140 - Math.ceil(shipment.difficultyRating * 5.5)
+    // eslint-disable-next-line no-fallthrough
+    default:
+      shipment.glitchData.extraResults = Math.ceil(shipment.difficultyRating / 2.2)
+      break
+  }
 }

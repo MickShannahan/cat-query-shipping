@@ -1,5 +1,5 @@
 <template>
-  <div class="row letter-head flex-column  align-items-center p-4">
+  <div class="row letter-head flex-column align-items-center p-4">
     <h3 class="col-11 text-primary text-center">
       Query the Shipment Database using the HTTP Terminal
     </h3>
@@ -160,9 +160,10 @@ export default {
 .letter-head {
   min-height: 100%;
   background: linear-gradient(0deg, #d5e4f0e5 0%, #d5e4f0e5 100%),
-    url("../assets/img/CUPS-Logo.png");
+    url("../assets/img/CUPS-Logo.png"),
+    url("../assets/img/Textures/light-paper-fibers.png");
   background-position: center center;
-  background-size: 100%, 50%;
+  background-size: 100%, 50%, 200%;
   background-repeat: no-repeat no-repeat;
 }
 </style>

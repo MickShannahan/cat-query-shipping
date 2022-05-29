@@ -84,7 +84,8 @@ b {
 .lost-shipments {
   min-height: 100%;
   background: linear-gradient(0deg, #f7d8d6e5 0%, #f7d8d6de 100%),
-    url("../assets/img/CUPS-Logo.png");
+    url("../assets/img/CUPS-Logo.png"),
+    url("../assets/img/Textures/light-paper-fibers.png");
   background-position: center;
   background-size: 50%;
   background-repeat: no-repeat;

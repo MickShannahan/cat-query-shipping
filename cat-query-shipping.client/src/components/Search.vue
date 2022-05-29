@@ -44,7 +44,17 @@
     </div>
 
     <div
-      class="col-8 screen bg-black rounded glow p-2 text-success no-click clip-text"
+      class="
+        col-8
+        screen
+        bg-black
+        rounded
+        glow
+        p-2
+        text-success
+        no-click
+        clip-text
+      "
       v-html="httpQuery"
     ></div>
     <button class="col-1 comp-button comp-yellow" @click="clearInput">
@@ -129,6 +139,10 @@ export default {
 
 
 <style lang="scss" scoped>
+// .bg-primary {
+//   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%235da3ac' fill-opacity='1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+// }
+
 input {
   &:valid {
     border: 1px solid var(--bs-info);

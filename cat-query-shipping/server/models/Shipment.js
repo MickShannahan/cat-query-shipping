@@ -1,7 +1,7 @@
 import Cat from 'catid'
 import mongoose from 'mongoose'
 import { hashIt } from '../utils/Cryptor'
-import { bool, code, codeReg, crypto, cryptos, damageShipment, dateFormat, dateReg, dateTypes, description, planet, planetCode, planetNumber, postalHistory, postalStation, quadrantCode, shippingCost, shippingTier, shippingTiers, spaceDate, totalCost, tracking, trackingReg } from '../utils/Generators'
+import { bool, code, codeReg, crypto, cryptos, damageShipment, dateFormat, dateReg, dateTypes, description, glitches, planet, planetCode, planetNumber, postalHistory, postalStation, quadrantCode, shippingCost, shippingTier, shippingTiers, spaceDate, totalCost, tracking, trackingReg } from '../utils/Generators'
 import { logger } from '../utils/Logger'
 const Schema = mongoose.Schema
 
@@ -52,6 +52,8 @@ export const ShipmentSchema = new Schema(
     missingProperties: { type: Array, default: [] },
     damagedProperties: { type: Object, default: {} },
     damagedKeys: { type: Object, default: {} },
+    glitch: { type: String, enum: [...glitches, ''], default: '' },
+    glitchData: { type: Object },
     found: { type: Boolean, default: false },
     difficultyRating: { type: Number, default: 1, min: 1, max: 20 },
     creditsWorth: { type: Number, default: 0 }
@@ -143,11 +145,13 @@ export class RandomShipment {
     this.missingProperties = []
     this.damagedProperties = {}
     this.damagedKeys = {}
+    this.glitch = data.glitch || ''
+    this.glitchData = {}
     damageShipment(this, rating)
     // this.missingProperties = missingProperties(this, 0.3)
     // this.damagedProperties = damageProperties(this, 0.2)
     // this.damagedKeys = damageKeys(this, 0.1)
     // this.difficultyRating = difficultyRating(this.missingProperties, this.damagedProperties, this.damagedKeys)
-    this.creditsWorth = this.difficultyRating * 10
+    this.creditsWorth = (this.glitch !== '' ? 15 : 10) * this.difficultyRating
   }
 }

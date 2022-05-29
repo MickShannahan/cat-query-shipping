@@ -95,6 +95,10 @@
             </div>
           </div>
         </div>
+        <!-- STUB -->
+        <div class="col-12 pt-1">
+          <Glitch />
+        </div>
       </div>
     </div>
   </div>
@@ -110,10 +114,13 @@ import { logger } from '../utils/Logger';
 export default {
   setup() {
     const newDifficulty = ref(1)
+    const glitchProgress = ref(0)
     return {
       account: computed(() => AppState.account),
       creditsWorth: computed(() => AppState.lostShipment.creditsWorth),
       difficulty: computed(() => AppState.lostShipment.difficultyRating),
+      glitchProgress,
+      glitchWidth: computed(() => glitchProgress.value + '%'),
       lostShipment: computed(() => {
         AppState.lostShipment?.creditsWorth
         AppState.lostShipment?.difficultyRating
@@ -133,7 +140,7 @@ export default {
         Pop.toast('copied ' + elem.innerText, 'success', 'top')
       },
       visible(key) {
-        let notShown = ['_id', 'id', '__v', 'creditsWorth', 'difficultyRating']
+        let notShown = ['_id', 'id', '__v', 'creditsWorth', 'difficultyRating', 'glitch', 'postalHistory', 'postalStation', 'containsHazard', 'glitchData']
         return !notShown.includes(key)
       }
     }
@@ -176,6 +183,8 @@ export default {
   opacity: 0;
 }
 
+// SECTION SCREEN
+
 .screenEffect-enter-active,
 .screenEffect-leave-active {
   opacity: 1;
@@ -186,6 +195,32 @@ export default {
 .screenEffect-leave-to {
   opacity: 0;
 }
+
+.mutation-wrapper {
+  min-height: 1.5em;
+  padding: 1px;
+  position: relative;
+}
+
+.mutation-progress {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  width: v-bind(glitchWidth);
+  background: var(--bs-info);
+  transition: linear 0.5s width;
+  transition-delay: 0.2s;
+}
+.mutation-under {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  width: v-bind(glitchWidth);
+  background: var(--bs-warning);
+  transition: linear 0.5s width;
+}
+
+// SECTION HOVERS
 
 .paper-edge {
   height: 100%;
