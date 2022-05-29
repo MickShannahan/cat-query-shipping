@@ -777,10 +777,17 @@ function setGlitchData(glitchName, shipment) {
   logger.log(glitchName, shipment)
   switch (glitchName) {
     case 'timer':
-      shipment.glitchData.timeLimit = 140 - Math.ceil(shipment.difficultyRating * 5.5)
+      shipment.glitchData = {
+        faces: ['/ᐠ .ᆺ. ᐟ\\ﾉ', '/ᐠ .o. ᐟ\\ﾉ', '/ᐠ _ᆺ_ ᐟ\\ﾉ'],
+        phrases: ['hurrrry', 'no time left', 'meow, no fast', 'you slow brr', 'sloooow....'],
+        timeLimit: 80 - Math.ceil(shipment.difficultyRating * 3)
+      }
+      break
     // eslint-disable-next-line no-fallthrough
     default:
-      shipment.glitchData.extraResults = Math.ceil(shipment.difficultyRating / 2.2)
+      shipment.glithData = {}
       break
   }
+  shipment.glitchData.extraResults = Math.ceil(shipment.difficultyRating / 2.2)
+  shipment.glitchData.failed = 0
 }

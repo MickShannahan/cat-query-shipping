@@ -119,6 +119,94 @@ div {
   }
 }
 
+.glitch-text {
+  position: relative;
+  margin: 0 auto;
+  color: var(--bs-info);
+  font-size: 16px;
+  letter-spacing: 0.01em;
+  transform: scale3d(1, 1, 1);
+
+  &::before,
+  &::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    background: #161d1b;
+    color: var(--bs-info);
+    clip: rect(0, 900px, 0, 0);
+  }
+
+  &::before {
+    left: 7px;
+    text-shadow: 1px 0 var(--bs-danger);
+    animation: glitch-effect 3s infinite linear alternate-reverse;
+  }
+
+  &::after {
+    left: 3px;
+    text-shadow: -1px 0 var(--bs-warning);
+    animation: glitch-effect 2s infinite linear alternate-reverse;
+  }
+}
+
+$steps: 20;
+
+@keyframes glitch-effect {
+  @for $i from 0 through $steps {
+    #{percentage($i*(1/$steps))} {
+      clip: rect(random(100) + px, 9999px, random(100) + px, 0);
+    }
+  }
+}
+
+@mixin glitch-text($primary, $secondary, $bg) {
+  position: relative;
+  margin: 0 auto;
+  color: $primary;
+  font-size: 16px;
+  letter-spacing: 0.01em;
+  transform: scale3d(1, 1, 1);
+
+  &::before,
+  &::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    background: $bg;
+    color: $primary;
+    clip: rect(0, 900px, 0, 0);
+  }
+
+  &::before {
+    left: 7px;
+    text-shadow: 1px 0 $secondary;
+    animation: glitch-effect 3s infinite linear alternate-reverse;
+  }
+
+  &::after {
+    left: 3px;
+    text-shadow: -1px 0 adjust-hue($secondary, 50deg);
+    animation: glitch-effect 2s infinite linear alternate-reverse;
+  }
+}
+
+$steps: 20;
+
+@keyframes glitch-effect {
+  @for $i from 0 through $steps {
+    #{percentage($i*(1/$steps))} {
+      clip: rect(random(100) + px, 9999px, random(100) + px, 0);
+    }
+  }
+}
+
 
 // PHYSICAL BUTTONS AND STUFF
 

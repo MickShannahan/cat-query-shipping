@@ -12,18 +12,26 @@
         <GJumper v-if="glitch == 'jumper'" />
       </div>
     </div>
-    <div class="glitch-name col-3 border border-info">{{ glitch }}</div>
+    <div class="glitch-name col-3 border border-info">
+      <div class="glitch-text" :data-text="'glitch: ' + glitch">
+        glitch: {{ glitch }}
+      </div>
+    </div>
+    <audio @load="playSound" src="../assets/sounds/glitchload.wav" />
   </div>
 </template>
 
 
 <script>
 import { AppState } from '../AppState';
-import { computed, reactive, onMounted } from 'vue';
+import { computed, reactive, onMounted, watchEffect } from 'vue';
 export default {
   setup() {
     return {
-      glitch: computed(() => AppState.lostShipment.glitch)
+      glitch: computed(() => AppState.lostShipment.glitch),
+      playSound(event) {
+        event.target.play()
+      }
     }
   }
 };
@@ -39,5 +47,10 @@ export default {
   &-name {
     min-height: 1.65em;
   }
+}
+
+.glitch-name {
+  position: relative;
+  display: inline-block;
 }
 </style>
