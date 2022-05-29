@@ -29,6 +29,7 @@ import { computed, onMounted, ref } from '@vue/runtime-core';
 import Pop from '../../utils/Pop';
 import { shipmentService } from '../../services/ShipmentService';
 import { AppState } from '../../AppState';
+import { arrRandom, randI } from '../../utils/logic'
 import { logger } from '../../utils/Logger';
 export default {
   setup() {
@@ -51,7 +52,8 @@ export default {
             intervalFace.value = clearInterval(intervalFace.value)
             timer.value = glitchData.value.timeLimit
             if (timer.value == glitchData.value.timeLimit) {
-              Pop.toast('Too Slow Joe, maybe next time!', 'error', 'center')
+              logger.log('out of time', timer.value, glitchData.value.timeLimit)
+              Pop.toast(glitchData.value.lossFace + ' - ' + arrRandom(glitchData.value.lossPhrases), 'error', 'center')
               shipmentService.getLostShipment()
               AppState.searchResults = []
             }
@@ -60,10 +62,20 @@ export default {
       }
       if (!intervalFace.value) {
         intervalFace.value = setInterval(() => {
-          faceI.value = Math.floor(Math.random() * faces.value.length)
-          phraseI.value = Math.floor(Math.random() * phrases.value.length)
+          faceI.value = randI(faces.value)
+          phraseI.value = randI(phrases.value)
         }, 10000)
       }
+      const title = "Timer Glitch?"
+      AppState.chatTree[title] = {
+        text: "The timer glitch, internally known as 'Toby' is an elusive one. Caught up in some sort of time dilation, it's looking to get lost quick. If you don't find it before the clock runs down then that's it, lost again.  Well why are you just standing there? By now this 'Toby' is already half way to the outer belts!",
+        branches: ['[Go Back]']
+      }
+      AppState.chatTree['[glitch]'] = {
+        text: "Looks like this shipment is glitched. Glitches attach to damaged shipments and all have their own unique personalities. These glitches can range from annoying to dangerous and should be handled with EXTRA care. Glitches also mess up your response manifest, always returning more shipments than you actually pinged. Don't worry though this doesn't effect your record, plus finding a glitched shipments is worth more credits!",
+        branches: [title]
+      }
+      AppState.bozNotification = ['[glitch]']
     })
     return {
       glitchData,

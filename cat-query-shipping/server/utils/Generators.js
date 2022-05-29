@@ -15,6 +15,7 @@ const nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 const sectorAlph = ['A', 'C', 'V', 'X', 'Z']
 const sectorNums = ['01', '22', '42', '67', '99']
 export const glitches = ['jumper', 'scrambler', 'burner', 'timer', 'printer', 'trapper', 'speller']
+// export const glitches = ['timer']
 export const shippingTiers = ['1LTYR', '2LTYR', 'METEOR-FREIGHT', 'GALAXY-EXPRESS', 'INTERPLANETARY/DOMESTIC', 'WARP', 'WARP+', 'WARP-FREIGHT']
 const planets = [
   'Mercury',
@@ -688,7 +689,7 @@ export function damageShipment(shipment, difficulty) {
   if (difficulty > 10) { glitchChance = chance(0.7) }
   if (difficulty > 17) { max *= 1.13 }
 
-  if (glitchChance || shipment.glitch) { shipment.glitch = random(glitches); setGlitchData(shipment.glitch, shipment) }
+  if (glitchChance || shipment.glitch) { shipment.glitch = shipment.glitch || random(glitches); setGlitchData(shipment.glitch, shipment) }
   for (let points = 0; max >= points;) {
     const weight = random(Object.keys(props))
     const prop = random(props[weight])
@@ -780,6 +781,8 @@ function setGlitchData(glitchName, shipment) {
       shipment.glitchData = {
         faces: ['/ᐠ .ᆺ. ᐟ\\ﾉ', '/ᐠ .o. ᐟ\\ﾉ', '/ᐠ _ᆺ_ ᐟ\\ﾉ'],
         phrases: ['hurrrry', 'no time left', 'meow, no fast', 'you slow brr', 'sloooow....'],
+        lossFace: 'ฅ/ᐠ ｡ᆺ｡ ᐟ\\ﾉ',
+        lossPhrases: ['brrrreow, you slow, good bye.', 'too slow, maybe next cycle', 'me gone now', 'you slow at job', 'starrrrs die fasterrr'],
         timeLimit: 80 - Math.ceil(shipment.difficultyRating * 3)
       }
       break
