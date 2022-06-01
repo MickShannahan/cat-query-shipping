@@ -6,7 +6,6 @@
         <GBurner v-if="glitch == 'burner'" />
         <GTrapper v-if="glitch == 'trapper'" />
         <GScrambler v-if="glitch == 'scrambler'" />
-        <GBurner v-if="glitch == 'burner'" />
         <GSpeller v-if="glitch == 'speller'" />
         <GPrinter v-if="glitch == 'printer'" />
         <GJumper v-if="glitch == 'jumper'" />

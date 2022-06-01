@@ -25,7 +25,11 @@
         <!-- STUB shipment side -->
         <div id="tour-shipment-details" class="col-9 pe-3">
           <transition name="screenEffect" mode="out-in">
-            <div v-if="lostShipment.id" class="row border border-info">
+            <div
+              id="shipment-details"
+              v-if="lostShipment.id"
+              class="row border border-info"
+            >
               <div
                 v-for="(value, key) in lostShipment"
                 v-show="visible(key)"
@@ -34,14 +38,18 @@
               >
                 <div class="glitch">
                   <span
-                    class="hover text-secondary lighten-30 line"
+                    class="hover text-secondary lighten-30 line key"
                     :data-text="key"
                     @click="copy"
                     >{{ key }}</span
                   >:
                 </div>
                 <span class="glitch">
-                  <span class="hover line" @click="copy" :data-text="value">
+                  <span
+                    class="hover line value"
+                    @click="copy"
+                    :data-text="value"
+                  >
                     {{ value }}</span
                   >
                 </span>
