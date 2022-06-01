@@ -11,4 +11,4 @@ jobs:
     - name: Heroku Push
       env: 
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: git push heroku main
+      run: git push heroku main -f
