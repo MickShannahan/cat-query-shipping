@@ -25,7 +25,8 @@ class ProfileService {
       }])
       .collation({ locale: 'en_US', strength: 1 })
       .skip(Number(offset))
-      .limit(20)
+      .sort('credits')
+      .limit(100)
       .exec()
   }
 }

@@ -76,7 +76,7 @@
       </div>
 
       <!-- STUB Leaderboard -->
-      <div class="col-lg-6 shadow bg-primary lighten-20 rounded p-3">
+      <div class="col-lg-6 shadow bg-primary lighten-20 rounded p-3 mb-5">
         <div class="row justif-content-center leader-border p-2 mx-3">
           <h4 class="col-12 text-center">
             <i class="mdi mdi-cat mx-1"></i>Employee of the Cycle<i
@@ -97,7 +97,7 @@
               <b class="text-primary"> {{ leaderboard[0]?.employeeGrade }}</b>
             </h4>
           </div>
-          <div class="col-6">
+          <div class="col-6 mb-5">
             <img
               class="img-fluid border border-primary rounded-1"
               :src="leaderboard[0]?.picture"
@@ -112,28 +112,30 @@
           <div class="col-3"><i class="mdi mdi-smart-card mx-1"></i></div>
         </div>
         <!-- TODO ABSTRACT THIS -->
-        <div class="row leaderboard p-0">
-          <div class="col-12 p-0">
-            <div
-              v-for="player in leaderboard.slice(1)"
-              :key="player.id"
-              class="row mt-2 px-2"
-              :class="{
-                'text-warning': player.id == account.id,
-                'text-dark': player.id != account.id,
-              }"
-            >
-              <div class="col-4 list-border">
-                {{ player.name }}
-              </div>
-              <div class="col-3 list-border">
-                {{ player.credits }}
-              </div>
-              <div class="col-2 list-border">
-                {{ player.shipmentsFound?.length }}
-              </div>
-              <div class="col-3 list-border">
-                {{ player.employeeGrade }}
+        <div class="row p-0">
+          <div class="leaderboard h-25">
+            <div class="col-12 p-0">
+              <div
+                v-for="player in leaderboard.slice(1)"
+                :key="player.id"
+                class="row mt-2 px-2"
+                :class="{
+                  'text-warning': player.id == account.id,
+                  'text-dark': player.id != account.id,
+                }"
+              >
+                <div class="col-4 list-border">
+                  {{ player.name }}
+                </div>
+                <div class="col-3 list-border">
+                  {{ player.credits }}
+                </div>
+                <div class="col-2 list-border">
+                  {{ player.shipmentsFound?.length }}
+                </div>
+                <div class="col-3 list-border">
+                  {{ player.employeeGrade }}
+                </div>
               </div>
             </div>
           </div>
@@ -198,7 +200,8 @@ export default {
 }
 
 .leaderboard {
-  max-height: 60vh;
+  min-height: 60vh;
+  padding-bottom: 1em;
 }
 
 .leader-border {
