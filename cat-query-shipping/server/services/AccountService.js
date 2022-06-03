@@ -105,11 +105,11 @@ class AccountService {
     if (data.pages > 0) {
       account.totalPagesPrinted += data.pages
       account.currentPagesPrinted += data.pages
-      account.pagesHistory = [account.currentPagesPrinted, ...account.pagesHistory.splice(0, 5)]
+      account.pagesHistory = [account.currentPagesPrinted, ...account.pagesHistory.splice(0, 8)]
     }
     account.totalRequestsMade += data.requests
     account.currentRequestsMade += data.requests
-    account.requestsHistory = [account.currentRequestsMade, ...account.requestsHistory.splice(0, 5)]
+    account.requestsHistory = [account.currentRequestsMade, ...account.requestsHistory.splice(0, 8)]
     // if doing bad loose a package
     if (account.currentPagesPrinted >= 50 && account.currentRequestsMade === 3) {
       for (let i = 0; i <= Math.random() * 10; i++) {
