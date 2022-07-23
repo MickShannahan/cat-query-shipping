@@ -788,8 +788,12 @@ function setGlitchData(glitchName, shipment) {
       break
     case 'burner':
       // eslint-disable-next-line no-case-declarations
-      const burns = []
-      for (let i = 0; i < Math.round(shipment.difficultyRating / 2); i++) { burns.push(random(az)) }
+      const burns = {}
+      for (let i = 0; i < Math.round(shipment.difficultyRating * 1.2); i++) {
+        const letter = random(az)
+        burns[letter] = burns[letter] ? burns[letter] + 1 : 1
+        burns[letter] = burns[letter] > 3 ? 3 : burns[letter]
+      }
       shipment.glitchData = {
         faces: ['/ᐠ ̷  ̷𝅒 ̷‸ ̷𝅒 ̷ ᐟ\\ﾉ', '/ᐠ ̷  ̷𝅒 ̷｡ ̷𝅒 ̷ ᐟ\\ﾉ', '/ᐠ ̷  ̷- ̷‸ ̷- ̷ ᐟ\\ﾉ'],
         phrases: ['that one\'s gone', 'to ashes', '...', 'nice and warm', 'you\'ll miss that one'],

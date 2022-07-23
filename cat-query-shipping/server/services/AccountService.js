@@ -119,8 +119,8 @@ class AccountService {
     }
     logger.log('update account data', account)
     // eslint-disable-next-line eqeqeq
-    account.averagePagesPrinted = Math.round(account.pagesHistory.reduce((v, a) => a + v) / account.pagesHistory.length)
-    account.averageRequestsMade = Math.round(account.requestsHistory.reduce((v, a) => a + v) / account.requestsHistory.length)
+    account.averagePagesPrinted = Math.ceil(account.pagesHistory.reduce((v, a) => a + v) / account.pagesHistory.length)
+    account.averageRequestsMade = Math.ceil(account.requestsHistory.reduce((v, a) => a + v) / account.requestsHistory.length)
     await chatsService.employeeFeedback(account, oldAccount)
     account.save()
   }
@@ -154,14 +154,14 @@ class AccountService {
           if (score <= 6) {
             account.employeeGrade = 'S+'
             account.maxDifficulty = 20
-            account.minDifficulty = 14
+            account.minDifficulty = 15
           } else if (score <= 9) {
             account.employeeGrade = 'S'
             account.maxDifficulty = 20
             account.minDifficulty = 12
           } else if (score <= 15) {
             account.employeeGrade = 'A'
-            account.maxDifficulty = 19
+            account.maxDifficulty = 18
             account.minDifficulty = 10
           } else if (score <= 25) {
             account.employeeGrade = 'B'
@@ -196,7 +196,6 @@ class AccountService {
         account.unlocks.push('mongo-terminal')
         break
       case 'Bob Cat':
-        // socketProvider.messageUser(account.userId, 'boz:notification', { data: account, chat: { 'Updated Record': { text: `Hey I just updated your employed record kid. Looks like your are now a ${account.employeeGrade} grade. With that I unlocked the Mongo Terminal for you too, so you can start using that to refine your searches.` } } })
         account.unlocks.push('mongo-terminal')
         break
     }

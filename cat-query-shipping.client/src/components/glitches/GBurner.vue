@@ -4,8 +4,13 @@
       <div class="col-6 glitch-text" :data-text="faces[0]">
         <span>{{ faces[0] }} {{ phrases[0] }}</span>
       </div>
-      <div class="col-6 text-danger">
-        <span v-for="b in glitchData.burned" :key="b">{{ b }} </span>
+      <div class="col-6">
+        <span
+          v-for="(n, b) in glitchData.burned"
+          :key="b"
+          :class="{ 'text-danger': n == 3, 'text-warning': n == 2 }"
+          >{{ b }}
+        </span>
       </div>
     </div>
   </div>
@@ -20,25 +25,34 @@ import { logger } from '../../utils/Logger';
 export default {
   setup() {
     const glitchData = computed(() => AppState.lostShipment.glitchData)
+    const oldBurned = ref('')
     const faces = computed(() => glitchData.value.faces)
     const phrases = computed(() => glitchData.value.phrases)
     const inputField = ref('')
     watchEffect(() => {
       let inputBox = document.getElementById('basic-url') || document.getElementById('code-window')
-      inputBox.addEventListener('keydown', keyPress)
+      inputBox.addEventListener('keyup', keyPress)
       inputField.value = inputBox.value
     })
-    function keyPress(event) {
-      logger.log(event.key)
-      if (glitchData.value.burned.includes(event.key)) {
-        logger.log('burned key', event.key)
-        event.target.value = inputField.value
-      } else if (event.key.length < 2) {
-        inputField.value += event.key
-        glitchData.value.burned.push(event.key)
-      } else if (event.key == 'Backspace') {
-        inputField.value = inputField.value.slice(0, inputField.value.length - 2)
-      }
+    function keyPress() {
+      let input = document.getElementById('basic-url').value.split('')
+      let data = { ...oldBurned.value }
+      input.forEach(k => {
+        if (k == '?') return
+        data[k] = data[k] ? data[k] + 1 : 1
+        if (data[k] > 3) {
+          data[k] = 3
+          blockKey()
+          return
+        }
+      })
+      AppState.lostShipment.glitchData.burned = data
+    }
+    function blockKey() {
+      let inputElm = document.getElementById('basic-url')
+      logger.log('burnt', inputElm)
+      inputElm.value = inputElm.value.slice(0, inputElm.value.length)
+
     }
     function burnLetters() {
       let screen = document.getElementById('shipment-details')
@@ -67,8 +81,10 @@ export default {
         }
       })
     }
+    onMounted(() => oldBurned.value = { ...AppState.lostShipment.glitchData.burned })
     return {
       glitchData,
+      oldBurned,
       faces,
       phrases,
       inputField,

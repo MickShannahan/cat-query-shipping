@@ -49,7 +49,7 @@ export class AccountController extends BaseController {
         await gameService.getLostShipment({}, req.userInfo)
       }
       let shipment = await shipmentsService.getLostById(account.lostShipmentId)
-      if (shipment.glitch) {
+      if (shipment.glitch && process.env.NODE_ENV !== 'dev') {
         shipment = await gameService.getLostShipment({}, account)
       }
       return res.send(shipment)
