@@ -1,13 +1,15 @@
 <template>
-<div class="d-flex ms-5 count-container">
-        <div class="shipment-counter text-warning bg-info rounded shadow p-1">
-          <div class="text-primary px-2">shipments left</div>
-          <div class="screen px-2" :class="{'bg-black text-warning': !flash, 'bg-warning text-dark': flash}">
-            {{remaining || '00000'}}
-          </div>
-      </div>
-        <div v-show="recentUser.name" class="found-card p-1 text-primary">{{recentUser.name}} found a shipment</div>
+  <div class="d-flex count-container">
+      <div class="shipment-counter text-warning bg-info rounded shadow p-1">
+        <div class="text-primary px-2">shipments left</div>
+        <div class="screen px-2 text-end" :class="{'bg-black text-warning': !flash, 'bg-warning text-dark': flash}">
+          {{remaining || '00000'}}
+        </div>
     </div>
+      <div v-show="recentUser.name" class="found-card p-1 text-primary">{{recentUser.name}} found a shipment</div>
+  </div>
+  <!-- <div class="btn btn-danger fixed-bottom w-25"  @click="test">test</div> -->
+
 </template>
 
 <script>
@@ -46,8 +48,9 @@ export default {
           let user = AppState.recentFoundUsers.shift()
           logger.log('print next user', user)
           recentUser.value = user
+          setTimeout(()=> recentUser.value = {}, 5000)
           }
-        }, 6000)
+        }, 5200)
       }
     })
     onMounted( async ()=>{
@@ -63,7 +66,10 @@ export default {
       remaining,
       flash,
       flashNumber,
-      recentUsers: computed(()=> AppState.recentFoundUser[0])
+      recentUsers: computed(()=> AppState.recentFoundUser[0]),
+      test(){
+        AppState.recentFoundUsers.push({name: 'testing'})
+      }
     }
   }
 
@@ -72,7 +78,8 @@ export default {
 
 <style lang="scss" scoped>
 .count-container{
-  top: -1.5em;
+  top: 2px;
+  left: -.75em;
   position: relative;
   flex-direction: row;
 }
@@ -86,7 +93,7 @@ border-left-color: #7ab6a2 ;
 border-top-color: #7ab6a2 ;
 }
 div{
-  width: 8em;
+  width: 12em;
   position: relative;
 }
 background: var(--bs-info);
@@ -96,12 +103,12 @@ background: var(--bs-info);
   background: var(--bs-light);
   border-right: 3px dotted #696a6a;
   border-radius: 2px;
-  z-index: -1;
+  z-index: -2;
   font-size: 15px;
-  position: relative;
-  top: 15px;
-  min-width: 8em;
-  left: 136px;
+  position: absolute;
+  top: 7px;
+  left: 12.5em;
+  min-width: 9em;
   animation: 5s ease print-card 0s 1 normal;
   opacity: 0;
 }

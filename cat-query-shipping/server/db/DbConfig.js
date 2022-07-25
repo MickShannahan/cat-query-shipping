@@ -9,11 +9,11 @@ mongoose.connection.on('connection', () => {
 })
 
 export class DbConnection {
-  static async connect(connectionstring = process.env.CONNECTION_STRING || '') {
+  static async connect(connectionstring = process.env.NODE_ENV === 'dev' ? process.env.CONNECTION_STRING_DEV : process.env.CONNECTION_STRING || 'no string') {
     const status = 0
     try {
       const status = await mongoose.connect(connectionstring)
-      logger.log('[CONNECTION TO DB SUCCESSFUL]')
+      logger.log('[CONNECTION TO DB SUCCESSFUL] => ', connectionstring)
       return status
     } catch (e) {
       logger.error(

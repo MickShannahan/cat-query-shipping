@@ -20,7 +20,7 @@
     </div>
     <CardTray />
     <!-- STUB Screen -->
-    <div id="tour-shipment-panel" class="col-11 screen text-info">
+    <div id="tour-shipment-panel" class="col-11 screen text-info screen-on">
       <div class="row p-2">
         <!-- STUB shipment side -->
         <div id="tour-shipment-details" class="col-9 pe-3">
@@ -38,6 +38,7 @@
               >
                 <div class="glitch">
                   <span
+                    :id="key + '-key'"
                     class="hover text-secondary lighten-30 line key"
                     :data-text="key"
                     @click="copy"
@@ -46,6 +47,7 @@
                 </div>
                 <span class="glitch">
                   <span
+                    :id="key + '-value'"
                     class="hover line value"
                     @click="copy"
                     :data-text="value"

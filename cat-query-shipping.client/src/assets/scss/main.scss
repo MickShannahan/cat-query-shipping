@@ -217,12 +217,20 @@ $steps: 20;
 .screen {
   min-height: 1em;
   background-color: rgb(22, 29, 27);
-  background-image: url('../img/Textures/black-orchid.png');
+  background-image: url('/src/assets/img/Textures/black-orchid.png');
   border-top: 5px solid #315f8a;
   border-left: 5px solid #315f8a;
   border-bottom: 5px solid #55a6a8;
   border-right: 5px solid #55a6a8;
   box-shadow: inset 0px 0px 10px #a4d5a58c;
+}
+
+.screen-on{
+  animation: screen-on linear .5s forwards 1;
+}
+@keyframes sreen-on {
+  0%{background-color: rgb(34, 105, 85);}
+  100%{background-color:rgb(22, 29, 27);}
 }
 
 .comp-button {

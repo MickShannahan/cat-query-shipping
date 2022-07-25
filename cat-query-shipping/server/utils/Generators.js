@@ -1,3 +1,4 @@
+import { setGlitchData } from './Glitches'
 import { logger } from './Logger'
 
 // RegExs
@@ -8,7 +9,7 @@ export const dateReg = /(Sol|Minkow|Tera|Union):[0-9]{2}/
 const trackingChance = 0.25
 export const dateTypes = ['Sol', 'Minkow', 'Tera', 'Union']
 export const cryptos = ['Union', 'KITCOIN', 'M0nSER4T', 'Scratch', 'Ca+N!p']
-const az = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+export const az = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 const digits = ['0', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 const alph = ['A', 'B', 'C', 'E', 'F', 'G', 'K', 'M', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z']
 const nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
@@ -425,7 +426,7 @@ const items = {
 const desc = ['%I% by %B%', '2 %B% brand %I%s', 'A %I%, made by the %B% company', 'One %B% style %I%', 'Some %I%s by %B%', 'A Dozen %I%s of vaious brands', 'One Broken %I%', 'A Pair of %B% %I%s', 'Just some generic %I%', 'A Home-made %I%', 'It\'s just and empty box', 'The %B% %I%', 'One %I%, made by %B%', 'A Simple %I%', 'A Charred %I%', 'A wet %B% %I%', 'One Fresh %B% %I%', 'An assortment of %I%s', 'A bunch of broken %B% %I%s', 'A Single Vintage %I% by the %B% company', 'A Spraypainted %I%, probably %B% in make', 'A Damaged %B% %I%', 'Just the empty box for a %B% %I%', 'A Box of %B% %I%s', 'A mold covered %I%']
 const flavors = ['. The quality looks shotty.', '. The quality is supreme.', ' of average quality.', '. These are rare, you wonder where they were ordered from.', '. Quite ordinary', '. This Sector gets a lot of these...', '. You used to have one just like it.', ', along with a strange smell.', ', along with poorly written note. If only you could read Burmese.', '. By the looks, probably knock-off.', '. Meow.', '. "Daring aren\'t we."', '. Wonder what it tastes like.', '. Bet they are missing that.', '. What kind of Cat would order this.', '. Probably better this stays missing.', '. Reminds you of home.', '. You wonder if this is hazardous.', '. There is a hole in the box...', '.  The box is pretty beat up.', '. It looks like it was burned at some point.', ' and a little vommit.', '. Should return this one to the sender.', ' covered in hair.', '. Should Rush Ship this one next time.', '. Outside of the box says "FRAGILE".', '. The box is kinda soggy.', ' and it stinks.', ' but it seems to be missing something', ' and a note from grandma.', '. The Box has a warning label.', ' and a now long dead mouse.', '. The box is filled with trash.', '.  You wonder how this got lost.', ' in an oversized box.', ' stuffed into a box that is clearly too small.']
 
-function random(arr, count = 1) {
+export function random(arr, count = 1) {
   let out = ''
   for (let i = 0; i < count; i++) {
     out += arr[Math.floor(Math.random() * arr.length)]
@@ -689,7 +690,6 @@ export function damageShipment(shipment, difficulty) {
   if (difficulty > 10) { glitchChance = chance(0.7) }
   if (difficulty > 17) { max *= 1.13 }
 
-  if (glitchChance || shipment.glitch) { shipment.glitch = shipment.glitch || random(glitches); setGlitchData(shipment.glitch, shipment) }
   for (let points = 0; max >= points;) {
     const weight = random(Object.keys(props))
     const prop = random(props[weight])
@@ -715,6 +715,7 @@ export function damageShipment(shipment, difficulty) {
     if (props[weight].length === 0) delete props[weight]
     // if (max < points)logger.error('Done', shipment.recipient, 'd' + difficulty, 'm' + max, 'p' + points, damages, shipment)
   }
+  if (glitchChance || shipment.glitch) { shipment.glitch = shipment.glitch || random(glitches); setGlitchData(shipment.glitch, shipment) }
 }
 
 function pointCalc(damages, prop, weight, rand) {
@@ -773,40 +774,4 @@ function cypherString(string) {
 
 function binary(number) {
   return (parseInt(number) >>> 0).toString(2)
-}
-function setGlitchData(glitchName, shipment) {
-  logger.log(glitchName, shipment)
-  switch (glitchName) {
-    case 'timer':
-      shipment.glitchData = {
-        faces: ['/ᐠ .ᆺ. ᐟ\\ﾉ', '/ᐠ .o. ᐟ\\ﾉ', '/ᐠ _ᆺ_ ᐟ\\ﾉ'],
-        phrases: ['hurrrry', 'no time left', 'meow, no fast', 'you slow brr', 'sloooow....'],
-        lossFace: 'ฅ/ᐠ ｡ᆺ｡ ᐟ\\ﾉ',
-        lossPhrases: ['brrrreow, you slow, good bye.', 'too slow, maybe next cycle', 'me gone now', 'you slow at job', 'starrrrs die fasterrr'],
-        timeLimit: 80 - Math.ceil(shipment.difficultyRating * 3)
-      }
-      break
-    case 'burner':
-      // eslint-disable-next-line no-case-declarations
-      const burns = {}
-      for (let i = 0; i < Math.round(shipment.difficultyRating * 1.2); i++) {
-        const letter = random(az)
-        burns[letter] = burns[letter] ? burns[letter] + 1 : 1
-        burns[letter] = burns[letter] > 3 ? 3 : burns[letter]
-      }
-      shipment.glitchData = {
-        faces: ['/ᐠ ̷  ̷𝅒 ̷‸ ̷𝅒 ̷ ᐟ\\ﾉ', '/ᐠ ̷  ̷𝅒 ̷｡ ̷𝅒 ̷ ᐟ\\ﾉ', '/ᐠ ̷  ̷- ̷‸ ̷- ̷ ᐟ\\ﾉ'],
-        phrases: ['that one\'s gone', 'to ashes', '...', 'nice and warm', 'you\'ll miss that one'],
-        lossFace: 'ฅ/ᐠ ̷  ̷𝅒 ̷‸ ̷𝅒 ̷ ᐟ\\ฅﾉ',
-        lossPhrases: ['... heh', '...nothing left...', 'success... for me', 'nice try. syke', 'balnce restored'],
-        burned: burns
-      }
-      break
-    // eslint-disable-next-line no-fallthrough
-    default:
-      shipment.glithData = {}
-      break
-  }
-  shipment.glitchData.extraResults = Math.ceil(shipment.difficultyRating / 2.2)
-  shipment.glitchData.failed = 0
 }

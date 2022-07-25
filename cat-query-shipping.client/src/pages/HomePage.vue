@@ -28,7 +28,6 @@ export default {
   setup() {
     const route = useRoute()
     const showTabs = ref(false)
-    const compScreen = ref('http')
     onMounted(() => {
       window.addEventListener('keydown', (e) => {
         if (e.ctrlKey && e.key == 's') {
@@ -38,13 +37,13 @@ export default {
       })
     })
     return {
-      compScreen,
+      compScreen: computed(()=> AppState.searchType),
       showTabs,
       lostShipmentLoading: computed(() => AppState.loading.lostShipment),
       account: computed(() => AppState.account),
       switchScreen() {
         logger.log('switching')
-        compScreen.value = compScreen.value == 'http' ? 'code' : 'http'
+        AppState.searchType = AppState.searchType == 'http' ? 'code' : 'http'
       }
     }
   }

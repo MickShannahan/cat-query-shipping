@@ -152,6 +152,6 @@ export class RandomShipment {
     // this.damagedProperties = damageProperties(this, 0.2)
     // this.damagedKeys = damageKeys(this, 0.1)
     // this.difficultyRating = difficultyRating(this.missingProperties, this.damagedProperties, this.damagedKeys)
-    this.creditsWorth = (this.glitch !== '' ? 15 : 10) * this.difficultyRating
+    this.creditsWorth = Math.round((this.glitch !== '' ? 15 : 10) * (this.difficultyRating * 1.25))
   }
 }

@@ -16,7 +16,7 @@
         glitch: {{ glitch }}
       </div>
     </div>
-    <audio @load="playSound" src="../assets/sounds/glitchload.wav" />
+    <audio @load="playSound" src="/src/assets/sounds/glitchload.wav" ></audio>
   </div>
 </template>
 

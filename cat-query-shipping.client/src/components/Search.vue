@@ -26,10 +26,11 @@
           mongo
         </button>
       </div>
-      <div id="tour-search" class="input-group">
+      <div id="tour-search" class="input-group text-info">
         <span class="input-group-text bg-dark text-success" id="basic-addon3">{{
           baseUrl
         }}</span>
+        <!-- STUB search input -->
         <input
           spellcheck="false"
           autocomplete="off"

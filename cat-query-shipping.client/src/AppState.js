@@ -2,23 +2,29 @@ import { reactive } from 'vue'
 
 // NOTE AppState is a reactive object to contain app level data
 export const AppState = reactive({
+  // User
   user: {},
   users: [],
   account: {},
   profiles: [],
-  lostShipment: {},
-  shipmentsRemaining: null,
   recentFoundUsers: [],
-  baseUrl: 'cupshipments.mw/api/shipments',
-  searchValid:{ valid:true, noReserved:true, noUnsafe:true },
-  searchResults: [],
+  // System
   loading: {
     lostShipment: false,
     thread: false
   },
+  // Searching
+  shipmentsRemaining: null,
+  lostShipment: {},
+  searchType: 'http',
+  baseUrl: 'cupshipments.mw/api/shipments',
+  searchValid:{ valid:true, noReserved:true, noUnsafe:true },
+  searchResults: [],
   cardTray: {open: false},
   currentGuesses: [],
+  // Docs
   lastDocPage: 'Orientation',
+  // Chat
   chatBranch: {},
   lastBranches: [],
   bozNotification: '',

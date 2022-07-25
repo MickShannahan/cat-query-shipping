@@ -1,13 +1,14 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark-glass ps-3">
-    <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-      <div class="d-flex align-items-center">
+  <nav class=" navbar-dark bg-dark-glass row justify-content-center">
+    <ShipmentCounter/>
+    <div class="row justify-content-center">
+        <router-link class="navbar-brand col-6 text-center" :to="{ name: 'Home' }">
+      <div class="d-flex align-items-center justify-content-center">
         <img alt="logo" src="../assets/img/CUPS-Logo.png" height="40" />
         <h3 class="site-header ms-2">C.U.P.S</h3>
-        <small class="text-dark ms-3">alpha v.0.0.early.as.heck</small>
-      </div>
+    </div>
     </router-link>
-      <ShipmentCounter/>
+    </div>
       <div class="d-flex justify-content-end w-100">
         <CardReader/>
       </div>
@@ -82,10 +83,11 @@ export default {
     1px -1px 0px var(--bs-danger);
 }
 
-.navbar {
+.navbar-dark {
   border-bottom: outset 5px #485a648f;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
+  min-height: 6vh;
 }
 
 .dropdown-menu {

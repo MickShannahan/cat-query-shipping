@@ -1,5 +1,5 @@
 <template data-simplebar>
-  <header>
+  <header  class="container-fluid ">
     <Navbar />
   </header>
   <main class="container-fluid">
@@ -9,21 +9,31 @@
       </transition>
     </router-view>
   </main>
-  <footer class="container-fluid fixed-bottom">
-    <div class="text-light text-center p-2">
+  <footer class="container-fluid fixed-bottom d-flex align-items-center justify-content-center">
+    <div class="me-auto selectable text-light p-2 rounded" @click="switchBg"><i class="mdi mdi-lightbulb-outline"></i></div>
+    <div class="text-light text-center p-2 me-auto">
       Made with your <i class="mdi mdi-google-podcast"></i> Union Tax Credits
     </div>
   </footer>
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { AppState } from './AppState'
+import isoLight from '/src/assets/img/bg/Cups-room-iso.png'
+import isoDark from '/src/assets/img/bg/Cups-room-iso-dark.png'
 export default {
   name: 'App',
   setup() {
+    const bgSelcted = ref(0)
+    const bgs = ref([isoLight, isoDark])
     return {
-      appState: computed(() => AppState)
+      appState: computed(() => AppState),
+      bg: computed(`url(${bgs[bgSelcted.value]})`),
+      switchBg(){
+        bgSelcted.value = (bgSelcted.value + 1) % bgs.value.length
+        document.body.style.backgroundImage = ` radial-gradient(rgba(2, 0, 36, 0), rgba(34, 65, 60, 0.7)), url("${bgs.value[bgSelcted.value]}")`
+      }
     }
   }
 }
@@ -42,10 +52,11 @@ export default {
 
 body {
   background-image: radial-gradient(rgba(2, 0, 36, 0), rgba(34, 65, 60, 0.7)),
-    url("../assets/img/bg/Cups room iso.png");
+    url("../assets/img/bg/Cups-room-iso.png");
   background-position: center;
   background-size: cover;
   background-attachment: fixed;
+  transition: background-image linear .5s;
 }
 @import "./assets/scss/main.scss";
 

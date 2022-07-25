@@ -46,6 +46,9 @@ function sanitizeBody(body) {
     picture: body.picture,
     needsTour: body.needsTour
   }
+  if (process.env.NODE_ENV === 'dev' && body.lostShipmentId) {
+    writable.lostShipmentId = body.lostShipmentId
+  }
   return writable
 }
 
