@@ -54,7 +54,8 @@
       "titleBar.inactiveBackground": "#dc456199",
       "titleBar.inactiveForeground": "#e7e7e799",
       "statusBar.debuggingBackground": "#45dcc0",
-      "statusBar.debuggingForeground": "#15202b"
+      "statusBar.debuggingForeground": "#15202b",
+      "commandCenter.border": "#e7e7e799"
     },
     "peacock.color": "#dc4561"
   }
