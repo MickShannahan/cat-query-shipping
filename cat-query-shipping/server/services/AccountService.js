@@ -67,6 +67,7 @@ class AccountService {
     })
     account = await createAccountIfNeeded(account, user)
     await mergeSubsIfNeeded(account, user)
+    delete account.lostShipmentId
     return account
   }
 
