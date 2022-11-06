@@ -29,6 +29,10 @@ class ProfileService {
       .limit(100)
       .exec()
   }
+
+  async findEmployeesOfMonth() {
+    let profiles = dbContext.Profiles.find({})
+  }
 }
 
 export const profileService = new ProfileService()

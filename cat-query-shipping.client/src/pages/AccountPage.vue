@@ -5,63 +5,36 @@
       <div class="col-12 col-lg-5 me-lg-5 mb-3 p-lg-0">
         <div class="row bg-warning rounded lighten-10 shadow p-3">
           <div class="col-4">
-            <img
-              v-if="!editMode"
-              class="img-fluid border-2 border-warningS rounded-1"
-              :src="account.picture"
-              alt=""
-            />
-            <input
-              v-else
-              class="form-control w-100"
-              type="text"
-              placeholder="Enter image url.."
-              v-model="editable.picture"
-              required
-            />
+            <img v-if="!editMode" class="img-fluid border-2 border-warningS rounded-1" :src="account.picture" alt="" />
+            <UploadButton v-else @uploadComplete="u => editable.picture = u.url" :options="{
+              class: 'w-100 btn btn-white form-control px-3 py-5', spinner: '🐱'
+            }" />
           </div>
-          <div class="col-8 text-start position-relative">
-            <i
-              v-show="editMode"
-              class="
-                mdi mdi-cancel
-                me-5
-                icon
-                selectable
-                text-danger
-                darken-10
-                p-1
-                px-2
-                rounded
-              "
-              @click="editMode = !editMode"
-              v-tooltip:auto="'cancel'"
-            ></i>
-            <i
-              class="
-                mdi mdi-pencil
-                icon
-                selectable
-                text-warning
-                darken-40
-                p-1
-                px-2
-                rounded
-              "
-              @click="editAccount"
-              v-tooltip:auto="'edit account'"
-            ></i>
+          <div class=" col-8 text-start position-relative">
+            <i v-show="editMode" class="
+            mdi mdi-cancel
+            me-5
+            icon
+            selectable
+            text-danger
+            darken-10
+            p-1
+            px-2
+            rounded
+            " @click="editMode = !editMode" v-tooltip:auto="'cancel'"></i>
+            <i class="
+              mdi mdi-pencil
+              icon
+              selectable
+              text-warning
+              darken-40
+              p-1
+              px-2
+              rounded
+              " @click="editAccount" v-tooltip:auto="'edit account'"></i>
             <h5 v-if="!editMode" class="text-primary">{{ account.name }}</h5>
-            <input
-              v-else
-              class="form-control w-75"
-              type="text"
-              placeholder="Enter Name.."
-              v-model="editable.name"
-              minlength="5"
-              maxlength="15"
-              required
-            />
+            <input v-else class="form-control w-75" type="text" placeholder="Enter Name.." v-model="editable.name"
+              minlength="5" maxlength="15" required />
             <div>
               <i class="mdi mdi-google-podcast mx-1"></i>{{ account.credits }}
             </div>
@@ -79,15 +52,12 @@
       <div class="col-lg-6 shadow bg-primary lighten-20 rounded p-3 mb-5">
         <div class="row justif-content-center leader-border p-2 mx-3">
           <h4 class="col-12 text-center">
-            <i class="mdi mdi-cat mx-1"></i>Employee of the Cycle<i
-              class="mdi mdi-cat mx-1"
-            ></i>
+            <i class="mdi mdi-cat mx-1"></i>Employee of the Cycle<i class="mdi mdi-cat mx-1"></i>
           </h4>
           <div class="col-6">
             <h5 class="text-dark">{{ leaderboard[0]?.name }}</h5>
             <div>
-              <i class="mdi mdi-google-podcast mx-1"></i
-              >{{ leaderboard[0]?.credits }}
+              <i class="mdi mdi-google-podcast mx-1"></i>{{ leaderboard[0]?.credits }}
             </div>
             <div>
               <b>Recovered Shipments:</b>
@@ -98,11 +68,7 @@
             </h4>
           </div>
           <div class="col-6 mb-5">
-            <img
-              class="img-fluid border border-primary rounded-1"
-              :src="leaderboard[0]?.picture"
-              alt=""
-            />
+            <img class="img-fluid border border-primary rounded-1" :src="leaderboard[0]?.picture" alt="" />
           </div>
         </div>
         <div class="row text-primary mt-3">
@@ -115,15 +81,10 @@
         <div class="row p-0">
           <div class="leaderboard h-25">
             <div class="col-12 p-0">
-              <div
-                v-for="player in leaderboard.slice(1)"
-                :key="player.id"
-                class="row mt-2 px-2"
-                :class="{
-                  'text-warning': player.id == account.id,
-                  'text-dark': player.id != account.id,
-                }"
-              >
+              <div v-for="player in leaderboard.slice(1)" :key="player.id" class="row mt-2 px-2" :class="{
+                'text-warning': player.id == account.id,
+                'text-dark': player.id != account.id,
+              }">
                 <div class="col-4 list-border">
                   {{ player.name }}
                 </div>

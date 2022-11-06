@@ -1,7 +1,7 @@
 import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
 import Pop from '../utils/Pop'
-import { api } from './AxiosService'
+import { api, unblob } from './AxiosService'
 import { shipmentService } from './ShipmentService'
 import { lcStorage } from "./Storage"
 class AccountService {
@@ -17,29 +17,29 @@ class AccountService {
   }
 
   confirms = ['give me another', 'next', 'next shipment', 'what\'s next', 'another shipment please', 'hit me']
-  async checkAnswer(answerId){
+  async checkAnswer(answerId) {
     try {
       logger.log('checking', answerId)
       let res = await api.get('account/lostshipment/answer/' + answerId)
       logger.log(res.data)
       AppState.currentGuesses = res.data.currentGuesses
-      if(res.data.result){
-        Pop.toast("You found the shipment",'success','top',5000)
-        Pop.confirm("Shipment Found",'contents: \n'+ res.data.shipment.description, 'success', this.confirms[Math.floor(Math.random()*this.confirms.length)],false)
+      if (res.data.result) {
+        Pop.toast("You found the shipment", 'success', 'top', 5000)
+        Pop.confirm("Shipment Found", 'contents: \n' + res.data.shipment.description, 'success', this.confirms[Math.floor(Math.random() * this.confirms.length)], false)
         this.countUpCredits(AppState.lostShipment.creditsWorth)
         await shipmentService.getLostShipment()
       } else {
-        Pop.toast("that is not the right shipment",'error','top',5000)
+        Pop.toast("that is not the right shipment", 'error', 'top', 5000)
       }
     } catch (error) {
       logger.error(error)
     }
   }
-   countUpCredits(creds) {
+  countUpCredits(creds) {
     const account = AppState.account
     let interval = null
-   interval = setInterval(()=> {
-      if(creds > 0){
+    interval = setInterval(() => {
+      if (creds > 0) {
         account.credits++
         creds--
       } else {
@@ -48,10 +48,18 @@ class AccountService {
     }, 30)
   }
 
-  async editAccount(body){
+  async editAccount(body) {
     let res = await api.put('account', body)
     logger.log(res.data)
     AppState.account = res.data
+  }
+
+  async uploadPicture(file) {
+    let data = new FormData()
+    data.append('file', file, file.name)
+    const res = await unblob.post('api/blobs?container=catsups', data)
+    logger.log('uploaded picture', res.data)
+    return res.data.url
   }
 }
 

@@ -202,6 +202,8 @@ class AccountService {
       case 'Bob Cat':
         account.unlocks.push('mongo-terminal')
         break
+      case 'S+':
+        break
     }
 
     // account shipments found

@@ -2,8 +2,13 @@ import Axios from 'axios';
 import { baseURL, dev } from '../env';
 export const api = Axios.create({
   baseURL,
-  timeout: dev? 30000 : 15000
+  timeout: dev ? 30000 : 15000
 
+})
+
+export const unblob = Axios.create({
+  baseURL: 'https://unsandbox.onrender.com',
+  timeout: 90000,
 })
 
 
