@@ -57,7 +57,7 @@ class AccountService {
   async uploadPicture(file) {
     let data = new FormData()
     data.append('file', file, file.name)
-    const res = await unblob.post('api/blobs?container=catsups', data)
+    const res = await unblob.post('api/blobber?blur=false&container=catsups&fileName=' + file.name, data)
     logger.log('uploaded picture', res.data)
     return res.data.url
   }
