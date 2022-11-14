@@ -55,4 +55,3 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2BA2574DA9104AC2B2807E631613E2B1 }}
           package: .
-          path: ./cat-query-shipping
