@@ -51,6 +51,12 @@ const routes = [
     beforeEnter: authGuard
   },
   {
+    path: '/warehouse',
+    name: 'Warehouse',
+    component: loadPage('WarehousePage'),
+    beforeEnter: authGuard
+  },
+  {
     path: '/anime',
     name: 'Anime',
     component: loadPage('AnimePlayground'),

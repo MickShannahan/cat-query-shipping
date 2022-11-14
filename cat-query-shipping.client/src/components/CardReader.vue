@@ -1,5 +1,5 @@
 <template>
-  <div class="reader bg-danger shadow">
+  <div class="reader bg-danger plastic-shell shadow">
     <div v-if="loggedIn" class="row reader-buttons">
       <div class="screen p-1">
         <button class="btn btn-outline-info rounded-0" @click="goTo('Account')">
@@ -12,8 +12,7 @@
       <div v-if="user && loggedIn" class="employee-card">
         <EmployeeBadge :user="account" :draggable="false" />
       </div>
-      <div
-        class="
+      <div class="
           card-slot
           text-end
           p-3
@@ -21,30 +20,19 @@
           w-100
           justify-content-between
           flex-wrap
-        "
-      >
+        ">
         <div class="col-5">
           <p class="screen text-warning px-1 pt-1 w-100 m-0">
             {{ account.credits || "0000" }}
           </p>
           <small class="text-danger darken-20">
-            credits <i class="mdi mdi-google-podcast"></i
-          ></small>
+            credits <i class="mdi mdi-google-podcast"></i></small>
         </div>
         <div class="col-7">
-          <button
-            v-if="loggedIn"
-            class="comp-button comp-yellow px-2 py-1"
-            :disabled="!loggedIn"
-            @click="logout"
-          >
+          <button v-if="loggedIn" class="comp-button comp-yellow px-2 py-1" :disabled="!loggedIn" @click="logout">
             clock out <i class="mdi mdi-logout"></i>
           </button>
-          <button
-            v-else
-            class="comp-button comp-yellow px-2 py-1"
-            @click="login"
-          >
+          <button v-else class="comp-button comp-yellow px-2 py-1" @click="login">
             clock in <i class="mdi mdi-login"></i>
           </button>
         </div>
@@ -91,6 +79,7 @@ export default {
 <style lang="scss" scoped>
 @import "../assets/scss/main.scss";
 $reader-trans: 0.2s;
+
 .reader {
   display: flex;
   flex-direction: column;
@@ -104,9 +93,11 @@ $reader-trans: 0.2s;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   transition: all $reader-trans ease;
+
   &:hover {
     transform: translateY(75px);
   }
+
   &-buttons {
     background: darken($danger, 2);
     @include console-border($danger, -1);
@@ -119,23 +110,29 @@ $reader-trans: 0.2s;
     border-bottom-right-radius: 0;
     border-right: 0;
   }
+
   &:hover &-buttons {
     transform: scale(1) rotate(0deg) translateX(-96%);
   }
+
   .employee-card-container {
     position: relative;
   }
+
   .employee-card {
     margin-left: 5px;
     transform: translateY(-200px);
     transition: all 0.3s ease;
   }
+
   &:hover .employee-card {
     transform: translateY(60px);
   }
+
   .screen {
     @include console-border($danger, -1, true, 2px);
   }
+
   .comp-button::before {
     outline: 3px inset saturate(darken(adjust-hue($danger, -15), 4), 10);
   }

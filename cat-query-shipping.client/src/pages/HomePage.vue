@@ -1,13 +1,13 @@
 <template>
-  <div class="row no-overflow-x justify-content-center">
-    <div class="col-md-10 col-lg-8 p-0 m-0">
+  <div class="shipment-search-area no-overflow-x justify-content-center ">
+    <div class="computer p-0 m-0">
       <LostShipment />
       <transition name="flip">
         <Search v-if="compScreen == 'http'" @switch="switchScreen" />
         <CodeSearch v-else @switch="switchScreen" />
       </transition>
     </div>
-    <div class="col-md-11 col-lg-9">
+    <div class="printer">
       <ShipmentsThread />
     </div>
     <Dialogue />
@@ -29,6 +29,7 @@ export default {
     const route = useRoute()
     const showTabs = ref(false)
     onMounted(() => {
+      document.body.style.backgroundImage = "radial-gradient(rgba(2, 0, 36, 0), rgba(34, 65, 60, 0.7)), url('/src/assets/img/bg/Cups-room-iso.png')"
       window.addEventListener('keydown', (e) => {
         if (e.ctrlKey && e.key == 's') {
           e.preventDefault()
@@ -37,7 +38,7 @@ export default {
       })
     })
     return {
-      compScreen: computed(()=> AppState.searchType),
+      compScreen: computed(() => AppState.searchType),
       showTabs,
       lostShipmentLoading: computed(() => AppState.loading.lostShipment),
       account: computed(() => AppState.account),
@@ -51,6 +52,29 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.shipment-search-area {
+  display: grid;
+  grid-template-columns: 5vw minmax(25px, 3vw) 1fr minmax(25px, 3vw) 5vw;
+  grid-template-rows: 2.2em 1fr 1fr;
+}
+
+.computer {
+  grid-column: 3/4;
+  grid-row: 2 / 3
+}
+
+@media (max-width: 768px) {
+  .computer {
+    grid-column: 1 / 6;
+    grid-row: 2 / 3
+  }
+}
+
+.printer {
+  grid-column: 2/5;
+  grid-row: 3 / 4;
+}
+
 .no-overflow-x {
   max-width: 100%;
   overflow-x: hidden;
@@ -61,6 +85,7 @@ export default {
   overflow: hidden;
   transition: all 0.7s cubic-bezier(0.54, -0.35, 0.45, 1.41) 0.5s;
 }
+
 .lost-enter-from {
   opacity: 0;
   transform: translateY(-10em);
@@ -73,11 +98,13 @@ export default {
 .flip-enter-active {
   transition: all 0.7s cubic-bezier(0.54, -0.35, 0.45, 1.41);
 }
+
 .flip-leave-active {
   position: absolute;
   width: inherit;
   transition: all 0.7s cubic-bezier(0.54, -0.35, 0.45, 1.41);
 }
+
 .flip-enter-from {
   opacity: 0;
   transform: rotate3d(1, 0, 0, 180deg) translateY(-1em);

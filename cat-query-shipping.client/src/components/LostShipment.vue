@@ -1,15 +1,18 @@
 <template>
-  <div class="lost-shipment row bg-primary physical-border my-2 p-2">
+  <div class="lost-shipment  bg-primary plastic-shell physical-border my-2 p-2 ps-1">
     <!-- STUB side bar -->
-    <div class="col-1 d-flex align-items-end justify-content-end ps-0">
+    <div class="component-panel ps-1 pe-3">
       <!-- <button class="btn btn-outline-light h-25" @click="getLostShipment">get new</button> -->
+
+      <!-- SECTION MODS -->
+      <div v-if="account.installedMods?.length" class="mods">
+        <ModPanel />
+      </div>
+
+      <!--  -->
       <transition name="slot">
-        <button
-          id="tour-new-shipment"
-          class="comp-button comp-yellow p-2 mb-5 w-100"
-          v-tooltip:bottom="'get new lost shipment'"
-          @click="getLostShipment"
-        >
+        <button id="tour-new-shipment" class="new-ship-btn comp-button comp-yellow p-2 mb-5 w-100"
+          v-tooltip:bottom="'get new lost shipment'" @click="getLostShipment">
           <i class="mdi mdi-card-bulleted-outline"></i>
         </button>
         <!-- TODO better datacard usage -->
@@ -20,68 +23,43 @@
     </div>
     <CardTray />
     <!-- STUB Screen -->
-    <div id="tour-shipment-panel" class="col-11 screen text-info screen-on">
+    <div id="tour-shipment-panel" class="shipment-panel p-1 px-2 p-md-3 screen text-info screen-on">
       <div class="row p-2">
         <!-- STUB shipment side -->
-        <div id="tour-shipment-details" class="col-9 pe-3">
+        <div id="tour-shipment-details" class="col-md-9 pe-3">
           <transition name="screenEffect" mode="out-in">
-            <div
-              id="shipment-details"
-              v-if="lostShipment.id"
-              class="row border border-info"
-            >
-              <div
-                v-for="(value, key) in lostShipment"
-                v-show="visible(key)"
-                :key="key + value"
-                class="col-6"
-              >
+            <div id="shipment-details" v-if="lostShipment.id" class="row border border-info">
+              <div v-for="(value, key) in lostShipment" v-show="visible(key)" :key="key + value" class="col-md-6">
                 <div class="glitch">
-                  <span
-                    :id="key + '-key'"
-                    class="hover text-secondary lighten-30 line key"
-                    :data-text="key"
-                    @click="copy"
-                    >{{ key }}</span
-                  >:
+                  <span :id="key + '-key'" class="hover text-secondary lighten-30 line key" :data-text="key"
+                    @click="copy">{{ key }}</span>:
                 </div>
                 <span class="glitch">
-                  <span
-                    :id="key + '-value'"
-                    class="hover line value"
-                    @click="copy"
-                    :data-text="value"
-                  >
-                    {{ value }}</span
-                  >
+                  <span :id="key + '-value'" class="hover line value" @click="copy" :data-text="value">
+                    {{ value }}</span>
                 </span>
               </div>
             </div>
             <div v-else class="row justify-content-center border border-info">
               <div class="col-6 text-center">
-                <img
-                  class="img-correction"
-                  src="../assets/img/CUPS-loadingLow.gif"
-                />
+                <img class="img-correction" src="../assets/img/CUPS-loadingLow.gif" />
                 <p>loading...</p>
               </div>
             </div>
           </transition>
         </div>
         <!-- STUB Stats side -->
-        <div id="tour-shipment-stats" class="col-3">
+        <div id="tour-shipment-stats" class="col-md-3">
           <div class="row h-100">
             <div class="col-12 border border-info mb-1">
               <div class="row">
                 <div class="col-12 d-flex justify-content-between">
-                  <span>searches:</span
-                  ><span class="ms-push">
+                  <span>searches:</span><span class="ms-push">
                     {{ account.currentRequestsMade }}
                   </span>
                 </div>
                 <div class="col-12 d-flex justify-content-between">
-                  <span>pages Printed:</span
-                  ><span class="ms-push">
+                  <span>pages Printed:</span><span class="ms-push">
                     {{ account.currentPagesPrinted }}
                   </span>
                 </div>
@@ -90,14 +68,12 @@
             <div class="col-12 border border-info">
               <div class="row">
                 <div class="col-12 d-flex justify-content-between">
-                  <span>difficulty:</span
-                  ><span class="ms-push">
+                  <span>difficulty:</span><span class="ms-push">
                     {{ difficulty }}
                   </span>
                 </div>
                 <div class="col-12 d-flex justify-content-between">
-                  <span>credits:</span
-                  ><span class="ms-push">
+                  <span>credits:</span><span class="ms-push">
                     {{ creditsWorth }}
                   </span>
                 </div>
@@ -115,7 +91,7 @@
 </template>
 
 
-  <script>
+<script>
 import { AppState } from '../AppState';
 import { computed, reactive, onMounted, ref } from 'vue';
 import { shipmentService } from '../services/ShipmentService';
@@ -161,7 +137,42 @@ export default {
 
 <style lang="scss" scoped>
 .lost-shipment {
-  min-height: 30vh;
+  min-height: 35vh;
+  display: grid;
+  grid-template-columns: 175px 1fr;
+}
+
+.component-panel {
+  width: 100%;
+  grid-column: 1 2;
+  display: grid;
+  grid-template-columns: repeat(4, 40px);
+  grid-template-rows: repeat(5, 40px) 1fr 1em 60px;
+
+  .mods {
+    grid-column: span 4;
+    grid-row: span 5;
+  }
+
+  .new-ship-btn {
+    grid-column: 2 / 4;
+    grid-row: 8 / 9;
+    align-self: baseline;
+    height: 60%;
+  }
+}
+
+.shipment-panel {
+  grid-column: 2 3
+}
+
+.screen {
+  background-image: url(/src/assets/img/Textures/black-orchid.png);
+}
+
+.dirty-screen {
+  background-image: url(/src/assets/img/Textures/green-dust-and-scratches.png);
+  background-blend-mode: darken;
 }
 
 .card-slot-bottom {
@@ -173,6 +184,7 @@ export default {
   border-bottom: 8px #55a6a8 inset;
   border-radius: 8px;
 }
+
 .card-slot-top {
   z-index: 500;
   width: 400px;
@@ -188,6 +200,7 @@ export default {
   transition: opacity 01s ease;
   opacity: 1;
 }
+
 .slot-enter-from,
 .slot-leave-to {
   opacity: 0;
@@ -201,6 +214,7 @@ export default {
   transition: all 0.3s linear;
   transition-timing-function: steps(2, end);
 }
+
 .screenEffect-enter-from,
 .screenEffect-leave-to {
   opacity: 0;
@@ -221,6 +235,7 @@ export default {
   transition: linear 0.5s width;
   transition-delay: 0.2s;
 }
+
 .mutation-under {
   position: absolute;
   top: 0px;
@@ -267,6 +282,7 @@ export default {
 }
 
 .line:hover {
+
   &:after,
   &:before {
     content: attr(data-text);
@@ -278,27 +294,33 @@ export default {
   &:after,
   &:before {
     animation: glitch 300ms -300ms linear infinite;
+
     @keyframes glitch {
       0% {
         transform: translateX(0);
         clip-path: polygon(0 100%, 100% 100%, 100% 120%, 0 120%);
       }
+
       80% {
         transform: translateX(0);
         color: var(--bs-info);
       }
+
       85% {
         transform: translateX(random(10) - 5px);
         color: #4e9a26;
       }
+
       90% {
         transform: translateX(random(10) - 5px);
         color: #ac1212;
       }
+
       95% {
         transform: translateX(random(10) - 5px);
         color: #fff;
       }
+
       100% {
         transform: translateX(0);
         clip-path: polygon(0 -20%, 100% -20%, 100% 0%, 0 0);

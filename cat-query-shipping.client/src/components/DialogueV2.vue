@@ -9,20 +9,20 @@
         pl-3
         rounded
         shadow-sm
-      " type="button" data-bs-toggle="offcanvas" data-bs-target="#dialogueOffCanvas" aria-controls="offcanvasBottom"
-      @click="bozkoChat(notifyChat)">
+      " type="button" data-bs-toggle="offcanvas" :data-bs-target="`#${character.name}-OffCanvas`"
+      aria-controls="offcanvasBottom" @click="chat(notifyChat)">
       <div v-if="notifyChat" class="pop-bubble">!</div>
       <!-- <div class="pop-bubble">!</div> -->
-      Ask Boz
+      Ask {{ character.name }}
     </button>
 
-    <div class="offcanvas offcanvas-bottom  bg-warning lighten-10 p-0 col-12" tabindex="-1" id="dialogueOffCanvas"
-      aria-labelledby="offcanvasBottomLabel">
-      <div class="offcanvas-header bg-warning row justify-content-start">
+    <div :class="`offcanvas offcanvas-bottom  bg-${character.styles.primary} lighten-10 p-0 col-12`" tabindex="-1"
+      :id="character.name + '-OffCanvas'" aria-labelledby="offcanvasBottomLabel">
+      <div :class="`offcanvas-header bg-${character.styles.primary} row justify-content-start`">
         <button type="button" class="col-2 btn-close text-reset" data-bs-dismiss="offcanvas"
           aria-label="Close"></button>
         <h5 class="col offcanvas-title ml-5" id="offcanvasBottomLabel">
-          Help from Bozko
+          Help from {{ character.name }}
         </h5>
       </div>
       <div class="offcanvas-body row">
@@ -33,33 +33,33 @@
             justify-content-between
             flex-column
           ">
-          <button v-for="chat in chatBranch.branches" :disabled="bozkoBusy" :key="chat"
-            class="btn btn-success border border-info text-light" @click="bozkoChat(chat)">
-            {{ chat }}
+          <button v-for="ct in chatBranch.branches" :disabled="busy" :key="ct"
+            class="btn btn-success border border-info text-light" @click="chat(ct)">
+            {{ ct }}
           </button>
         </div>
         <div class="col-6 p-0 text-box-shadow">
           <div class="
               h-100
               w-100
-              bozko-text
+              character-text
               bg-secondary
               text-warning
               rounded
               pl-3
               p-2
-            " v-html="bozkoSpoken || bozkoText"></div>
+            " v-html="spoken || text"></div>
         </div>
         <div class="col-1"></div>
-        <div class="col-2 bozko-container">
-          <!-- Boz Base -->
-          <img v-if="!casualFriday" src="../assets/img/Boz/CUPS-Manager-animate.gif" class="bozko"
-            :class="{ 'hide-bozko': bozkoHide }" />
-          <img v-else src="../assets/img/Boz/BozCasualFriday.gif" class="bozko" :class="{ 'hide-bozko': bozkoHide }" />
-          <img src="../assets/img/Boz/CUPS-Manager-blink.png" class="bozko blink"
-            v-show="bozkoStatus == 'blink' && !bozkoBusy" :class="{ 'hide-bozko': bozkoHide }" />
+        <div class="col-2 character-container">
+          <!-- Character Base -->
+          <img v-if="!casualFriday" :src="character.images.base" class="character"
+            :class="{ 'hide-character': hide }" />
+          <img v-else :src="character.images.casual" :class="{ 'hide-character': hide }" />
+          <img :src="character.images.blink" class="character blink" v-show="status == 'blink' && !busy"
+            :class="{ 'hide-character': hide }" />
           <div class="load-images"></div>
-          <img :src="bozkoTalking" class="bozko blink" v-show="bozkoTalking" :class="{ 'hide-bozko': bozkoHide }" />
+          <img :src="talking" class="character blink" v-show="talking" :class="{ 'hide-character': hide }" />
         </div>
       </div>
     </div>
@@ -72,90 +72,102 @@ import { AppState } from '../AppState';
 import { computed, reactive, onMounted, ref, watchEffect } from 'vue';
 import { chatService } from '../services/ChatService'
 import { logger } from '../utils/Logger';
+import { Character } from '../models/Character.js'
 import { Offcanvas } from "bootstrap";
-import AEI from '../assets/img/Boz/BozPhonicAEI.png'
-import ELTH from '../assets/img/Boz/BozPhonicELTH.png'
-import FVJ from '../assets/img/Boz/BozPhonicFVJ.png'
-import OUQ from '../assets/img/Boz/BozPhonicOUQ.png'
-import R from '../assets/img/Boz/BozPhonicR.png'
 
 export default {
-  setup() {
-    const bozkoStatus = ref('standing')
-    const bozkoTalking = ref('')
-    const bozkoBusy = ref(false)
-    const bozkoHide = ref(true)
-    const bozkoSpoken = ref('')
+  props: { character: { type: Character }, btnPosition: Number },
+  setup(props) {
+    const status = ref('standing')
+    const talking = ref('')
+    const busy = ref(false)
+    const hide = ref(true)
+    const spoken = ref('')
     const intervals = ref([])
+    // mounted
     onMounted(() => {
-      const dialogue = document.getElementById('dialogueOffCanvas')
+      const dialogue = document.getElementById(props.character.name + '-OffCanvas')
       dialogue.addEventListener('hide.bs.offcanvas', function () {
-        bozkoHide.value = true
+        hide.value = true
       })
       dialogue.addEventListener('show.bs.offcanvas', function () {
-        bozkoHide.value = false
+        hide.value = false
+        setChat()
       })
-      // Start bozko blink
-      bozkoBlink()
+      // Start chacracter blink
+      blink()
       if (!AppState.user.isAuthenticated) {
         Offcanvas.getOrCreateInstance(dialogue).show()
-        bozkoChat('[Get Started]')
+        chat('[Get Started]')
       }
+
     })
-    function bozkoBlink() {
-      bozkoStatus.value = 'blink'
-      setTimeout(() => bozkoStatus.value = 'standing', 180)
-      setTimeout(bozkoBlink, (Math.random() * 4000) + 2000)
+
+    function blink() {
+      status.value = 'blink'
+      setTimeout(() => status.value = 'standing', 180)
+      setTimeout(blink, (Math.random() * 4000) + 2000)
     }
-    function bozkoChat(option) {
+
+    function chat(option) {
       option = option ? option : '[Open Window]'
       chatService.chat(option)
     }
+
+    function setChat() {
+      AppState.chatTree = props.character.chatTree
+      AppState.chatBranch = props.character.startingBranch
+    }
+
     // TODO This is all for the text to type out and should be abstracted
     watchEffect(() => {
-      bozkoBusy.value = true
+      busy.value = true
       intervals.value.forEach(i => clearInterval(i));
-      bozkoSpoken.value = ' '
-      let timeBetweenChar = 30
+      spoken.value = ' '
+      let timeBetweenChar = 20
       let interval = null
       let text = AppState.chatBranch.text?.split('')
       if (text?.length > 0) {
-        setTimeout(() => bozkoBusy.value = false, 500)
+        setTimeout(() => busy.value = false, 500)
         intervals.value.push(setInterval(() => {
           let c = text.shift()
           if (c) {
-            bozPhonic(c)
-            bozkoSpoken.value += c
+            phonic(c)
+            spoken.value += c
           } else {
             clearInterval(interval)
-            bozkoTalking.value = ''
+            talking.value = ''
           }
         }, timeBetweenChar))
       }
     })
-    function bozPhonic(sound) {
-      const sounds = /r|a|e|i|o|u|t|v|q|r/ig
+    function phonic(sound) {
+      let s = props.character.images
+      const sounds = /r|e|o|u|t|v|q/ig
       if (sounds.test(sound)) {
-        const pics = [AEI, ELTH, R, OUQ, FVJ]
+        const pics = [s.phonicAEI, s.phonicELTH, s.phonicR, s.phonicOUQ, s.phonicOUQ]
         let randomPhonic = pics[Math.floor(Math.random() * pics.length)]
-        bozkoTalking.value = randomPhonic
+        talking.value = randomPhonic
       }
     }
     return {
       chatBranch: computed(() => AppState.chatBranch),
-      notifyChat: computed(() => AppState.bozNotification),
-      bozkoText: computed(() => AppState.chatBranch?.text),
+      notifyChat: computed(() => AppState.notification),
+      text: computed(() => AppState.chatBranch?.text),
       casualFriday: computed(() => new Date().getDay() == 5),
-      bozkoStatus,
-      bozkoSpoken,
-      bozkoTalking,
-      bozkoBusy,
-      bozkoHide,
+      status,
+      spoken,
+      talking,
+      busy,
+      hide,
       intervals,
       // functions
-      bozPhonic,
-      bozkoBlink,
-      bozkoChat
+      phonic,
+      blink,
+      chat,
+      // styles
+      stylePrimary: computed(() => props.character.styles.primary),
+      buttonPosition: computed(() => props.btnPosition * 2.75 + 'em')
     }
   }
 };
@@ -163,16 +175,9 @@ export default {
 
 
 <style lang='scss' scoped>
-.load-images {
-  height: 1px;
-  width: 1px;
-  opacity: 0;
-  background-image: url("../assets/img/Boz/BozPhonicAEI.png"),
-    url("../assets/img/Boz/BozPhonicELTH.png"),
-    url("../assets/img/Boz/BozPhonicFVJ.png"),
-    url("../assets/img/Boz/BozPhonicOUQ.png"),
-    url("../assets/img/Boz/BozPhonicR.png");
-}
+// .bg-char-primary {
+//   background-color: v-bind(stylePrimary);
+// }
 
 .holes {
   background-image: url(/src/assets/img/Textures/carbon-fibre.png);
@@ -181,7 +186,7 @@ export default {
 .help-button {
   text-align: left;
   position: fixed;
-  bottom: 2em;
+  bottom: v-bind(buttonPosition);
   right: 2em;
   transform: translateX(75%);
   transition: all ease 0.2s;
@@ -191,7 +196,7 @@ export default {
   transform: translateX(60%);
 }
 
-.bozko {
+.character {
   image-rendering: pixelated;
   bottom: -15px;
   right: -90px;
@@ -201,7 +206,7 @@ export default {
   transition: all cubic-bezier(0.54, -0.35, 0.45, 1.41) 0.5s;
 }
 
-.bozko-text {
+.character-text {
   padding-right: 3.5em !important;
   clip-path: polygon(100% 0, 99% 10%, 99% 100%, 0 100%, 0 0);
 }
@@ -210,12 +215,12 @@ export default {
   filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.486));
 }
 
-.hide-bozko {
+.hide-character {
   transform: translateY(200px);
 }
 
 @media screen and(max-width: 1055px) {
-  .bozko:hover {
+  .character:hover {
     opacity: 0.5;
     transform: translateX(5vw);
   }

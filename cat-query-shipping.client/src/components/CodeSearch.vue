@@ -4,6 +4,7 @@
       row
       justify-content-around
       bg-primary
+      plastic-shell
       shadow
       physical-border
       p-3
@@ -11,14 +12,9 @@
       ">
     <div class="col-12 p-0 pt-2">
       <div class="d-flex">
-        <label for="basic-url" class="form-label bg-info rounded py-1 px-3"
-          >make a query object to search the shipment database</label
-        >
-        <button
-          class="switch-button comp-button ms-auto mb-2 p-1 px-2"
-          type="button"
-          @click="switchScreen"
-        >
+        <label for="basic-url" class="form-label bg-info rounded py-1 px-3">make a query object to search the shipment
+          database</label>
+        <button class="switch-button comp-button ms-auto mb-2 p-1 px-2" type="button" @click="switchScreen">
           http
         </button>
       </div>
@@ -27,10 +23,7 @@
     <div id="code-window" class="col-9 p-0 code-search"></div>
     <div class="col-3">
       <div class="row justify-content-end">
-        <button
-          class="col-10 py-2 mt-3 mb-4 comp-button comp-green"
-          @click="search"
-        >
+        <button class="col-10 py-2 mt-3 mb-4 comp-button comp-green" @click="search">
           search
         </button>
         <button class="col-5 py-2 comp-button comp-yellow" @click="clear">

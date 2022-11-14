@@ -1,51 +1,35 @@
 <template>
-  <div
-    class="
+  <div class="
       computer
       row
       justify-content-around
       bg-primary
+      plastic-shell
       shadow
       physical-border
       p-3
       pb-1
-    "
-  >
+    ">
     <div class="col-12 search mb-3">
       <div class="d-flex">
-        <label for="basic-url" class="form-label bg-info rounded py-1 px-3"
-          >make a query to find the lost shipment</label
-        >
-        <button
-          :disabled="unlockMongo"
-          :class="{ 'cursor-locked': unlockMongo }"
-          class="switch-button comp-button ms-auto mb-2 p-1 px-2"
-          type="button"
-          @click="switchScreen"
-        >
+        <label for="basic-url" class="form-label bg-info rounded py-1 px-3">make a query to find the lost
+          shipment</label>
+        <button :disabled="unlockMongo" :class="{ 'cursor-locked': unlockMongo }"
+          class="switch-button comp-button ms-auto mb-2 p-1 px-2" type="button" @click="switchScreen">
           mongo
         </button>
       </div>
       <div id="tour-search" class="input-group text-info">
         <span class="input-group-text bg-dark text-success" id="basic-addon3">{{
-          baseUrl
+            baseUrl
         }}</span>
         <!-- STUB search input -->
-        <input
-          spellcheck="false"
-          autocomplete="off"
-          v-model="query"
-          type="text"
-          class="form-control bg-dark text-info"
-          id="basic-url"
-          aria-describedby="basic-addon3"
-          @input="httpValidizer"
-        />
+        <input spellcheck="false" autocomplete="off" v-model="query" type="text" class="form-control bg-dark text-info"
+          id="basic-url" aria-describedby="basic-addon3" @input="httpValidizer" />
       </div>
     </div>
 
-    <div
-      class="
+    <div class="
         col-8
         screen
         bg-black
@@ -55,18 +39,12 @@
         text-success
         no-click
         clip-text
-      "
-      v-html="httpQuery"
-    ></div>
+      " v-html="httpQuery"></div>
     <button class="col-1 comp-button comp-yellow" @click="clearInput">
       clear
     </button>
-    <button
-      class="col-2 comp-button comp-green"
-      :class="{ 'cursor-invalid-url': unsafeUrl }"
-      :disabled="unsafeUrl"
-      @click="searchShipmentDatabase"
-    >
+    <button class="col-2 comp-button comp-green" :class="{ 'cursor-invalid-url': unsafeUrl }" :disabled="unsafeUrl"
+      @click="searchShipmentDatabase">
       search
     </button>
     <div class="col-12 p-3 font-yellowtail text-chrome">

@@ -17,4 +17,13 @@ export function registerGlobalComponents(root) {
     // Register component on this Vue instance
     root.component(componentName, component.default)
   })
+
+  const mods = import.meta.globEager('./components/mods/*.vue')
+  Object.entries(mods).forEach(([fileName, component]) => {
+    const componentName = component.name || fileName
+      .substr(fileName.lastIndexOf('/') + 1)
+      .replace(/\.\w+$/, '')
+    // Register component on this Vue instance
+    root.component(componentName, component.default)
+  })
 }

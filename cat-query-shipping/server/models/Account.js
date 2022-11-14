@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { ModSchema } from './Mod.js'
 const Schema = mongoose.Schema
 
 export const AccountSchema = new Schema(
@@ -8,6 +9,7 @@ export const AccountSchema = new Schema(
     name: { type: String, required: true },
     picture: { type: String },
     credits: { type: Number, default: 0 },
+    components: { type: Number, default: 0 },
     lostShipmentId: { type: Schema.Types.ObjectId, ref: 'Shipment', default: '62361f3836ac2a5a2a7eab53' },
     currentGuesses: [{ type: Schema.Types.ObjectId }],
     shipmentsFound: [{ type: Schema.Types.ObjectId }],
@@ -30,8 +32,10 @@ export const AccountSchema = new Schema(
     praised: [{ type: String, default: [] }],
 
     needsTour: { type: Boolean, default: true },
-    unlocks: [{ type: String }]
-    // NOTE If you wish to add additional properties do so here
+    unlocks: [{ type: String }],
+    // STUB If you wish to add additional properties do so here
+    inventory: [],
+    installedMods: [{ type: ModSchema }]
   },
   { timestamps: true, toJSON: { virtuals: true } }
 )
