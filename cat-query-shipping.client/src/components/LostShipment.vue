@@ -5,7 +5,7 @@
       <!-- <button class="btn btn-outline-light h-25" @click="getLostShipment">get new</button> -->
 
       <!-- SECTION MODS -->
-      <div v-if="account.installedMods?.length" class="mods">
+      <div v-if="mods" class="mods">
         <ModPanel />
       </div>
 
@@ -101,7 +101,9 @@ export default {
   setup() {
     const newDifficulty = ref(1)
     const glitchProgress = ref(0)
+    const mods = ref(false)
     return {
+      mods,
       account: computed(() => AppState.account),
       creditsWorth: computed(() => AppState.lostShipment.creditsWorth),
       difficulty: computed(() => AppState.lostShipment.difficultyRating),

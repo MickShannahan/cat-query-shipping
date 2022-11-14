@@ -29,24 +29,28 @@ export default {
       {
         id: '123',
         name: '1',
+        type: 'retry',
         slots: [[1, 1]],
         x: 0, y: 0
       },
       {
         id: '345',
         name: '2',
+        type: 'antenna',
         slots: [[1, 1], [0, 1]],
         x: 0, y: 0
       },
       {
         id: '456',
         name: '3',
-        slots: [[1, 1]],
+        type: 'battery',
+        slots: [[1], [1]],
         x: 0, y: 0
       },
       {
         id: '567',
         name: '4',
+        type: 'retry',
         slots: [[1, 1]],
         x: 0, y: 0
       },

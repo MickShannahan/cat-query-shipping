@@ -1,5 +1,5 @@
 <template>
-  <div class="retry bg-danger elevation-1">
+  <div class="mod" :class="type">
 
   </div>
 </template>
@@ -9,7 +9,7 @@
 import { computed } from 'vue';
 
 export default {
-  props: { x: Number, y: Number, slots: Array },
+  props: { x: Number, y: Number, slots: Array, type: String },
   setup(props) {
     const slots = [0, 1]
     return {
@@ -22,14 +22,29 @@ export default {
 
 
 <style lang="scss" scoped>
-.retry {
+.mod {
   transition: all .2s ease;
   margin: 2px;
   border-radius: 2px;
   grid-column: v-bind(col);
   grid-row: v-bind(row);
   place-self: stretch;
-  border-bottom: 4px solid #893341;
-  outline: 2px solid rgba(0, 0, 0, 0.2);
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.5));
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+}
+
+.retry {
+  background-image: url(/src/assets/img/mods/modRetry1.gif);
+}
+
+.antenna {
+  background-image: url(/src/assets/img/mods/antenna1.gif);
+}
+
+.battery {
+  background-image: url(/src/assets/img/mods/battery1.png);
 }
 </style>
