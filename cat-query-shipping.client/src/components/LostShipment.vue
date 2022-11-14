@@ -5,7 +5,7 @@
       <!-- <button class="btn btn-outline-light h-25" @click="getLostShipment">get new</button> -->
 
       <!-- SECTION MODS -->
-      <div v-if="mods" class="mods">
+      <div class="mods d-none">
         <ModPanel />
       </div>
 
