@@ -7,12 +7,12 @@ import { createServer } from 'http'
 
 // create server & socketServer
 const app = express()
-const port = process.env.PORT || 3000
+const port = process.env.PORT || process.env.port || 3000
 
 // Set Redirect for Heroku
 if (process.env.NODE_ENV !== 'dev') {
   app.enable('trust proxy')
-  app.use(function(req, res, next) {
+  app.use(function (req, res, next) {
     if (!req.secure) {
       return res.redirect('https://' + req.headers.host + req.url)
     }
