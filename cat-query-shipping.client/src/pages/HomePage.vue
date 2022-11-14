@@ -29,7 +29,7 @@ export default {
     const route = useRoute()
     const showTabs = ref(false)
     onMounted(() => {
-      document.body.style.backgroundImage = "radial-gradient(rgba(2, 0, 36, 0), rgba(34, 65, 60, 0.7)), url('/src/assets/img/bg/Cups-room-iso.png')"
+      document.body.style.backgroundImage = "radial-gradient(rgba(2, 0, 36, 0), rgba(34, 65, 60, 0.7)), url('/assets/img/bg/Cups-room-iso.png')"
       window.addEventListener('keydown', (e) => {
         if (e.ctrlKey && e.key == 's') {
           e.preventDefault()
