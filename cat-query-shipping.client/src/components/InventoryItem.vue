@@ -73,5 +73,7 @@ export default {
   position: absolute;
   left: 0;
   margin: .25em;
+  background-color: var(--bs-info);
+  color: var(--bs-dark);
 }
 </style>

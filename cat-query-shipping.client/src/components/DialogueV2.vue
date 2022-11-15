@@ -17,8 +17,10 @@
     </button>
 
     <div :class="`offcanvas offcanvas-bottom  bg-${character.styles.primary} lighten-10 p-0 col-12`" tabindex="-1"
-      :id="character.name + '-OffCanvas'" aria-labelledby="offcanvasBottomLabel">
-      <div :class="`offcanvas-header bg-${character.styles.primary} row justify-content-start`">
+      :id="character.name + '-OffCanvas'" aria-labelledby="offcanvasBottomLabel"
+      :data-bs-scroll="character.styles.small" :data-bs-backdrop="!character.styles.small">
+      <div v-if="character.styles.header"
+        :class="`offcanvas-header bg-${character.styles.primary} row justify-content-start`">
         <button type="button" class="col-2 btn-close text-reset" data-bs-dismiss="offcanvas"
           aria-label="Close"></button>
         <h5 class="col offcanvas-title ml-5" id="offcanvasBottomLabel">

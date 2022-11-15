@@ -27,7 +27,10 @@ export class Character {
     // Styles
     this.styles = {
       primary: data.styles.primary,
-      secondary: data.styles.secondary
+      secondary: data.styles.secondary,
+      small: data.styles.small,
+      header: data.styles.header == undefined ? true : data.styles.header,
+      onlyCharacter: !!data.style.onlyCharacter
     }
 
     // images
@@ -119,7 +122,9 @@ export const Kimko = new Character({
   position: 'Recovered Shipment Warehouse',
   job: 'Data Analyst',
   styles: {
-    primary: 'info'
+    primary: 'info',
+    small: true,
+    onlyCharacter: true
   },
   images: {
     base: kimBase,
