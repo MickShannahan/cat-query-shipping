@@ -2,6 +2,7 @@ import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
 import { logger } from '../utils/Logger'
 import { accountService } from './AccountService'
+import { modsService } from './ModsService.js'
 
 class ShipmentsService {
   async create(body) {
@@ -14,8 +15,10 @@ class ShipmentsService {
     query = regexr(query)
     const account = await dbContext.Account.findById(userId).populate('lostShipment')
     const count = await dbContext.Shipments.count(query)
-    const shipments = await dbContext.Shipments.find(query).limit(50)
-    accountService.updateAccountStats(userId, { pages: shipments.length > 50 ? 50 : shipments.length, requests: 1 })
+    const limit = await modsService.getPageLimit(account)
+    const shipments = await dbContext.Shipments.find(query).limit(limit)
+    accountService.updateAccountStats(userId, { pages: shipments.length, requests: 1 })
+    // IF not glitched
     if (!account.lostShipment.glitch || count > 5) {
       return { hits: count, results: shipments }
     }

@@ -33,6 +33,7 @@ class GameService {
       shipment.found = true; shipment.save()
       account.shipmentsFound.push(shipmentId)
       account.currentGuesses = []
+      // TODO mod for bonus credits
       account.credits += shipment.creditsWorth
       accountService.updateAccountStats(userId, { pages: 0, requests: 0, averagePages: account.currentPagesPrinted, averageRequests: account.currentRequestsMade })
       account.currentPagesPrinted = 0

@@ -67,7 +67,18 @@ class AccountService {
     })
     account = await createAccountIfNeeded(account, user)
     await mergeSubsIfNeeded(account, user)
-    delete account.lostShipmentId
+    return account
+  }
+
+  async getPrivateAccount(user) {
+    let account = await dbContext.Account.findOne({
+      _id: user.id
+    }).populate('inventory')
+    if (!account) {
+      account = await createAccountIfNeeded(account, user)
+      await mergeSubsIfNeeded(account, user)
+    }
+    delete account._doc.lostShipmentId
     return account
   }
 

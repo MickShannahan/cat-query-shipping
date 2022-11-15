@@ -13,7 +13,7 @@
       aria-controls="offcanvasBottom" @click="chat(notifyChat)">
       <div v-if="notifyChat" class="pop-bubble">!</div>
       <!-- <div class="pop-bubble">!</div> -->
-      Ask {{ character.nickname }}
+      Ask {{ character.nickName }}
     </button>
 
     <div :class="`offcanvas offcanvas-bottom  bg-${character.styles.primary} lighten-10 p-0 col-12`" tabindex="-1"

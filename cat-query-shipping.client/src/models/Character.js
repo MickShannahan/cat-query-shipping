@@ -115,7 +115,7 @@ export const Bozko = new Character({
 // STUB Kimko
 export const Kimko = new Character({
   name: 'Kimko',
-  nickName: 'Koko',
+  nickName: 'Kiwi',
   position: 'Recovered Shipment Warehouse',
   job: 'Data Analyst',
   styles: {
