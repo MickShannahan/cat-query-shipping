@@ -30,7 +30,7 @@ export class Character {
       secondary: data.styles.secondary,
       small: data.styles.small,
       header: data.styles.header == undefined ? true : data.styles.header,
-      onlyCharacter: !!data.style.onlyCharacter
+      onlyCharacter: !!data.styles.onlyCharacter
     }
 
     // images
