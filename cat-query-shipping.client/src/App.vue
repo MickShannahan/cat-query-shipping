@@ -1,8 +1,8 @@
 <template data-simplebar>
-  <header  class="container-fluid ">
+  <header class="container-fluid ">
     <Navbar />
   </header>
-  <main class="container-fluid">
+  <main class="container-fluid d-flex">
     <router-view v-slot="{ Component }">
       <transition name="route" mode="out-in">
         <component :is="Component" />
@@ -10,7 +10,8 @@
     </router-view>
   </main>
   <footer class="container-fluid fixed-bottom d-flex align-items-center justify-content-center">
-    <div class="me-auto selectable text-light p-2 rounded" @click="switchBg"><i class="mdi mdi-lightbulb-outline"></i></div>
+    <div class="me-auto selectable text-light p-2 rounded" @click="switchBg"><i class="mdi mdi-lightbulb-outline"></i>
+    </div>
     <div class="text-light text-center p-2 me-auto">
       Made with your <i class="mdi mdi-google-podcast"></i> Union Tax Credits
     </div>
@@ -30,7 +31,7 @@ export default {
     return {
       appState: computed(() => AppState),
       bg: computed(`url(${bgs[bgSelcted.value]})`),
-      switchBg(){
+      switchBg() {
         bgSelcted.value = (bgSelcted.value + 1) % bgs.value.length
         document.body.style.backgroundImage = ` radial-gradient(rgba(2, 0, 36, 0), rgba(34, 65, 60, 0.7)), url("${bgs.value[bgSelcted.value]}")`
       }
@@ -58,6 +59,7 @@ body {
   background-attachment: fixed;
   transition: background-image linear .5s;
 }
+
 @import "./assets/scss/main.scss";
 
 .route-enter-active,
@@ -65,11 +67,13 @@ body {
   overflow: hidden;
   transition: all 0.2s ease;
 }
+
 .route-enter-from {
   overflow: hidden;
   opacity: 0;
   filter: blur(5px);
 }
+
 .route-leave-to {
   overflow: hidden;
   opacity: 0;

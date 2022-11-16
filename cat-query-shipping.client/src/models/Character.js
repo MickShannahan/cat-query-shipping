@@ -27,7 +27,10 @@ export class Character {
     // Styles
     this.styles = {
       primary: data.styles.primary,
-      secondary: data.styles.secondary
+      secondary: data.styles.secondary,
+      small: data.styles.small,
+      header: data.styles.header == undefined ? true : data.styles.header,
+      onlyCharacter: !!data.styles.onlyCharacter
     }
 
     // images
@@ -115,11 +118,13 @@ export const Bozko = new Character({
 // STUB Kimko
 export const Kimko = new Character({
   name: 'Kimko',
-  nickName: 'Koko',
+  nickName: 'Kiwi',
   position: 'Recovered Shipment Warehouse',
   job: 'Data Analyst',
   styles: {
-    primary: 'info'
+    primary: 'info',
+    small: true,
+    onlyCharacter: true
   },
   images: {
     base: kimBase,

@@ -1,6 +1,11 @@
-import mongoose from 'mongoose'
-import { ModSchema } from './Mod.js'
-const Schema = mongoose.Schema
+import { Schema } from 'mongoose'
+import { ItemSchema } from './Item.js'
+
+const InstalledMod = new Schema({
+  ...ItemSchema.obj,
+  x: { type: Number, default: 0 },
+  y: { type: Number, default: 0 }
+})
 
 export const AccountSchema = new Schema(
   {
@@ -34,8 +39,8 @@ export const AccountSchema = new Schema(
     needsTour: { type: Boolean, default: true },
     unlocks: [{ type: String }],
     // STUB If you wish to add additional properties do so here
-    inventory: [],
-    installedMods: [{ type: ModSchema }]
+    inventory: [{ type: Schema.Types.ObjectId, ref: 'Item' }],
+    installedMods: [{ type: InstalledMod }]
   },
   { timestamps: true, toJSON: { virtuals: true } }
 )

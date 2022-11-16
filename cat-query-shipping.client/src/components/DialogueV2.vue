@@ -13,12 +13,14 @@
       aria-controls="offcanvasBottom" @click="chat(notifyChat)">
       <div v-if="notifyChat" class="pop-bubble">!</div>
       <!-- <div class="pop-bubble">!</div> -->
-      Ask {{ character.nickname }}
+      Ask {{ character.nickName }}
     </button>
 
-    <div :class="`offcanvas offcanvas-bottom  bg-${character.styles.primary} lighten-10 p-0 col-12`" tabindex="-1"
-      :id="character.name + '-OffCanvas'" aria-labelledby="offcanvasBottomLabel">
-      <div :class="`offcanvas-header bg-${character.styles.primary} row justify-content-start`">
+    <div
+      :class="`offcanvas offcanvas-bottom  bg-${backgroundStyle} ${styles.onlyCharacter ? 'only-character' : ''} lighten-10 p-0 col-12`"
+      tabindex="-1" :id="character.name + '-OffCanvas'" aria-labelledby="offcanvasBottomLabel"
+      :data-bs-scroll="character.styles.small" :data-bs-backdrop="!character.styles.small">
+      <div v-if="character.styles.header" :class="`offcanvas-header bg-${backgroundStyle} row justify-content-start`">
         <button type="button" class="col-2 btn-close text-reset" data-bs-dismiss="offcanvas"
           aria-label="Close"></button>
         <h5 class="col offcanvas-title ml-5" id="offcanvasBottomLabel">
@@ -32,6 +34,7 @@
             order-md-first order-last
             justify-content-between
             flex-column
+            chat-buttons
           ">
           <button v-for="ct in chatBranch.branches" :disabled="busy" :key="ct"
             class="btn btn-success border border-info text-light" @click="chat(ct)">
@@ -48,7 +51,8 @@
               rounded
               pl-3
               p-2
-            " v-html="spoken || text"></div>
+              character-chat
+            " :class="{ active }" v-html="spoken || text"></div>
         </div>
         <div class="col-1"></div>
         <div class="col-2 character-container">
@@ -58,7 +62,6 @@
           <img v-else :src="character.images.casual" :class="{ 'hide-character': hide }" />
           <img :src="character.images.blink" class="character blink" v-show="status == 'blink' && !busy"
             :class="{ 'hide-character': hide }" />
-          <div class="load-images"></div>
           <img :src="talking" class="character blink" v-show="talking" :class="{ 'hide-character': hide }" />
         </div>
       </div>
@@ -74,6 +77,7 @@ import { chatService } from '../services/ChatService'
 import { logger } from '../utils/Logger';
 import { Character } from '../models/Character.js'
 import { Offcanvas } from "bootstrap";
+import { debounce } from "../utils/logic.js"
 
 export default {
   props: { character: { type: Character }, btnPosition: Number },
@@ -84,8 +88,11 @@ export default {
     const hide = ref(true)
     const spoken = ref('')
     const intervals = ref([])
+    const styles = ref({})
+    const active = ref(false)
     // mounted
     onMounted(() => {
+      styles.value = props.character.styles
       const dialogue = document.getElementById(props.character.name + '-OffCanvas')
       dialogue.addEventListener('hide.bs.offcanvas', function () {
         hide.value = true
@@ -132,9 +139,11 @@ export default {
         intervals.value.push(setInterval(() => {
           let c = text.shift()
           if (c) {
+            active.value = true
             phonic(c)
             spoken.value += c
           } else {
+            setTimeout(() => active.value = false, 4000)
             clearInterval(interval)
             talking.value = ''
           }
@@ -155,9 +164,15 @@ export default {
       notifyChat: computed(() => AppState.notification),
       text: computed(() => AppState.chatBranch?.text),
       casualFriday: computed(() => new Date().getDay() == 5),
+      backgroundStyle: computed(() => {
+        if (props.character.styles.onlyCharacter) return 'transparent'
+        return props.character.styles.primary
+      }),
+      styles,
       status,
       spoken,
       talking,
+      active,
       busy,
       hide,
       intervals,
@@ -178,6 +193,51 @@ export default {
 // .bg-char-primary {
 //   background-color: v-bind(stylePrimary);
 // }
+.only-character {
+  background-color: transparent !important;
+  border: 0px;
+  justify-content: end;
+  align-items: center;
+  display: flex;
+  max-height: 20vh;
+
+  .col-1 {
+    width: 0%;
+  }
+
+  >.offcanvas-header {
+    display: none;
+  }
+
+  >.offcanvas-body {
+    justify-content: end;
+    max-height: 20vh;
+    width: 75%;
+    overflow-x: hidden;
+  }
+
+  .chat-buttons {
+    display: none !important;
+    ;
+  }
+
+  .character-chat {
+    width: 30vh;
+    transition: all .4s ease;
+    transform: translateX(100vh);
+    opacity: 0;
+  }
+
+  .character-chat.active {
+    transform: translateX(0vh);
+    opacity: 1;
+  }
+
+  .character-container:hover .character {
+    opacity: 0.85;
+    transform: translateX(5vw);
+  }
+}
 
 .holes {
   background-image: url(/src/assets/img/Textures/carbon-fibre.png);
@@ -220,7 +280,13 @@ export default {
 }
 
 @media screen and(max-width: 1055px) {
-  .character:hover {
+
+  .character-container:hover .character {
+    opacity: 0.5;
+    transform: translateX(5vw);
+  }
+
+  .character-container:hover .blink {
     opacity: 0.5;
     transform: translateX(5vw);
   }
