@@ -37,7 +37,7 @@ class GameService {
 
       const creds = _payOut(account, shipment)
       account.credits += creds; account.totalCredits += creds
-
+      await accountService.updateAccountScore(account)
       await accountService.updateAccountHistory(account)
       await accountService.zeroAccountStats(account)
       await accountService.advanceGrade(account)

@@ -32,6 +32,7 @@ export const AccountSchema = new Schema(
     pagesHistory: [{ type: Number, default: [] }],
     requestsHistory: [{ type: Number, default: [] }],
 
+    leaderScore: { type: Number, required: true, default: 0 },
     employeeGrade: { type: String, enum: employeeGrades, default: 'Trainee' },
     topGrade: { type: String, enum: employeeGrades },
     gradingPeriod: { type: Number, required: true, default: 0, max: 10, min: 0 },

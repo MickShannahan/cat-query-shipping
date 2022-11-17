@@ -25,7 +25,7 @@ class ProfileService {
       }])
       .collation({ locale: 'en_US', strength: 1 })
       .skip(Number(offset))
-      .sort('totalCredits')
+      .sort('leaderScore totalCredits')
       .limit(100)
       .exec()
   }
