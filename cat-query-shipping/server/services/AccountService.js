@@ -120,11 +120,16 @@ class AccountService {
     if (data.pages > 0) {
       account.totalPagesPrinted += data.pages
       account.currentPagesPrinted += data.pages
-      account.pagesHistory = [account.currentPagesPrinted, ...account.pagesHistory.splice(0, 8)]
     }
     account.totalRequestsMade += data.requests
     account.currentRequestsMade += data.requests
-    account.requestsHistory = [account.currentRequestsMade, ...account.requestsHistory.splice(0, 8)]
+
+    await chatsService.employeeFeedback(account, oldAccount)
+  }
+
+  async updateAccountHistory(account) {
+    account.requestsHistory = [account.currentRequestsMade, ...account.requestsHistory.splice(0, 10)]
+    account.pagesHistory = [account.currentPagesPrinted, ...account.pagesHistory.splice(0, 10)]
     // if doing bad loose a package
     if (account.currentPagesPrinted >= 50 && account.currentRequestsMade === 3) {
       for (let i = 0; i <= Math.random() * 10; i++) {
@@ -136,8 +141,6 @@ class AccountService {
     // eslint-disable-next-line eqeqeq
     account.averagePagesPrinted = Math.ceil(account.pagesHistory.reduce((v, a) => a + v) / account.pagesHistory.length)
     account.averageRequestsMade = Math.ceil(account.requestsHistory.reduce((v, a) => a + v) / account.requestsHistory.length)
-    await chatsService.employeeFeedback(account, oldAccount)
-    account.save()
   }
 
   async updateGrade(userId) {

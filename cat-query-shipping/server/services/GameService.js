@@ -41,7 +41,13 @@ class GameService {
       await account.save()
       logger.log('correct guess', shipment, account)
       socketProvider.messageRoom('GENERAL', 'shipment:found', account)
-      accountService.updateGrade(account.id)
+      account.gradingPeriod++
+      await accountService.updateAccountHistory(account)
+      if (account.gradingPeriod === 10) {
+        account.gradingPeriod = 0
+        accountService.updateGrade(account.id)
+      }
+      account.save()
       return { result: true, currentGuesses: account.currentGuesses, shipment: shipment }
     } else { // INCORRECT
       account.currentGuesses.push(shipmentId)

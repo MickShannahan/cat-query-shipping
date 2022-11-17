@@ -29,7 +29,10 @@ export const AccountSchema = new Schema(
     pagesHistory: [{ type: Number, default: [] }],
     requestsHistory: [{ type: Number, default: [] }],
 
-    employeeGrade: { type: String, enum: ['S+', 'S', 'A', 'B', 'C', 'D', 'Bob Cat', 'Tabby', 'Kitten', 'Trainee'], default: 'Trainee' },
+    employeeGrade: { type: String, enum: ['S++', 'S+', 'S', 'A+', 'A', 'B', 'C', 'D', 'Bob Cat', 'Tabby', 'Kitten', 'Trainee'], default: 'Trainee' },
+    topGrade: { type: String, enum: ['S++', 'S+', 'S', 'A+', 'A', 'B', 'C', 'D', 'Bob Cat', 'Tabby', 'Kitten', 'Trainee'], default: 'Trainee' },
+    gradingPeriod: { type: Number, required: true, default: 1, max: 10, min: 1 },
+
     minDifficulty: { type: Number, default: 1 },
     maxDifficulty: { type: Number, default: 5 },
 
