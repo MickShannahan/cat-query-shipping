@@ -7,6 +7,8 @@ const InstalledMod = new Schema({
   y: { type: Number, default: 0 }
 })
 
+export const employeeGrades = ['S++', 'S+', 'S', 'A+', 'A', 'B', 'C', 'D', 'Bob Cat', 'Tabby', 'Kitten', 'Trainee', '']
+
 export const AccountSchema = new Schema(
   {
     subs: [{ type: String, unique: true }],
@@ -14,6 +16,7 @@ export const AccountSchema = new Schema(
     name: { type: String, required: true },
     picture: { type: String },
     credits: { type: Number, default: 0 },
+    totalCredits: { type: Number, default: 0 },
     components: { type: Number, default: 0 },
     lostShipmentId: { type: Schema.Types.ObjectId, ref: 'Shipment', default: '62361f3836ac2a5a2a7eab53' },
     currentGuesses: [{ type: Schema.Types.ObjectId }],
@@ -29,7 +32,10 @@ export const AccountSchema = new Schema(
     pagesHistory: [{ type: Number, default: [] }],
     requestsHistory: [{ type: Number, default: [] }],
 
-    employeeGrade: { type: String, enum: ['S+', 'S', 'A', 'B', 'C', 'D', 'Bob Cat', 'Tabby', 'Kitten', 'Trainee'], default: 'Trainee' },
+    employeeGrade: { type: String, enum: employeeGrades, default: 'Trainee' },
+    topGrade: { type: String, enum: employeeGrades },
+    gradingPeriod: { type: Number, required: true, default: 0, max: 10, min: 0 },
+
     minDifficulty: { type: Number, default: 1 },
     maxDifficulty: { type: Number, default: 5 },
 

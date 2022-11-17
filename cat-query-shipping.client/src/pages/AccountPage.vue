@@ -64,7 +64,7 @@
               {{ leaderboard[0]?.shipmentsFound?.length }}
             </div>
             <h4>
-              <b class="text-primary"> {{ leaderboard[0]?.employeeGrade }}</b>
+              <b class="text-primary"> {{ leaderboard[0]?.topGrade || leaderboard[0]?.employeeGrade }}</b>
             </h4>
           </div>
           <div class="col-6 mb-5">
@@ -95,7 +95,7 @@
                   {{ player.shipmentsFound?.length }}
                 </div>
                 <div class="col-3 list-border">
-                  {{ player.employeeGrade }}
+                  {{ player.topGrade || player.employeeGrade }}
                 </div>
               </div>
             </div>

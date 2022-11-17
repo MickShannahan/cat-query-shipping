@@ -55,7 +55,7 @@ export default {
 .shipment-search-area {
   display: grid;
   grid-template-columns: 5vw minmax(25px, 3vw) 1fr minmax(25px, 3vw) 5vw;
-  grid-template-rows: 2.2em 1fr;
+  grid-template-rows: 2.2em 1fr 28vh;
 }
 
 .computer {

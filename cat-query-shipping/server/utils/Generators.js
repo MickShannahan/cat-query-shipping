@@ -15,7 +15,8 @@ const alph = ['A', 'B', 'C', 'E', 'F', 'G', 'K', 'M', 'P', 'Q', 'R', 'S', 'T', '
 const nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 const sectorAlph = ['A', 'C', 'V', 'X', 'Z']
 const sectorNums = ['01', '22', '42', '67', '99']
-export const glitches = ['jumper', 'scrambler', 'burner', 'timer', 'printer', 'trapper', 'speller']
+// export const glitches = ['jumper', 'scrambler', 'burner', 'timer', 'printer', 'trapper', 'speller'] TODO
+export const glitches = ['scrambler', 'burner', 'timer']
 // export const glitches = ['timer']
 export const shippingTiers = ['1LTYR', '2LTYR', 'METEOR-FREIGHT', 'GALAXY-EXPRESS', 'INTERPLANETARY/DOMESTIC', 'WARP', 'WARP+', 'WARP-FREIGHT']
 const planets = [
@@ -434,6 +435,7 @@ export function random(arr, count = 1) {
   return out
 }
 
+/** @return {boolean} returns bool based on chance given */
 function chance(prob) {
   return Math.round(Math.random() * 100) < prob * 100
 }
@@ -451,8 +453,8 @@ export function bool() {
 
 export function description() {
   const type = Object.keys(items)[randI(Object.keys(items))]
-  const brand = items[type].brands[randI(items[type])]
-  const item = items[type].items[randI(items[type])]
+  const brand = items[type].brands[randI(items[type].brands)]
+  const item = items[type].items[randI(items[type].items)]
   let descLine = desc[randI(desc)]
   const flav = flavors[randI(flavors)]
   const brRx = /%B%/ig
@@ -559,7 +561,7 @@ export function spaceDate(format) {
       return '0' + num1 + num2 + 'U'
     case 'Minkow':
       return num1 + '=' + num2 + '=' + num1
-    case 'Tera' :
+    case 'Tera':
       return num1 + '/' + num2 + 'T'
     case 'Sol':
       // @ts-ignore
@@ -655,7 +657,8 @@ export function damageProperty(prop) {
   const randomFill = random(glitchFills)
   const rand1 = Math.floor(Math.random() * (prop.toString().length / 2))
   const rand2 = Math.floor(Math.random() * (prop.toString().length / 2) + (prop.length / 2))
-  const answers = ['not yet decided', 'maybe', 'unsure', 'ask again later']
+  const trueAnswers = ['_', '1', '!false', '!!1', '{maybe:not sure}', '[]', '[] + [] = ""', '!!{}', 'x == x++']
+  const falseAnsers = ['""', '0', '!true', '[] + [] = 0', 'null', '{}.length', '!1', '!!0', 'x == ++x', '!!null']
   switch (typeof prop) {
     case 'string':
       if (chance(0.4)) {
@@ -668,33 +671,37 @@ export function damageProperty(prop) {
         prop.splice(rand1, rand2, randomFill)
       }
       return prop.join('')
-    case 'number' :
+    case 'number':
       return binary(prop)
     case 'boolean':
-      return random(answers)
+      if (prop) return random(trueAnswers)
+      if (!prop) return random(falseAnsers)
+      break
     default:
       return '...'
   }
 }
 
 export function damageShipment(shipment, difficulty) {
-  const options = ['miss', 'miss', 'keys', 'vals', 'vals']
-  const weights = { miss: 1, keys: 0.2, vals: 0.6 }
+  const options = ['miss', 'keys', 'keys', 'vals', 'vals']
+  const weights = { miss: 1, keys: 0.3, vals: 0.7 }
   let glitchChance = false
   let max = difficulty * 1.2
+  let missMax = Math.round(difficulty / 1.8)
   const props = { ...diffCodeMap }
   const damages = { miss: {}, vals: {}, keys: {} }
   if (difficulty > 3) { shipment.missingProperties.push('trackingNumber'); damages.miss.trackingNumber = 5 }
   if (difficulty > 7) { shipment.damagedProperties.recipient = damageProperty(shipment.recipient); damages.vals.recipient = 4 }
   if (difficulty > 10) { max *= 1.15 }
-  if (difficulty > 10) { glitchChance = chance(0.7) }
-  if (difficulty > 17) { max *= 1.13 }
+  if (difficulty > 10) { glitchChance = chance(0.4) }
+  if (difficulty > 12) { missMax = Math.round(difficulty / 2.7) }
+  if (difficulty > 17) { max = 30 }
 
   for (let points = 0; max >= points;) {
+    logger.log('points', max, points)
     const weight = random(Object.keys(props))
     const prop = random(props[weight])
     const rand = random(options)
-    // logger.log('random picked', shipment.recipient, 'd' + difficulty, 'm' + max, 'p' + points, rand, prop, 'w' + weight)
     switch (rand) {
       case 'miss':
         points += pointCalc(damages, prop, weight, rand) * weights.miss
@@ -702,6 +709,7 @@ export function damageShipment(shipment, difficulty) {
         props[weight] = props[weight].filter(p => p !== prop)
         if (damages.vals[prop]) points -= parseFloat(damages.vals[prop]) * weights.vals
         if (damages.keys[prop]) points -= parseFloat(damages.keys[prop]) * weights.keys
+        if (shipment.missingProperties.length >= missMax) options.splice(0, 1) // remove miss as an option once max is hit
         break
       case 'vals':
         points += pointCalc(damages, prop, weight, rand) * weights.vals
@@ -713,7 +721,6 @@ export function damageShipment(shipment, difficulty) {
         break
     }
     if (props[weight].length === 0) delete props[weight]
-    // if (max < points)logger.error('Done', shipment.recipient, 'd' + difficulty, 'm' + max, 'p' + points, damages, shipment)
   }
   if (glitchChance || shipment.glitch) { shipment.glitch = shipment.glitch || random(glitches); setGlitchData(shipment.glitch, shipment) }
 }
@@ -728,7 +735,7 @@ function pointCalc(damages, prop, weight, rand) {
 
 function cypherString(string) {
   let out = ''
-  if (chance(0.5)) { // full string cypher
+  if (chance(0.3)) { // full string cypher
     const num = Math.ceil(Math.random() * 3) * (chance(0.5) ? 1 : -1)
     for (let i = 0; i < string.length; i++) {
       const char = string[i].toLowerCase()
@@ -751,25 +758,30 @@ function cypherString(string) {
       }
     }
     return out
-  } else { // per character cypher
-    for (let i = 0; i < string.length; i++) {
-      const char = string[i].toLowerCase()
-      if (!az.includes(char) && !digits.includes(string)) { continue }
-      const num = Math.ceil(Math.random() * 2)
-      if (parseInt(char) >= 0) {
-        const index = digits.findIndex(d => d === char)
-        out += indexWrap(digits, index, num)
-      } else {
-        const index = az.findIndex(c => c === char)
-        out += indexWrap(az, index, num)
-      }
-      const rand = random(['_', '.', '-', '^', char])
-      for (let i = 0; i < Math.abs(num); i++) {
-        out += rand
-      }
-    }
+  } else {
+    const arr = string.split('')
+    const rand = Math.floor(Math.random() * string.length)
+    const splits = arr.splice(rand)
+    return ([...splits, ...arr]).join('')
   }
-  return out
+  // FIXME this is way to crazy rn
+  // else { // per character cypher
+  //   for (let i = 0; i < string.length; i++) {
+  //     const char = string[i].toLowerCase()
+  //     if (!az.includes(char) && !digits.includes(string)) { continue }
+  //     const num = Math.ceil(Math.random() * 2)
+  //     if (parseInt(char) >= 0) {
+  //       const index = digits.findIndex(d => d === char)
+  //       out += indexWrap(digits, index, num)
+  //     } else {
+  //       const index = az.findIndex(c => c === char)
+  //       out += indexWrap(az, index, num)
+  //     }
+  //     const rand = random(['_', '.', '-', '^', char])
+  //     for (let i = 0; i < Math.abs(num); i++) {
+  //       out += rand
+  //     }
+  //   }
 }
 
 function binary(number) {

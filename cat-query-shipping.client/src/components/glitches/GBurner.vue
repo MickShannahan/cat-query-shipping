@@ -5,11 +5,9 @@
         <span>{{ faces[personality[0]] }} {{ phrases[personality[1]] }}</span>
       </div>
       <div class="col-6">
-        <span
-          v-for="(n, b) in glitchData.burned"
-          :key="b"
-          :class="{ 'text-danger': n == 3, 'text-warning': n == 2 }"
-          >{{ b }}
+        <span v-for="(n, b) in glitchData.burned" :key="b" :class="{ 'text-danger': n == 5, 'text-warning': n == 3 }">{{
+            b
+        }}
         </span>
       </div>
     </div>
@@ -25,26 +23,27 @@ import { logger } from '../../utils/Logger';
 import Pop from "../../utils/Pop";
 export default {
   setup() {
-    const personality = ref([0,0])
+    const blockVal = 5
+    const personality = ref([0, 0])
     const glitchData = computed(() => AppState.lostShipment.glitchData)
     const oldBurned = ref('')
     const faces = computed(() => glitchData.value.faces)
     const phrases = computed(() => glitchData.value.phrases)
     const inputField = ref('')
     watchEffect(() => {
-      if(AppState.searchType != 'http'){
+      if (AppState.searchType != 'http') {
         Pop.toast('/ᐠ ̷  ̷- ̷‸ ̷- ̷ ᐟ\\ﾉ \n ...not allowed...', 'error', 'center')
         AppState.searchType = 'http'
       }
       let inputBox = document.getElementById('basic-url') || document.getElementById('code-window')
-      if(inputBox){
+      if (inputBox) {
         inputBox.addEventListener('keyup', keyPress)
         inputField.value = inputBox.value
       }
     })
-    function changePersonality(face, text){
-       personality.value[0]= face || Math.floor(Math.random()*glitchData.value.faces.length)
-       personality.value[1] = text ||  Math.floor(Math.random()*glitchData.value.phrases.length)
+    function changePersonality(face, text) {
+      personality.value[0] = face || Math.floor(Math.random() * glitchData.value.faces.length)
+      personality.value[1] = text || Math.floor(Math.random() * glitchData.value.phrases.length)
     }
     function keyPress() {
       let input = document.getElementById('basic-url').value.split('')
@@ -52,8 +51,8 @@ export default {
       input.forEach(k => {
         if (k == '?') return
         data[k] = data[k] ? data[k] + 1 : 1
-        if (data[k] > 3) {
-          data[k] = 3
+        if (data[k] > blockVal) {
+          data[k] = blockVal
           blockKey()
           return
         }
@@ -65,9 +64,9 @@ export default {
     function blockKey() {
       changePersonality()
       let inputElm = document.getElementById('basic-url')
-      inputElm.value = inputElm.value.slice(0, inputElm.value.length -1)
+      inputElm.value = inputElm.value.slice(0, inputElm.value.length - 1)
       inputElm.classList.add('burning')
-      setTimeout(()=> {inputElm.classList.remove('burning')}, 200)
+      setTimeout(() => { inputElm.classList.remove('burning') }, 200)
     }
     function burnLetters() {
       let screen = document.getElementById('shipment-details')
@@ -97,9 +96,9 @@ export default {
       })
     }
     onMounted(() => {
-      AppState.searchType ='http'
+      AppState.searchType = 'http'
       oldBurned.value = { ...AppState.lostShipment.glitchData.burned }
-           const title = "Burner Glitch?"
+      const title = "Burner Glitch?"
       AppState.chatTree[title] = {
         text: "The Burner glitch can be tricky to deal with. Repeating the same charcters in your query will 'burn them out'. You can only use each character a few times before it's un-usable.  Thankfully you can always get the characters back by backing your query up. Besides that you just have to just have to endure their edgy commentary. If you lost a character you can always check the user manual for and encoded version, might be able to get a few more in that way.",
         branches: ['[Go Back]']
@@ -109,7 +108,7 @@ export default {
         branches: [title]
       }
       AppState.bozNotification = ['[glitch]']
-      })
+    })
     return {
       personality,
       glitchData,
@@ -135,17 +134,31 @@ export default {
 //   -webkit-text-fill-color: transparent;
 // }
 
-#tour-search input.burning{
+#tour-search input.burning {
   animation: burning .2s linear 2;
-  color: $warning!important
+  color: $warning !important
 }
 
 @keyframes burning {
-  0%{text-shadow: -4px 0px 0px $danger!important;}
-  25%{text-shadow: 4px 0px 0px $danger!important;}
-  50%{text-shadow: 0px -4px 0px $danger;}
-  75%{text-shadow: 0px 4px 0px $danger;}
-  100%{text-shadow: 3px 0px 0px $danger;}
+  0% {
+    text-shadow: -4px 0px 0px $danger !important;
+  }
+
+  25% {
+    text-shadow: 4px 0px 0px $danger !important;
+  }
+
+  50% {
+    text-shadow: 0px -4px 0px $danger;
+  }
+
+  75% {
+    text-shadow: 0px 4px 0px $danger;
+  }
+
+  100% {
+    text-shadow: 3px 0px 0px $danger;
+  }
 }
 
 // .shake{
