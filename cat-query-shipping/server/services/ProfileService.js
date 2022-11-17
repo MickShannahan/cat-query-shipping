@@ -25,13 +25,13 @@ class ProfileService {
       }])
       .collation({ locale: 'en_US', strength: 1 })
       .skip(Number(offset))
-      .sort('credits')
+      .sort('totalCredits')
       .limit(100)
       .exec()
   }
 
   async findEmployeesOfMonth() {
-    let profiles = dbContext.Profiles.find({})
+    const profiles = dbContext.Profiles.find({})
   }
 }
 
