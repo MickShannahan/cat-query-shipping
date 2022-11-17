@@ -151,6 +151,13 @@ class AccountService {
   }
 
   /**  @param {Object} account */
+  async updateAccountScore(account) {
+    const creds = account.totalCredits
+    const ships = account.shipmentsFound.length
+    account.leaderScore = creds + (ships * 50)
+  }
+
+  /**  @param {Object} account */
   async zeroAccountStats(account) {
     account.shipmentsFound.unshift(account.lostShipmentId)
     account.currentGuesses = []
