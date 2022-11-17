@@ -18,7 +18,7 @@ export const AccountSchema = new Schema(
     credits: { type: Number, default: 0 },
     totalCredits: { type: Number, default: 0 },
     components: { type: Number, default: 0 },
-    lostShipmentId: { type: Schema.Types.ObjectId, ref: 'Shipment', default: '62361f3836ac2a5a2a7eab53' },
+    lostShipmentId: { type: Schema.Types.ObjectId, ref: 'Shipment', default: '6375d2e453dbc622793735d0' },
     currentGuesses: [{ type: Schema.Types.ObjectId }],
     shipmentsFound: [{ type: Schema.Types.ObjectId }],
     shipmentsAbandoned: [{ type: Schema.Types.ObjectId }],
