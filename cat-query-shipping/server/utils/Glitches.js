@@ -14,7 +14,7 @@ export function setGlitchData(glitchName, shipment) {
         timeLimit: 80 - Math.ceil(shipment.difficultyRating * 3)
       }
       break
-      // STUB BURNER
+    // STUB BURNER
     case 'burner':
       // eslint-disable-next-line no-case-declarations
       const burns = {}
@@ -31,11 +31,11 @@ export function setGlitchData(glitchName, shipment) {
         burned: burns
       }
       break
-      // STUB SCRAMBLER
+    // STUB SCRAMBLER
     case 'scrambler':
-      const doesnt = ['missingProperties', 'damagedKeys', 'damagedProperties', 'description', 'glitch', 'glichData', 'postalHistory', 'postalStation']
+      // eslint-disable-next-line no-case-declarations
+      const doesnt = ['missingProperties', 'damagedKeys', 'damagedProperties', 'description', 'glitch', 'glichData', 'postalHistory', 'postalStation', 'creditsWorth', 'hazard', 'found', 'difficultyRating']
       const scrambles = Object.keys(shipment).filter(k => !shipment.missingProperties.includes(k) && !doesnt.includes(k))
-      logger.log('scrambles', scrambles)
       const scrambleData = {}
       for (let i = 1; i <= Math.round(shipment.difficultyRating * 1.5); i++) {
         const one = random(scrambles)

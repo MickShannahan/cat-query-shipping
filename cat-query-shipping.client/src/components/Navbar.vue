@@ -1,17 +1,25 @@
 <template>
   <nav class=" navbar-dark bg-dark-glass row justify-content-center">
-    <ShipmentCounter/>
+    <ShipmentCounter />
     <div class="row justify-content-center">
-        <router-link class="navbar-brand col-6 text-center" :to="{ name: 'Home' }">
-      <div class="d-flex align-items-center justify-content-center">
-        <img alt="logo" src="../assets/img/CUPS-Logo.png" height="40" />
-        <h3 class="site-header ms-2">C.U.P.S</h3>
+      <router-link class="navbar-brand col-6 text-center" :to="{ name: 'Home' }">
+        <div class="d-flex align-items-center justify-content-center">
+          <img alt="logo" src="../assets/img/CUPS-Logo.png" height="40" />
+          <h3 class="site-header ms-2">C.U.P.S</h3>
+        </div>
+      </router-link>
+      <section class="row justify-content-center position-relative"
+        v-if="account && account.shipmentsFound?.length > 25">
+        <div class=" col-7 progress bg-transparent p-0 position-absolute">
+          <div class="progress-bar bg-info" role="progressbar" :style="`width: ${account.gradingPeriod * 10}%;`"
+            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"
+            :title="`${10 - account.gradingPeriod} shipments until grade placement`"></div>
+        </div>
+      </section>
     </div>
-    </router-link>
+    <div class="d-flex justify-content-end w-100">
+      <CardReader />
     </div>
-      <div class="d-flex justify-content-end w-100">
-        <CardReader/>
-      </div>
   </nav>
 </template>
 
@@ -73,8 +81,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-
 .site-header {
   color: var(--bs-warning);
   font-weight: bold;
@@ -96,18 +102,40 @@ export default {
   transform: scale(0);
   transition: all 0.15s linear;
 }
+
 .dropdown-menu.show {
   transform: scale(1);
 }
+
+.progress {
+  height: 3px;
+  border-radius: 0px;
+  transform: translateY(2px);
+  border-left: 1px solid var(--bs-success);
+  border-right: 1px solid var(--bs-success);
+  transition: all .3s .2s ease;
+  color: transparent !important;
+  ;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.315) !important;
+    height: 12px;
+    color: var(--bs-dark) !important;
+  }
+}
+
 .hoverable {
   cursor: pointer;
 }
+
 a:hover {
   text-decoration: none;
 }
+
 .nav-link {
   text-transform: uppercase;
 }
+
 .navbar-nav .router-link-exact-active {
   border-bottom: 2px solid var(--bs-success);
   border-bottom-left-radius: 0;
@@ -126,6 +154,7 @@ a:hover {
   0% {
     transform: scale(1.2);
   }
+
   100% {
     transform: scale(1);
   }

@@ -25,6 +25,7 @@ class ChatsService {
   }
 
   // Checks
+  // FIXME this has to change
   async employeeFeedback(account, oldAccount = {}, reason = 'no reason') {
     // did you print a ton of pages
     if (account.currentPagesPrinted > 149) { account.scolded.push('too-many-pages') }

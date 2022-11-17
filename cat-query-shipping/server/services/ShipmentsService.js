@@ -20,7 +20,7 @@ class ShipmentsService {
     const count = await dbContext.Shipments.count(query)
     const shipments = await dbContext.Shipments.find(query).limit(limit)
 
-    accountService.updateAccountStats(userId, { pages: shipments.length, requests: 1 })
+    accountService.updateAccountStats(userId, { pages: shipments.length, requests: 1 }, true)
 
     // IF not glitched
     if (!account.lostShipment.glitch || count > 5) {
@@ -28,8 +28,8 @@ class ShipmentsService {
     }
     // glitched packages always return a fixed amount
     const glitchedCount = account.lostShipment.glitchData.extraResults || 5
-    const extra = await dbContext.Shipments.find({ $xor: [...Object.keys(query).map(k => { return { [k]: query[k] } }).sort(() => Math.random() - 0.5), ...Object.keys(account.lostShipment).map(k => { return { [k]: account.lostShipment[k] } }).sort(() => Math.random() - 0.5)] }).limit(glitchedCount - shipments.length)
-    return { hits: shipments.length + extra.length, results: [...shipments, ...extra].sort(() => Math.random() - 0.5) }
+    const extra = await dbContext.Shipments.find({ $xor: [...Object.keys(query).map(k => { return { [k]: query[k] } }).sort(randSort), ...Object.keys(account.lostShipment).map(k => { return { [k]: account.lostShipment[k] } }).sort(randSort)] }).limit(glitchedCount - shipments.length)
+    return { hits: shipments.length + extra.length, results: [...shipments, ...extra].sort(randSort) }
   }
 
   async getCount(query = {}) {
@@ -81,6 +81,10 @@ function regexr(object) {
     }
   })
   return object
+}
+
+function randSort() {
+  return Math.random() - 0.5
 }
 
 export const shipmentsService = new ShipmentsService()

@@ -11,14 +11,14 @@ const HazardSchema = new Schema(
     grade: { type: String, enum: ['A', 'B', 'E', 'X', 'LAZER', 'CONVICT'] },
     isWeapon: { type: String, enum: ['true', 'false'], lowercase: true },
     isValidated: { type: String, enum: ['true', 'false'], lowercase: true },
-    expirationDate: { type: String, validate: function(val) { return dateReg.test(val) }, default: spaceDate() }
+    expirationDate: { type: String, validate: function (val) { return dateReg.test(val) }, default: spaceDate() }
   }
 )
 
 export const ShipmentSchema = new Schema(
   {
     recipient: { type: String, required: true },
-    trackingNumber: { type: String, validate: function(val) { return trackingReg.test(val) } },
+    trackingNumber: { type: String, validate: function (val) { return trackingReg.test(val) } },
     description: { type: String },
     fragile: { type: String, enum: ['true', 'false'], lowercase: true },
     shippingTier: { type: String, enum: shippingTiers },
@@ -33,7 +33,7 @@ export const ShipmentSchema = new Schema(
     postalStation: { type: String },
     postalHistory: [{ type: String }],
 
-    sector: { type: String, validate: function(val) { return codeReg.test(val) } },
+    sector: { type: String, validate: function (val) { return codeReg.test(val) } },
 
     inQuadrant: { type: String, enum: ['true', 'false'], lowercase: true },
     quadrantCode: { type: String },
@@ -60,7 +60,7 @@ export const ShipmentSchema = new Schema(
   },
   {
     toObject: {
-      transform: function(doc, ret, options) {
+      transform: function (doc, ret, options) {
         try {
           logger.log(ret.recipient, ret)
           ret.id = hashIt(ret._id.toString())
@@ -152,6 +152,6 @@ export class RandomShipment {
     // this.damagedProperties = damageProperties(this, 0.2)
     // this.damagedKeys = damageKeys(this, 0.1)
     // this.difficultyRating = difficultyRating(this.missingProperties, this.damagedProperties, this.damagedKeys)
-    this.creditsWorth = Math.round((this.glitch !== '' ? 15 : 10) * (this.difficultyRating * 1.25))
+    this.creditsWorth = Math.round(this.difficultyRating * (this.glitch !== '' ? 20 : 10) * (this.difficultyRating > 15 ? 1.4 : 1.2))
   }
 }
