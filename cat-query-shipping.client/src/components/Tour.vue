@@ -86,11 +86,11 @@ export default {
           }
         },
         {
-          target: '#authDropdown',
+          target: '#tour-employee-stats',
           header: {
             title: bozInsert('Employee information'),
           },
-          content: 'If you click on your name here you can see more details about your employee record and view the records of other employees.  Ya\'know for a little friendly workplace competition.',
+          content: 'If you click on the employee status button here you can see more details about your employee record and view the records of other employees.  Ya\'know for a little friendly workplace competition.',
           params: {
             placement: 'bottom-end',
             enableScrolling: false
@@ -133,44 +133,55 @@ export default {
   background-color: #2a2f32a4 !important;
   backdrop-filter: blur(20px);
   border-bottom: 2px solid #15181aa4;
+
   .v-step__header {
     background: var(--bs-warning) !important;
     color: var(--bs-dark);
   }
+
   .v-step__content {
     text-align: start;
   }
+
   .v-step__buttons {
     text-align: end;
+
     .v-step__button {
       border-radius: 3px;
     }
+
     .v-step__button-skip {
       border: none;
       color: var(--bs-light);
     }
+
     .v-step__button-skip:hover {
       color: var(--bs-danger);
     }
+
     .v-step__button-next {
       border: 1px solid var(--bs-info);
     }
   }
+
   // .v-step__arrow{border-bottom-color: #fbe8a5!important} FIXME this reacts weirdly with different angles
 }
-  .v-step[x-placement^=bottom] .v-step__arrow{
-    border-width: 0em 1.2em 1.2em 1.2em !important;
-    top: -1.2em!important;
-    border-bottom-color: var(--bs-warning);
-  }
-   .v-step[x-placement^=top] .v-step__arrow{
-    border-width: 1.2em 1.2em 0em 1.2em !important;
-    bottom: -1.2em!important;
-    border-top-color: var(--bs-warning);
-  }
-   .v-step[x-placement^=left] .v-step__arrow{
-    border-width: 1.2em 0em 1.2em 1.2em !important;
-    right: -1.2em!important;
-    border-left-color: var(--bs-warning);
-  }
+
+.v-step[x-placement^=bottom] .v-step__arrow {
+  border-width: 0em 1.2em 1.2em 1.2em !important;
+  top: -1.2em !important;
+  border-bottom-color: var(--bs-warning);
+}
+
+.v-step[x-placement^=top] .v-step__arrow {
+  border-width: 1.2em 1.2em 0em 1.2em !important;
+  bottom: -1.2em !important;
+  border-top-color: var(--bs-warning);
+}
+
+.v-step[x-placement^=left] .v-step__arrow {
+  border-width: 1.2em 0em 1.2em 1.2em !important;
+  right: -1.2em !important;
+  border-left-color: var(--bs-warning);
+}
 </style>
