@@ -1,11 +1,11 @@
 import { dbContext } from '../db/DbContext'
+import { notfs } from '../db/Notifications.js'
 import { RandomShipment } from '../models/Shipment'
 import { socketProvider } from '../SocketProvider'
 import { Forbidden } from '../utils/Errors'
 import { logger } from '../utils/Logger'
 import { chatsService } from './ChatsService'
 import { shipmentsService } from './ShipmentsService'
-
 // Private Methods
 
 /**
@@ -90,6 +90,7 @@ class AccountService {
   async updateAccount(user, body) {
     const update = sanitizeBody(body)
     const accountToUpdate = await dbContext.Account.findById(user.id)
+    // dont update if they have been fired and rehired
     if (accountToUpdate.scolded.includes('name-change')) {
       socketProvider.messageUser(user.id, 'boz:notification', { data: accountToUpdate, chat: { 'Edit Denied': { text: `Hey, sorry about that.  Under normal circumstances I wouldn't mind letting you change your employee record details but considering our little *issue* with that LAST employee.  I can't let you do that.  Remember ${accountToUpdate.name} it's for both our benefit at this point.` } } })
       throw new Forbidden('Boz says: "Can\'t let you edit your account now kid, gotta keep you undercover"')
@@ -114,8 +115,6 @@ class AccountService {
     const account = await dbContext.Account.findById(userId)
     const oldAccount = account.toObject()
     account.unlocks = account.unlocks ? account.unlocks : []
-    // TODO write unlocks better
-    if (new Date().getTime() - new Date(account.createdAt).getTime() > 86400000 * 3) { account.unlocks.push('mongo-terminal') }
     // update page/search stats
     if (data.pages > 0) {
       account.totalPagesPrinted += data.pages
@@ -203,24 +202,34 @@ class AccountService {
     }
   }
 
-  async unlocks(account) {
+  async unlocks(account, save = false) {
     // account grade unlocks
     switch (account.employeeGrade) {
       case 'Tabby':
-        socketProvider.messageUser(account.userId, 'boz:notification', { data: account, chat: { 'Updated Record': { text: `Hey I just updated your employed record kid. Looks like your are now a ${account.employeeGrade} grade. With that I unlocked the Mongo Terminal for you too, so you can start using that to refine your searches.` } } })
-        account.unlocks.push('mongo-terminal')
+        if (_unlock(account, 'mongo-terminal')) { socketProvider.messageUser(account.userId, 'boz:notification', { data: account, chat: notfs.boz['grade-tabby'] }) }
         break
       case 'Bob Cat':
-        account.unlocks.push('mongo-terminal')
         break
       case 'S+':
         break
     }
-
     // account shipments found
 
     // account age
-    if (new Date().getTime() - new Date(account.createdAt).getTime() > 86400000 * 3) { account.unlocks.push('mongo-terminal') }
+    if (new Date().getTime() - new Date(account.createdAt).getTime() > 86400000 * 3) {
+      if (_unlock(account, 'mongo-terminal')) { socketProvider.messageUser(account.userId, 'boz:notification', { data: account, chat: notfs.boz['unlock-terminal'] }) }
+    }
+
+    if (save) await account.save
   }
 }
 export const accountService = new AccountService()
+
+function _unlock(account, unlock) {
+  if (account.unlocks.includes(unlock)) {
+    return false
+  }
+  account.unlocks.push(unlock)
+  account.save()
+  return true
+}

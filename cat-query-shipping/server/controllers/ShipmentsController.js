@@ -25,6 +25,7 @@ export class ShipmentsController extends BaseController {
       .post('', this.createShipment)
   }
 
+  // Gets manifest of full shipments through URL
   async getAll(req, res, next) {
     try {
       cleanQuery(req.query)
@@ -38,16 +39,19 @@ export class ShipmentsController extends BaseController {
     }
   }
 
-  async getCount(req, res, next) {
+  // Gets manifest of full shipments through QUERY object
+  async runQuery(req, res, next) {
     try {
-      const count = await shipmentsService.getCount(req.query)
-      return res.send(count)
+      logger.log('query', req.body)
+      const user = req.userInfo
+      const shipments = await shipmentsService.getAll(req.body, user.id)
+      return res.send(shipments)
     } catch (error) {
       next(error)
     }
   }
 
-  // get random lost Shipment for the user
+  // get random lost Shipment and assigns it to account
   async getLostShipment(req, res, next) {
     try {
       const user = req.userInfo
@@ -59,6 +63,17 @@ export class ShipmentsController extends BaseController {
     }
   }
 
+  // gets count of lost shipments
+  async getCount(req, res, next) {
+    try {
+      const count = await shipmentsService.getCount(req.query)
+      return res.send(count)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  // Finds damaged shipments
   async searchLostShipments(req, res, next) {
     try {
       const shipments = await shipmentsService.searchLostShipments(req.query)
@@ -69,6 +84,7 @@ export class ShipmentsController extends BaseController {
     }
   }
 
+  // STUB ADMIN STUFF
   async createShipment(req, res, next) {
     try {
       if (!req.body.difficultyRating) { throw new Error('need difficulty rating to create') }
@@ -86,7 +102,7 @@ export class ShipmentsController extends BaseController {
       const count = parseInt(req.params.number)
       // 2,   2,   2,   5,   5,   6,    6,  7,   7,   8,  8,   7,   7,   6,  6, 5,5,2 ,2 ,2
       const curve =
-      [0.02, 0.03, 0.06, 0.11, 0.16, 0.22, 0.28, 0.35, 0.42, 0.5, 0.58, 0.65, 0.72, 0.78, 0.84, 0.89, 0.94, 0.96, 0.98, 0.99]
+        [0.02, 0.03, 0.06, 0.11, 0.16, 0.22, 0.28, 0.35, 0.42, 0.5, 0.58, 0.65, 0.72, 0.78, 0.84, 0.89, 0.94, 0.96, 0.98, 0.99]
       for (let i = 0; i < count; i++) {
         const shipment = new RandomShipment(curve.findIndex(c => c >= i / count) + 1)
         await shipmentsService.create(shipment)
@@ -102,17 +118,6 @@ export class ShipmentsController extends BaseController {
     try {
       const results = shipmentsService.getBell()
       return res.send(results)
-    } catch (error) {
-      next(error)
-    }
-  }
-
-  async runQuery(req, res, next) {
-    try {
-      logger.log('query', req.body)
-      const user = req.userInfo
-      const shipments = await shipmentsService.getAll(req.body, user.id)
-      return res.send(shipments)
     } catch (error) {
       next(error)
     }

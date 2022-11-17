@@ -11,13 +11,17 @@ class ShipmentsService {
     return await shipment
   }
 
+  // Finds based off query
   async getAll(query = {}, userId) {
-    query = regexr(query)
+    query = regexr(query) // converts rg in body to new Regex
     const account = await dbContext.Account.findById(userId).populate('lostShipment')
-    const count = await dbContext.Shipments.count(query)
     const limit = await modsService.getPageLimit(account)
+
+    const count = await dbContext.Shipments.count(query)
     const shipments = await dbContext.Shipments.find(query).limit(limit)
+
     accountService.updateAccountStats(userId, { pages: shipments.length, requests: 1 })
+
     // IF not glitched
     if (!account.lostShipment.glitch || count > 5) {
       return { hits: count, results: shipments }
