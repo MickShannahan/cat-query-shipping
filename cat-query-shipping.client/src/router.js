@@ -31,6 +31,11 @@ const routes = [
         path: 'docs/mongooseterminal',
         name: 'MongooseTerminal',
         component: loadPage('MongooseTerminal'),
+      },
+      {
+        path: 'docs/changelog',
+        name: 'Changelog',
+        component: loadPage('Changelog'),
       }
     ]
   },

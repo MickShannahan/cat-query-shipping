@@ -58,6 +58,6 @@ export const gameService = new GameService()
 
 function _payOut(account, shipment) {
   // TODO add mods to increase payout
-  const firstGuessBonus = account.currentGuesses.length ? 0 : 75
+  const firstGuessBonus = account.currentGuesses.length ? 0 : Math.round(shipment.difficultyRating * 4.5)
   return shipment.creditsWorth + firstGuessBonus
 }

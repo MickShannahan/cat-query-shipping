@@ -1,8 +1,6 @@
 <template>
   <div class="row justify-content-end">
-    <button
-      id="tour-docs"
-      class="
+    <button id="tour-docs" class="
         btn btn-success
         help-button
         border border-info
@@ -12,74 +10,50 @@
         rounded
         shadow-sm
         docs-scroll
-      "
-      type="button"
-      data-bs-toggle="offcanvas"
-      data-bs-target="#docsOffCanvas"
-      aria-controls="offcanvasBottom"
-      @click="navigateTo()"
-    >
+      " type="button" data-bs-toggle="offcanvas" data-bs-target="#docsOffCanvas" aria-controls="offcanvasBottom"
+      @click="navigateTo()">
       User Manual
     </button>
-    <div
-      class="text-dark docs-offcanvas offcanvas offcanvas-bottom p-0 col-12"
-      tabindex="-1"
-      id="docsOffCanvas"
-      aria-labelledby="offcanvasBottomLabel"
-    >
+    <div class="text-dark docs-offcanvas offcanvas offcanvas-bottom p-0 col-12" tabindex="-1" id="docsOffCanvas"
+      aria-labelledby="offcanvasBottomLabel">
       <div class="offcanvas-header bg-info shadow-sm row justify-content-start">
-        <button
-          type="button"
-          class="col-2 btn-close text-reset"
-          data-bs-dismiss="offcanvas"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="col-2 btn-close text-reset" data-bs-dismiss="offcanvas"
+          aria-label="Close"></button>
         <h5 class="col offcanvas-title ml-5" id="offcanvasBottomLabel">
           Documentation
         </h5>
       </div>
       <div class="offcanvas-body row justify-content-center pb-0 pe-5 me-1">
         <div class="col-2 tabs-col order-first h-100 sticky-top pe-0">
-          <div class="sticky-top d-flex flex-column align-items-end">
-            <button
-              class="btn mb-2 mt-4 docs-tab tab1"
-              @click="navigateTo('Orientation')"
-            >
+          <div class="sticky-top d-flex flex-column align-items-end h-100">
+            <button class="btn mb-2 mt-4 docs-tab tab1" @click="navigateTo('Orientation')">
               Orientation
             </button>
-            <button
-              class="btn mb-2 mt-4 docs-tab tab2"
-              @click="navigateTo('LostShipments')"
-            >
+            <button class="btn mb-2 mt-4 docs-tab tab2" @click="navigateTo('LostShipments')">
               Lost Shipments
             </button>
-            <button
-              class="btn mb-2 mt-2 docs-tab tab3"
-              @click="navigateTo('QueryUrl')"
-            >
+            <button class="btn mb-2 mt-2 docs-tab tab3" @click="navigateTo('QueryUrl')">
               Query the Url
             </button>
-            <button
-              class="btn mb-5 mt-4 docs-tab tab4"
-              @click="navigateTo('MongooseTerminal')"
-            >
+            <button class="btn mb-5 mt-4 docs-tab tab4" @click="navigateTo('MongooseTerminal')">
               Mongoose Terminal
             </button>
-            <button class="btn mb-2 mt-4 docs-tab tab2 mt-7 mb-3">
+            <div class="flex-grow">
+              <!-- TOP BUTTON / BOTTOM BUTTONS -->
+            </div>
+            <button class="btn mb-2 mt-3 docs-tab tab3" @click="navigateTo('Changelog')">
+              Cats UPS Changelog
+            </button>
+            <button class="btn mb-2 mt-4 docs-tab tab2 mb-3">
               <span class="text-dark" @click="resetTour">Restart Tour</span>
             </button>
             <button class="btn mb-2 mt-4 docs-tab tab1 mb-5">
-              <a
-                class="text-dark"
-                href="https://github.com/MickShannahan/cat-query-shipping/issues"
-                target="_blank"
-                >Report an issue</a
-              >
+              <a class="text-dark" href="https://github.com/MickShannahan/cat-query-shipping/issues"
+                target="_blank">Report an issue</a>
             </button>
           </div>
         </div>
-        <div
-          class="
+        <div class="
             docs-page
             col-md-9
             bg-light
@@ -89,8 +63,7 @@
             align-items-end
             flex-column
             shadow-sm
-          "
-        >
+          ">
           <transition name="page">
             <router-view />
           </transition>
@@ -132,6 +105,7 @@ export default {
 
 <style lang='scss' >
 @import "../assets/scss/main.scss";
+
 .help-button {
   text-align: left;
   position: fixed;
@@ -148,6 +122,7 @@ export default {
 .docs-offcanvas {
   height: 90vh;
   background-color: lighten($info, 5);
+
   .offcanvas-body {
     background-image: url("../assets/img/Textures/notebook.png");
   }
@@ -157,18 +132,16 @@ export default {
   overflow: hidden;
 }
 
-.mt-7 {
-  margin-top: 18em !important;
-}
-
 .docs-page {
   max-width: 130ch;
   padding: 0;
+
   .row {
     margin-left: 0;
     margin-right: 0;
     width: 100%;
     justify-content: center;
+
     [class*="col-"] {
       max-width: 90ch;
     }
@@ -192,14 +165,17 @@ export default {
   background-color: rgba(217, 87, 221, 0.5);
   transform: rotateZ(2deg) translateX(6px);
 }
+
 .tab2 {
   background-color: rgba(197, 221, 87, 0.5);
   transform: rotateZ(-1deg) translateX(6px);
 }
+
 .tab3 {
   background-color: rgba(87, 190, 221, 0.5);
   transform: rotateZ(-2deg) translateX(6px);
 }
+
 .tab4 {
   background-color: rgba(147, 221, 87, 0.5);
   transform: rotateZ(2deg) translateX(6px);
@@ -223,6 +199,7 @@ export default {
 .page-leave-active {
   transition: all 0.7s ease;
 }
+
 .page-enter-from,
 .page-leave-to {
   position: absolute;
