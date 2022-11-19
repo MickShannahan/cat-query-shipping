@@ -41,8 +41,8 @@ export const ShipmentSchema = new Schema(
     galaxy: { type: String },
 
     planet: { type: String },
-    planetNumber: { type: Number },
-    planetCode: { type: String, minlength: 4, maxlength: 4 },
+    planetNumber: { type: String },
+    planetCode: { type: String },
 
     containsHazard: { type: String, enum: ['true', 'false'], lowercase: true, required: true },
     hazard: { type: HazardSchema },
@@ -135,8 +135,8 @@ export class RandomShipment {
     this.galaxy = 'milky way'
 
     this.planet = data.planet || planet()
-    this.planetNumber = planetNumber(this.planet)
-    this.planetCode = planetCode(this.planet)
+    this.planetNumber = planetNumber()
+    this.planetCode = planetCode(this.planet, this.planetNumber)
 
     this.containsHazard = data.contains || bool()
     this.hazard = null

@@ -53,6 +53,7 @@ export default {
 
 <style scoped lang="scss">
 .shipment-search-area {
+  width: 100%;
   display: grid;
   grid-template-columns: 5vw minmax(25px, 3vw) 1fr minmax(25px, 3vw) 5vw;
   grid-template-rows: 2.2em 1fr 28vh;
