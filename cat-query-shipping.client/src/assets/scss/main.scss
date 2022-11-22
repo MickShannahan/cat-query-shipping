@@ -292,28 +292,56 @@ $steps: 20;
 .comp-green {
   box-shadow: inset 0px 0px 25px 10px #a4d5a5;
   border-color: #bde4b1;
-}
 
-.comp-green:hover {
-  box-shadow: inset 0px 0px 25px 2px #a4d5a5;
-}
+  &:hover {
+    box-shadow: inset 0px 0px 25px 2px #a4d5a5;
+  }
 
-.comp-green::before {
-  background: #84b699;
+  &::before {
+    background: #84b699;
+  }
 }
 
 .comp-yellow {
   box-shadow: inset 0px 0px 25px 10px #fbe8a5;
   border-color: #fff1c1;
+
+  &:hover {
+    box-shadow: inset 0px 0px 25px 2px #fbe8a5;
+  }
+
+  &::before {
+    background: #ebc390;
+  }
 }
 
-.comp-yellow:hover {
-  box-shadow: inset 0px 0px 25px 2px #fbe8a5;
+.comp-red {
+  box-shadow: inset 0px 0px 25px 10px #e97373;
+  border-color: #ee8383;
+
+  &:hover {
+    box-shadow: inset 0px 0px 25px 2px #e97373;
+  }
+
+  &::before {
+    background: #d65f73;
+  }
 }
 
-.comp-yellow::before {
-  background: #ebc390;
+.comp-blue {
+  box-shadow: inset 0px 0px 25px 10px #67d2e6;
+  border-color: #7edff0;
+
+  &:hover {
+    box-shadow: inset 0px 0px 25px 2px #67d2e6;
+  }
+
+  &::before {
+    background: #4e9fce;
+  }
 }
+
+
 
 .switch-button {
   border-radius: 45px;

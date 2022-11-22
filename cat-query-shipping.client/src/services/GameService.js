@@ -3,6 +3,7 @@ import { AppState } from "../AppState.js"
 import { Changelog } from "../models/ChangeLog.js"
 import { logger } from "../utils/Logger.js"
 import Pop from "../utils/Pop.js"
+import { api } from "./AxiosService.js"
 
 const github = axios.create({
   baseURL: 'https://api.github.com/repos/mickshannahan/cat-query-shipping/',
@@ -13,6 +14,43 @@ const github = axios.create({
 
 class GameService {
 
+  async getShop() {
+    try {
+      const res = await api.get('api/game/shop')
+      logger.log('[Shop]', res.data)
+      AppState.shop = res.data
+    } catch (error) {
+      Pop.error(error.message)
+    }
+  }
+
+  async buyItem() {
+    try {
+
+      let item = AppState.activeItem
+      if (item.id == 'random') {
+        return this.buyRandom()
+      }
+      const res = await api.get('api/game/shop/buy/' + item.id)
+      logger.log('[BUY ITEM]', res.data)
+      AppState.account.inventory.push(res.data)
+    } catch (error) {
+      Pop.error(error.message)
+    }
+  }
+
+  async buyRandom() {
+    try {
+      const res = await api.get('api/game/shop/buy/random')
+      logger.log('[BUY ITEM]', res.data)
+      AppState.account.inventory.push(res.data)
+      AppState.hiddenItem = res.data
+      return res.data
+    } catch (error) {
+      Pop.error(error.message)
+    }
+  }
+
   async getChangelog() {
     try {
       const res = await github.get('pulls?state=closed')
@@ -21,6 +59,11 @@ class GameService {
     } catch (error) {
       Pop.error(error.message)
     }
+  }
+
+  setItem(item) {
+    AppState.activeItem = {}
+    setTimeout(() => AppState.activeItem = item, 100)
   }
 }
 

@@ -1,4 +1,4 @@
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 
 // NOTE AppState is a reactive object to contain app level data
 export const AppState = reactive({
@@ -23,11 +23,16 @@ export const AppState = reactive({
   searchResults: [],
   cardTray: { open: false },
   currentGuesses: [],
+  // Items
+  shop: {},
+  activeItem: {},
+  hiddenItem: {},
   // Docs
   lastDocPage: 'Orientation',
   // Chat
   chatBranch: {},
   lastBranches: [],
+  characterQuips: [],
   bozNotification: '',
   chatTree: {
     "[Get Started]": {

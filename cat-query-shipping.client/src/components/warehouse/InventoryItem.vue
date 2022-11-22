@@ -1,25 +1,19 @@
 <template>
   <div>
     <div class="item collapsable-item d-flex flex-column justify-content-center align-items-center text-center"
-      @click="openCollapse('i' + item._id + index)">
+      :class="{ active: isActive }" @click="selectItem">
       <i :class="`fs-5 mdi mdi-${icon}`"></i>
       <div>{{ item.name }}</div>
-    </div>
-    <div :id="'i' + item._id + index" class="expand collapse row">
-      <div class="col-4">
-        <h5>{{ item.name }}</h5>
-        <h5>{{ item.rarity }}</h5>
-      </div>
-      <p class="col-8">{{ item.description }}</p>
     </div>
   </div>
 </template>
 
 
 <script>
-import { AppState } from '../AppState';
+import { AppState } from '../../AppState';
 import { computed, reactive, onMounted } from 'vue';
 import { Collapse } from 'bootstrap';
+import { gameService } from '../../services/GameService.js';
 export default {
   props: { item: { type: Object }, index: Number },
   setup(props) {
@@ -36,13 +30,9 @@ export default {
             return 'trash-can'
         }
       }),
-      openCollapse(clicked) {
-        document.querySelectorAll('.show').forEach(c => {
-          Collapse.getOrCreateInstance(c).toggle()
-        })
-        setTimeout(() => {
-          Collapse.getOrCreateInstance(document.getElementById(clicked)).toggle()
-        }, 200)
+      isActive: computed(() => AppState.activeItem == props.item),
+      selectItem() {
+        gameService.setItem(props.item)
       }
     }
   }
@@ -65,7 +55,14 @@ export default {
     background: var(--bs-info);
     color: var(--bs-dark);
     cursor: pointer;
+    box-shadow: 0px 0px 3px var(--bs-info);
   }
+}
+
+.active {
+  background: var(--bs-warning);
+  color: var(--bs-dark);
+  box-shadow: 0px 0px 3px var(--bs-warning);
 }
 
 .expand {

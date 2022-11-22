@@ -1,4 +1,5 @@
 import { dbContext } from '../db/DbContext.js'
+import { BadRequest } from '../utils/Errors.js'
 import { logger } from '../utils/Logger.js'
 
 class ItemsService {
@@ -6,27 +7,38 @@ class ItemsService {
     return await dbContext.Items.find(query)
   }
 
-  buy(itemId, userInfo) {
-    throw new Error('Method not implemented.')
+  async buyItem(itemId, userId) {
+    const item = await dbContext.Items.findById(itemId)
+    const shop = await dbContext.Shops.findOne()
+    const forSale = shop.itemsForSale.map(i => i.toString())
+    if (!forSale.includes(item.id.toString())) throw new BadRequest('that item is not for sale')
+
+    const account = await dbContext.Account.findById(userId)
+    if (account.credits < item.cost) throw new BadRequest('not enough credits')
+
+    account.credits -= item.cost
+    account.inventory.push(item.id)
+    await account.save()
+    return item
   }
 
   craft(itemId, userInfo) {
     throw new Error('Method not implemented.')
   }
 
-  async roll(userInfo) {
-    const account = await dbContext.Account.findById(userInfo.id)
-    if (account.credits > 1000) {
-      account.credits -= 1000
-      const rarity = _rollRarity(1000)
-      const itemCount = await dbContext.Items.count({ rarity })
-      const rand = Math.floor(Math.random() * itemCount)
-      const items = await dbContext.Items.find({ rarity }).skip(rand)
-      account.inventory.push(items[0]._id)
-      account.save()
-      return items[0]
-    }
-    throw new Error('not enough credits')
+  async roll(userId) {
+    const itemCost = process.env.NODE_ENV === 'dev' ? 1 : 450
+    const account = await dbContext.Account.findById(userId)
+    if (account.credits < itemCost) throw new BadRequest('not enough credits')
+
+    account.credits -= itemCost
+    const rarity = _rollRarity(1000)
+    const itemCount = await dbContext.Items.count({ rarity })
+    const rand = Math.floor(Math.random() * itemCount)
+    const items = await dbContext.Items.find({ rarity }).skip(rand)
+    account.inventory.push(items[0]._id)
+    account.save()
+    return items[0]
   }
 
   scrap(id, userInfo) {

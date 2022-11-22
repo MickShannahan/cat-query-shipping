@@ -1,5 +1,7 @@
 import { dbContext } from '../db/DbContext'
 import { socketProvider } from '../SocketProvider'
+import { BadRequest } from '../utils/Errors.js'
+import { random } from '../utils/Generators.js'
 import { logger } from '../utils/Logger'
 import { accountService } from './AccountService'
 import { shipmentsService } from './ShipmentsService'
@@ -51,6 +53,39 @@ class GameService {
       await account.save()
       return { result: false, currentGuesses: account.currentGuesses, shipment: null }
     }
+  }
+
+  async getShop() { // get the shop or refresh the shop
+    const shop = await dbContext.Shops.findOne()
+    if (new Date().getTime() - new Date(shop.updatedAt).getTime() > 1000 * 60 * 3) {
+      const items = await this.refreshShop(shop.itemsForSale)
+      shop.itemsForSale = items
+      await shop.save()
+    }
+    await shop.populate('itemsForSale')
+    return shop
+  }
+
+  async refreshShop(items) {
+    const all = await dbContext.Items.find({ type: 'mod' })
+    let ids = all.map(i => i._id.toString())
+    const item1 = random(ids)
+    ids = ids.filter(i => i !== item1)
+    const item2 = random(ids)
+    ids = ids.filter(i => i !== item2)
+    const item3 = random(ids)
+    return [item1, item2, item3]
+  }
+
+  async createShop(body) { // on to be used for shop setup or special events
+    let shop = await dbContext.Shops.findOne()
+    if (shop) {
+      shop = await dbContext.Shops.findByIdAndUpdate(shop._id, body)
+    } else {
+      shop = await dbContext.Shops.create(body)
+    }
+    await shop.populate('itemsForSale')
+    return shop
   }
 }
 
