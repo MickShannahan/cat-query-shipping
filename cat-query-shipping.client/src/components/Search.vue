@@ -20,24 +20,24 @@
         </button>
       </div>
       <div id="tour-search" class="input-group text-theme-primary">
-        <span class="input-group-text bg-dark text-success" id="basic-addon3">{{
-        baseUrl
+        <span class="input-group-text bg-dark text-theme-success" id="basic-addon3">{{
+            baseUrl
         }}</span>
         <!-- STUB search input -->
         <input spellcheck="false" autocomplete="off" v-model="query" type="text"
-          class="form-control bg-dark text-theme-primary" id="basic-url" aria-describedby="basic-addon3"
-          @input="httpValidizer" />
+          class="form-control border border-theme-primary bg-dark text-theme-primary" id="basic-url"
+          aria-describedby="basic-addon3" @input="httpValidizer" />
       </div>
     </div>
 
     <div class="
         col-8
-        screen
+        screen-theme
         bg-black
         rounded
         glow
         p-2
-        text-success
+        text-theme-success
         no-click
         clip-text
       " v-html="httpQuery"></div>
@@ -123,11 +123,6 @@ export default {
 //   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%235da3ac' fill-opacity='1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
 // }
 
-input {
-  &:valid {
-    border: 1px solid var(--bs-info);
-  }
-}
 
 .computer {
   min-height: 25vh;

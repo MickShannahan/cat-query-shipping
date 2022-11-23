@@ -19,7 +19,7 @@ const consoleColor = computed(() => themeBase.value?.consoleColor || '#fff')
 
 
 <style lang="scss">
-.border-theme {
+.border-theme-primary {
   border-color: #A4D5A5 !important;
 }
 

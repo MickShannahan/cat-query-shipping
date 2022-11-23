@@ -2,10 +2,10 @@
   <div class="shop-screen row">
     <!-- SECTION BUY -->
     <div class="col-6 pe-0 ">
-      <div class="text-dark bg-info text-center fw-bold py-1 h-100">Buy</div>
+      <div class="bg-theme text-center fw-bold py-1 h-100">Buy</div>
     </div>
     <div class="col-6 ps-0 text-end">
-      <div class="text-dark bg-info text-end fw-bold py-1 h-100" title="time until shop gets new items">{{ timeLeft
+      <div class="bg-theme text-end fw-bold py-1 h-100" title="time until shop gets new items">{{ timeLeft
       }}
         <i class="mdi mdi-clock pe-4"></i>
       </div>
@@ -16,14 +16,15 @@
     </div>
     <!-- STUB liquidated shipments -->
     <div class="col-12 mt-2">
-      <div class="liq-shipment-btn border border-warning selectable text-center p-2 py-4" @click="selectDeserted">
+      <div class="liq-shipment-btn border border-theme-primary-warning selectable text-center p-2 py-4"
+        @click="selectDeserted">
         <i class="mdi mdi-shimmer"></i> <i class="mdi mdi-package-variant-closed"></i>
       </div>
     </div>
 
     <!-- SECTION SELL -->
     <!-- <div class="col-12 mt-3">
-      <div class="text-theme-primary text-center border border-theme py-1">sell</div>
+      <div class="text-theme-primary text-center border border-theme-primary py-1">sell</div>
     </div>
 
     <div class="col-12">

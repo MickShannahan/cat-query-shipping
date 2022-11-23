@@ -29,7 +29,7 @@
         <!-- STUB shipment side -->
         <div id="tour-shipment-details" class="col-md-9 pe-3 text-theme-primary">
           <transition name="screenEffect" mode="out-in">
-            <div id="shipment-details" v-if="lostShipment.id" class="row border border-theme">
+            <div id="shipment-details" v-if="lostShipment.id" class="row border border-theme-primary">
               <div v-for="(value, key) in lostShipment" v-show="visible(key)" :key="key + value" class="col-md-6">
                 <div class="glitch">
                   <span :id="key + '-key'" class="hover text-theme-secondary lighten-30 line key" :data-text="key"
@@ -41,7 +41,7 @@
                 </span>
               </div>
             </div>
-            <div v-else class="row justify-content-center border border-theme">
+            <div v-else class="row justify-content-center border border-theme-primary">
               <div class="col-6 text-center">
                 <img class="img-correction" src="../assets/img/CUPS-loadingLow.gif" />
                 <p>loading...</p>
@@ -52,7 +52,7 @@
         <!-- STUB Stats side -->
         <div id="tour-shipment-stats" class="col-md-3 text-theme-primary">
           <div class="row h-100">
-            <div class="col-12 border border-theme mb-1">
+            <div class="col-12 border border-theme-primary mb-1">
               <div class="row">
                 <div class="col-12 d-flex justify-content-between">
                   <span>searches:</span><span class="ms-push">
@@ -66,7 +66,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-12 border border-theme">
+            <div class="col-12 border border-theme-primary">
               <div class="row">
                 <div class="col-12 d-flex justify-content-between">
                   <span>difficulty:</span><span class="ms-push">

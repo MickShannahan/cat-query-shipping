@@ -1,12 +1,12 @@
 <template>
-  <div class="item border border-theme text-center selectable" @click="setItem">
+  <div class="item border border-theme-primary text-center selectable" @click="setItem">
     <i :class="`mdi mdi-${icon}`"></i>
     <div>
       {{ item.name }}
     </div>
     <img v-if="item.img != 'na'" :src="item.img" alt="">
     <img v-else src="../../assets/img/DataCard2.png" alt="">
-    <div class="text-warning"><i class="mdi mdi-google-podcast"></i> {{ item.cost }}</div>
+    <div class="text-theme-warning"><i class="mdi mdi-google-podcast"></i> {{ item.cost }}</div>
   </div>
 </template>
 

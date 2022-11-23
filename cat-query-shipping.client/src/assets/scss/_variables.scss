@@ -39,6 +39,16 @@ $color-ranges: (
   40: 40,
 );
 
+$themeProperties: (
+  primary: 'primary',
+  secondary: 'secondary',
+  success: 'success',
+  warning: 'warning',
+  danger: 'danger',
+  screenColor: 'screenColor',
+  consoleColor: 'consoleColor',
+  console2Color: 'console2Color',
+);
 
 $themes: (
   union: (primary: #A4D5A5,
@@ -55,6 +65,22 @@ $themes: (
     warning: #BEC43F,
     danger: #cd1953,
     screenColor: #191f24,
+    consoleColor: #498d96,
+    console2Color: #A4D5A5),
+  retro: (primary: #1bff98,
+    secondary: #73ffc0,
+    success: #21ac6d,
+    warning: #61be94,
+    danger: #497963,
+    screenColor: #32463d,
+    consoleColor: #498d96,
+    console2Color: #A4D5A5),
+  sphinx: (primary: #44423f,
+    secondary: #2c2a28,
+    success: #665741,
+    warning: #666666,
+    danger: #1f1e1d,
+    screenColor: #aaa894,
     consoleColor: #498d96,
     console2Color: #A4D5A5),
 );
@@ -84,57 +110,60 @@ $themes: (
 
 // Themed things, TODO move this later
 
-.text-theme-primary {
-  @include themed() {
-    color: _('primary');
+// text
+@each $prop,
+$val in $themeProperties {
+  .text-theme-#{$val} {
+    @include themed() {
+      color: _($val);
 
-    &:active,
-    :focus {
-      color: _('primary');
+      &:active,
+      :focus {
+        color: _($val);
+      }
     }
   }
+
 }
 
-.text-theme-secondary {
-  @include themed() {
-    color: _('secondary');
+
+@each $prop,
+$val in $themeProperties {
+  .border-theme-#{$val} {
+    @include themed() {
+      border-color: _($val) !important;
+    }
   }
+
 }
 
-.text-theme-success {
-  @include themed() {
-    color: _('success');
-  }
-}
 
-.text-theme-warning {
-  @include themed() {
-    color: _('success');
-  }
-}
-
-.text-theme-danger {
-  @include themed() {
-    color: _('success');
-  }
-}
-
-.border-theme {
-  @include themed() {
-    border-color: _('primary') !important;
-  }
-}
 
 .screen-theme {
   @include themed() {
     background-color: _('screenColor');
     box-shadow: inset 0px 0px 10px transparentize(_('primary'), .5);
 
+
+
+    // backgrounds
+    .bg-theme {
+      background-color: transparentize(_('primary'), .2) !important;
+      color: _('screenColor');
+    }
+
+
+    // buttons
     button {
       border-style: solid;
       border-width: 1px;
-    }
 
+      &:hover {
+        background-color: _('warning') !important;
+        color: _('screenColor');
+        box-shadow: 0px 0px 3px _('warning');
+      }
+    }
 
     .btn-theme-primary {
       background-color: transparent !important;

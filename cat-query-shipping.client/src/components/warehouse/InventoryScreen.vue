@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="col-12 title-bar border-theme d-flex justify-content-between px-2">
+    <div class="col-12 title-bar border border-theme-primary d-flex justify-content-between px-2">
       <div>Your inventory</div>
       <div>{{ inventoryItems?.length }}<i class="mdi mdi-package ms-3 me-1"></i></div>
     </div>

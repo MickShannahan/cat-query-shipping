@@ -1,5 +1,5 @@
 <template>
-  <div class="row p-2 screen-theme rounded h-100">
+  <div class="row p-2 screen-theme rounded h-100 text-theme-primary">
     <transition name="screenEffect" mode="out-in">
       <!-- Item details -->
       <div v-if="item.name" class="item-details p-0">
@@ -8,8 +8,8 @@
           <DynamicImage :image="item.img" :background="item.background" />
         </div>
 
-        <div class="item-description border border-theme">
-          <p class="bg-info text-dark px-3 fw-bold mb-1 d-flex justify-content-between">
+        <div class="item-description border border-theme-primary">
+          <p class="bg-theme px-3 fw-bold mb-1 d-flex justify-content-between">
             <span>{{ item.name }}</span>
             <span>{{ item.type }}</span>
           </p>
@@ -17,7 +17,7 @@
         </div>
 
         <div v-if="screen == 'shop'" class="item-shop text-theme-primary mt-2">
-          <button class="bg-info text-center w-100 border-0" @click="buyItem">buy <i
+          <button class="bg-theme text-center w-100 border-0" @click="buyItem">buy <i
               class="mdi mdi-google-podcast"></i>{{ item.cost
               }}</button>
         </div>
@@ -78,7 +78,6 @@ export default {
 
 .item-description {
   grid-column: 1 / -1;
-  color: var(--bs-info);
   font-size: 14px;
   place-self: stretch;
 }
@@ -89,13 +88,8 @@ export default {
   place-self: stretch;
   grid-column: 1 / -1;
 
-  button:hover {
-    background-color: var(--bs-warning) !important;
-    box-shadow: 0px 0px 3px var(--bs-warning);
-  }
 }
 
-.item-craft {}
 
 
 
