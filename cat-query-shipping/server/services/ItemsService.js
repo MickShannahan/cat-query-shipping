@@ -1,4 +1,6 @@
+import { Mongoose, Schema } from 'mongoose'
 import { dbContext } from '../db/DbContext.js'
+import { InstalledMod } from '../models/Account.js'
 import { BadRequest } from '../utils/Errors.js'
 import { logger } from '../utils/Logger.js'
 
@@ -58,6 +60,41 @@ class ItemsService {
     const item = await dbContext.Items.findById(id)
     await item.remove()
     return `deleted ${item.name}`
+  }
+
+  // Mods --------------------------------
+  async equipMod(rawItem, userId) {
+    const account = await dbContext.Account.findById(userId)
+    const mod = await dbContext.Items.findOne(rawItem)
+    const newMod = {
+      name: mod.name,
+      description: mod.description,
+      img: mod.img,
+      rarity: mod.rarity,
+      type: mod.type,
+      cost: mod.cost,
+      itemId: rawItem._id,
+      slots: mod.data.slots,
+      action: mod.data.action,
+      x: 0,
+      y: 0,
+      data: mod.data
+    }
+
+    account.installedMods.unshift(newMod)
+    await account.save()
+    return account.installedMods[0]
+  }
+
+  async updateMods(mods, userId) {
+    const account = await dbContext.Account.findById(userId)
+    account.installedMods = mods
+    await account.save()
+    return mods
+  }
+
+  async removeMod(id, userId) {
+
   }
 }
 

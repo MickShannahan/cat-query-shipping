@@ -1,20 +1,20 @@
 <template>
-  <div class="mod" :class="type">
-
+  <div class="mod" :class="mod.type">
   </div>
 </template>
 
 
 <script>
 import { computed } from 'vue';
+import { Mod } from '../../models/Mod.js';
 
 export default {
-  props: { x: Number, y: Number, slots: Array, type: String },
+  props: { mod: Mod, x: Number, y: Number },
   setup(props) {
-    const slots = [0, 1]
     return {
-      col: computed(() => `${props.x + 1} / span ${props.slots[0].length}`),
-      row: computed(() => `${props.y + 1} / span ${props.slots.length}`)
+      col: computed(() => `${props.x + 1} / span ${props.mod.slots[0].length}`),
+      row: computed(() => `${props.y + 1} / span ${props.mod.slots.length}`),
+      img: computed(() => `url(${props.mod.img})`)
     }
   }
 };
@@ -34,6 +34,9 @@ export default {
   background-position: center;
   background-repeat: no-repeat;
   image-rendering: pixelated;
+  background-image: v-bind(img);
+  opacity: 0;
+  animation: drop-in .2s ease forwards;
 }
 
 .retry {
@@ -46,5 +49,15 @@ export default {
 
 .battery {
   background-image: url(/src/assets/img/mods/battery1.png);
+}
+
+@keyframes drop-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 </style>

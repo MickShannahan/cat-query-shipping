@@ -5,30 +5,31 @@
       <!-- <button class="btn btn-outline-light h-25" @click="getLostShipment">get new</button> -->
 
       <!-- SECTION MODS -->
-      <div class="mods d-none">
+      <div class="mods">
         <ModPanel />
       </div>
 
+
       <!--  -->
       <transition name="slot">
-        <button id="tour-new-shipment" class="new-ship-btn comp-button comp-yellow p-2 mb-5 w-100"
-          v-tooltip:bottom="'get new lost shipment'" @click="getLostShipment">
-          <i class="mdi mdi-card-bulleted-outline"></i>
-        </button>
-        <!-- TODO better datacard usage -->
-        <!-- <DataCard v-if="lostShipment.id" :data="lostShipment" /> -->
       </transition>
+      <button id="tour-new-shipment" class="new-ship-btn comp-button comp-yellow p-2 mb-5 w-100"
+        v-tooltip:bottom="'get new lost shipment'" @click="getLostShipment">
+        <i class="mdi mdi-card-bulleted-outline"></i>
+      </button>
+      <!-- TODO better datacard usage -->
+      <!-- <DataCard v-if="lostShipment.id" :data="lostShipment" /> -->
       <!-- <div class="card-slot-bottom"></div>
       <div class="card-slot-top"></div> -->
     </div>
     <CardTray />
     <!-- STUB Screen -->
-    <div id="tour-shipment-panel" class="shipment-panel p-1 px-2 p-md-3 screen text-info screen-on">
+    <div id="tour-shipment-panel" class="shipment-panel p-1 px-2 p-md-3 screen text-theme screen-on">
       <div class="row p-2">
         <!-- STUB shipment side -->
         <div id="tour-shipment-details" class="col-md-9 pe-3">
           <transition name="screenEffect" mode="out-in">
-            <div id="shipment-details" v-if="lostShipment.id" class="row border border-info">
+            <div id="shipment-details" v-if="lostShipment.id" class="row border border-theme">
               <div v-for="(value, key) in lostShipment" v-show="visible(key)" :key="key + value" class="col-md-6">
                 <div class="glitch">
                   <span :id="key + '-key'" class="hover text-secondary lighten-30 line key" :data-text="key"
@@ -40,7 +41,7 @@
                 </span>
               </div>
             </div>
-            <div v-else class="row justify-content-center border border-info">
+            <div v-else class="row justify-content-center border border-theme">
               <div class="col-6 text-center">
                 <img class="img-correction" src="../assets/img/CUPS-loadingLow.gif" />
                 <p>loading...</p>
@@ -51,7 +52,7 @@
         <!-- STUB Stats side -->
         <div id="tour-shipment-stats" class="col-md-3">
           <div class="row h-100">
-            <div class="col-12 border border-info mb-1">
+            <div class="col-12 border border-theme mb-1">
               <div class="row">
                 <div class="col-12 d-flex justify-content-between">
                   <span>searches:</span><span class="ms-push">
@@ -65,7 +66,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-12 border border-info">
+            <div class="col-12 border border-theme">
               <div class="row">
                 <div class="col-12 d-flex justify-content-between">
                   <span>difficulty:</span><span class="ms-push">
@@ -130,7 +131,9 @@ export default {
       visible(key) {
         let notShown = ['_id', 'id', '__v', 'creditsWorth', 'difficultyRating', 'glitch', 'postalHistory', 'postalStation', 'containsHazard', 'glitchData']
         return !notShown.includes(key)
-      }
+      },
+      // MODS
+      themePrimary: computed(() => AppState.modTheme ? AppState.modTheme.primary : '#A4D5A5')
     }
   }
 };
@@ -138,6 +141,14 @@ export default {
 
 
 <style lang="scss" scoped>
+.text-theme {
+  color: v-bind(themePrimary);
+}
+
+.border-theme {
+  border-color: v-bind(themePrimary) !important;
+}
+
 .lost-shipment {
   min-height: 35vh;
   display: grid;
@@ -149,12 +160,14 @@ export default {
   grid-column: 1 2;
   display: grid;
   grid-template-columns: repeat(4, 40px);
-  grid-template-rows: repeat(5, 40px) 1fr 1em 60px;
+  grid-template-rows: repeat(5, 40px) 1.25em 1fr 60px;
 
   .mods {
     grid-column: span 4;
     grid-row: span 5;
   }
+
+
 
   .new-ship-btn {
     grid-column: 2 / 4;
@@ -233,7 +246,7 @@ export default {
   top: 0px;
   bottom: 0px;
   width: v-bind(glitchWidth);
-  background: var(--bs-info);
+  background: var(--bs-theme);
   transition: linear 0.5s width;
   transition-delay: 0.2s;
 }
@@ -305,7 +318,7 @@ export default {
 
       80% {
         transform: translateX(0);
-        color: var(--bs-info);
+        color: var(--bs-theme);
       }
 
       85% {

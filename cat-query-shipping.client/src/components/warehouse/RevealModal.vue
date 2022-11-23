@@ -15,10 +15,21 @@
       </div>
     </template>
     <template #footer>
-      <section class="row description">
-        <button @click="revealed = false">rehide</button>
-        <button @click="seeDetails">see details</button>
-        <button @click="buyAgain">buy another</button>
+      <section class="row description  w-100 justify-content-between">
+        <div class="col-6 screen text-info">
+          <small v-if="revealed" class="reveal-text">
+            {{ hiddenItem.description }}
+          </small>
+          <small v-else>
+            click on the shipment to open...
+          </small>
+        </div>
+
+        <div class="col-4 text-end">
+          <button @click="revealed = false" class=" comp-button comp-red w-50">re-hide</button>
+          <button @click="buyAgain" class="comp-button comp-green px-3 py-2 w-100 mt-2" :disabled="!revealed">buy
+            another</button>
+        </div>
       </section>
     </template>
   </ModalComponent>
@@ -128,6 +139,11 @@ $delay: 2.7s;
   height: 10vh;
 }
 
+.reveal-text {
+  opacity: 0;
+  animation: revealed-text .3s $delay forwards
+}
+
 @keyframes reveal {
   0% {
     opacity: 0;
@@ -137,6 +153,16 @@ $delay: 2.7s;
   100% {
     opacity: 1;
     transform: scale(.75);
+  }
+}
+
+@keyframes revealed-text {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
   }
 }
 
