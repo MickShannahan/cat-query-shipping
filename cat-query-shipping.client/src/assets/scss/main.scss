@@ -10,6 +10,13 @@
   backdrop-filter: blur(10px);
 }
 
+.tooltip {
+  .tooltip-inner {
+    background-color: #1f2325d5 !important;
+    backdrop-filter: blur(10px) !important;
+  }
+}
+
 
 #app {
   display: flex;
