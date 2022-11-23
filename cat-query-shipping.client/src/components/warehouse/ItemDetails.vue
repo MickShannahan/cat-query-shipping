@@ -1,5 +1,5 @@
 <template>
-  <div class="row p-2 screen rounded h-100">
+  <div class="row p-2 screen-theme rounded h-100">
     <transition name="screenEffect" mode="out-in">
       <!-- Item details -->
       <div v-if="item.name" class="item-details p-0">
@@ -8,7 +8,7 @@
           <DynamicImage :image="item.img" :background="item.background" />
         </div>
 
-        <div class="item-description border border-info">
+        <div class="item-description border border-theme">
           <p class="bg-info text-dark px-3 fw-bold mb-1 d-flex justify-content-between">
             <span>{{ item.name }}</span>
             <span>{{ item.type }}</span>

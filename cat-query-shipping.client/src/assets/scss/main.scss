@@ -219,15 +219,9 @@ $steps: 20;
 }
 
 
-// PHYSICAL BUTTONS AND STUFF
 
-.glow {
-  text-shadow: 0px 0px 2px var(--bs-info);
-}
-
-.screen {
+[class*="screen-theme"] {
   min-height: 1em;
-  background-color: rgb(22, 29, 27);
   background-image: url('/src/assets/img/Textures/black-orchid.png');
   border-top: 5px solid #315f8a;
   border-left: 5px solid #315f8a;

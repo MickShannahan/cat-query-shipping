@@ -2,7 +2,7 @@
   <header class="container-fluid ">
     <Navbar />
   </header>
-  <main class="container-fluid d-flex theme--rad">
+  <main class="container-fluid d-flex theme--union">
     <router-view v-slot="{ Component }">
       <transition name="route" mode="out-in">
         <component :is="Component" />

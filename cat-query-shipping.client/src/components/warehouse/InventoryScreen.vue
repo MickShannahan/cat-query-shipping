@@ -1,16 +1,17 @@
 <template>
   <div>
-    <div class="col-12 title-bar d-flex justify-content-between px-2">
+    <div class="col-12 title-bar border-theme d-flex justify-content-between px-2">
       <div>Your inventory</div>
       <div>{{ inventoryItems?.length }}<i class="mdi mdi-package ms-3 me-1"></i></div>
     </div>
     <div class="col-12 my-1 justify-content-between">
       <div class="d-flex">
-        <button class="col btn-sort" @click="filterBy = 'all'"><i class="mdi mdi-star"></i></button>
-        <button class="col btn-sort" @click="filterBy = 'mod'"><i class="mdi mdi-memory"></i></button>
-        <button class="col btn-sort" @click="filterBy = 'junk'"><i class="mdi mdi-wrench"></i></button>
-        <button class="col btn-sort" @click="filterBy = 'collectable'"><i class="mdi mdi-cassette"></i></button>
-        <button class="col btn-sort" @click="sortBy = !sortBy"><i class="mdi mdi-sort"></i></button>
+        <button class="col btn-theme-primary sort" @click="filterBy = 'all'"><i class="mdi mdi-star"></i></button>
+        <button class="col btn-theme-primary sort" @click="filterBy = 'mod'"><i class="mdi mdi-memory"></i></button>
+        <button class="col btn-theme-primary sort" @click="filterBy = 'junk'"><i class="mdi mdi-wrench"></i></button>
+        <button class="col btn-theme-primary sort" @click="filterBy = 'collectable'"><i
+            class="mdi mdi-cassette"></i></button>
+        <button class="col btn-theme-primary sort" @click="sortBy = !sortBy"><i class="mdi mdi-sort"></i></button>
       </div>
     </div>
     <div class="col-12 inventory">
@@ -45,7 +46,6 @@ export default {
 <style lang="scss" scoped>
 .title-bar {
   height: 1.5em;
-  border: 1px solid var(--bs-info);
 }
 
 .inventory {
@@ -69,37 +69,12 @@ export default {
     height: 65px;
   }
 
-  &::-webkit-scrollbar-track {
-    position: absolute;
-    //  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    background-color: transparent;
-    outline: 1px solid var(--bs-info);
-    border-radius: 0px;
-  }
 
-  &::-webkit-scrollbar-thumb {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .1);
-    background-color: var(--bs-info);
-    border-radius: 0px;
-  }
-
-  &::-webkit-scrollbar {
-    position: absolute;
-    width: 10px;
-    background-color: transparent;
-  }
 }
 
-.btn-sort {
-  background-color: transparent;
-  color: var(--bs-info);
-  border: 1px solid var(--bs-info);
+.sort {
   padding: 1px 15px;
 
-  &:hover {
-    background-color: var(--bs-info);
-    color: var(--bs-dark);
-  }
 
 }
 </style>

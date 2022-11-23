@@ -16,7 +16,7 @@
     </template>
     <template #footer>
       <section class="row description  w-100 justify-content-between">
-        <div class="col-6 screen text-theme-primary">
+        <div class="col-6 screen-themetext-theme-primary">
           <small v-if="revealed" class="reveal-text">
             {{ hiddenItem.description }}
           </small>

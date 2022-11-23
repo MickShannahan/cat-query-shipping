@@ -23,7 +23,7 @@
 
     <!-- SECTION SELL -->
     <!-- <div class="col-12 mt-3">
-      <div class="text-theme-primary text-center border border-info py-1">sell</div>
+      <div class="text-theme-primary text-center border border-theme py-1">sell</div>
     </div>
 
     <div class="col-12">

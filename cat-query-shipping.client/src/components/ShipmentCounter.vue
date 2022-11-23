@@ -2,7 +2,8 @@
   <div class="d-flex count-container">
     <div class="shipment-counter text-warning bg-info plastic-shell rounded shadow p-1">
       <div class="text-primary px-2">shipments left</div>
-      <div class="screen px-2 text-end" :class="{ 'bg-black text-warning': !flash, 'bg-warning text-dark': flash }">
+      <div class="screen-themepx-2 text-end"
+        :class="{ 'bg-black text-warning': !flash, 'bg-warning text-dark': flash }">
         {{ remaining || '00000' }}
       </div>
     </div>

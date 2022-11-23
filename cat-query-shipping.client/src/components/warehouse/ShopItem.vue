@@ -1,5 +1,5 @@
 <template>
-  <div class="item border border-info text-center selectable" @click="setItem">
+  <div class="item border border-theme text-center selectable" @click="setItem">
     <i :class="`mdi mdi-${icon}`"></i>
     <div>
       {{ item.name }}

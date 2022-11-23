@@ -1,7 +1,7 @@
 <template>
   <div v-if="glitch" class="row">
     <div class="col-9 p-0 pe-1">
-      <div class="glitch-body border border-info px-1">
+      <div class="glitch-body border border-theme px-1">
         <GTimer v-if="glitch == 'timer'" />
         <GBurner v-if="glitch == 'burner'" />
         <GTrapper v-if="glitch == 'trapper'" />
@@ -11,12 +11,12 @@
         <GJumper v-if="glitch == 'jumper'" />
       </div>
     </div>
-    <div class="glitch-name col-3 border border-info">
+    <div class="glitch-name col-3 border border-theme">
       <div class="glitch-text" :data-text="'glitch: ' + glitch">
         glitch: {{ glitch }}
       </div>
     </div>
-    <audio @load="playSound" src="/src/assets/sounds/glitchload.wav" ></audio>
+    <audio @load="playSound" src="/src/assets/sounds/glitchload.wav"></audio>
   </div>
 </template>
 
@@ -40,9 +40,11 @@ export default {
 <style lang="scss" scoped>
 .glitch {
   width: 100%;
+
   &-body {
     min-height: 1.65em;
   }
+
   &-name {
     min-height: 1.65em;
   }
