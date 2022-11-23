@@ -38,3 +38,90 @@ $color-ranges: (
   35: 35,
   40: 40,
 );
+
+
+$themes: (
+  union: (primary: #A4D5A5,
+    secondary: #498d96,
+    success: #499678,
+    warning: #FBE8A5,
+    danger: #DD5F57,
+    screenColor: #161d1b,
+    consoleColor: #498d96,
+    console2Color: #A4D5A5),
+  rad: (primary: #F61794,
+    secondary: #9822B1,
+    success: #40A890,
+    warning: #BEC43F,
+    danger: #cd1953,
+    screenColor: #191f24,
+    consoleColor: #498d96,
+    console2Color: #A4D5A5),
+);
+
+@mixin themed() {
+
+  @each $theme,
+  $map in $themes {
+    .theme--#{$theme} & {
+      $theme-map: () !global;
+
+      @each $key,
+      $submap in $map {
+        $value: map-get(map-get($themes, $theme), '#{$key}');
+        $theme-map: map-merge($theme-map, ($key: $value)) !global;
+      }
+
+      @content;
+      $theme-map: null !global;
+    }
+  }
+}
+
+@function _($key) {
+  @return map-get($theme-map, $key);
+}
+
+.text-theme-primary {
+  @include themed() {
+    color: _('primary');
+  }
+}
+
+.text-theme-secondary {
+  @include themed() {
+    color: _('secondary');
+  }
+}
+
+.text-theme-success {
+  @include themed() {
+    color: _('success');
+  }
+}
+
+.text-theme-warning {
+  @include themed() {
+    color: _('success');
+  }
+}
+
+.text-theme-danger {
+  @include themed() {
+    color: _('success');
+  }
+}
+
+.border-theme {
+  @include themed() {
+    border-color: _('primary') !important;
+  }
+}
+
+.screen-theme {
+  @include themed() {
+    background-color: _('screenColor');
+    box-shadow: inset 0px 0px 10px transparentize(_('primary'), .5);
+
+  }
+}

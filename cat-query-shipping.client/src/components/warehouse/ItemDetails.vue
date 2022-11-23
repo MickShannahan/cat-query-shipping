@@ -16,7 +16,7 @@
           <p class="p-1">{{ item.description }}</p>
         </div>
 
-        <div v-if="screen == 'shop'" class="item-shop text-info mt-2">
+        <div v-if="screen == 'shop'" class="item-shop text-theme-primary mt-2">
           <button class="bg-info text-center w-100 border-0" @click="buyItem">buy <i
               class="mdi mdi-google-podcast"></i>{{ item.cost
               }}</button>
@@ -26,7 +26,7 @@
 
       </div>
       <!-- no item selected -->
-      <div class="text-info" v-else>no signal...</div>
+      <div class="text-theme-primary" v-else>no signal...</div>
 
     </transition>
     <RevealModal id="reveal-modal" />

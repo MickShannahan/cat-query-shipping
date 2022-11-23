@@ -24,15 +24,15 @@
     </div>
     <CardTray />
     <!-- STUB Screen -->
-    <div id="tour-shipment-panel" class="shipment-panel p-1 px-2 p-md-3 screen text-theme screen-on">
+    <div id="tour-shipment-panel" class="shipment-panel p-1 px-2 p-md-3 screen-theme  screen-on">
       <div class="row p-2">
         <!-- STUB shipment side -->
-        <div id="tour-shipment-details" class="col-md-9 pe-3">
+        <div id="tour-shipment-details" class="col-md-9 pe-3 text-theme-primary">
           <transition name="screenEffect" mode="out-in">
             <div id="shipment-details" v-if="lostShipment.id" class="row border border-theme">
               <div v-for="(value, key) in lostShipment" v-show="visible(key)" :key="key + value" class="col-md-6">
                 <div class="glitch">
-                  <span :id="key + '-key'" class="hover text-secondary lighten-30 line key" :data-text="key"
+                  <span :id="key + '-key'" class="hover text-theme-secondary lighten-30 line key" :data-text="key"
                     @click="copy">{{ key }}</span>:
                 </div>
                 <span class="glitch">
@@ -50,7 +50,7 @@
           </transition>
         </div>
         <!-- STUB Stats side -->
-        <div id="tour-shipment-stats" class="col-md-3">
+        <div id="tour-shipment-stats" class="col-md-3 text-theme-primary">
           <div class="row h-100">
             <div class="col-12 border border-theme mb-1">
               <div class="row">
@@ -94,7 +94,7 @@
 
 <script>
 import { AppState } from '../AppState';
-import { computed, reactive, onMounted, ref } from 'vue';
+import { computed, reactive, onMounted, ref, useCssModule } from 'vue';
 import { shipmentService } from '../services/ShipmentService';
 import Pop from '../utils/Pop';
 import { logger } from '../utils/Logger';
@@ -141,14 +141,6 @@ export default {
 
 
 <style lang="scss" scoped>
-.text-theme {
-  color: v-bind(themePrimary);
-}
-
-.border-theme {
-  border-color: v-bind(themePrimary) !important;
-}
-
 .lost-shipment {
   min-height: 35vh;
   display: grid;
@@ -178,7 +170,7 @@ export default {
 }
 
 .shipment-panel {
-  grid-column: 2 3
+  grid-column: 2 / 3
 }
 
 .screen {

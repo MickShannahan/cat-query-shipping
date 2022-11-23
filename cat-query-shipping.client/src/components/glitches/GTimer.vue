@@ -1,23 +1,14 @@
 <template>
   <div class="timer">
     <div class="row">
-      <div
-        class="col-6 glitch-text clip-text"
-        :data-text="`${face} - ${phrase}`"
-      >
+      <div class="col-6 glitch-text clip-text" :data-text="`${face} - ${phrase}`">
         {{ face }} - {{ phrase }}
       </div>
       <div class="col-6 timer-progress">
-        <div
-          class="timer-count text-warning"
-          :class="{ 'text-info': glitchData.timeLimit - timer > 20 }"
-        >
+        <div class="timer-count text-warning" :class="{ 'text-theme-primary': glitchData.timeLimit - timer > 20 }">
           {{ (glitchData.timeLimit - timer).toFixed(2) }}
         </div>
-        <div
-          class="timer-bar text-end bg-warning"
-          :class="{ 'bg-info': glitchData.timeLimit - timer > 20 }"
-        ></div>
+        <div class="timer-bar text-end bg-warning" :class="{ 'bg-info': glitchData.timeLimit - timer > 20 }"></div>
       </div>
     </div>
   </div>
@@ -96,6 +87,7 @@ export default {
   transition: width 0.95s linear;
   width: v-bind(barWidth);
 }
+
 .timer-bar {
   transition: width 0.95s linear;
   width: v-bind(barWidth);

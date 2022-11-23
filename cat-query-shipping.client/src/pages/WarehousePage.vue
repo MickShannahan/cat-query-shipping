@@ -25,7 +25,7 @@
 
     <div class="inventory-main physical-border plastic-shell container-fluid px-4 py-3">
       <!-- STUB inventory screen -->
-      <section class="row bg-black rounded screen text-info p-2 h-100">
+      <section class="row bg-black rounded screen text-theme-primary p-2 h-100">
         <!-- SECTION secondary screen -->
         <div class="col-12 p-0">
           <ShopScreen v-if="screen == 'shop'" />

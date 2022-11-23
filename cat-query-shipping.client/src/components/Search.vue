@@ -19,13 +19,14 @@
           mongo
         </button>
       </div>
-      <div id="tour-search" class="input-group text-info">
+      <div id="tour-search" class="input-group text-theme-primary">
         <span class="input-group-text bg-dark text-success" id="basic-addon3">{{
-            baseUrl
+        baseUrl
         }}</span>
         <!-- STUB search input -->
-        <input spellcheck="false" autocomplete="off" v-model="query" type="text" class="form-control bg-dark text-info"
-          id="basic-url" aria-describedby="basic-addon3" @input="httpValidizer" />
+        <input spellcheck="false" autocomplete="off" v-model="query" type="text"
+          class="form-control bg-dark text-theme-primary" id="basic-url" aria-describedby="basic-addon3"
+          @input="httpValidizer" />
       </div>
     </div>
 
