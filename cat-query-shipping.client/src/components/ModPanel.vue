@@ -6,7 +6,8 @@
       'unlocked': modConfigure
     }" :mod="m" :x="m.x" :y="m.y" />
   </div>
-  <div class="mod-btn mt-2 d-flex" :class="{ 'configure': modConfigure }" @click="configure">
+  <div class="mod-btn mt-2 d-flex" :class="{ 'configure': modConfigure }" @click="configure"
+    v-tooltip:right="'configure mods'">
     <span></span>
     <div class="mod-thumb">
     </div>

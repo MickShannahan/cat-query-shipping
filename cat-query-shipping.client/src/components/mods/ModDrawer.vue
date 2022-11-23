@@ -10,11 +10,11 @@
         <div class="row h-100">
           <div class="col-4 p-3 ">description</div>
           <div class=" col-8 mods-tray p-1">
-            <section class="mod installed" v-for="(mod, i) in installed" :key="mod.name + 1" @click="addMod(mod.id)">
+            <section class="mod installed" v-for="(mod, i) in installed" :key="mod.type + i" @click="removeMod(mod.id)">
               <div>{{ mod.name }}</div>
               <img :src="mod.img" alt="">
             </section>
-            <section class="mod" :class="{ installed: mod.itemId }" v-for="(mod, i) in inventory" :key="mod.name + 1"
+            <section class="mod" :class="{ installed: mod.itemId }" v-for="(mod, i) in inventory" :key="mod.name + i"
               @click="addMod(mod.id)">
               <div>{{ mod.name }}</div>
               <img :src="mod.img" alt="">
@@ -38,6 +38,9 @@ const inventory = computed(() => AppState.account?.inventory?.filter(i => i.type
 }))
 function addMod(id) {
   modsService.addMod(id)
+}
+function removeMod(id) {
+  modsService.removeMod(id)
 }
 </script>
 
@@ -89,5 +92,11 @@ function addMod(id) {
 
 .installed {
   background-color: var(--bs-info);
+  color: var(--bs-dark);
+  transition: all .2s ease;
+
+  &:hover {
+    background-color: var(--bs-danger);
+  }
 }
 </style>

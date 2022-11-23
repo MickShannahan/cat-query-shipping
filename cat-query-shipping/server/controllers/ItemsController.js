@@ -2,6 +2,7 @@ import { itemsService } from '../services/ItemsService.js'
 import { _checkAdmin } from '../utils/AccountValidator.js'
 import BaseController from '../utils/BaseController.js'
 import { Auth0Provider } from '@bcwdev/auth0provider'
+import { logger } from '../utils/Logger.js'
 
 export class ItemsController extends BaseController {
   constructor() {
@@ -14,6 +15,7 @@ export class ItemsController extends BaseController {
       .delete('/scrap/:id')
       .post('/mods/equip', this.equipMod)
       .put('/mods/save', this.updateMods)
+      .delete('/mods/remove/:id', this.removeMod)
       .use(_checkAdmin)
       .get('', this.find)
       .post('', this.create)

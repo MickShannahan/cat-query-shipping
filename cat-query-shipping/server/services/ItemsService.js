@@ -1,4 +1,4 @@
-import { Mongoose, Schema } from 'mongoose'
+import { Schema } from 'mongoose'
 import { dbContext } from '../db/DbContext.js'
 import { InstalledMod } from '../models/Account.js'
 import { BadRequest } from '../utils/Errors.js'
@@ -94,7 +94,11 @@ class ItemsService {
   }
 
   async removeMod(id, userId) {
-
+    const account = await dbContext.Account.findById(userId)
+    const index = await account.installedMods.findIndex(m => m.id.toString() === id)
+    account.installedMods.splice(index, 1)
+    await account.save()
+    return 'removed a mod'
   }
 }
 

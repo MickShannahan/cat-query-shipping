@@ -23,6 +23,17 @@ class ModsService {
       logger.error(error)
     }
   }
+
+  async removeMod(id) {
+    try {
+      const res = await api.delete('api/items/mods/remove/' + id)
+      logger.log('[remove mod]', res.data)
+      AppState.account.installedMods = AppState.account.installedMods.filter(m => m.id != id)
+    } catch (error) {
+      Pop.error(error.message)
+      logger.error(error)
+    }
+  }
 }
 
 export const modsService = new ModsService()
