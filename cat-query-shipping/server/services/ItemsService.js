@@ -75,7 +75,7 @@ class ItemsService {
       cost: mod.cost,
       itemId: rawItem._id,
       slots: mod.data.slots,
-      action: mod.data.action,
+      action: mod.action || mod.data.action,
       x: 0,
       y: 0,
       data: mod.data

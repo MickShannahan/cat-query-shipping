@@ -1,8 +1,8 @@
-<template data-simplebar>
+<template data-simplebar >
   <header class="container-fluid ">
     <Navbar />
   </header>
-  <main class="container-fluid d-flex theme--union">
+  <main class="container-fluid d-flex">
     <router-view v-slot="{ Component }">
       <transition name="route" mode="out-in">
         <component :is="Component" />
@@ -12,7 +12,7 @@
   <footer class="container-fluid fixed-bottom d-flex align-items-center justify-content-center">
     <div class="me-auto selectable text-light p-2 rounded" @click="switchBg"><i class="mdi mdi-lightbulb-outline"></i>
     </div>
-    <div class="text-light text-center p-2 me-auto theme--union">
+    <div class="text-light text-center p-2 me-auto">
       Made with your <i class="mdi mdi-google-podcast text-theme-primary"></i> Union Tax Credits
     </div>
     <!-- STUB mod theme -->

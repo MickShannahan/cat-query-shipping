@@ -7,6 +7,21 @@ import { api } from "./AxiosService.js"
 
 
 class ModsService {
+
+  findMod(action, type) {
+    const mod = AppState.account.installedMods?.find(m => {
+      return m.action == action || m.type == type
+    })
+    if (mod.data.count && mod.data.count > 0) {
+      let uses = mod.data.uses || 1
+      mod.data.count -= uses
+      if (mod.data.count <= 0) mod.burnt = true
+    } else {
+      Pop.toast(`${mod.name} is burnt out.`, 'error', 'center-start')
+      return
+    }
+    return mod
+  }
   async addMod(id) {
     const res = await api.post('api/items/mods/equip', { _id: id })
     logger.log('[Add Mod]', res.data)

@@ -3,10 +3,11 @@
       computer
       row
       justify-content-around
-      bg-primary
-      plastic-shell
+     console-console
+     plastic
+     outset
       shadow
-      physical-border
+      outset-console
       p-3
       pb-1
     ">
@@ -33,6 +34,7 @@
     <div class="
         col-8
         screen-theme
+        inset
         bg-black
         rounded
         glow

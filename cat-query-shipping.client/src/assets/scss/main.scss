@@ -220,15 +220,15 @@ $steps: 20;
 
 
 
-[class*="screen-theme"] {
-  min-height: 1em;
-  background-image: url('/src/assets/img/Textures/black-orchid.png');
-  border-top: 5px solid #315f8a;
-  border-left: 5px solid #315f8a;
-  border-bottom: 5px solid #55a6a8;
-  border-right: 5px solid #55a6a8;
-  box-shadow: inset 0px 0px 10px #a4d5a58c;
-}
+// [class*="screen-theme"] {
+//   min-height: 1em;
+//   background-image: url('/src/assets/img/Textures/black-orchid.png');
+//   border-top: 5px solid #315f8a;
+//   border-left: 5px solid #315f8a;
+//   border-bottom: 5px solid #55a6a8;
+//   border-right: 5px solid #55a6a8;
+//   box-shadow: inset 0px 0px 10px #a4d5a58c;
+// }
 
 .screen-on {
   animation: screen-on linear .5s forwards 1;

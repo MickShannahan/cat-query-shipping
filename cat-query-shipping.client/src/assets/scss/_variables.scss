@@ -46,8 +46,8 @@ $themeProperties: (
   warning: 'warning',
   danger: 'danger',
   screenColor: 'screenColor',
-  consoleColor: 'consoleColor',
-  console2Color: 'console2Color',
+  console: 'console',
+  console2: 'console2',
 );
 
 $themes: (
@@ -57,32 +57,36 @@ $themes: (
     warning: #FBE8A5,
     danger: #DD5F57,
     screenColor: #161d1b,
-    consoleColor: #498d96,
-    console2Color: #A4D5A5),
+    screenBackground: '/src/assets/img/Textures/black-orchid.png',
+    console: #498d96,
+    console2: #A4D5A5),
   rad: (primary: #F61794,
     secondary: #9822B1,
     success: #40A890,
     warning: #BEC43F,
     danger: #cd1953,
     screenColor: #191f24,
-    consoleColor: #498d96,
-    console2Color: #A4D5A5),
+    screenBackground: '/src/assets/img/Textures/black-orchid.png',
+    console: #498d96,
+    console2: #A4D5A5),
   retro: (primary: #1bff98,
     secondary: #73ffc0,
     success: #21ac6d,
     warning: #61be94,
     danger: #497963,
     screenColor: #32463d,
-    consoleColor: #498d96,
-    console2Color: #A4D5A5),
+    screenBackground: '/src/assets/img/Textures/black-orchid.png',
+    console: #98a09d,
+    console2: #eb9deb),
   sphinx: (primary: #44423f,
     secondary: #2c2a28,
     success: #665741,
     warning: #666666,
     danger: #1f1e1d,
     screenColor: #aaa894,
-    consoleColor: #498d96,
-    console2Color: #A4D5A5),
+    screenBackground: '/src/assets/img/Textures/subtle-dots.png',
+    console: #dfd3bb,
+    console2: #4b4948),
 );
 
 @mixin themed() {
@@ -137,19 +141,77 @@ $val in $themeProperties {
 
 }
 
+// Consoles
+@each $prop,
+$val in $themeProperties {
+  .console-#{$val} {
+    @include themed() {
+      // -------
+      background-color: _($val);
+      $lighter: lighten(adjust-hue(_($val), -10), 6);
+      $darker: darken(adjust-hue(_($val), 20), 7);
 
+      &.plastic {
+        background-image: url(/src/assets/img/Textures/egg-shell.png);
+        background-size: 215px;
+      }
+
+
+      &.outset {
+        border-top: 6px solid $lighter;
+        border-left: 6px solid $lighter;
+        border-bottom: 6px solid $darker;
+        border-right: 6px solid $darker;
+        border-radius: 10px;
+      }
+
+      .inset {
+        border-top: 5px solid $darker;
+        border-left: 5px solid $darker;
+        border-bottom: 5px solid $lighter;
+        border-right: 5px solid $lighter;
+      }
+
+      .comp-button::before {
+        position: absolute;
+        content: "";
+        width: 102%;
+        height: 102%;
+        top: -1px;
+        left: -1px;
+        border-radius: inherit;
+        outline: 3px inset $lighter;
+        transition: all 150ms cubic-bezier(0, 0, 0.58, 1);
+        transform: translate3d(0, 0.75em, -1em);
+      }
+
+      .comp-button:hover::before {
+        transform: translate3d(0, 0.6em, -1em);
+      }
+
+      .comp-button:active::before {
+        transform: translate3d(0, 0, -0.75em);
+      }
+
+      // -------
+    }
+  }
+}
 
 .screen-theme {
   @include themed() {
     background-color: _('screenColor');
+    background-image: url(_('screenBackground'));
     box-shadow: inset 0px 0px 10px transparentize(_('primary'), .5);
 
 
-
     // backgrounds
-    .bg-theme {
-      background-color: transparentize(_('primary'), .2) !important;
-      color: _('screenColor');
+    @each $prop,
+    $val in $themeProperties {
+      .bg-theme-#{$val} {
+        background-color: transparentize(_($val), .2) !important;
+        color: _('screenColor');
+      }
     }
 
 

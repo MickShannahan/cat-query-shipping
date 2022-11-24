@@ -1,5 +1,5 @@
 <template>
-  <div class="lost-shipment  bg-primary plastic-shell physical-border my-2 p-2 ps-1">
+  <div class="lost-shipment  console-console plastic outset my-2 p-2 ps-1">
     <!-- STUB side bar -->
     <div class="component-panel ps-1 pe-3">
       <!-- <button class="btn btn-outline-light h-25" @click="getLostShipment">get new</button> -->
@@ -24,7 +24,7 @@
     </div>
     <CardTray />
     <!-- STUB Screen -->
-    <div id="tour-shipment-panel" class="shipment-panel p-1 px-2 p-md-3 screen-theme  screen-on">
+    <div id="tour-shipment-panel" class="shipment-panel p-1 px-2 p-md-3 screen-theme inset rounded screen-on">
       <div class="row p-2">
         <!-- STUB shipment side -->
         <div id="tour-shipment-details" class="col-md-9 pe-3 text-theme-primary">
@@ -96,6 +96,7 @@
 import { AppState } from '../AppState';
 import { computed, reactive, onMounted, ref, useCssModule } from 'vue';
 import { shipmentService } from '../services/ShipmentService';
+import { modsService } from '../services/ModsService.js'
 import Pop from '../utils/Pop';
 import { logger } from '../utils/Logger';
 export default {
@@ -123,6 +124,7 @@ export default {
         newDifficulty.value = newDifficulty.value <= 1 ? 1 : newDifficulty.value >= 20 ? 20 : newDifficulty.value
       },
       copy() {
+        if (!modsService.findMod('copy_paste')) return
         let elem = event.target
         logger.log(elem)
         navigator.clipboard.writeText(elem.innerText)

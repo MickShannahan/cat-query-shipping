@@ -1,5 +1,5 @@
 <template>
-  <div class="mod" :class="mod.type">
+  <div class="mod" :class="{ burnt: burnt }">
   </div>
 </template>
 
@@ -14,7 +14,8 @@ export default {
     return {
       col: computed(() => `${props.x + 1} / span ${props.mod.slots[0].length}`),
       row: computed(() => `${props.y + 1} / span ${props.mod.slots.length}`),
-      img: computed(() => `url(${props.mod.img})`)
+      img: computed(() => `url(${props.mod.img})`),
+      burnt: computed(() => props.mod.burnt)
     }
   }
 };
@@ -39,17 +40,10 @@ export default {
   animation: drop-in .2s ease forwards;
 }
 
-.retry {
-  background-image: url(/src/assets/img/mods/modRetry1.gif);
+.burnt {
+  filter: grayscale(.6) brightness(.5) drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.5));
 }
 
-.antenna {
-  background-image: url(/src/assets/img/mods/antenna1.gif);
-}
-
-.battery {
-  background-image: url(/src/assets/img/mods/battery1.png);
-}
 
 @keyframes drop-in {
   0% {
@@ -59,5 +53,15 @@ export default {
   100% {
     opacity: 1;
   }
+}
+
+@keyframes burning {
+  0% {}
+
+  25% {}
+
+  50% {}
+
+  100% {}
 }
 </style>
