@@ -46,8 +46,8 @@
     <button class="col-1 comp-button comp-yellow" @click="clearInput">
       clear
     </button>
-    <button class="col-2 comp-button comp-green" :class="{ 'cursor-invalid-url': unsafeUrl }" :disabled="unsafeUrl"
-      @click="searchShipmentDatabase">
+    <button class="col-2 comp-button comp-green" :class="{ 'cursor-invalid-url': unsafeUrl }"
+      :disabled="unsafeUrl || !modsOk" @click="searchShipmentDatabase">
       search
     </button>
     <div class="col-12 p-3 font-yellowtail text-chrome">
@@ -76,6 +76,7 @@ export default {
       unsafeUrl,
       unlockMongo: computed(() => !AppState.account.unlocks?.includes('mongo-terminal')),
       baseUrl: computed(() => AppState.baseUrl),
+      modsOk: computed(() => AppState.modsOk),
       async searchShipmentDatabase() {
         try {
           await shipmentService.searchShipmentDatabase(query.value)

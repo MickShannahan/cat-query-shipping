@@ -12,13 +12,17 @@ class ModsService {
     const mod = AppState.account.installedMods?.find(m => {
       return m.action == action || m.type == type
     })
+    return mod
+  }
+  useMod(id) {
+    const mod = AppState.account.installedMods?.find(m => m.id == id)
     if (mod.data.count && mod.data.count > 0) {
       let uses = mod.data.uses || 1
       mod.data.count -= uses
       if (mod.data.count <= 0) mod.burnt = true
     } else {
       Pop.toast(`${mod.name} is burnt out.`, 'error', 'center-start')
-      return
+      return false
     }
     return mod
   }

@@ -10,7 +10,7 @@
           'text-danger': hits >= 25 || hits == 0,
         }">
           Shipments Pinged : {{ hits }}
-          <span v-if="hits >= 50"> !MAX 50 PRINTED!</span>
+          <span v-if="hits >= 50"> !MAX {{ pageLimit }} PRINTED!</span>
         </div>
       </div>
     </div>
@@ -33,6 +33,7 @@ export default {
       loading: computed(() => AppState.loading.thread),
       shipments: computed(() => AppState.searchResults.results),
       hits: computed(() => AppState.searchResults.hits),
+      pageLimit: computed(() => 50 - AppState.account.installedMods.filter(m => m.action == 'reduce_pages').reduce((ac, cr) => ac + cr.data.count, 0)),
       scrolling() {
         logger.log('infinite scrolling')
       }

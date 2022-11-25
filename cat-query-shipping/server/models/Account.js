@@ -51,7 +51,7 @@ export const AccountSchema = new Schema(
     unlocks: [{ type: String }],
     // STUB If you wish to add additional properties do so here
     inventory: [{ type: Schema.Types.ObjectId, ref: 'Item' }],
-    installedMods: [{ type: InstalledMod }]
+    installedMods: [InstalledMod]
   },
   { timestamps: true, toJSON: { virtuals: true } }
 )

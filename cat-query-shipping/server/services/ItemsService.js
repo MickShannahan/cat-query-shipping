@@ -88,8 +88,13 @@ class ItemsService {
 
   async updateMods(mods, userId) {
     const account = await dbContext.Account.findById(userId)
+    return await this.saveMods(mods, account)
+  }
+
+  async saveMods(mods, account, save = true) {
     account.installedMods = mods
-    await account.save()
+    account.markModified('installedMods')
+    if (save) await account.save()
     return mods
   }
 
@@ -114,6 +119,6 @@ function _rollRarity(num) {
     out = [...out, ...arr]
   })
   const roll = out[Math.floor(Math.random() * out.length)]
-  logger.log('[roll]', roll)
+  logger.log('[roll]', roll, out.length)
   return roll
 }

@@ -4,6 +4,7 @@ import { Mod } from '../models/Mod.js'
 import { logger } from '../utils/Logger'
 import Pop from '../utils/Pop'
 import { api, unblob } from './AxiosService'
+import { modsService } from './ModsService.js'
 import { shipmentService } from './ShipmentService'
 import { lcStorage } from "./Storage"
 class AccountService {

@@ -124,7 +124,8 @@ export default {
         newDifficulty.value = newDifficulty.value <= 1 ? 1 : newDifficulty.value >= 20 ? 20 : newDifficulty.value
       },
       copy() {
-        if (!modsService.findMod('copy_paste')) return
+        let mod = modsService.findMod('copy_paste')
+        if (!modsService.useMod(mod.id)) return
         let elem = event.target
         logger.log(elem)
         navigator.clipboard.writeText(elem.innerText)

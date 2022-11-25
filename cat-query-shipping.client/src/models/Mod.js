@@ -10,7 +10,7 @@ export class Mod {
     this.img = img
     this.rarity = rarity
     this.type = type
-    this.burnt = burnt || false
+    this.burnt = burnt || data.burnt || data.count <= 0
     this.x = x || 0
     this.y = y || 0
     //unwrap data

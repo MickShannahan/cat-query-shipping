@@ -83,6 +83,7 @@ export default {
       slots.value = tempSlots
       let good = slots.value.every(r => r.every(c => c <= 1))
       modsOk.value = good
+      AppState.modsOk = good
     })
     watch(modConfigure, () => {
       console.log('mod configured');

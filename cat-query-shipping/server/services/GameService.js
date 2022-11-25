@@ -4,6 +4,7 @@ import { BadRequest } from '../utils/Errors.js'
 import { random } from '../utils/Generators.js'
 import { logger } from '../utils/Logger'
 import { accountService } from './AccountService'
+import { modsService } from './ModsService.js'
 import { shipmentsService } from './ShipmentsService'
 class GameService {
   async getLostShipment(query = {}, user) {
@@ -43,7 +44,7 @@ class GameService {
       await accountService.updateAccountHistory(account)
       await accountService.zeroAccountStats(account)
       await accountService.advanceGrade(account)
-
+      await modsService.resetMods(account)
       await account.save()
 
       return { result: true, currentGuesses: account.currentGuesses, shipment: shipment }
