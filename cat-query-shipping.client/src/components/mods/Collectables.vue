@@ -29,13 +29,14 @@ const displayed = computed(() => AppState.collectables)
   margin: .25em 7em;
   display: grid;
   grid-template-columns: repeat(auto-fill, 100px);
-  grid-template-rows: 100px;
+  grid-template-rows: 25px;
   justify-items: end;
   grid-auto-flow: row reverse;
 }
 
 .collect {
   place-self: center;
+  height: 100%;
   filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.4));
   transform: translateY(0px) scale(1.1);
   opacity: 0;
