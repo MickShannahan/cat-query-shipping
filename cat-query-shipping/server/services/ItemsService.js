@@ -4,6 +4,8 @@ import { InstalledMod } from '../models/Account.js'
 import { BadRequest } from '../utils/Errors.js'
 import { logger } from '../utils/Logger.js'
 import { itemRarities } from '../models/Item.js'
+import { accountService } from './AccountService.js'
+import { modsService } from './ModsService.js'
 
 class ItemsService {
   async find(query = {}) {
@@ -44,8 +46,19 @@ class ItemsService {
     return items[0]
   }
 
-  scrap(id, userInfo) {
-    throw new Error('Method not implemented.')
+  async scrap(id, userInfo) {
+    const account = await dbContext.Account.findById(userInfo.id).populate('inventory')
+    const itemI = account.inventory.findIndex(it => it.id.toString() === id)
+    if (itemI < 0) throw new BadRequest('cant find item at ' + id)
+    const item = account.inventory[itemI]
+    if (item.data && item.data.scrapValue) {
+      account.components += item.data.scrapValue
+    } else {
+      account.credits += Math.round(item.cost / 4)
+    }
+    account.inventory.splice(itemI, 1)
+    account.save()
+    return `Scraped ${item.name}.`
   }
 
   async create(body) {

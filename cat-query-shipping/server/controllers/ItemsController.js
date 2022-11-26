@@ -12,7 +12,7 @@ export class ItemsController extends BaseController {
       .get('/roll', this.roll)
       .get('/buy/:id', this.buy)
       .get('/craft/:id', this.craft)
-      .delete('/scrap/:id')
+      .delete('/scrap/:id', this.scrap)
       .post('/mods/equip', this.equipMod)
       .put('/mods/save', this.updateMods)
       .delete('/mods/remove/:id', this.removeMod)

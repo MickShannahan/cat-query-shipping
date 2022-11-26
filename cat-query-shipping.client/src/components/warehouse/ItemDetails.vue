@@ -9,20 +9,29 @@
         </div>
 
         <div class="item-description border border-theme-primary">
-          <p class="bg-theme px-3 fw-bold mb-1 d-flex justify-content-between">
+          <p class="bg-theme-primary px-3 fw-bold mb-1 d-flex justify-content-between">
             <span>{{ item.name }}</span>
             <span>{{ item.type }}</span>
           </p>
           <p class="p-1">{{ item.description }}</p>
         </div>
-
+        <!-- shop -->
         <div v-if="screen == 'shop'" class="item-shop text-theme-primary mt-2">
-          <button class="bg-theme text-center w-100 border-0" @click="buyItem">buy <i
+          <button class="bg-theme-primary text-center w-100 border-0" @click="buyItem">buy <i
               class="mdi mdi-google-podcast"></i>{{ item.cost
               }}</button>
         </div>
+        <!-- craft -->
         <div v-else-if="screen == 'craft'" class="item-craft">craft</div>
-        <div v-else class="item-stats">stats</div>
+        <!-- inventory -->
+        <div v-else class="item-stats container-fluid">
+          <div class="row text-center">
+            <div v-if="item.level" class="col">lv: {{ item.level }}</div>
+            <div :class="`col ${item.rarity} me-2`"><i class="mdi mdi-shimmer"></i>{{ item.rarity }}</div>
+            <button class="col btn-theme-danger border border-theme-danger text-theme-danger" @click="scrapItem"><i
+                class="mdi mdi-cog"></i> scrap</button>
+          </div>
+        </div>
 
       </div>
       <!-- no item selected -->
@@ -54,6 +63,10 @@ export default {
           AppState.hiddenItem = item
           Modal.getOrCreateInstance('#reveal-modal').show()
         }
+      },
+      async scrapItem() {
+        if (await Pop.confirm(`Scrap ${this.item.name}?`, "", 'question', 'yes scrap it', 'maybe not'))
+          await gameService.scrapItem()
       }
     }
   }
@@ -82,7 +95,9 @@ export default {
   place-self: stretch;
 }
 
-.item-stats {}
+.item-stats {
+  grid-column: 1 /-1;
+}
 
 .item-shop {
   place-self: stretch;
