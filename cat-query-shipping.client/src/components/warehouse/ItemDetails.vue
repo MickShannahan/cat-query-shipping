@@ -1,5 +1,5 @@
 <template>
-  <div class="row p-2 screen-theme rounded h-100 text-theme-primary">
+  <div class="row p-2 screen-theme inset rounded h-100 text-theme-primary">
     <transition name="screenEffect" mode="out-in">
       <!-- Item details -->
       <div v-if="item.name" class="item-details p-0">

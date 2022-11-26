@@ -1,7 +1,7 @@
 <template>
   <div class="component">
 
-    craft screen
+    crafting in development...
   </div>
 </template>
 

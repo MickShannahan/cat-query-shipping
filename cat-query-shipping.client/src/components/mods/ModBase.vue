@@ -31,7 +31,7 @@ export default {
   grid-row: v-bind(row);
   place-self: stretch;
   filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.5));
-  background-size: contain;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   image-rendering: pixelated;

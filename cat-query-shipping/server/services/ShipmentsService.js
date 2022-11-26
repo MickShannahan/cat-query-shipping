@@ -57,12 +57,14 @@ class ShipmentsService {
     return value
   }
 
-  async getLostById(id) {
+  async getLostById(id, account) {
     const shipment = await dbContext.Shipments.findById(id)
     if (!shipment) {
       throw new BadRequest('Invalid Id')
     }
-    return shipment.toObject()
+    const lost = shipment.toObject()
+    await modsService.recoverShipmentData(shipment, lost, account)
+    return lost
   }
 
   async getBell() {

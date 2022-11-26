@@ -2,7 +2,7 @@
   <section class="warehouse-grid">
 
     <!-- STUB item details -->
-    <div class="item-details container-fluid plastic-shell px-4 py-3 rounded physical-border">
+    <div class="item-details container-fluid console-console2 outset plastic px-4 py-3 rounded ">
       <!-- SECTION primary screen -->
       <ItemDetails :screen="screen" />
       <!--  -->
@@ -11,7 +11,7 @@
     <div class=" item-buttons">
     </div>
 
-    <div class="inventory-bar physical-border plastic-shell p-3 pb-4">
+    <div class="inventory-bar console-console outset plastic p-3 pb-4">
       <button class="btn comp-button comp-green px-2 py-1" @click="screen = 'shop'"><i class="mdi mdi-cart"></i>
       </button>
       <button class="btn comp-button comp-green px-2 py-1" @click="screen = 'craft'"><i class="mdi mdi-wrench"></i>
@@ -23,9 +23,9 @@
       <button class="btn comp-button comp-red px-2 py-1"><i class="mdi mdi-exit-run"></i></button>
     </div>
 
-    <div class="inventory-main physical-border plastic-shell container-fluid px-4 py-3">
+    <div class="inventory-main console-console outset plastic container-fluid px-4 py-3">
       <!-- STUB inventory screen -->
-      <section class="row bg-black rounded screen-theme text-theme-primary p-2 h-100">
+      <section class="row rounded screen-theme inset text-theme-primary p-2 h-100">
         <!-- SECTION secondary screen -->
         <div class="col-12 p-0">
           <ShopScreen v-if="screen == 'shop'" />
@@ -90,7 +90,6 @@ $padding: 12vw;
 }
 
 .item-details {
-  background-color: var(--bs-info);
   grid-column: 2 / 3;
   grid-row: 2 / 5;
   place-self: stretch;
@@ -104,7 +103,6 @@ $padding: 12vw;
 }
 
 .inventory-bar {
-  background-color: var(--bs-primary);
   grid-column: 4 / 5;
   grid-row: 2 / 3;
   place-self: stretch;
@@ -118,7 +116,6 @@ $padding: 12vw;
 }
 
 .inventory-main {
-  background-color: var(--bs-primary);
   grid-column: 4 / 5;
   grid-row: 4 / 7;
   place-self: stretch;

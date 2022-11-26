@@ -25,6 +25,44 @@ class ModsService {
     return false
   }
 
+  async recoverShipmentData(shipment, lostShipment, account) {
+    const recoveredData = {}
+    const recoveryMods = account.installedMods.filter(m => m.action === 'recover_data')
+    const damagedKeys = Object.keys(shipment.damagedKeys)
+    const damagedProperties = Object.keys(shipment.damagedProperties)
+    const missingProperties = shipment.missingProperties
+    logger.log('recovering', shipment.recipient, recoveryMods)
+    recoveryMods.forEach(m => {
+      const mod = m.data
+      if (mod.damageType === 'missingProperties') {
+        if (!missingProperties.length) return
+        for (let i = 0; i < mod.count; i++) {
+          const d = missingProperties.pop()
+          if (!recoveredData[mod.damageType]) recoveredData[mod.damageType] = {}
+          recoveredData[mod.damageType][d] = shipment[d]
+        }
+        // ---
+      } else if (mod.damageType === 'damagedProperties') {
+        if (!damagedProperties.length) return
+        for (let i = 0; i < mod.count; i++) {
+          const d = damagedProperties.pop()
+          if (!recoveredData[mod.damageType]) recoveredData[mod.damageType] = {}
+          recoveredData[mod.damageType][d] = shipment[d]
+        }
+        // ---
+      } else { // damaged Keys
+        if (!damagedKeys.length) return
+        for (let i = 0; i < mod.count; i++) {
+          const d = damagedKeys.pop()
+          if (!recoveredData[mod.damageType]) recoveredData[mod.damageType] = {}
+          recoveredData[mod.damageType][d] = shipment.damagedKeys[d]
+        }
+      }
+    })
+    lostShipment.recoveredData = recoveredData
+    return lostShipment
+  }
+
   async resetMods(account) {
     const mods = account.installedMods
     mods.forEach(m => {

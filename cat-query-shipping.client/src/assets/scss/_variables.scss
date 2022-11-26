@@ -148,8 +148,8 @@ $val in $themeProperties {
     @include themed() {
       // -------
       background-color: _($val);
-      $lighter: lighten(adjust-hue(_($val), -10), 6);
-      $darker: darken(adjust-hue(_($val), 20), 7);
+      $lighter: lighten(adjust-hue(_($val), -7), 6);
+      $darker: darken(adjust-hue(_($val), 10), 10);
 
       &.plastic {
         background-image: url(/src/assets/img/Textures/egg-shell.png);

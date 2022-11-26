@@ -24,7 +24,10 @@ class GameService {
     const shipment = await dbContext.Shipments.find(range).limit(1).skip(randShipment)
     account.lostShipmentId = shipment[0]._id
     account.save()
-    return shipment[0].toObject()
+    // recover props based on mods
+    const lost = await shipment[0].toObject()
+    await modsService.recoverShipmentData(shipment[0], lost, account)
+    return lost
   }
 
   // check for when user clicks on manifest to guess
@@ -68,7 +71,8 @@ class GameService {
   }
 
   async refreshShop(items) {
-    const all = await dbContext.Items.find({ type: 'mod' })
+    const ultraRare = Math.random() < 0.7 ? { rarity: { $not: /ultra-rare/ } } : {}
+    const all = await dbContext.Items.find({ $and: [{ type: 'mod' }, { rarity: { $not: /secret-rare/ } }, ultraRare] })
     let ids = all.map(i => i._id.toString())
     const item1 = random(ids)
     ids = ids.filter(i => i !== item1)

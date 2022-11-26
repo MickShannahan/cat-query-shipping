@@ -6,7 +6,7 @@
         <h5 class="offcanvas-title" id="staticBackdropLabel">Offcanvas</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
-      <div class="offcanvas-body bg-dark-glass container-fluid p-0">
+      <div class="offcanvas-body bg-dark-glass container-fluid px-3 py-0">
         <div class="row h-100">
           <div class="col-4 p-3 ">description</div>
           <div class=" col-8 mods-tray p-1">
@@ -16,7 +16,7 @@
             </section>
             <section class="mod" :class="{ installed: mod.itemId }" v-for="(mod, i) in inventory" :key="mod.name + i"
               @click="addMod(mod.id)">
-              <div>{{ mod.name }}</div>
+              <div class="text-light">{{ mod.name }}</div>
               <img :src="mod.img" alt="">
             </section>
           </div>
@@ -29,15 +29,35 @@
 
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { AppState } from '../../AppState.js';
 import { modsService } from '../../services/ModsService.js'
+const modCounts = ref({})
+const addingMod = ref(false)
 const installed = computed(() => AppState.account.installedMods)
+const installedLength = computed(() => AppState.account.installedMods?.length)
 const inventory = computed(() => AppState.account?.inventory?.filter(i => i.type == 'mod').sort((a, b) => {
   return (a.name < b.name) ? -1 : (a.name > b.name) ? 1 : 0
+}).filter(ma => {
+  if (modCounts.value[ma.name]) {
+    modCounts.value[ma.name]--
+    return false
+  }
+  return true
 }))
-function addMod(id) {
-  modsService.addMod(id)
+watch(installedLength, () => {
+  modCounts.value = {}
+  installed.value.forEach(m => {
+    let mod = modCounts.value
+    mod[m.name] = mod[m.name] ? mod[m.name] + 1 : 1
+  })
+})
+async function addMod(id) {
+  if (!addingMod.value) {
+    addingMod.value = true
+    await modsService.addMod(id)
+  }
+  addingMod.value = false
 }
 function removeMod(id) {
   modsService.removeMod(id)
@@ -85,7 +105,7 @@ function removeMod(id) {
   }
 
   img {
-    width: 50%;
+    height: 50%;
     image-rendering: pixelated;
   }
 }

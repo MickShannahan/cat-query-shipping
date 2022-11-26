@@ -24,6 +24,8 @@ import { Offcanvas } from 'bootstrap';
 import { Mod } from '../models/Mod.js'
 import Pop from '../utils/Pop.js';
 import { modsService } from '../services/ModsService.js';
+import { accountService } from '../services/AccountService.js';
+import { shipmentService } from '../services/ShipmentService.js';
 export default {
 
   setup() {
@@ -106,6 +108,7 @@ export default {
           return
         } else {
           await modsService.updateMods()
+          await shipmentService.getAccountShipment()
           modsUnlocked.value = false
           modConfigure.value = false
           activeMod.value = {}

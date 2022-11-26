@@ -33,11 +33,12 @@
               <div v-for="(value, key) in lostShipment" v-show="visible(key)" :key="key + value" class="col-md-6">
                 <div class="glitch">
                   <span :id="key + '-key'" class="hover text-theme-secondary lighten-30 line key" :data-text="key"
-                    @click="copy">{{ key }}</span>:
+                    @click="copy" v-html="recover(key)"></span>:
                 </div>
                 <span class="glitch">
-                  <span :id="key + '-value'" class="hover line value" @click="copy" :data-text="value">
-                    {{ value }}</span>
+                  <span :id="key + '-value'" class="hover line value" @click="copy" :data-text="value"
+                    v-html="recover(value)">
+                  </span>
                 </span>
               </div>
             </div>
@@ -109,6 +110,7 @@ export default {
       account: computed(() => AppState.account),
       creditsWorth: computed(() => AppState.lostShipment.creditsWorth),
       difficulty: computed(() => AppState.lostShipment.difficultyRating),
+      recoveredData: computed(() => AppState.lostShipment.recoveredData),
       glitchProgress,
       glitchWidth: computed(() => glitchProgress.value + '%'),
       lostShipment: computed(() => {
@@ -123,16 +125,32 @@ export default {
         newDifficulty.value += val
         newDifficulty.value = newDifficulty.value <= 1 ? 1 : newDifficulty.value >= 20 ? 20 : newDifficulty.value
       },
+      recover(text) {
+        let recoveredData = AppState.lostShipment.recoveredData
+        if (recoveredData) {
+          for (let damageType in recoveredData) {
+            switch (damageType) {
+              case 'damagedKeys':
+                for (let key in recoveredData.damagedKeys) {
+                  text = text == recoveredData.damagedKeys[key] ? `<span style="border-bottom: 1px dotted;">${key}</span>` : text
+                }
+              case 'damagedProperties':
+              case 'missingProperties':
+            }
+          }
+        }
+        return text
+      },
       copy() {
         let mod = modsService.findMod('copy_paste')
         if (!modsService.useMod(mod.id)) return
         let elem = event.target
         logger.log(elem)
-        navigator.clipboard.writeText(elem.innerText)
+        navigator.clipboard.writeText(this.recover(elem.innerText))
         Pop.toast('copied ' + elem.innerText, 'success', 'top')
       },
       visible(key) {
-        let notShown = ['_id', 'id', '__v', 'creditsWorth', 'difficultyRating', 'glitch', 'postalHistory', 'postalStation', 'containsHazard', 'glitchData']
+        let notShown = ['_id', 'id', '__v', 'creditsWorth', 'difficultyRating', 'glitch', 'postalHistory', 'postalStation', 'containsHazard', 'glitchData', 'recoveredData']
         return !notShown.includes(key)
       },
       // MODS
@@ -183,6 +201,10 @@ export default {
 .dirty-screen {
   background-image: url(/src/assets/img/Textures/green-dust-and-scratches.png);
   background-blend-mode: darken;
+}
+
+.recovered {
+  border-bottom: 1px dotted;
 }
 
 .card-slot-bottom {

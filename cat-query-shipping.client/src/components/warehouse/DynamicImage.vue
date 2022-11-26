@@ -2,7 +2,7 @@
   <div class="image">
     <div class="reflection-container">
       <div v-for="n in 9" :class="`reflection-grid-cell cell-${n}`"></div>
-      <div class="reflection-content">
+      <div class="reflection-content d-flex justify-content-center">
         <img v-if="image == 'na'" src="../../assets/img/DataCard1.png" class="img-fluid" alt="">
         <img v-else :src="image" class="img-fluid" alt="">
       </div>

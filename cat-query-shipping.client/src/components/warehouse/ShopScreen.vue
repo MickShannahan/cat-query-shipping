@@ -63,7 +63,7 @@ function startTime() {
     let then = new Date(AppState.shop.updatedAt).getTime() + 1000 * 60 * 3
     let when = then - now
     let time = Math.round(when / 1000)
-    if (time <= 0) {
+    if (time <= 0 && time >= -1) {
       timeLeft.value = 'new shop loading...'
       gameService.getShop()
     } else if (time > 60 * 60) { //hours

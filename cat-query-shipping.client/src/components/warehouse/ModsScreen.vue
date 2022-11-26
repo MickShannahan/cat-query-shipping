@@ -1,7 +1,7 @@
 <template>
   <div class="component">
 
-    mods screen
+    mods screen in development...
   </div>
 </template>
 
