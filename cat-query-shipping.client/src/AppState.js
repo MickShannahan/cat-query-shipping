@@ -28,6 +28,7 @@ export const AppState = reactive({
   activeItem: {},
   hiddenItem: {},
   modsOk: true,
+  collectables: [],
   // Docs
   lastDocPage: 'Orientation',
   // Chat

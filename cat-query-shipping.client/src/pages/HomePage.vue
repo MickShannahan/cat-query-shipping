@@ -7,6 +7,7 @@
         <CodeSearch v-else @switch="switchScreen" />
       </transition>
     </div>
+    <Collectables class="collectable-area" :class="{ collectables: hasCollectables }" />
     <div class="printer">
       <ShipmentsThread />
     </div>
@@ -42,6 +43,7 @@ export default {
       showTabs,
       lostShipmentLoading: computed(() => AppState.loading.lostShipment),
       account: computed(() => AppState.account),
+      hasCollectables: computed(() => AppState.collectables.length),
       switchScreen() {
         logger.log('switching')
         AppState.searchType = AppState.searchType == 'http' ? 'code' : 'http'
@@ -56,8 +58,20 @@ export default {
   width: 100%;
   display: grid;
   grid-template-columns: 5vw minmax(25px, 3vw) 1fr minmax(25px, 3vw) 5vw;
-  grid-template-rows: 2.2em 1fr 28vh;
+  grid-template-rows: 2.2em 62vh 1fr;
+  transition: all .3s ease;
+
+  &:has(.collectables) {
+    grid-template-rows: 5em 62vh 1fr;
+  }
 }
+
+.collectable-area {
+  grid-row: 1/2;
+  grid-column: 3/4;
+}
+
+.collectables {}
 
 .computer {
   grid-column: 3/4;
