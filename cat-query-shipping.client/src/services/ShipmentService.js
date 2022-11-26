@@ -29,6 +29,19 @@ class ShipmentService {
     }, 3000)
   }
 
+  async abandonShipment(query = '') {
+    AppState.loading.lostShipment = true
+    AppState.lostShipment = {}
+    let res = await api.get('api/shipments/abandon' + query)
+    logger.log('lost shipment ', res.data)
+    setTimeout(() => {
+      AppState.lostShipment = res.data
+      AppState.loading.lostShipment = false
+      AppState.searchResults = { results: [] }
+      accountService.getAccount()
+    }, 3000)
+  }
+
   async searchShipmentDatabase(queryString) {
     AppState.loading.thread = true
     AppState.searchResults = { results: [] }

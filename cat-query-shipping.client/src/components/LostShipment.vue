@@ -13,8 +13,15 @@
       <!--  -->
       <transition name="slot">
       </transition>
-      <button id="tour-new-shipment" class="new-ship-btn comp-button comp-yellow p-2 mb-5 w-100"
-        v-tooltip:bottom="'get new lost shipment'" @click="getLostShipment">
+      <button v-if="account.employeeGrade?.length >= 4" id="tour-new-shipment"
+        class="new-ship-btn comp-button comp-yellow p-2 mb-5 w-100" v-tooltip:bottom="'get new lost shipment'"
+        @click="getLostShipment">
+        <i class="mdi mdi-refresh"></i>
+        <i class="mdi mdi-card-bulleted-outline"></i>
+      </button>
+      <button v-else id="tour-new-shipment" class="new-ship-btn comp-button comp-yellow p-2 mb-5 w-100"
+        v-tooltip:bottom="'abandon this shipment'" @click="abandonShipment">
+        <i class="mdi mdi-alert-box-outline"></i>
         <i class="mdi mdi-card-bulleted-outline"></i>
       </button>
       <!-- TODO better datacard usage -->
@@ -120,6 +127,15 @@ export default {
       }),
       getLostShipment() {
         shipmentService.getLostShipment(``)
+      },
+      async abandonShipment() {
+        try {
+          if (await Pop.confirm(`Abandon this shipment?`, `Abandoning this shipment for a new one will cost you: ${Math.floor(this.lostShipment.creditsWorth / 3)} Union Credits.`, 'warning', 'yes, get me a new one', 'never mind'))
+            await shipmentService.abandonShipment()
+        } catch (error) {
+          logger.log(error)
+          Pop.error(error.message)
+        }
       },
       difficultyChange(val) {
         newDifficulty.value += val
