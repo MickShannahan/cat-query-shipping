@@ -47,6 +47,7 @@ $themeProperties: (
   danger: 'danger',
   screenColor: 'screenColor',
   console: 'console',
+  accent: 'accent',
   console2: 'console2',
 );
 
@@ -59,24 +60,27 @@ $themes: (
     screenColor: #161d1b,
     screenBackground: '/src/assets/img/Textures/black-orchid.png',
     console: #498d96,
+    accent: #6de9f9,
     console2: #A4D5A5),
   rad: (primary: #F61794,
-    secondary: #9822B1,
+    secondary: #a625c0,
     success: #40A890,
     warning: #BEC43F,
     danger: #cd1953,
-    screenColor: #191f24,
+    screenColor: #231e2c,
     screenBackground: '/src/assets/img/Textures/black-orchid.png',
     console: #498d96,
+    accent: #6de9f9,
     console2: #A4D5A5),
   retro: (primary: #1bff98,
     secondary: #73ffc0,
     success: #21ac6d,
     warning: #61be94,
     danger: #497963,
-    screenColor: #32463d,
+    screenColor: #425e51,
     screenBackground: '/src/assets/img/Textures/black-orchid.png',
     console: #98a09d,
+    accent: #7d8582,
     console2: #eb9deb),
   sphinx: (primary: #44423f,
     secondary: #2c2a28,
@@ -86,6 +90,7 @@ $themes: (
     screenColor: #aaa894,
     screenBackground: '/src/assets/img/Textures/subtle-dots.png',
     console: #dfd3bb,
+    accent: #726965,
     console2: #4b4948),
 );
 
@@ -156,6 +161,22 @@ $val in $themeProperties {
         background-size: 215px;
       }
 
+      .mod-panel {
+        background-color: _('accent');
+        background-image: url('/src/assets/img/Textures/carbon-fibre.png');
+        border-radius: 2px;
+      }
+
+      .mod-btn {
+        border: 2px inset _('console');
+        background-color: darken(_('console'), 10%);
+      }
+
+      .mod-thumb {
+        border: 3px outset _('console');
+        background-color: _('console');
+      }
+
 
       &.outset {
         border-top: 6px solid $lighter;
@@ -204,6 +225,9 @@ $val in $themeProperties {
     background-image: url(_('screenBackground'));
     box-shadow: inset 0px 0px 10px transparentize(_('primary'), .5);
 
+    &-variant {
+      background-color: lighten(_('screenColor'), 5%);
+    }
 
     // backgrounds
     @each $prop,
@@ -211,6 +235,20 @@ $val in $themeProperties {
       .bg-theme-#{$val} {
         background-color: transparentize(_($val), .2) !important;
         color: _('screenColor');
+      }
+    }
+
+    &.input {
+      box-shadow: inset 0px 0px 3px transparentize(_('primary'), .5);
+
+      &:focus {
+        background-color: _('screenColor') !important;
+        background-image: url(_('screenBackground')) !important;
+      }
+
+      &:active {
+        background-color: _('screenColor') !important;
+        background-image: url(_('screenBackground')) !important;
       }
     }
 

@@ -45,6 +45,7 @@ export default {
   line-height: 1.2em;
   font-size: auto;
   height: 100%;
+  width: 100%;
   place-self: stretch;
   padding: .2em;
   font-size: 13px;

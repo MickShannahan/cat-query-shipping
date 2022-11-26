@@ -127,8 +127,6 @@ export default {
   display: grid;
   grid-template-columns: repeat(4, 40px);
   grid-template-rows: repeat(5, 40px);
-  background-color: #6de9f9;
-  background-image: url('/src/assets/img/Textures/carbon-fibre.png');
   grid-auto-flow: dense;
 }
 
@@ -150,8 +148,6 @@ export default {
   grid-row: 6 / 7;
   align-self: baseline;
   border-radius: 45em;
-  border: 2px inset var(--bs-primary);
-  background-color: darken(#498d96, 10%);
 
   span {
     width: 0px;
@@ -159,14 +155,11 @@ export default {
   }
 
 
-
   .mod-thumb {
     height: 1em;
     width: 70%;
     border-radius: 45em;
     text-align: center;
-    border: 3px outset var(--bs-primary);
-    background-color: var(--bs-primary);
     cursor: pointer;
     transition: all .2s ease;
 

@@ -2,9 +2,8 @@
   <div class="component">
     <div class="offcanvas offcanvas-start bg-transparent border-0 rounded-lg square-start" data-bs-backdrop="false"
       tabindex="-1" id="mod-drawer" aria-labelledby="staticBackdropLabel">
-      <div class="offcanvas-header bg-info square-bottom square-left physical-border">
-        <h5 class="offcanvas-title" id="staticBackdropLabel">Offcanvas</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      <div class="offcanvas-header console-console2 square-bottom square-left outset plastic">
+        <h5 class="offcanvas-title" id="staticBackdropLabel">Configure Mods</h5>
       </div>
       <div class="offcanvas-body bg-dark-glass container-fluid px-3 py-0">
         <div class="row h-100">

@@ -3,6 +3,7 @@ import { dbContext } from '../db/DbContext.js'
 import { InstalledMod } from '../models/Account.js'
 import { BadRequest } from '../utils/Errors.js'
 import { logger } from '../utils/Logger.js'
+import { itemRarities } from '../models/Item.js'
 
 class ItemsService {
   async find(query = {}) {
@@ -110,8 +111,8 @@ class ItemsService {
 export const itemsService = new ItemsService()
 
 function _rollRarity(num) {
-  const rarities = ['common', 'uncommon', 'rare', 'ultra-rare', 'secret-rare']
-  let values = [47, 32, 16, 4.9, 0.1]
+  const rarities = itemRarities // common, uncommon, rare, rare +, ultra-rare, secret-rare
+  let values = [47, 32, 14, 4.9, 2.02, 0.08]
   values = values.map(v => Math.round((v / 100) * num))
   let out = []
   values.forEach((v, r) => {

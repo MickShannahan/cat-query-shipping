@@ -13,7 +13,7 @@
     ">
     <div class="col-12 search mb-3">
       <div class="d-flex">
-        <label for="basic-url" class="form-label bg-info rounded py-1 px-3">make a query to find the lost
+        <label for="basic-url" class="form-label console-console2 rounded py-1 px-3">make a query to find the lost
           shipment</label>
         <button :disabled="unlockMongo" :class="{ 'cursor-locked': unlockMongo }"
           class="switch-button comp-button ms-auto mb-2 p-1 px-2" type="button" @click="switchScreen">
@@ -21,12 +21,13 @@
         </button>
       </div>
       <div id="tour-search" class="input-group text-theme-primary">
-        <span class="input-group-text bg-dark text-theme-success" id="basic-addon3">{{
-            baseUrl
-        }}</span>
+        <span class="input-group-text screen-theme-variant border border-theme-primary input text-theme-secondary"
+          id="basic-addon3">{{
+              baseUrl
+          }}</span>
         <!-- STUB search input -->
         <input spellcheck="false" autocomplete="off" v-model="query" type="text"
-          class="form-control border border-theme-primary bg-dark text-theme-primary" id="basic-url"
+          class="form-control border border-theme-primary screen-theme input text-theme-primary" id="basic-url"
           aria-describedby="basic-addon3" @input="httpValidizer" />
       </div>
     </div>
@@ -35,7 +36,6 @@
         col-8
         screen-theme
         inset
-        bg-black
         rounded
         glow
         p-2

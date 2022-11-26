@@ -12,15 +12,21 @@
     </div>
 
     <div class="inventory-bar console-console outset plastic p-3 pb-4">
-      <button class="btn comp-button comp-green px-2 py-1" @click="screen = 'shop'"><i class="mdi mdi-cart"></i>
+      <button class="btn comp-button comp-green px-2 py-1" v-tooltip:bottom="`kiwi's shop`" @click="screen = 'shop'"><i
+          class="mdi mdi-cart"></i>
       </button>
-      <button class="btn comp-button comp-green px-2 py-1" @click="screen = 'craft'"><i class="mdi mdi-wrench"></i>
+      <button class="btn comp-button comp-green px-2 py-1" v-tooltip:bottom="`workbench`" @click="screen = 'craft'"><i
+          class="mdi mdi-wrench"></i>
       </button>
-      <button class="btn comp-button comp-yellow px-2 py-1" @click="screen = 'inventory'"><i
-          class="mdi mdi-bag-personal"></i> </button>
-      <button class="btn comp-button comp-blue px-2 py-1" @click="screen = 'mods'"> <i class="mdi mdi-memory"></i>
+      <button class="btn comp-button comp-yellow px-2 py-1" v-tooltip:bottom="`your inventory`"
+        @click="screen = 'inventory'"><i class="mdi mdi-bag-personal"></i> </button>
+      <button class="btn comp-button comp-blue px-2 py-1" v-tooltip:bottom="`your mods`" @click="screen = 'mods'"> <i
+          class="mdi mdi-memory"></i>
       </button>
-      <button class="btn comp-button comp-red px-2 py-1"><i class="mdi mdi-exit-run"></i></button>
+      <router-link :to="{ name: 'Home' }">
+        <button class="btn comp-button comp-red px-2 py-1" v-tooltip:right="`go back to work room`"><i
+            class="mdi mdi-exit-run"></i></button>
+      </router-link>
     </div>
 
     <div class="inventory-main console-console outset plastic container-fluid px-4 py-3">
@@ -73,6 +79,10 @@ export default {
 <style lang="scss" scoped>
 $padding: 12vw;
 
+a {
+  width: 100%;
+}
+
 @media (max-width: 768px) {
   $padding: 3vw;
 }
@@ -110,8 +120,10 @@ $padding: 12vw;
   grid-template-columns: 1fr 1fr 1fr 1fr 3em;
   gap: 1em;
 
-  >button {
+  button,
+  a {
     place-self: stretch;
+    width: 100%;
   }
 }
 
