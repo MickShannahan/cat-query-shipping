@@ -141,21 +141,26 @@ export default {
         newDifficulty.value += val
         newDifficulty.value = newDifficulty.value <= 1 ? 1 : newDifficulty.value >= 20 ? 20 : newDifficulty.value
       },
-      recover(text) {
+      recover(sProp) {
         let recoveredData = AppState.lostShipment.recoveredData
         if (recoveredData) {
           for (let damageType in recoveredData) {
             switch (damageType) {
               case 'damagedKeys':
                 for (let key in recoveredData.damagedKeys) {
-                  text = text == recoveredData.damagedKeys[key] ? `<span style="border-bottom: 1px dotted;">${key}</span>` : text
+                  sProp = sProp == recoveredData.damagedKeys[key] ? `<span style="border-bottom: 1px dotted;">${key}</span>` : sProp
                 }
+                break
               case 'damagedProperties':
+                for (let key in recoveredData.damagedProperties) {
+                  sProp = sProp == key ? `<span style="border-bottom: 1px dotted;">${recoveredData.damagedProperties[sProp]}</span>` : sProp
+                }
+                break
               case 'missingProperties':
             }
           }
         }
-        return text
+        return sProp
       },
       copy() {
         let mod = modsService.findMod('copy_paste')

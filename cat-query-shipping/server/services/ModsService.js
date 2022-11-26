@@ -47,7 +47,7 @@ class ModsService {
         for (let i = 0; i < mod.count; i++) {
           const d = damagedProperties.pop()
           if (!recoveredData[mod.damageType]) recoveredData[mod.damageType] = {}
-          recoveredData[mod.damageType][d] = shipment[d]
+          recoveredData[mod.damageType][shipment[mod.damageType][d]] = shipment[d]
         }
         // ---
       } else { // damaged Keys

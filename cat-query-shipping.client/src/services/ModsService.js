@@ -29,7 +29,7 @@ class ModsService {
   async addMod(id) {
     const res = await api.post('api/items/mods/equip', { _id: id })
     logger.log('[Add Mod]', res.data)
-    AppState.account.installedMods.unshift(new Mod(res.data))
+    AppState.account.installedMods.push(new Mod(res.data))
   }
 
   async updateMods() {
