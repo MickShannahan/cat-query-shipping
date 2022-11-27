@@ -8,7 +8,7 @@
           aria-label="Close"></button>
       </div>
       <div class="offcanvas-body bg-dark-glass container-fluid px-3 py-0">
-        <div class="row h-100">
+        <div class="row h-100 w-100">
           <div class=" col-12 collects-tray p-1">
             <section class="collect installed" v-for="(collect, i) in installed" :key="collect.type + i"
               @click="removeCollect(i)">

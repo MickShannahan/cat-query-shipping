@@ -37,7 +37,7 @@ class ItemsService {
     if (account.credits < itemCost) throw new BadRequest('not enough credits')
 
     account.credits -= itemCost
-    const rarity = _rollRarity(1000)
+    const rarity = _rollRarity(5000)
     const itemCount = await dbContext.Items.count({ rarity })
     const rand = Math.floor(Math.random() * itemCount)
     const items = await dbContext.Items.find({ rarity }).skip(rand)
