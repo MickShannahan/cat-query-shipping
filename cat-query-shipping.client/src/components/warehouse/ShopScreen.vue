@@ -60,7 +60,7 @@ onUnmounted(() => {
 function startTime() {
   setInterval(() => {
     let now = new Date().getTime()
-    let then = new Date(AppState.shop.updatedAt).getTime() + 1000 * 60 * 3
+    let then = new Date(AppState.shop.updatedAt).getTime() + 1000 * 60 * 15
     let when = then - now
     let time = Math.round(when / 1000)
     if (time <= 0 && time >= -1) {
@@ -77,7 +77,7 @@ function startTime() {
 }
 function selectDeserted() {
   gameService.setItem({
-    name: 'Deserted Shipment',
+    name: 'Abandoned Shipment',
     level: 0,
     cost: 450,
     img: '/assets/img/items/BoxClosed.gif',

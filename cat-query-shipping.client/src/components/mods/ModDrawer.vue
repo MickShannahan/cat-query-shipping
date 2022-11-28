@@ -7,14 +7,18 @@
       </div>
       <div class="offcanvas-body bg-dark-glass container-fluid px-3 py-0">
         <div class="row h-100">
-          <div class="col-4 p-3 ">description</div>
+          <div class="col-4 p-3 text-info">
+            <div class="bg-info text-dark p-2 py-1">Active mods</div>
+            <div class="px-3 " v-html="description"></div>
+          </div>
           <div class=" col-8 mods-tray p-1">
-            <section class="mod installed" v-for="(mod, i) in installed" :key="mod.type + i" @click="removeMod(mod.id)">
+            <section class="mod installed" v-for="(mod, i) in installed" v-tooltip:top="'remove'" :key="mod.type + i"
+              @click="removeMod(mod.id)">
               <div>{{ mod.name }}</div>
               <img :src="mod.img" alt="">
             </section>
-            <section class="mod" :class="{ installed: mod.itemId }" v-for="(mod, i) in inventory" :key="mod.name + i"
-              @click="addMod(mod.id)">
+            <section class="mod" :class="{ installed: mod.itemId }" v-tooltip:auto="mod.description"
+              v-for="(mod, i) in inventory" :key="mod.name + i" @click="addMod(mod.id)">
               <div class="text-light">{{ mod.name }}</div>
               <img :src="mod.img" alt="">
             </section>
@@ -61,6 +65,21 @@ async function addMod(id) {
 function removeMod(id) {
   modsService.removeMod(id)
 }
+const description = computed(() => {
+  let template = ''
+  let dict = {}
+  installed.value?.forEach(mod => {
+    if (mod.data.count) {
+      dict[mod.action] = dict[mod.action] ? dict[mod.action] + mod.data.count : mod.data.count
+    } else if (mod.data.theme) {
+      dict[mod.action] = mod.data.theme
+    }
+  })
+  for (let action in dict) {
+    template += `<div class="row border-bottom border-info">${action} ${dict[action]}</div>`
+  }
+  return template
+})
 </script>
 
 

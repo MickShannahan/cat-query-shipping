@@ -74,8 +74,9 @@ class GameService {
   }
 
   async getShop() { // get the shop or refresh the shop
+    const shopRefresh = process.env.NODE_ENV === 'dev' ? 3 : 15
     const shop = await dbContext.Shops.findOne()
-    if (new Date().getTime() - new Date(shop.updatedAt).getTime() > 1000 * 60 * 3) {
+    if (new Date().getTime() - new Date(shop.updatedAt).getTime() > 1000 * 60 * shopRefresh) {
       const items = await this.refreshShop(shop.itemsForSale)
       shop.itemsForSale = items
       await shop.save()

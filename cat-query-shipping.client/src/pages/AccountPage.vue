@@ -119,6 +119,9 @@ export default {
     const editMode = ref(false)
     const editable = ref({})
     const editTip = ref('edit employee record')
+    onMounted(() => {
+      document.body.style.backgroundImage = "radial-gradient(rgba(2, 0, 36, 0), rgba(34, 65, 60, 0.7)), url('/assets/img/bg/Cups-room-cup.png')"
+    })
     watchEffect(() => {
       profilesService.getProfiles()
       editable.value = AppState.account

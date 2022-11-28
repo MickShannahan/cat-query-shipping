@@ -3,7 +3,7 @@ import { Mod } from "./Mod.js"
 
 
 export class Account {
-  constructor({ email, name, picture, credits, totalCredits, components, currentGuesses, shipmentsFound, shipmentsAbandoned, totalPagesPrinted, currentPagesPrinted, totalRequestsMade, averageRequestsMade, pagesHistory, requestsHistory, leaderScore, employeeGrade, topGrade, gradingPeriod, minDifficulty, maxDifficulty, scolded, praised, needsTour, unlocks, inventory, installedMods }) {
+  constructor({ email, name, picture, credits, totalCredits, components, currentGuesses, shipmentsFound, shipmentsAbandoned, totalPagesPrinted, currentPagesPrinted, totalRequestsMade, averageRequestsMade, currentRequestsMade, pagesHistory, requestsHistory, leaderScore, employeeGrade, topGrade, gradingPeriod, minDifficulty, maxDifficulty, scolded, praised, needsTour, unlocks, inventory, installedMods }) {
     this.email = email
     this.name = name
     this.picture = picture
@@ -16,6 +16,7 @@ export class Account {
     this.totalPagesPrinted = totalPagesPrinted
     this.currentPagesPrinted = currentPagesPrinted
     this.totalRequestsMade = totalRequestsMade
+    this.currentRequestsMade = currentRequestsMade
     this.averageRequestsMade = averageRequestsMade
     this.pagesHistory = pagesHistory
     this.requestsHistory = requestsHistory

@@ -35,7 +35,7 @@ class GameService {
       logger.log('[BUY ITEM]', res.data)
       AppState.account.inventory.push(res.data)
     } catch (error) {
-      Pop.error(error.message)
+      Pop.error(error)
     }
   }
 
@@ -47,7 +47,7 @@ class GameService {
       AppState.hiddenItem = res.data
       return res.data
     } catch (error) {
-      Pop.error(error.message)
+      Pop.error(error)
     }
   }
 
@@ -57,7 +57,7 @@ class GameService {
       const res = await api.delete('api/items/scrap/' + item.id)
       logger.log('[SCRAP ITEM]', res.data)
       AppState.activeItem = {}
-      itemI = AppState.account.inventory.findIndex(it => it.id == item.id)
+      let itemI = AppState.account.inventory.findIndex(it => it.id == item.id)
       AppState.account.inventory.splice(itemI, 1)
       Pop.toast(res.data, 'success')
     } catch (error) {

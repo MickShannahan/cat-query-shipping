@@ -1,12 +1,12 @@
 <template>
   <ModalComponent :id="id">
-    <template #header>You bought</template>
+    <template #header class="bg-dark"></template>
     <template #body class="bg-dark-glass">
       <div class="container-fluid item-area">
         <section v-if="revealed" class="item-img">
           <img class="open-bg" :src="boxImage" alt="">
           <DynamicImage class="item" :image="hiddenItem.img" :background="hiddenItem.background" />
-          <h2 class="item-title">{{ hiddenItem.name }} lv.{{ hiddenItem.level }}</h2>
+          <h2 class="item-title">{{ hiddenItem.name }}</h2>
         </section>
         <section v-else-if="!revealed && hiddenItem.id" class="hidden-img" @click="revealItem">
           <!-- <img class="closed-bg" src="/assets/img/items/BoxClosed.gif" alt=""> -->
@@ -16,10 +16,16 @@
     </template>
     <template #footer>
       <section class="row description  w-100 justify-content-between">
-        <div class="col-6 screen-themetext-theme-primary">
-          <small v-if="revealed" class="reveal-text">
-            {{ hiddenItem.description }}
-          </small>
+        <div class="col-8 screen-theme text-theme-primary inset rounded p-1">
+          <div v-if="revealed" class="reveal-text">
+            <small>
+              {{ hiddenItem.description }}
+            </small>
+            <div class="text-theme-warning d-flex" v-tooltip:bottom="hiddenItem.rarity">
+              <span class="text-theme-secondary mx-3 fw-bold">{{ hiddenItem.type }}</span>
+              <i v-for="n in rarities.indexOf(hiddenItem.rarity) + 1" class="mdi mdi-star"></i>
+            </div>
+          </div>
           <small v-else>
             click on the shipment to open...
           </small>
@@ -44,6 +50,7 @@ import { gameService } from '../../services/GameService.js';
 import { logger } from '../../utils/Logger.js';
 import closed from '/assets/img/items/BoxClosed.gif'
 import open from '/assets/img/items/BoxOpen.gif'
+const rarities = ['common', 'uncommon', 'rare', 'super-rare', 'ultra-rare', 'secret-rare']
 const props = defineProps({ id: String })
 const revealed = ref(false)
 const hiddenItem = computed(() => AppState.hiddenItem)
@@ -136,7 +143,7 @@ $delay: 2.7s;
 }
 
 .description {
-  height: 10vh;
+  min-height: 10vh;
 }
 
 .reveal-text {

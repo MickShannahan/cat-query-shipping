@@ -255,6 +255,7 @@ $val in $themeProperties {
 
     // buttons
     button {
+      background-color: transparent;
       border-style: solid;
       border-width: 1px;
 
@@ -265,21 +266,25 @@ $val in $themeProperties {
       }
     }
 
-    .btn-theme-primary {
-      background-color: transparent !important;
-      border-color: _('primary');
-      color: _('primary');
 
-      &:hover {
-        background-color: transparentize(_('primary'), .3) !important;
-        color: _('screenColor');
-        box-shadow: 0px 0px 3px _('primary');
-      }
+    @each $prop,
+    $val in $themeProperties {
+      .btn-theme-#{$val} {
+        background-color: transparent !important;
+        border-color: _($val);
+        color: _($val);
 
-      &.active {
-        background-color: _('warning') !important;
-        color: _('screenColor');
-        box-shadow: 0px 0px 3px _('warning');
+        &:hover {
+          background-color: transparentize(_($val), .3) !important;
+          color: _('screenColor');
+          box-shadow: 0px 0px 3px _($val);
+        }
+
+        &.active {
+          background-color: _('warning') !important;
+          color: _('screenColor');
+          box-shadow: 0px 0px 3px _('warning');
+        }
       }
     }
 

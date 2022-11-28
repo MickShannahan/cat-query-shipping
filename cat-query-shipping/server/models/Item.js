@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose'
 export const itemTypes = ['junk', 'mod', 'collectable', 'resource', 'data']
-export const itemRarities = ['common', 'uncommon', 'rare', 'rare +', 'ultra-rare', 'secret-rare']
+export const itemRarities = ['common', 'uncommon', 'rare', 'super-rare', 'ultra-rare', 'secret-rare']
 
 export const ItemSchema = new Schema({
   name: { type: String, required: true },

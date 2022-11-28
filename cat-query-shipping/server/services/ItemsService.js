@@ -37,7 +37,7 @@ class ItemsService {
     if (account.credits < itemCost) throw new BadRequest('not enough credits')
 
     account.credits -= itemCost
-    const rarity = _rollRarity(5000)
+    const rarity = _rollRarity(2000)
     const itemCount = await dbContext.Items.count({ rarity })
     const rand = Math.floor(Math.random() * itemCount)
     const items = await dbContext.Items.find({ rarity }).skip(rand)
@@ -125,7 +125,7 @@ export const itemsService = new ItemsService()
 
 function _rollRarity(num) {
   const rarities = itemRarities // common, uncommon, rare, rare +, ultra-rare, secret-rare
-  let values = [47, 32, 14, 4.9, 2.02, 0.08]
+  let values = [44, 30, 17, 6.9, 2.02, 0.08]
   values = values.map(v => Math.round((v / 100) * num))
   let out = []
   values.forEach((v, r) => {

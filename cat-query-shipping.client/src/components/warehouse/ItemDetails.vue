@@ -10,8 +10,8 @@
 
         <div class="item-description border border-theme-primary">
           <p class="bg-theme-primary px-3 fw-bold mb-1 d-flex justify-content-between">
-            <span>{{ item.name }}</span>
-            <span>{{ item.type }}</span>
+            <span class="me-2">{{ item.name }}</span>
+            <span>{{ item.type }}<i v-for="n in rarities.indexOf(item.rarity) + 1" class="mdi mdi-star"></i></span>
           </p>
           <p class="p-1">{{ item.description }}</p>
         </div>
@@ -53,6 +53,7 @@ export default {
   props: { screen: String },
   setup() {
     return {
+      rarities: ['common', 'uncommon', 'rare', 'super-rare', 'ultra-rare', 'secret-rare'],
       item: computed(() => AppState.activeItem),
       background: computed(() => `url(${AppState.activeItem?.background || defaultBg})`),
       async buyItem() {

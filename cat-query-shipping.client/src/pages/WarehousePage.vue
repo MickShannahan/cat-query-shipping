@@ -46,8 +46,7 @@
 
     <!-- SECTION Dialogues -->
     <section>
-      <DialogueV2 :character="Bozko" :btnPosition="1" />
-      <DialogueV2 :character="Kimko" :btnPosition="2" />
+      <DialogueV2 :character="Kimko" :btnPosition="1" />
       <DialogueV2 :character="KimkoShop" :btnPosition="0" />
     </section>
   </section>

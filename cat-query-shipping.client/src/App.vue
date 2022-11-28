@@ -18,6 +18,7 @@
     <!-- STUB mod theme -->
     <ModTheme />
     <!-- mod theme -->
+    <MapComponent />
   </footer>
 </template>
 

@@ -80,7 +80,6 @@ function removeCollect(index) {
 
 .collects-tray {
   height: 100%;
-  max-width: 66vw;
   overflow-y: scroll;
   display: grid;
   grid-template-columns: repeat(auto-fill, 125px);
