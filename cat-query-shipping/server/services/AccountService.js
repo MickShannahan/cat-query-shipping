@@ -17,8 +17,10 @@ import { shipmentsService } from './ShipmentsService'
 async function createAccountIfNeeded(account, user) {
   if (!account) {
     user._id = user.id
+    const shipment = await dbContext.Shipments.findOne({ difficultyRating: 1 })
     account = await dbContext.Account.create({
       ...user,
+      lostShipmentId: shipment._id,
       subs: [user.sub],
       unlocks: []
     })
