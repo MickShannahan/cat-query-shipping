@@ -10,18 +10,10 @@
         <div class="col-md-12 p-2 border-example text-dark">
           <b>Shipment model complete</b>
           <hr class="w-50 mt-2 border-bottom border-danger" />
-          <div
-            class="property"
-            v-for="(value, key) in shipmentModel"
-            :key="key"
-          >
+          <div class="property" v-for="(value, key) in shipmentModel" :key="key">
             <span class="key text-primary">{{ key }}</span>
             :
-            <span
-              class="text-grey"
-              :class="{ redacted: value == '[REDACTED]' }"
-              v-html="value"
-            ></span>
+            <span class="text-grey" :class="{ redacted: value == '[REDACTED]' }" v-html="value"></span>
           </div>
         </div>
         <p></p>
@@ -72,11 +64,11 @@ export default {
 </script>
 
 
-<style scoped>
-@import url("../assets/scss/_variables.scss");
+<style lang="scss" scoped>
 b {
   font-size: 1.1em;
 }
+
 .row {
   position: relative;
 }
