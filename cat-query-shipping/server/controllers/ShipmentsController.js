@@ -21,6 +21,7 @@ export class ShipmentsController extends BaseController {
       .get('/bell', this.getBell)
       .post('/query', this.runQuery)
       .get('/lost', this.getLostShipment)
+      .get('/abandon', this.abandonShipment)
       .post('/:number', this.createThousand)
       .post('', this.createShipment)
   }
@@ -59,6 +60,16 @@ export class ShipmentsController extends BaseController {
       return res.send(shipment)
     } catch (error) {
       logger.log(error)
+      next(error)
+    }
+  }
+
+  async abandonShipment(req, res, next) {
+    try {
+      const user = req.userInfo
+      const shipment = await gameService.abandonShipment(req.query, user)
+      return res.send(shipment)
+    } catch (error) {
       next(error)
     }
   }

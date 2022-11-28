@@ -1,8 +1,8 @@
 <template>
   <div class="d-flex count-container">
-    <div class="shipment-counter text-warning bg-info plastic-shell rounded shadow p-1">
+    <div class="shipment-counter text-warning console-console2 plastic outset rounded shadow p-1">
       <div class="text-primary px-2">shipments left</div>
-      <div class="screen px-2 text-end" :class="{ 'bg-black text-warning': !flash, 'bg-warning text-dark': flash }">
+      <div class="screen-theme inset px-2 text-end" :class="{ 'text-warning': !flash, 'bg-warning text-dark': flash }">
         {{ remaining || '00000' }}
       </div>
     </div>
@@ -87,19 +87,10 @@ export default {
 .shipment-counter {
   position: absolute;
 
-  .screen {
-    border-bottom-color: #c4e9ba;
-    border-right-color: #c4e9ba;
-    border-left-color: #7ab6a2;
-    border-top-color: #7ab6a2;
-  }
-
   div {
     width: 12em;
     position: relative;
   }
-
-  background: var(--bs-info);
 }
 
 .found-card {

@@ -1,13 +1,20 @@
 <template>
   <nav class=" navbar-dark bg-dark-glass row justify-content-center">
     <ShipmentCounter />
-    <div class="row justify-content-center">
-      <router-link class="navbar-brand col-6 text-center" :to="{ name: 'Home' }">
+    <div class="row justify-content-center align-items-center">
+      <div class="col-1"></div>
+      <router-link class="navbar-brand col-3 text-center" :to="{ name: 'Home' }">
         <div class="d-flex align-items-center justify-content-center">
           <img alt="logo" src="../assets/img/CUPS-Logo.png" height="40" />
           <h3 class="site-header ms-2">C.U.P.S</h3>
         </div>
       </router-link>
+      <div class="col-1">
+        <button class="px-3 btn text-info selectable rounded" data-bs-target="#map-offcanvas"
+          data-bs-toggle="offcanvas">
+          <i class="mdi mdi-map pe-1"></i>map
+        </button>
+      </div>
       <section class="row justify-content-center position-relative"
         v-if="account && account.shipmentsFound?.length > 25">
         <div class=" col-7 progress bg-transparent p-0 position-absolute">

@@ -3,6 +3,7 @@ import { dbContext } from '../db/DbContext.js'
 import { AccountSchema } from '../models/Account.js'
 import { accountService } from '../services/AccountService'
 import { gameService } from '../services/GameService'
+import { modsService } from '../services/ModsService.js'
 import { shipmentsService } from '../services/ShipmentsService'
 import { _checkAdmin } from '../utils/AccountValidator.js'
 import BaseController from '../utils/BaseController'
@@ -54,7 +55,7 @@ export class AccountController extends BaseController {
       if (!account.lostShipmentId) {
         await gameService.getLostShipment({}, req.userInfo)
       }
-      let shipment = await shipmentsService.getLostById(account.lostShipmentId)
+      let shipment = await shipmentsService.getLostById(account.lostShipmentId, account)
       if (shipment.glitch && process.env.NODE_ENV !== 'dev') {
         shipment = await gameService.getLostShipment({}, account)
       }

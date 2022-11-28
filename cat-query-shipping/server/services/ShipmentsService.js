@@ -16,10 +16,13 @@ class ShipmentsService {
     query = regexr(query) // converts rg in body to new Regex
     const account = await dbContext.Account.findById(userId).populate('lostShipment')
     const limit = await modsService.getPageLimit(account)
-
+    logger.log('page limit', limit)
     const count = await dbContext.Shipments.count(query)
-    const shipments = await dbContext.Shipments.find(query).limit(limit)
 
+    const modUsed = await modsService.checkForSave(count, limit, account)
+    if (modUsed) return modUsed // if fused blown return it
+
+    const shipments = await dbContext.Shipments.find(query).limit(limit)
     accountService.updateAccountStats(userId, { pages: shipments.length, requests: 1 }, true)
 
     // IF not glitched
@@ -54,12 +57,14 @@ class ShipmentsService {
     return value
   }
 
-  async getLostById(id) {
+  async getLostById(id, account) {
     const shipment = await dbContext.Shipments.findById(id)
     if (!shipment) {
       throw new BadRequest('Invalid Id')
     }
-    return shipment.toObject()
+    const lost = shipment.toObject()
+    await modsService.recoverShipmentData(shipment, lost, account)
+    return lost
   }
 
   async getBell() {

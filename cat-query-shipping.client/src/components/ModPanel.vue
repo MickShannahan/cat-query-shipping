@@ -1,22 +1,37 @@
 <template>
   <div class="mod-panel " :class="{ 'bad-mods': !modsOk }">
-    <ModBase v-for="m in mods" :key="m.id" class="selectable" @click="selectActive(m.id)" @blur="activeMod = {}" :class="{
+    <ModBase v-for="m in mods" :key="m.id" @click="selectActive(m)" @blur="activeMod = {}" :class="{
       'active':
-        m.id == activeMod.id
-    }" :x="m.x" :y="m.y" :slots="m.slots" :type="m.type" />
-
+        m.id == activeMod.id,
+      'unlocked': modConfigure
+    }" :mod="m" :x="m.x" :y="m.y" />
   </div>
+  <div class="mod-btn mt-2 d-flex" :class="{ 'configure': modConfigure }" @click="configure"
+    v-tooltip:right="'configure mods'">
+    <span></span>
+    <div class="mod-thumb">
+    </div>
+  </div>
+  <ModDrawer />
 </template>
 
 
 <script>
 import { AppState } from '../AppState';
-import { computed, reactive, onMounted, ref, watchEffect } from 'vue';
+import { computed, reactive, onMounted, ref, watchEffect, watch } from 'vue';
 import { logger } from '../utils/Logger.js';
+import { Offcanvas } from 'bootstrap';
+import { Mod } from '../models/Mod.js'
+import Pop from '../utils/Pop.js';
+import { modsService } from '../services/ModsService.js';
+import { accountService } from '../services/AccountService.js';
+import { shipmentService } from '../services/ShipmentService.js';
 export default {
 
   setup() {
+    const modConfigure = ref(false)
     const activeMod = ref({})
+    const modsUnlocked = ref(false)
     const slots = ref([
       [0, 0, 0, 0],
       [0, 0, 0, 0],
@@ -25,39 +40,9 @@ export default {
       [0, 0, 0, 0]
     ])
     const modsOk = ref(true)
-    const mods = ref([
-      {
-        id: '123',
-        name: '1',
-        type: 'retry',
-        slots: [[1, 1]],
-        x: 0, y: 0
-      },
-      {
-        id: '345',
-        name: '2',
-        type: 'antenna',
-        slots: [[1, 1], [0, 1]],
-        x: 0, y: 0
-      },
-      {
-        id: '456',
-        name: '3',
-        type: 'battery',
-        slots: [[1], [1]],
-        x: 0, y: 0
-      },
-      {
-        id: '567',
-        name: '4',
-        type: 'retry',
-        slots: [[1, 1]],
-        x: 0, y: 0
-      },
-    ])
-    function selectActive(id) {
-      const mod = mods.value.find(m => m.id == id)
-      if (activeMod.value != mod) {
+    function selectActive(mod) {
+      if (!modsUnlocked.value) return
+      if (activeMod.value.id != mod.id) {
         activeMod.value = mod
         window.addEventListener('keydown', moveMod, false)
       } else {
@@ -68,43 +53,68 @@ export default {
     function moveMod(ev) {
       ev.preventDefault()
       let key = ev.key
+      let mod = activeMod.value
       switch (key) {
         case 'ArrowUp':
-          if (activeMod.value.y > 0)
-            activeMod.value.y--
+          if (mod.y > 0)
+            mod.y--
           break;
         case 'ArrowDown':
-          if (activeMod.value.y + activeMod.value.slots.length < 5)
-            activeMod.value.y++
+          if (mod.y + mod.slots.length < 5)
+            mod.y++
           break;
         case 'ArrowLeft':
-          if (activeMod.value.x > 0)
-            activeMod.value.x--
+          if (mod.x > 0)
+            mod.x--
           break;
         case 'ArrowRight':
-          if (activeMod.value.x + activeMod.value.slots[0].length < 4)
-            activeMod.value.x++
+          if (mod.x + mod.slots[0].length < 4)
+            mod.x++
           break;
       }
     }
     watchEffect(() => {
       let tempSlots = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
-      mods.value.forEach(m => {
-        m.slots.forEach((row, r) => {
+      AppState.account.installedMods?.forEach(mod => {
+        mod.slots.forEach((row, r) => {
           row.forEach((col, c) => {
-            tempSlots[m.y + r][m.x + c] += col
+            tempSlots[mod.y + r][mod.x + c] += col
           })
         })
       })
       slots.value = tempSlots
-      modsOk.value = slots.value.every(r => r.every(c => c <= 1))
+      let good = slots.value.every(r => r.every(c => c <= 1))
+      modsOk.value = good
+      AppState.modsOk = good
+    })
+    watch(modConfigure, () => {
+      console.log('mod configured');
+      Offcanvas.getOrCreateInstance('#mod-drawer').toggle()
     })
     return {
       selectActive,
       slots,
       activeMod,
       modsOk,
-      mods
+      modConfigure,
+      modsUnlocked,
+      mods: computed(() => AppState.account.installedMods),
+      async configure() {
+        if (!modsUnlocked.value) {
+          modsUnlocked.value = true
+          modConfigure.value = true
+        } else if (!modsOk.value) {
+          Pop.toast('invalid mod configuration', 'error')
+          return
+        } else {
+          await modsService.updateMods()
+          await shipmentService.getAccountShipment()
+          modsUnlocked.value = false
+          modConfigure.value = false
+          activeMod.value = {}
+          Pop.toast('Mods Config saved', 'success')
+        }
+      }
     }
   }
 };
@@ -117,8 +127,6 @@ export default {
   display: grid;
   grid-template-columns: repeat(4, 40px);
   grid-template-rows: repeat(5, 40px);
-  background-color: #6de9f9;
-  background-image: url('/src/assets/img/Textures/carbon-fibre.png');
   grid-auto-flow: dense;
 }
 
@@ -132,5 +140,81 @@ export default {
 
 .bad-mods {
   outline: 2px dashed var(--bs-danger);
+}
+
+.mod-btn {
+  width: 50%;
+  margin: auto 0;
+  grid-row: 6 / 7;
+  align-self: baseline;
+  border-radius: 45em;
+
+  span {
+    width: 0px;
+    transition: all .2s ease;
+  }
+
+
+  .mod-thumb {
+    height: 1em;
+    width: 70%;
+    border-radius: 45em;
+    text-align: center;
+    cursor: pointer;
+    transition: all .2s ease;
+
+    &:hover {
+      background-color: #489da8;
+    }
+
+    &::before {
+      content: '';
+
+      width: 50px;
+      height: 1em;
+      background-color: var(--bs-info);
+    }
+
+    i {
+      padding: 0;
+    }
+  }
+}
+
+.unlocked {
+  position: relative;
+
+  &:hover {
+    cursor: pointer;
+
+    &:after {
+      opacity: 0.1;
+    }
+  }
+
+  &:after {
+    border-radius: inherit;
+    bottom: 0;
+    color: inherit;
+    content: "";
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.6, 1);
+    background-color: currentColor;
+  }
+}
+
+.configure {
+  span {
+    width: 30%;
+  }
+
+  .mod-thumb {
+    background-color: var(--bs-info);
+  }
 }
 </style>

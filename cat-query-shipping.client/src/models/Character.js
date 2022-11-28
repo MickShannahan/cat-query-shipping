@@ -123,12 +123,12 @@ export const Kimko = new Character({
   job: 'Data Analyst',
   styles: {
     primary: 'info',
-    small: true,
-    onlyCharacter: true
+    small: false,
+    onlyCharacter: false
   },
   images: {
     base: kimBase,
-    casual: bozCasual,
+    casual: kimBase,
     blink: kimBlink,
     phonicAEI: kimAEI,
     phonicELTH: kimELTH,
@@ -144,6 +144,69 @@ export const Kimko = new Character({
       branches: ["Who are you?", "Can you help me?", "Liquidated Shipments"]
     },
     "Who are you?": {
+      text: "My Name is Kimko, you can call me Kiwi though.  I'm part of the recovered shipments warehouse team.  I analyze the shipments that are found by your team and basically just make charts graphing data about them.  When they were lost, how long they were lost, what they had in them. Stuff like that.  I also Sell stuff down here.",
+      branches: ['You have a shop?', '[Go Back]'],
+    },
+    "Can you help me?": {
+      //#region can you help me
+      text: "With what? Your job? Nah, not my thing. I don't really like desk work, that's why I work down here. However, I might be able to help you out another way. Ever heard of 'mods' before? I can help you get some.",
+      branches: ["What are mods?", "How do I get mods?", '[Go Back]']
+    },
+    "What are mods?": {
+      text: "Mods are little chips you can plug into your 'puter back upstairs. They can do a whole suite of things from helping you find shipments to keeping certain thing's off your employee record. They could really help you out when things get tough.",
+      branches: ['[Go Back]']
+    },
+    "How do I get mods?": {
+      text: "There are a few ways. You can buy them from me, you can find them in abandoned shipments or I can make them for you. For that though you'll need to get me the parts. Oh and I charge a fee...obviously.",
+      branches: ["Parts?", "You have a shop?", "Abandoned Shipments?", '[Go Back]']
+    },
+    "Parts?": {
+      text: "Yea computer parts. Wires, resistors, chips, leds, boards. All that good stuff. You can usually find those in abandoned shipments too or scrap junk you find for them.",
+      branches: ['[Go Back]']
+    },
+    "You have a shop?": {
+      text: "Yup! I sell mods that I find or make in it. Check back every once and a while cause I change it out frequently.",
+      branches: ['[Go Back]']
+    },
+    "Abandoned Shipments": {
+      text: "Ah yeah, most employees don't know about this perk of the job but it can be really nice. When shipments are recovered, the recipient is given a window of time to re-arrange another delivery attempt. When they miss that window they go up for sale to us. You'd buying the shipment without knowing what's inside though. So obviously no refunds.",
+      branches: ['Anything good in them?', '[Go Back]']
+    },
+    "Anything good in them?": {
+      text: "Sure.  They can have all sorts of stuff from mods to collectables.  But they can also often  be full of just junk too so buy at your own risk.",
+      branches: ['[Go Back]']
+    }
+  }
+})
+// STUB Kimko shop variant
+export const KimkoShop = new Character({
+  name: 'KimkoShop',
+  nickName: 'Kiwi',
+  position: 'Recovered Shipment Warehouse',
+  job: 'Data Analyst',
+  styles: {
+    primary: 'info',
+    small: true,
+    onlyCharacter: true
+  },
+  images: {
+    base: kimBase,
+    casual: kimBase,
+    blink: kimBlink,
+    phonicAEI: kimAEI,
+    phonicELTH: kimELTH,
+    phonicFVJ: kimFVJ,
+    phonicOUQ: kimOUQ,
+    phonicR: kimR
+
+  },
+  startingBranch: 'just a test',
+  chatTree: {
+    "[Open Shop]": {
+      text: "Looking for something to buy?",
+      branches: []
+    },
+    "Who are you?": {
       text: "My Name is Kimko, you can call me Kiwi though.  I'm part of the recovered shipments warehouse team.  I analyze the shipments that are found by your team and basically just make charts graphing data about them.  When they were lost, how long they were lost, what they had in them. Stuff like that.",
       branches: ['[Go Back]'],
     },
@@ -157,20 +220,23 @@ export const Kimko = new Character({
       branches: ['[Go Back]']
     },
     "How do I get mods?": {
-      text: "You can find them in liquidated shipments or I can make them for you. For that though you'll need to get me the parts. Oh and I charge a fee...obviously.",
-      branches: ["Parts?", '[Go Back]']
+      text: "There are a few ways. You can buy them from me, you can find them in abandoned shipments or I can make them for you. For that though you'll need to get me the parts. Oh and I charge a fee...obviously.",
+      branches: ["Parts?", "You have a shop?", "Abandoned Shipments?", '[Go Back]']
     },
-    //#endregion can you help me
     "Parts?": {
-      text: "Yea computer parts. Wires, resistors, chips, leds, boards. All that good stuff. You can usually find those in liquidated shipments too.",
+      text: "Yea computer parts. Wires, resistors, chips, leds, boards. All that good stuff. You can usually find those in abandoned shipments too or scrap junk you find for them.",
       branches: ['[Go Back]']
     },
-    "Liquidated Shipments": {
+    "You have a shop?": {
+      text: "Yup! I sell mods that I find or make in it. Check back every once and a while cause I change it out frequently.",
+      branches: ['[Go Back]']
+    },
+    "Abandoned Shipments": {
       text: "Ah yeah, most employees don't know about this perk of the job but it can be really nice. When shipments are recovered, the recipient is given a window of time to re-arrange another delivery attempt. When they miss that window they go up for sale to us. You'd buying the shipment without knowing what's inside though. So obviously no refunds.",
       branches: ['Anything good in them?', '[Go Back]']
     },
     "Anything good in them?": {
-      text: "Sure.  They can have mods, components or other collectables.  But they can often  be full of just junk too so buy at your own risk.",
+      text: "Sure.  They can have all sorts of stuff from mods to collectables.  But they can also often  be full of just junk too so buy at your own risk.",
       branches: ['[Go Back]']
     }
   }

@@ -1,46 +1,55 @@
 <template>
-  <div class="lost-shipment  bg-primary plastic-shell physical-border my-2 p-2 ps-1">
+  <div class="lost-shipment  console-console plastic outset my-2 p-2 ps-1">
     <!-- STUB side bar -->
     <div class="component-panel ps-1 pe-3">
       <!-- <button class="btn btn-outline-light h-25" @click="getLostShipment">get new</button> -->
 
       <!-- SECTION MODS -->
-      <div class="mods d-none">
+      <div class="mods">
         <ModPanel />
       </div>
 
+
       <!--  -->
       <transition name="slot">
-        <button id="tour-new-shipment" class="new-ship-btn comp-button comp-yellow p-2 mb-5 w-100"
-          v-tooltip:bottom="'get new lost shipment'" @click="getLostShipment">
-          <i class="mdi mdi-card-bulleted-outline"></i>
-        </button>
-        <!-- TODO better datacard usage -->
-        <!-- <DataCard v-if="lostShipment.id" :data="lostShipment" /> -->
       </transition>
+      <button v-if="account.employeeGrade?.length >= 4" id="tour-new-shipment"
+        class="new-ship-btn comp-button comp-yellow p-2 mb-5 w-100" v-tooltip:bottom="'get new lost shipment'"
+        @click="getLostShipment">
+        <i class="mdi mdi-refresh"></i>
+        <i class="mdi mdi-card-bulleted-outline"></i>
+      </button>
+      <button v-else id="tour-new-shipment" class="new-ship-btn comp-button comp-yellow p-2 mb-5 w-100"
+        v-tooltip:bottom="'abandon this shipment'" @click="abandonShipment">
+        <i class="mdi mdi-alert-box-outline"></i>
+        <i class="mdi mdi-card-bulleted-outline"></i>
+      </button>
+      <!-- TODO better datacard usage -->
+      <!-- <DataCard v-if="lostShipment.id" :data="lostShipment" /> -->
       <!-- <div class="card-slot-bottom"></div>
       <div class="card-slot-top"></div> -->
     </div>
     <CardTray />
     <!-- STUB Screen -->
-    <div id="tour-shipment-panel" class="shipment-panel p-1 px-2 p-md-3 screen text-info screen-on">
+    <div id="tour-shipment-panel" class="shipment-panel p-1 px-2 p-md-3 screen-theme inset rounded screen-on">
       <div class="row p-2">
         <!-- STUB shipment side -->
-        <div id="tour-shipment-details" class="col-md-9 pe-3">
+        <div id="tour-shipment-details" class="col-md-9 pe-3 text-theme-primary">
           <transition name="screenEffect" mode="out-in">
-            <div id="shipment-details" v-if="lostShipment.id" class="row border border-info">
+            <div id="shipment-details" v-if="lostShipment.id" class="row border border-theme-primary">
               <div v-for="(value, key) in lostShipment" v-show="visible(key)" :key="key + value" class="col-md-6">
                 <div class="glitch">
-                  <span :id="key + '-key'" class="hover text-secondary lighten-30 line key" :data-text="key"
-                    @click="copy">{{ key }}</span>:
+                  <span :id="key + '-key'" class="hover text-theme-secondary lighten-30 line key" :data-text="key"
+                    @click="copy" v-html="recover(key)"></span>:
                 </div>
                 <span class="glitch">
-                  <span :id="key + '-value'" class="hover line value" @click="copy" :data-text="value">
-                    {{ value }}</span>
+                  <span :id="key + '-value'" class="hover line value" @click="copy" :data-text="value"
+                    v-html="recover(value)">
+                  </span>
                 </span>
               </div>
             </div>
-            <div v-else class="row justify-content-center border border-info">
+            <div v-else class="row justify-content-center border border-theme-primary">
               <div class="col-6 text-center">
                 <img class="img-correction" src="../assets/img/CUPS-loadingLow.gif" />
                 <p>loading...</p>
@@ -49,9 +58,9 @@
           </transition>
         </div>
         <!-- STUB Stats side -->
-        <div id="tour-shipment-stats" class="col-md-3">
+        <div id="tour-shipment-stats" class="col-md-3 text-theme-primary">
           <div class="row h-100">
-            <div class="col-12 border border-info mb-1">
+            <div class="col-12 border border-theme-primary mb-1">
               <div class="row">
                 <div class="col-12 d-flex justify-content-between">
                   <span>searches:</span><span class="ms-push">
@@ -65,7 +74,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-12 border border-info">
+            <div class="col-12 border border-theme-primary">
               <div class="row">
                 <div class="col-12 d-flex justify-content-between">
                   <span>difficulty:</span><span class="ms-push">
@@ -93,8 +102,9 @@
 
 <script>
 import { AppState } from '../AppState';
-import { computed, reactive, onMounted, ref } from 'vue';
+import { computed, reactive, onMounted, ref, useCssModule } from 'vue';
 import { shipmentService } from '../services/ShipmentService';
+import { modsService } from '../services/ModsService.js'
 import Pop from '../utils/Pop';
 import { logger } from '../utils/Logger';
 export default {
@@ -107,6 +117,7 @@ export default {
       account: computed(() => AppState.account),
       creditsWorth: computed(() => AppState.lostShipment.creditsWorth),
       difficulty: computed(() => AppState.lostShipment.difficultyRating),
+      recoveredData: computed(() => AppState.lostShipment.recoveredData),
       glitchProgress,
       glitchWidth: computed(() => glitchProgress.value + '%'),
       lostShipment: computed(() => {
@@ -117,20 +128,54 @@ export default {
       getLostShipment() {
         shipmentService.getLostShipment(``)
       },
+      async abandonShipment() {
+        try {
+          if (await Pop.confirm(`Abandon this shipment?`, `Abandoning this shipment for a new one will cost you: ${Math.floor(this.lostShipment.creditsWorth / 3)} Union Credits.`, 'warning', 'yes, get me a new one', 'never mind'))
+            await shipmentService.abandonShipment()
+        } catch (error) {
+          logger.log(error)
+          Pop.error(error.message)
+        }
+      },
       difficultyChange(val) {
         newDifficulty.value += val
         newDifficulty.value = newDifficulty.value <= 1 ? 1 : newDifficulty.value >= 20 ? 20 : newDifficulty.value
       },
+      recover(sProp) {
+        let recoveredData = AppState.lostShipment.recoveredData
+        if (recoveredData) {
+          for (let damageType in recoveredData) {
+            switch (damageType) {
+              case 'damagedKeys':
+                for (let key in recoveredData.damagedKeys) {
+                  sProp = sProp == recoveredData.damagedKeys[key] ? `<span style="border-bottom: 1px dotted;">${key}</span>` : sProp
+                }
+                break
+              case 'damagedProperties':
+                for (let key in recoveredData.damagedProperties) {
+                  sProp = sProp == key ? `<span style="border-bottom: 1px dotted;">${recoveredData.damagedProperties[sProp]}</span>` : sProp
+                }
+                break
+              case 'missingProperties':
+            }
+          }
+        }
+        return sProp
+      },
       copy() {
+        let mod = modsService.findMod('copy_paste')
+        if (!modsService.useMod(mod.id)) return
         let elem = event.target
         logger.log(elem)
-        navigator.clipboard.writeText(elem.innerText)
+        navigator.clipboard.writeText(this.recover(elem.innerText))
         Pop.toast('copied ' + elem.innerText, 'success', 'top')
       },
       visible(key) {
-        let notShown = ['_id', 'id', '__v', 'creditsWorth', 'difficultyRating', 'glitch', 'postalHistory', 'postalStation', 'containsHazard', 'glitchData']
+        let notShown = ['_id', 'id', '__v', 'creditsWorth', 'difficultyRating', 'glitch', 'postalHistory', 'postalStation', 'containsHazard', 'glitchData', 'recoveredData']
         return !notShown.includes(key)
-      }
+      },
+      // MODS
+      themePrimary: computed(() => AppState.modTheme ? AppState.modTheme.primary : '#A4D5A5')
     }
   }
 };
@@ -149,12 +194,14 @@ export default {
   grid-column: 1 2;
   display: grid;
   grid-template-columns: repeat(4, 40px);
-  grid-template-rows: repeat(5, 40px) 1fr 1em 60px;
+  grid-template-rows: repeat(5, 40px) 1.25em 1fr 60px;
 
   .mods {
     grid-column: span 4;
     grid-row: span 5;
   }
+
+
 
   .new-ship-btn {
     grid-column: 2 / 4;
@@ -165,7 +212,7 @@ export default {
 }
 
 .shipment-panel {
-  grid-column: 2 3
+  grid-column: 2 / 3
 }
 
 .screen {
@@ -175,6 +222,10 @@ export default {
 .dirty-screen {
   background-image: url(/src/assets/img/Textures/green-dust-and-scratches.png);
   background-blend-mode: darken;
+}
+
+.recovered {
+  border-bottom: 1px dotted;
 }
 
 .card-slot-bottom {
@@ -233,7 +284,7 @@ export default {
   top: 0px;
   bottom: 0px;
   width: v-bind(glitchWidth);
-  background: var(--bs-info);
+  background: var(--bs-theme);
   transition: linear 0.5s width;
   transition-delay: 0.2s;
 }
@@ -305,7 +356,7 @@ export default {
 
       80% {
         transform: translateX(0);
-        color: var(--bs-info);
+        color: var(--bs-theme);
       }
 
       85% {

@@ -1,36 +1,21 @@
 <template>
   <div class="row mx-auto mb-1" @click="checkAnswer">
     <div class="col-12 paper-edge rounded py-0">
-      <div
-        class="shipment row my-0 mx-5 perferated-edge-bottom px-2"
-        :class="{
-          'bg-paper': !hasBeenGuessed,
-          'bg-danger lighten-30': hasBeenGuessed,
-        }"
-      >
+      <div class="shipment row my-0 mx-5 perferated-edge-bottom px-2" :class="{
+        'bg-paper': !hasBeenGuessed,
+        'bg-danger lighten-30': hasBeenGuessed,
+      }">
         <div class="col-12 action">
           <div class="row p-2 ps-3">
-            <div
-              class="col-6"
-              v-for="(value, key) in shipment"
-              v-show="visible(key)"
-              :key="key"
-            >
+            <div class="col-6" v-for="(value, key) in shipment" v-show="visible(key)" :key="key">
               <b class="">{{ key }}</b>
-              <span v-if="key != 'description'" class="text-dark lighten-20"
-                >: {{ value }}</span
-              >
+              <span v-if="key != 'description'" class="text-dark lighten-20">: {{ value }}</span>
               <span v-else class="text-dark lighten-20">: [omitted]</span>
             </div>
           </div>
         </div>
         <div class="col-4 stamp-incorrect" v-if="hasBeenGuessed">
-          <img
-            class="stamp"
-            src="../assets/img/incorrectStamp.png"
-            loading="eager"
-            alt=""
-          />
+          <img class="stamp" src="../assets/img/incorrectStamp.png" loading="eager" alt="" />
         </div>
       </div>
     </div>
@@ -62,7 +47,7 @@ export default {
         accountService.checkAnswer(props.shipment._id)
       },
       visible(key) {
-        let notShown = ['_id', 'id', '__v', 'creditsWorth', 'difficultyRating', 'glitch', 'postalHistory', 'insuredCost', 'hazard', 'description', 'postalStation', 'glitchData']
+        let notShown = ['_id', 'id', '__v', 'creditsWorth', 'difficultyRating', 'glitch', 'postalHistory', 'insuredCost', 'hazard', 'description', 'postalStation', 'glitchData', 'recoveredData']
         return !notShown.includes(key)
       }
     }
@@ -73,10 +58,12 @@ export default {
 
 <style lang="scss" scoped>
 @import "../assets/scss/main.scss";
+
 .shipment {
   transform: scaleY(0);
   // transition: all 0.15s ease;
 }
+
 // .shipment:hover {
 //   outline: 1px solid #a4d5a5;
 //   background: #a4d5a53f;
@@ -98,6 +85,7 @@ export default {
   image-rendering: pixelated;
   background-size: 8em;
   transition: all 0.15s ease;
+
   &:hover {
     transform: scale(1.01);
     outline: 2px solid #a4d5a5;
@@ -136,6 +124,7 @@ export default {
     opacity: 0%;
     transform: scale(1.2) rotate(30deg);
   }
+
   100% {
     opacity: 70%;
     transform: scale(1) rotate(30deg);

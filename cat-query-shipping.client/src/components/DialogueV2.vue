@@ -1,6 +1,6 @@
 <template>
   <div class="row justify-content-end">
-    <button id="tour-dialogue" class="
+    <button v-if="btnPosition > 0" id="tour-dialogue" class="
         btn btn-success
         help-button
         border border-info
@@ -27,7 +27,9 @@
           Help from {{ character.name }}
         </h5>
       </div>
-      <div class="offcanvas-body row">
+
+      <!-- active chat window -->
+      <section class="offcanvas-body row">
         <div class="
             col-8 col-md-3
             d-flex
@@ -41,6 +43,7 @@
             {{ ct }}
           </button>
         </div>
+        <!-- STUB active chat -->
         <div class="col-6 p-0 text-box-shadow">
           <div class="
               h-100
@@ -54,17 +57,18 @@
               character-chat
             " :class="{ active }" v-html="spoken || text"></div>
         </div>
+        <!-- STUB passive chat -->
         <div class="col-1"></div>
         <div class="col-2 character-container">
           <!-- Character Base -->
           <img v-if="!casualFriday" :src="character.images.base" class="character"
             :class="{ 'hide-character': hide }" />
-          <img v-else :src="character.images.casual" :class="{ 'hide-character': hide }" />
+          <img v-else :src="character.images.casual" class="character" :class="{ 'hide-character': hide }" />
           <img :src="character.images.blink" class="character blink" v-show="status == 'blink' && !busy"
             :class="{ 'hide-character': hide }" />
           <img :src="talking" class="character blink" v-show="talking" :class="{ 'hide-character': hide }" />
         </div>
-      </div>
+      </section>
     </div>
   </div>
 </template>
@@ -72,7 +76,7 @@
 
 <script>
 import { AppState } from '../AppState';
-import { computed, reactive, onMounted, ref, watchEffect } from 'vue';
+import { computed, reactive, onMounted, ref, watchEffect, watch } from 'vue';
 import { chatService } from '../services/ChatService'
 import { logger } from '../utils/Logger';
 import { Character } from '../models/Character.js'
@@ -107,7 +111,6 @@ export default {
         Offcanvas.getOrCreateInstance(dialogue).show()
         chat('[Get Started]')
       }
-
     })
 
     function blink() {
@@ -139,16 +142,18 @@ export default {
         intervals.value.push(setInterval(() => {
           let c = text.shift()
           if (c) {
-            active.value = true
             phonic(c)
             spoken.value += c
           } else {
-            setTimeout(() => active.value = false, 4000)
             clearInterval(interval)
             talking.value = ''
           }
         }, timeBetweenChar))
       }
+    })
+    watch(AppState => {
+      AppState.characterQuips
+      logger.log('active', AppState.characterQuips)
     })
     function phonic(sound) {
       let s = props.character.images
@@ -190,9 +195,10 @@ export default {
 
 
 <style lang='scss' scoped>
-// .bg-char-primary {
-//   background-color: v-bind(stylePrimary);
-// }
+.offcanvas {
+  z-index: 20000 !important;
+}
+
 .only-character {
   background-color: transparent !important;
   border: 0px;
@@ -260,6 +266,8 @@ export default {
   image-rendering: pixelated;
   bottom: -15px;
   right: -90px;
+  border-top-right-radius: 19em;
+  border-top-left-radius: 30em;
   position: absolute;
   height: 50vh;
   aspect-ratio: 1;

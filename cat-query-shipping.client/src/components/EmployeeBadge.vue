@@ -26,7 +26,7 @@ import { computed } from "@vue/reactivity"
 import { User } from "../models/User"
 import { logger } from "../utils/Logger"
 export default {
-  props: { user: { type: User, required: true }, draggable: { type: Boolean, default: true } },
+  props: { user: { type: Object, required: true }, draggable: { type: Boolean, default: true } },
   setup(props) {
     return {
       empPicture: computed(() => `url(${props.user.picture})`),

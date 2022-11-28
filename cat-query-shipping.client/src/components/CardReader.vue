@@ -1,7 +1,7 @@
 <template>
   <div class="reader bg-danger plastic-shell shadow">
     <div v-if="loggedIn" class="row reader-buttons">
-      <div class="screen p-1">
+      <div class="screen-theme p-1">
         <button class="btn btn-outline-info rounded-0" @click="goTo('Account')">
           employee record
         </button>
@@ -22,7 +22,7 @@
           flex-wrap
         ">
         <div class="col-5">
-          <p class="screen text-warning px-1 pt-1 w-100 m-0">
+          <p class="screen-theme text-warning px-1 pt-1 w-100 m-0">
             {{ account.credits || "0000" }}
           </p>
           <small class="text-danger darken-20">

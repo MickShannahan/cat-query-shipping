@@ -1,11 +1,15 @@
 import { Schema } from 'mongoose'
 import { ItemSchema } from './Item.js'
 
-const InstalledMod = new Schema({
+export const InstalledMod = new Schema({
   ...ItemSchema.obj,
+  itemId: { type: Schema.Types.ObjectId, ref: 'Item' },
   x: { type: Number, default: 0 },
-  y: { type: Number, default: 0 }
-})
+  y: { type: Number, default: 0 },
+  slots: [{ type: Array }],
+  action: { type: String },
+  data: { type: Object }
+}, { toJSON: { virtuals: true } })
 
 export const employeeGrades = ['S++', 'S+', 'S', 'A+', 'A', 'B', 'C', 'D', 'Bob Cat', 'Tabby', 'Kitten', 'Trainee', '']
 
@@ -47,7 +51,7 @@ export const AccountSchema = new Schema(
     unlocks: [{ type: String }],
     // STUB If you wish to add additional properties do so here
     inventory: [{ type: Schema.Types.ObjectId, ref: 'Item' }],
-    installedMods: [{ type: InstalledMod }]
+    installedMods: [InstalledMod]
   },
   { timestamps: true, toJSON: { virtuals: true } }
 )

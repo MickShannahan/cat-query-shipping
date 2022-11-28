@@ -3,48 +3,51 @@
       computer
       row
       justify-content-around
-      bg-primary
-      plastic-shell
+     console-console
+     plastic
+     outset
       shadow
-      physical-border
+      outset-console
       p-3
       pb-1
     ">
     <div class="col-12 search mb-3">
       <div class="d-flex">
-        <label for="basic-url" class="form-label bg-info rounded py-1 px-3">make a query to find the lost
+        <label for="basic-url" class="form-label console-console2 rounded py-1 px-3">make a query to find the lost
           shipment</label>
         <button :disabled="unlockMongo" :class="{ 'cursor-locked': unlockMongo }"
           class="switch-button comp-button ms-auto mb-2 p-1 px-2" type="button" @click="switchScreen">
           mongo
         </button>
       </div>
-      <div id="tour-search" class="input-group text-info">
-        <span class="input-group-text bg-dark text-success" id="basic-addon3">{{
-            baseUrl
-        }}</span>
+      <div id="tour-search" class="input-group text-theme-primary">
+        <span class="input-group-text screen-theme-variant border border-theme-primary input text-theme-secondary"
+          id="basic-addon3">{{
+              baseUrl
+          }}</span>
         <!-- STUB search input -->
-        <input spellcheck="false" autocomplete="off" v-model="query" type="text" class="form-control bg-dark text-info"
-          id="basic-url" aria-describedby="basic-addon3" @input="httpValidizer" />
+        <input spellcheck="false" autocomplete="off" v-model="query" type="text"
+          class="form-control border border-theme-primary screen-theme input text-theme-primary" id="basic-url"
+          aria-describedby="basic-addon3" @input="httpValidizer" />
       </div>
     </div>
 
     <div class="
         col-8
-        screen
-        bg-black
+        screen-theme
+        inset
         rounded
         glow
         p-2
-        text-success
+        text-theme-success
         no-click
         clip-text
       " v-html="httpQuery"></div>
     <button class="col-1 comp-button comp-yellow" @click="clearInput">
       clear
     </button>
-    <button class="col-2 comp-button comp-green" :class="{ 'cursor-invalid-url': unsafeUrl }" :disabled="unsafeUrl"
-      @click="searchShipmentDatabase">
+    <button class="col-2 comp-button comp-green" :class="{ 'cursor-invalid-url': unsafeUrl }"
+      :disabled="unsafeUrl || !modsOk" @click="searchShipmentDatabase">
       search
     </button>
     <div class="col-12 p-3 font-yellowtail text-chrome">
@@ -73,6 +76,7 @@ export default {
       unsafeUrl,
       unlockMongo: computed(() => !AppState.account.unlocks?.includes('mongo-terminal')),
       baseUrl: computed(() => AppState.baseUrl),
+      modsOk: computed(() => AppState.modsOk),
       async searchShipmentDatabase() {
         try {
           await shipmentService.searchShipmentDatabase(query.value)
@@ -122,11 +126,6 @@ export default {
 //   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%235da3ac' fill-opacity='1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
 // }
 
-input {
-  &:valid {
-    border: 1px solid var(--bs-info);
-  }
-}
 
 .computer {
   min-height: 25vh;

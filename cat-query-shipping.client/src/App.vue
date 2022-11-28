@@ -1,4 +1,4 @@
-<template data-simplebar>
+<template data-simplebar >
   <header class="container-fluid ">
     <Navbar />
   </header>
@@ -13,13 +13,17 @@
     <div class="me-auto selectable text-light p-2 rounded" @click="switchBg"><i class="mdi mdi-lightbulb-outline"></i>
     </div>
     <div class="text-light text-center p-2 me-auto">
-      Made with your <i class="mdi mdi-google-podcast"></i> Union Tax Credits
+      Made with your <i class="mdi mdi-google-podcast text-theme-primary"></i> Union Tax Credits
     </div>
+    <!-- STUB mod theme -->
+    <ModTheme />
+    <!-- mod theme -->
+    <MapComponent />
   </footer>
 </template>
 
 <script>
-import { computed, ref } from 'vue'
+import { computed, ref, useCssModule } from 'vue'
 import { AppState } from './AppState'
 import isoLight from '/src/assets/img/bg/Cups-room-iso.png'
 import isoDark from '/src/assets/img/bg/Cups-room-iso-dark.png'
@@ -40,6 +44,8 @@ export default {
 }
 </script>
 <style lang="scss">
+@import "./assets/scss/main.scss";
+
 .tour-boz {
   position: absolute;
   top: -80px;
@@ -60,7 +66,6 @@ body {
   transition: background-image linear .5s;
 }
 
-@import "./assets/scss/main.scss";
 
 .route-enter-active,
 .route-leave-active {

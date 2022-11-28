@@ -3,6 +3,7 @@ import { AccountSchema, ProfileSchema } from '../models/Account'
 import { ChatSchema } from '../models/Chat'
 import { ItemSchema } from '../models/Item.js'
 import { ShipmentSchema } from '../models/Shipment'
+import { ShopSchema } from '../models/Shop.js'
 
 class DbContext {
   Chats = mongoose.model('Chat', ChatSchema)
@@ -10,6 +11,8 @@ class DbContext {
   Account = mongoose.model('Account', AccountSchema);
   Profiles = mongoose.model('Profile', ProfileSchema, 'accounts');
   Items = mongoose.model('Item', ItemSchema)
+
+  Shops = mongoose.model('Shop', ShopSchema)
 }
 
 export const dbContext = new DbContext()
