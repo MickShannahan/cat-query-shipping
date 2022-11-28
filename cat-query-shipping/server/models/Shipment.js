@@ -112,7 +112,7 @@ export const ShipmentSchema = new Schema(
 
 export class RandomShipment {
   constructor(rating, data = {}) {
-    this.recipient = data.recipient || Cat.getName()
+    this.recipient = data.recipient || Cat.getName() || 'Mayor Snibblysmith'
     this.trackingNumber = data.trackingNumber || tracking()
     this.description = data.description || description()
     this.fragile = data.fragile || bool()

@@ -115,7 +115,7 @@ export class ShipmentsController extends BaseController {
       const curve =
         [0.02, 0.03, 0.06, 0.11, 0.16, 0.22, 0.28, 0.35, 0.42, 0.5, 0.58, 0.65, 0.72, 0.78, 0.84, 0.89, 0.94, 0.96, 0.98, 0.99]
       for (let i = 0; i < count; i++) {
-        const shipment = new RandomShipment(curve.findIndex(c => c >= i / count) + 1)
+        const shipment = new RandomShipment(curve.findIndex(c => c >= i / count) + 1, req.body)
         await shipmentsService.create(shipment)
       }
       return res.send('done')

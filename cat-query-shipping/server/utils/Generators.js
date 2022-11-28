@@ -361,7 +361,6 @@ export function damageProperty(prop) {
       if (chance(0.4)) {
         return cypherString(prop)
       } else if (parseInt(prop) && chance(0.6)) {
-        logger.log('String Binary')
         return prop.split('').map(c => parseInt(c) ? binary(c) : c).join('')
       } else {
         prop = prop.split('')
@@ -378,10 +377,10 @@ export function damageProperty(prop) {
       return '...'
   }
 }
-
+let count = 0
 export function damageShipment(shipment, difficulty) {
   const options = ['miss', 'keys', 'keys', 'vals', 'vals']
-  const weights = { miss: 1, keys: 0.3, vals: 0.7 }
+  const weights = { miss: 1, keys: 0.3, vals: 0.75 }
   let glitchChance = false
   let max = difficulty * 1.2
   let missMax = Math.round(difficulty / 1.8)
@@ -391,10 +390,13 @@ export function damageShipment(shipment, difficulty) {
   if (difficulty > 7) { shipment.damagedProperties.recipient = damageProperty(shipment.recipient); damages.vals.recipient = 4 }
   if (difficulty > 10) { max *= 1.15 }
   if (difficulty > 10) { glitchChance = chance(0.4) }
-  if (difficulty > 12) { missMax = Math.round(difficulty / 2.7) }
+  if (difficulty > 12) { missMax = Math.round(difficulty / 2.2) }
   if (difficulty > 17) { max = 30 }
-
+  logger.log('shipment', difficulty, ++count)
+  let itts = 0
   for (let points = 0; max >= points;) {
+    itts++
+    if (itts > 40) break
     logger.log('points', max, points)
     const weight = random(Object.keys(props))
     const prop = random(props[weight])
