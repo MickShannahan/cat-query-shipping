@@ -33,13 +33,15 @@ class GameService {
   // abandons shipment then gets a new one
   async abandonShipment(query = {}, user) {
     const account = await accountService.getAccount(user)
-    const shipment = await shipmentsService.getById(account.lostShipmentId)
-    const abandonCost = Math.floor(shipment.creditsWorth / 3)
-    if (account.credits <= abandonCost) throw new BadRequest('Not enough credits to abandon this shipment.')
-    account.credits -= abandonCost
-    shipment.creditsWorth += Math.round(abandonCost / 2)
-    await account.save()
-    await shipment.save()
+    const shipment = await dbContext.Shipments.findById(account.lostShipmentId)
+    if (shipment) {
+      const abandonCost = Math.floor(shipment.creditsWorth / 3)
+      if (account.credits <= abandonCost) throw new BadRequest('Not enough credits to abandon this shipment.')
+      account.credits -= abandonCost
+      shipment.creditsWorth += Math.round(abandonCost / 2)
+      await account.save()
+      await shipment.save()
+    }
     const newShipment = await this.getLostShipment(query, user)
     return newShipment
   }
