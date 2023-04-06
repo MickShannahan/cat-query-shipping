@@ -6,7 +6,7 @@
       </div>
       <div class="col-6">
         <span v-for="(n, b) in glitchData.burned" :key="b" :class="{ 'text-danger': n == 5, 'text-warning': n == 3 }">{{
-            b
+          b
         }}
         </span>
       </div>
@@ -21,6 +21,7 @@ import { AppState } from '../../AppState';
 import { onMounted, watchEffect } from '@vue/runtime-core';
 import { logger } from '../../utils/Logger';
 import Pop from "../../utils/Pop";
+import { onBeforeUnmount } from 'vue';
 export default {
   setup() {
     const blockVal = 5
@@ -108,6 +109,13 @@ export default {
         branches: [title]
       }
       AppState.bozNotification = ['[glitch]']
+    })
+    onBeforeUnmount(() => { //thanks Ry 🍞
+      let inputBox = document.getElementById('basic-url') || document.getElementById('code-window')
+      if (inputBox) {
+        inputBox.removeEventListener('keyup', keyPress)
+        inputField.value = inputBox.value
+      }
     })
     return {
       personality,

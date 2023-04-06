@@ -18,16 +18,9 @@ class ProfileService {
     * @param {string} name
    */
   async findProfiles(name = '', offset = 0) {
-    const filter = new RegExp(name, 'ig')
-    return await dbContext.Profiles
-      .aggregate([{
-        $match: { name: filter }
-      }])
-      .collation({ locale: 'en_US', strength: 1 })
-      .skip(Number(offset))
-      .sort('leaderScore totalCredits')
-      .limit(100)
-      .exec()
+    const regx = new RegExp(name, 'ig')
+    const profiles = await dbContext.Profiles.find({ name: { $regex: regx } }).sort({ leaderScore: -1, totalCredits: -1 }).limit(100)
+    return profiles
   }
 
   async findEmployeesOfMonth() {

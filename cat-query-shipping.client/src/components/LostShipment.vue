@@ -130,7 +130,8 @@ export default {
       },
       async abandonShipment() {
         try {
-          if (await Pop.confirm(`Abandon this shipment?`, `Abandoning this shipment for a new one will cost you: ${Math.floor(this.lostShipment.creditsWorth / 3)} Union Credits.`, 'warning', 'yes, get me a new one', 'never mind'))
+          const cost = this.lostShipment.creditsWorth ? Math.floor(this.lostShipment.creditsWorth / 3) : 'No'
+          if (await Pop.confirm(`Abandon this shipment?`, `Abandoning this shipment for a new one will cost you: ${cost} Union Credits.`, 'warning', 'yes, get me a new one', 'never mind'))
             await shipmentService.abandonShipment()
         } catch (error) {
           logger.log(error)
