@@ -28,52 +28,23 @@ const planets = [
   'Saturn',
   'Uranus',
   'Neptune',
-  'Phobos',
-  'Deimos',
-  'Io',
-  'Europa',
   'Ganymede',
   'Callisto',
   'Amalthea',
   'Pasiphae',
-  'Sinope',
-  'Janus',
-  'Mimas',
   'Enceladus',
-  'Tethys',
-  'Dione',
-  'Rhea',
-  'Titan',
-  'Hyperion',
   'Iapetus',
-  'Phoebe',
-  'Ariel',
   'Titania',
-  'Miranda',
   'Oberon',
   'Umbriel',
-  'Ceres',
-  'Eros',
-  'Icarus',
-  'Juno',
-  'Pallas',
-  'Vesta',
   'Piscium',
   'Acamar',
-  'Achernar',
   'Aldebaran',
   'Algenubi',
-  'Algol',
-  'Alhena',
-  'Alioth',
   'Alkalurops',
   'Alnilam',
   'Alnitak',
-  'Hydri',
-  'Pavonis',
   'Sagittarii',
-  'Altair',
-  'Antares',
   'Arcturus',
   'Boötis',
   'Cassiopeiae',
@@ -83,68 +54,37 @@ const planets = [
   'Leporis',
   'Trianguli',
   'Groombridge',
-  'Iota',
   'Horologii',
   'Velorum',
-  'Kruger',
   'Lacaille',
-  'Lalande',
   'Lambda',
   'Scorpii',
-  'Lambda',
   'Luyten',
-  'Star',
-  'Maia',
   'Mintaka',
-  'Mira',
-  'Mizar',
-  'Alcor',
-  'Mu',
   'Herculis',
   'Ophiuchi',
   'Omicron',
   'Persei',
   'Eridani',
   'Orionis',
-  'Polaris',
-  'Pollux',
-  'Procyon',
-  'Regulus',
-  'Rigel',
-  'Ross',
-  'Sigma',
-  'Ceti',
-  'Cygni',
   'Capricorni',
-  'Hydrae',
-  'Van',
-  'Maanen',
-  'Puppis',
   'Aquilae',
   'Ophiuchi',
   'Reticuli',
-  'Abafar',
-  'Alzoc',
   'Mathilde',
   'Eurydome',
   'Vogsphere',
   'Cybertron',
   'Allosimanius',
-  'Syneca',
   'Argabuthon',
   'Arkintoofle',
-  'Asbleg',
-  'Asgard',
   'Lamuella',
-  'Lazgar',
   'Magrathea',
   'Bartledan',
   'V',
   'Bethselamin',
   'Blagulon',
   'Brontitall',
-  'Broop',
-  'Thirteen',
   'Burphon',
   'Nephologia',
   'Oglaroon',
@@ -152,16 +92,12 @@ const planets = [
   'Dangrabad',
   'Poghril',
   'Preliumtarn',
-  'Rupert',
-  'Fallia',
   'Flargathon',
   'Frogstar',
   'Saquo-Pilia',
-  'Hensha',
   'Sesefras',
   'Sqornshellous',
   'Striterax',
-  'Stug',
   'Gagrakacka',
   'Hawalius',
   'Jaglan',
@@ -169,11 +105,10 @@ const planets = [
   'Jikthroom',
   'Joltrast',
   'Xaxrax',
-  'Kakrafoon',
-  'Kria',
-  'Krikkit'
+  'Kakrafoon'
 ]
-const planetNumbers = ['Alpha', 'Beta', 'Centari', 'Theta', 'Tau', 'Fi', 'I', 'II', 'III', 'IV', 'X', 'IX', 'Zeta', 'Gamma', 'Magna', 'Vega', 'V']
+const planetNumbersExtended = ['X', 'Zeta', 'Magna', 'V', 'IX', 'Fi', 'Tau']
+const planetNumbers = ['Alpha', 'Beta', 'Centauri', 'I', 'II', 'III', random(planetNumbersExtended)]
 
 const glitchFills = ['ᵒ⋏ᵒ', '/ᐠ.ꞈ.ᐟ\\', '*_', '..', '_-', '^~', '៱˳_˳៱']
 const planetCodeKey = 4
@@ -426,7 +361,6 @@ export function damageProperty(prop) {
       if (chance(0.4)) {
         return cypherString(prop)
       } else if (parseInt(prop) && chance(0.6)) {
-        logger.log('String Binary')
         return prop.split('').map(c => parseInt(c) ? binary(c) : c).join('')
       } else {
         prop = prop.split('')
@@ -443,10 +377,10 @@ export function damageProperty(prop) {
       return '...'
   }
 }
-
+let count = 0
 export function damageShipment(shipment, difficulty) {
   const options = ['miss', 'keys', 'keys', 'vals', 'vals']
-  const weights = { miss: 1, keys: 0.3, vals: 0.7 }
+  const weights = { miss: 1, keys: 0.3, vals: 0.75 }
   let glitchChance = false
   let max = difficulty * 1.2
   let missMax = Math.round(difficulty / 1.8)
@@ -456,10 +390,13 @@ export function damageShipment(shipment, difficulty) {
   if (difficulty > 7) { shipment.damagedProperties.recipient = damageProperty(shipment.recipient); damages.vals.recipient = 4 }
   if (difficulty > 10) { max *= 1.15 }
   if (difficulty > 10) { glitchChance = chance(0.4) }
-  if (difficulty > 12) { missMax = Math.round(difficulty / 2.7) }
+  if (difficulty > 12) { missMax = Math.round(difficulty / 2.2) }
   if (difficulty > 17) { max = 30 }
-
+  logger.log('shipment', difficulty, ++count)
+  let itts = 0
   for (let points = 0; max >= points;) {
+    itts++
+    if (itts > 40) break
     logger.log('points', max, points)
     const weight = random(Object.keys(props))
     const prop = random(props[weight])

@@ -89,7 +89,7 @@
                   {{ player.name }}
                 </div>
                 <div class="col-3 list-border">
-                  {{ player.credits }}
+                  {{ player.totalCredits }}
                 </div>
                 <div class="col-2 list-border">
                   {{ player.shipmentsFound?.length }}
@@ -131,7 +131,7 @@ export default {
       editable,
       editTip,
       account: computed(() => AppState.account),
-      leaderboard: computed(() => AppState.profiles.filter(a => a.credits > 0).sort((a, b) => b.credits - a.credits)),
+      leaderboard: computed(() => AppState.profiles.filter(a => a.credits > 0).sort((a, b) => b.totalCredits - a.totalCredits)),
       async editAccount() {
         try {
           if (editMode.value) {

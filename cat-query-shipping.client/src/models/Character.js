@@ -9,6 +9,7 @@ import bozOUQ from '/src/assets/img/Boz/BozPhonicOUQ.png'
 import bozR from '/src/assets/img/Boz/BozPhonicR.png'
 // Kim imports
 import kimBase from '/src/assets/img/Kimko/CUPSKimko-base.gif'
+import kimCasual from '/src/assets/img/Kimko/KiwiCasual.gif'
 import kimBlink from '/src/assets/img/Kimko/CUPSKimko-blink.png'
 import kimAEI from '/src/assets/img/Kimko/CUPSKimko-AEI.png'
 import kimELTH from '/src/assets/img/Kimko/CUPSKimko-ELTH.png'
@@ -128,7 +129,7 @@ export const Kimko = new Character({
   },
   images: {
     base: kimBase,
-    casual: kimBase,
+    casual: kimCasual,
     blink: kimBlink,
     phonicAEI: kimAEI,
     phonicELTH: kimELTH,
@@ -191,7 +192,7 @@ export const KimkoShop = new Character({
   },
   images: {
     base: kimBase,
-    casual: kimBase,
+    casual: kimCasual,
     blink: kimBlink,
     phonicAEI: kimAEI,
     phonicELTH: kimELTH,

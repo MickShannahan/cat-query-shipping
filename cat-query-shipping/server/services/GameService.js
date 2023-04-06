@@ -34,6 +34,7 @@ class GameService {
   async abandonShipment(query = {}, user) {
     const account = await accountService.getAccount(user)
     const shipment = await dbContext.Shipments.findById(account.lostShipmentId)
+    
     if (shipment) { // thanks Joe ☕
       const abandonCost = Math.floor(shipment.creditsWorth / 3)
       if (account.credits <= abandonCost) throw new BadRequest('Not enough credits to abandon this shipment.')

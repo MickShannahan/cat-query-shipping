@@ -112,7 +112,7 @@ export const ShipmentSchema = new Schema(
 
 export class RandomShipment {
   constructor(rating, data = {}) {
-    this.recipient = data.recipient || Cat.getName()
+    this.recipient = data.recipient || Cat.getName() || 'Mayor Snibblysmith'
     this.trackingNumber = data.trackingNumber || tracking()
     this.description = data.description || description()
     this.fragile = data.fragile || bool()
@@ -152,6 +152,6 @@ export class RandomShipment {
     // this.damagedProperties = damageProperties(this, 0.2)
     // this.damagedKeys = damageKeys(this, 0.1)
     // this.difficultyRating = difficultyRating(this.missingProperties, this.damagedProperties, this.damagedKeys)
-    this.creditsWorth = Math.round(this.difficultyRating * (this.glitch !== '' ? 20 : 10) * (this.difficultyRating > 15 ? 1.4 : 1.2))
+    this.creditsWorth = Math.round(this.difficultyRating * (this.glitch !== '' ? 20 : 10) * (this.difficultyRating > 15 ? 1.3 : 1.1))
   }
 }
