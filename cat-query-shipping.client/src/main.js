@@ -11,6 +11,8 @@ import 'vue3-tour/dist/vue3-tour.css'
 import App from './App.vue'
 import { registerGlobalComponents } from './registerGlobalComponents'
 import { router } from './router'
+import { logger } from './utils/Logger.js'
+import { random } from 'lodash'
 
 
 const root = createApp(App)
@@ -130,8 +132,10 @@ root
       }
     }
   })
+  // TOOLTIP
   .directive('tooltip', {
-    mounted: (el, binding) => {
+    mounted: (el, binding, vnode) => {
+      el.setAttribute('data-tip', vnode.key || random(1, 1000).toString())
       el.title = binding.value
       let tip = new Tooltip(el, {
         trigger: 'hover',
@@ -141,6 +145,9 @@ root
       })
       el.addEventListener('onmouseleave', tip.hide())
     },
+    beforeUnmount: (el, binding) => {
+      Tooltip.getOrCreateInstance(el).dispose()
+    }
     // FIXME gets stuck on clicked elements
     // updated: (el, binding) => {
     //   el.title = binding.value

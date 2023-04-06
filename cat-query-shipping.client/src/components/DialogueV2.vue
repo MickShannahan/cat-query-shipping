@@ -168,7 +168,7 @@ export default {
       chatBranch: computed(() => AppState.chatBranch),
       notifyChat: computed(() => AppState.notification),
       text: computed(() => AppState.chatBranch?.text),
-      casualFriday: computed(() => new Date().getDay() == 5),
+      casualFriday: computed(() => new Date().getDay() == 6),
       backgroundStyle: computed(() => {
         if (props.character.styles.onlyCharacter) return 'transparent'
         return props.character.styles.primary
