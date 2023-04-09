@@ -266,7 +266,7 @@ async function findOrCreateAward(account, awardBase) {
 }
 
 async function earnAward(account, award, save = true) {
-  if (award.count < 0 || award.repeatable) {
+  if (award.count === 0 || award.repeatable) {
     award.count++
     if (award.creditsAward) {
       account.credits += award.creditsAward
@@ -279,7 +279,7 @@ async function earnAward(account, award, save = true) {
     if (save) await award.save()
     if (award.hint) {
       const base = awardBases.find(a => a.name === award.hint)
-      findOrCreateAward(account, base)
+      await findOrCreateAward(account, base)
     }
   }
 }
