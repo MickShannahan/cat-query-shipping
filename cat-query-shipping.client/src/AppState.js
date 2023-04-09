@@ -7,12 +7,15 @@ export const AppState = reactive({
   users: [],
   account: {},
   profiles: [],
+  leaderAwards: [],
   recentFoundUsers: [],
+  awards: [],
   // System
   loading: {
     lostShipment: false,
     thread: false
   },
+  notifications: [],
   changelogs: [],
   // Searching
   shipmentsRemaining: null,

@@ -1,5 +1,6 @@
 <template data-simplebar >
   <header class="container-fluid ">
+    <NotificationThread />
     <Navbar />
   </header>
   <main class="container-fluid d-flex">

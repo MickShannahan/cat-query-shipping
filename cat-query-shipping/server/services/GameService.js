@@ -4,6 +4,7 @@ import { BadRequest } from '../utils/Errors.js'
 import { random } from '../utils/Generators.js'
 import { logger } from '../utils/Logger'
 import { accountService } from './AccountService'
+import { awardsService } from './AwardService.js'
 import { modsService } from './ModsService.js'
 import { shipmentsService } from './ShipmentsService'
 class GameService {
@@ -34,7 +35,6 @@ class GameService {
   async abandonShipment(query = {}, user) {
     const account = await accountService.getAccount(user)
     const shipment = await dbContext.Shipments.findById(account.lostShipmentId)
-    
     if (shipment) { // thanks Joe ☕
       const abandonCost = Math.floor(shipment.creditsWorth / 3)
       if (account.credits <= abandonCost) throw new BadRequest('Not enough credits to abandon this shipment.')
@@ -55,6 +55,7 @@ class GameService {
     // IF Correct
     if (shipmentId === account.lostShipmentId.toString()) {
       const shipment = await shipmentsService.getById(shipmentId)
+      socketProvider.messageUser(account.id, 'shipment:correct', shipment)
       shipment.found = true; shipment.save()
       socketProvider.messageRoom('GENERAL', 'shipment:found', account)
 
@@ -65,6 +66,7 @@ class GameService {
       await accountService.zeroAccountStats(account)
       await accountService.advanceGrade(account)
       await modsService.resetMods(account)
+      await awardsService.checkAwards(account, shipment)
       await account.save()
 
       return { result: true, currentGuesses: account.currentGuesses, shipment: shipment }

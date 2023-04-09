@@ -1,3 +1,5 @@
+import { accountService } from '../services/AccountService.js'
+import { awardsService } from '../services/AwardService.js'
 import { profileService } from '../services/ProfileService.js'
 import BaseController from '../utils/BaseController'
 
@@ -7,6 +9,7 @@ export class ProfilesController extends BaseController {
     this.router
       .get('', this.getProfiles)
       .get('/:id', this.getProfile)
+      .get('/:id/awards', this.getProfileAwards)
   }
 
   async getProfiles(req, res, next) {
@@ -22,6 +25,15 @@ export class ProfilesController extends BaseController {
     try {
       const profile = await profileService.getProfileById(req.params.id)
       res.send(profile)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getProfileAwards(req, res, next) {
+    try {
+      const awards = await awardsService.getAwardsByAccountId(req.params.id)
+      return res.send(awards)
     } catch (error) {
       next(error)
     }
