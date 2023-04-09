@@ -27,8 +27,8 @@ class AccountService {
       logger.log(res.data)
       AppState.currentGuesses = res.data.currentGuesses
       if (res.data.result) {
-        Pop.confirm("Shipment Found", 'contents: \n' + res.data.shipment.description, 'success', this.confirms[Math.floor(Math.random() * this.confirms.length)], false)
-        AppState.account.gradingPeriod++
+        // Pop.confirm("Shipment Found", 'contents: \n' + res.data.shipment.description, 'success', this.confirms[Math.floor(Math.random() * this.confirms.length)], false)
+        // AppState.account.gradingPeriod++
         this.countUpCredits(AppState.lostShipment.creditsWorth)
         await shipmentService.getLostShipment()
       } else {
@@ -63,6 +63,11 @@ class AccountService {
     const res = await unblob.post('api/blobber?blur=false&container=catsups&fileName=' + file.name, data)
     logger.log('uploaded picture', res.data)
     return res.data.url
+  }
+
+  async getAwards() {
+    const res = await api.get('account/awards')
+    AppState.awards = res.data
   }
 }
 

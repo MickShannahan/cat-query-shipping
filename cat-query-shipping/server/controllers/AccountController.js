@@ -8,6 +8,7 @@ import { shipmentsService } from '../services/ShipmentsService'
 import { _checkAdmin } from '../utils/AccountValidator.js'
 import BaseController from '../utils/BaseController'
 import { logger } from '../utils/Logger.js'
+import { awardsService } from '../services/AwardService.js'
 
 export class AccountController extends BaseController {
   constructor() {
@@ -17,6 +18,7 @@ export class AccountController extends BaseController {
       .get('', this.getUserAccount)
       .get('/lostshipment/answer/:id', this.checkShipmentAnswer)
       .get('/shipment', this.getAccountShipment)
+      .get('/awards', this.getAccountAwards)
       .put('', this.editAccount)
       .use(_checkAdmin)
     // .put('/update', this.updateMany)
@@ -92,6 +94,15 @@ export class AccountController extends BaseController {
       logger.log('updated', bulkOps)
       await dbContext.Account.bulkWrite(bulkOps)
       res.send(objectsToUpdate)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getAccountAwards(req, res, next) {
+    try {
+      const awards = await awardsService.getAwardsByAccountId(req.userInfo.id)
+      return res.send(awards)
     } catch (error) {
       next(error)
     }

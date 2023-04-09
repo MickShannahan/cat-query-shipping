@@ -6,6 +6,7 @@ import { logger } from '../utils/Logger.js'
 import { itemRarities } from '../models/Item.js'
 import { accountService } from './AccountService.js'
 import { modsService } from './ModsService.js'
+import { awardsService } from './AwardService.js'
 
 class ItemsService {
   async find(query = {}) {
@@ -40,10 +41,12 @@ class ItemsService {
     const rarity = _rollRarity(2000)
     const itemCount = await dbContext.Items.count({ rarity })
     const rand = Math.floor(Math.random() * itemCount)
-    const items = await dbContext.Items.find({ rarity }).skip(rand)
-    account.inventory.push(items[0]._id)
-    account.save()
-    return items[0]
+    const [item] = await dbContext.Items.find({ rarity }).skip(rand)
+    account.inventory.push(item._id)
+    account.markModified('inventory')
+    await awardsService.checkAwards(account, null, item)
+    await account.save()
+    return item
   }
 
   async scrap(id, userInfo) {

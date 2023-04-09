@@ -1,36 +1,37 @@
 <template>
-
   <div class="offcanvas offcanvas-top bg-transparent" tabindex="-1" id="map-offcanvas"
     aria-labelledby="staticBackdropLabel">
     <section class="offcanvas-body bg-dark-glass border border-info screen">
       <div class="container-fluid">
         <section class="row text-center text-light text-shadow justify-content-around align-items-center">
 
-          <router-link :to="{ name: 'Home' }" class="col-md-5 border border-info bg-dark-glass btn-theme-primary p-4"
+          <router-link :to="{ name: 'Home' }"
+            class="col-md-5 border border-info lighten-10 btn-theme-primary text-info p-2"
             :class="{ 'bg-info text-dark': route.name == 'Home' }">
             <div>
               <i class="mdi mdi-desktop-classic"></i>
               <div>
-                Lost Shipment Recovery
+                Work Desk
               </div>
             </div>
           </router-link>
-          <router-link :to="{ name: 'Account' }" class="col-md-5 border border-info bg-dark-glass btn-theme-primary p-4"
+          <router-link :to="{ name: 'Account' }"
+            class="col-md-5 border border-info lighten-10 btn-theme-primary text-info p-2"
             :class="{ 'bg-info text-dark': route.name == 'Account' }">
             <div>
               <i class="mdi mdi-clipboard-list-outline"></i>
               <div>
-                Employee Break Room
+                Break Room
               </div>
             </div>
           </router-link>
           <router-link :to="{ name: 'Warehouse' }"
-            class="col-md-5 mt-3 border border-info bg-dark-glass btn-theme-primary p-4"
+            class="col-md-5 mt-3 border border-info lighten-10 btn-theme-primary text-info p-2"
             :class="{ 'bg-info text-dark': route.name == 'Warehouse' }">
             <div>
               <i class="mdi mdi-warehouse"></i>
               <div>
-                Recovered Shipment Warehouse
+                Warehouse
               </div>
             </div>
           </router-link>
@@ -43,7 +44,6 @@
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </section>
   </div>
-
 </template>
 
 
@@ -58,10 +58,15 @@ const route = useRoute()
 <style lang="scss" scoped>
 .offcanvas-body {
   min-height: 15vh;
-  background-image: url(/assets/img/bg/Map.gif);
+  // background-image: url(/assets/img/bg/Map.gif);
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.btn-theme-primary {
+  background-color: #000000a6;
+  text-shadow: 0px 0px 1px var(--bs-info);
 }
 
 .offcanvas-top {

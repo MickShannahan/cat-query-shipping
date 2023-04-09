@@ -12,26 +12,28 @@
           </div>
           <div class=" col-8 text-start position-relative">
             <i v-show="editMode" class="
-            mdi mdi-cancel
-            me-5
-            icon
-            selectable
-            text-danger
-            darken-10
-            p-1
-            px-2
-            rounded
-            " @click="editMode = !editMode" v-tooltip:auto="'cancel'"></i>
+                                                                                                                mdi mdi-cancel
+                                                                                                                me-5
+                                                                                                                icon
+                                                                                                                selectable
+                                                                                                                text-danger
+                                                                                                                darken-10
+                                                                                                                p-1
+                                                                                                                px-2
+                                                                                                                rounded
+                                                                                                                "
+              @click="editMode = !editMode" v-tooltip:auto="'cancel'"></i>
             <i class="
-              mdi mdi-pencil
-              icon
-              selectable
-              text-warning
-              darken-40
-              p-1
-              px-2
-              rounded
-              " @click="editAccount" v-tooltip:auto="'edit account'"></i>
+                                                                                                                  mdi mdi-pencil
+                                                                                                                  icon
+                                                                                                                  selectable
+                                                                                                                  text-warning
+                                                                                                                  darken-40
+                                                                                                                  p-1
+                                                                                                                  px-2
+                                                                                                                  rounded
+                                                                                                                  "
+              @click="editAccount" v-tooltip:auto="'edit account'"></i>
             <h5 v-if="!editMode" class="text-primary">{{ account.name }}</h5>
             <input v-else class="form-control w-75" type="text" placeholder="Enter Name.." v-model="editable.name"
               minlength="5" maxlength="15" required />
@@ -46,11 +48,13 @@
             </h4>
           </div>
         </div>
+
+        <AwardsThread />
       </div>
 
       <!-- STUB Leaderboard -->
       <div class="col-lg-6 shadow bg-primary lighten-20 rounded p-3 mb-5">
-        <div class="row justif-content-center leader-border p-2 mx-3">
+        <section class="row justif-content-center leader-border p-2 mx-3">
           <h4 class="col-12 text-center">
             <i class="mdi mdi-cat mx-1"></i>Employee of the Cycle<i class="mdi mdi-cat mx-1"></i>
           </h4>
@@ -66,19 +70,25 @@
             <h4>
               <b class="text-primary"> {{ leaderboard[0]?.topGrade || leaderboard[0]?.employeeGrade }}</b>
             </h4>
+            <div class="d-flex flex-wrap">
+              <div v-for="a in leaderAwards" class="award-icon m-1"
+                v-tooltip:bottom="`${a.name} ${a.count > 1 ? a.count : ''}`">
+                <img :src="a.img" alt="">
+              </div>
+            </div>
           </div>
           <div class="col-6 mb-5">
             <img class="img-fluid border border-primary rounded-1" :src="leaderboard[0]?.picture" alt="" />
           </div>
-        </div>
-        <div class="row text-primary mt-3">
+        </section>
+        <section class="row text-primary mt-3">
           <div class="col-4">name</div>
           <div class="col-3"><i class="mdi mdi-google-podcast mx-1"></i></div>
           <div class="col-2"><i class="mdi mdi-package mx-1"></i></div>
           <div class="col-3"><i class="mdi mdi-smart-card mx-1"></i></div>
-        </div>
+        </section>
         <!-- TODO ABSTRACT THIS -->
-        <div class="row p-0">
+        <section class="row p-0">
           <div class="leaderboard h-25">
             <div class="col-12 p-0">
               <div v-for="player in leaderboard.slice(1)" :key="player.id" class="row mt-2 px-2" :class="{
@@ -100,7 +110,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   </div>
@@ -121,17 +131,27 @@ export default {
     const editTip = ref('edit employee record')
     onMounted(() => {
       document.body.style.backgroundImage = "radial-gradient(rgba(2, 0, 36, 0), rgba(34, 65, 60, 0.7)), url('/assets/img/bg/Cups-room-cup.png')"
+      getAccountAwards()
     })
     watchEffect(() => {
       profilesService.getProfiles()
       editable.value = AppState.account
     })
+    async function getAccountAwards() {
+      try {
+        accountService.getAwards()
+      } catch (error) {
+        logger.error(error)
+        Pop.error(error)
+      }
+    }
     return {
       editMode,
       editable,
       editTip,
       account: computed(() => AppState.account),
       leaderboard: computed(() => AppState.profiles.filter(a => a.credits > 0).sort((a, b) => b.totalCredits - a.totalCredits)),
+      leaderAwards: computed(() => AppState.leaderAwards.filter(l => l.count > 0)),
       async editAccount() {
         try {
           if (editMode.value) {
@@ -175,5 +195,22 @@ export default {
 
 .list-border {
   border-bottom: 2px dashed var(--bs-primary);
+}
+
+.award-icon {
+  transition: all .2s ease;
+  image-rendering: pixelated;
+  filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.466));
+
+  &:hover {
+    transform: scale(1.8);
+    filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.466));
+  }
+
+  img {
+    width: 45px;
+    height: 55px;
+    padding-bottom: 10px;
+  }
 }
 </style>

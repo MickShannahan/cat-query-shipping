@@ -10,6 +10,13 @@
   backdrop-filter: blur(10px);
 }
 
+.border-dark-glass {
+  border-top: 1px solid rgba(255, 255, 255, 0.384);
+  border-left: 1px solid rgba(255, 255, 255, 0.233);
+  border-right: 1px solid rgba(36, 36, 36, 0.329);
+  border-bottom: 1px solid rgba(27, 27, 27, 0.562);
+}
+
 
 #app {
   display: flex;

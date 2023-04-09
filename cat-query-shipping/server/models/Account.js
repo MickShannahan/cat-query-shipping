@@ -1,5 +1,6 @@
 import { Schema } from 'mongoose'
 import { ItemSchema } from './Item.js'
+import { logger } from '../utils/Logger.js'
 
 export const InstalledMod = new Schema({
   ...ItemSchema.obj,

@@ -5,6 +5,12 @@
         m.id == activeMod.id,
       'unlocked': modConfigure
     }" :mod="m" :x="m.x" :y="m.y" />
+    <section class="info-tab" v-if="mods.length">
+      <i class="mdi mdi-information text-light"></i>
+      <div class="window bg-dark-glass text-light p-2">
+        <small>arrange mods by clicking on them and positioning them with the ⬅⬆⬇➡ keys.</small>
+      </div>
+    </section>
   </div>
   <div class="mod-btn mt-2 d-flex" :class="{ 'configure': modConfigure }" @click="configure"
     v-tooltip:right="'configure mods'">
@@ -123,6 +129,7 @@ export default {
 
 <style lang="scss" scoped>
 .mod-panel {
+  position: relative;
   width: 100%;
   display: grid;
   grid-template-columns: repeat(4, 40px);
@@ -215,6 +222,37 @@ export default {
 
   .mod-thumb {
     background-color: var(--bs-info);
+  }
+}
+
+.info-tab {
+  text-align: end;
+  position: absolute;
+  top: 0;
+  right: 110%;
+
+  i {
+    opacity: .6;
+  }
+
+  .window {
+    text-align: start;
+    border-radius: 8px;
+    opacity: 0;
+    transform: scale(0);
+    transition: all .2s ease;
+    width: 20ch;
+    transform-origin: top left;
+    position: absolute;
+    top: 1em;
+    left: 0;
+  }
+
+  &:hover {
+    .window {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 }
 </style>

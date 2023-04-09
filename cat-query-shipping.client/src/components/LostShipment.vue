@@ -195,7 +195,7 @@ export default {
   grid-column: 1 2;
   display: grid;
   grid-template-columns: repeat(4, 40px);
-  grid-template-rows: repeat(5, 40px) 1.25em 1fr 60px;
+  grid-template-rows: repeat(5, 40px) 2.25em 1fr 60px;
 
   .mods {
     grid-column: span 4;
