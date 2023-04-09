@@ -258,11 +258,11 @@ const awardBases = [
 
   }
 ]
-
+const defaultImg = 'https://catsupssources.blob.core.windows.net/items/DefaultAward.png'
 async function findOrCreateAward(account, awardBase) {
   let award = await dbContext.Awards.findOne({ accountId: account.id, name: awardBase.name })
   if (!award) {
-    award = await dbContext.Awards.create({ accountId: account.id, ...awardBase })
+    award = await dbContext.Awards.create({ accountId: account.id, img: defaultImg, ...awardBase })
     socketProvider.messageUser(account.id, 'new:award', award)
   }
   if (award.description !== awardBase.description || award.limit !== awardBase.limit || award.creditsAward !== awardBase.creditsAward || award.itemAward !== awardBase.itemAward || award.img !== awardBase.img || award.repeatable !== awardBase.repeatable || award.hint !== awardBase.hint) {
@@ -292,12 +292,13 @@ async function earnAward(account, award, save = true) {
 
 async function awardBalance(award) {
   const base = awardBases.find(a => a.name === award.name)
-  award.limit = award.limit ? base.limit : undefined
-  award.repeatable = award.repeatable ? base.repeatable : undefined
-  award.creditsAward = award.creditsAward ? base.creditsAward : undefined
-  award.itemAward = award.itemAward ? base.itemAward : undefined
-  award.hint = award.hint ? base.hint : undefined
-  award.img = award.img ? base.img : undefined
-  award.description = award.description ? base.description : undefined
+  logger.log('balancing award', award, base)
+  award.limit = base.limit != null ? base.limit : award.limit
+  award.repeatable = base.repeatable != null ? base.repeatable : award.repeatable
+  award.creditsAward = base.creditsAward != null ? base.creditsAward : award.creditsAward
+  award.itemAward = base.itemAward != null ? base.itemAward : award.itemAward
+  award.hint = base.hint != null ? base.hint : award.hint
+  award.img = base.img != null ? base.img : award.img
+  award.description = award.description != null ? base.description : award.description
   await award.save()
 }
