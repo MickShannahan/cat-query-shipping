@@ -7,6 +7,7 @@ class AwardsService {
     try {
       const changes = await account.getChanges().$set
       logger.log('checking for awards', account.name, changes, shipment, data)
+      const updated = []
       for (const change in changes) {
         const checks = awardBases.filter(a => {
           if (a.subscriber === change) return true
@@ -15,7 +16,12 @@ class AwardsService {
           if (a.subscriber.includes('shipmentDifficulty') && shipment && shipment.difficultyRating >= parseInt(a.subscriber.split(':')[1])) return true
           return false
         })
-        const proms = checks.map(award => award.check(account, shipment, data))
+        checks.forEach(award => {
+          if (!updated.includes(award.name)) {
+            award.check(account, shipment, data)
+            updated.push(award.name)
+          }
+        })
         // await Promise.all(proms)
         await account.save()
       }
