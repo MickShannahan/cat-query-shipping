@@ -147,6 +147,8 @@ const awardBases = [
     description: 'Reach the S+ employee grade',
     img: 'https://catsupssources.blob.core.windows.net/items/S+Medal.png',
     repeatable: false,
+    creditsAward: 3000,
+    itemAward: '63861e3a91eb61c0348fd991',
     async check(account, shipment, data) {
       const award = await findOrCreateAward(account, this)
       if (award.count === 1) return null
