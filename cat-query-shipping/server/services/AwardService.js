@@ -80,7 +80,7 @@ const awardBases = [
     subscriber: 'shipmentDifficulty:15',
     description: 'Recover a shipment with a difficulty rating of 15 or higher',
     repeatable: false,
-    creditsAward: 1000,
+    itemAward: '63861de291eb61c0348fd989',
     hint: 'Recovery Expert',
     async check(account, shipment, data) {
       if (shipment.difficultyRating >= 15) {
@@ -95,7 +95,7 @@ const awardBases = [
     subscriber: 'shipmentDifficulty:18',
     description: 'Recover a shipment with a difficulty rating of 18 or higher',
     repeatable: false,
-    creditsAward: 2000,
+    itemAward: '63861e3a91eb61c0348fd991',
     hint: 'Recovery Master',
     async check(account, shipment, data) {
       if (shipment.difficultyRating >= 18) {
