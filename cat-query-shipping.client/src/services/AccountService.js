@@ -1,5 +1,5 @@
 import { AppState } from '../AppState'
-import { Account } from '../models/Account.js'
+import { Account, writableAccount } from '../models/Account.js'
 import { Mod } from '../models/Mod.js'
 import { logger } from '../utils/Logger'
 import Pop from '../utils/Pop'
@@ -52,7 +52,8 @@ class AccountService {
   }
 
   async editAccount(body) {
-    let res = await api.put('account', body)
+    const update = new writableAccount(body)
+    let res = await api.put('account', update)
     logger.log(res.data)
     AppState.account = res.data
   }

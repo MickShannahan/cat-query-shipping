@@ -7,7 +7,7 @@ export const api = Axios.create({
 })
 
 export const unblob = Axios.create({
-  baseURL: dev ? 'http://localhost:7071' : 'https://blobber.azurewebsites.net',
+  baseURL: 'https://blobby.azurewebsites.net',
   timeout: 90000,
 })
 

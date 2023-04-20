@@ -1,14 +1,15 @@
-import { Schema } from 'mongoose'
 import { dbContext } from '../db/DbContext.js'
-import { InstalledMod } from '../models/Account.js'
+import { itemRarities } from '../models/Item.js'
 import { BadRequest } from '../utils/Errors.js'
 import { logger } from '../utils/Logger.js'
-import { itemRarities } from '../models/Item.js'
-import { accountService } from './AccountService.js'
-import { modsService } from './ModsService.js'
 import { awardsService } from './AwardService.js'
 
 class ItemsService {
+  accountHasItem(accountToUpdate, itemId) {
+    const hasItem = accountToUpdate.inventory.find(i => i.toString() === itemId)
+    return hasItem
+  }
+
   async find(query = {}) {
     return await dbContext.Items.find(query)
   }
@@ -38,7 +39,7 @@ class ItemsService {
     if (account.credits < itemCost) throw new BadRequest('not enough credits')
 
     account.credits -= itemCost
-    const rarity = _rollRarity(2000)
+    const rarity = _rollRarity()
     const itemCount = await dbContext.Items.count({ rarity })
     const rand = Math.floor(Math.random() * itemCount)
     const [item] = await dbContext.Items.find({ rarity }).skip(rand)
@@ -126,16 +127,16 @@ class ItemsService {
 
 export const itemsService = new ItemsService()
 
-function _rollRarity(num) {
-  const rarities = itemRarities // common, uncommon, rare, rare +, ultra-rare, secret-rare
-  let values = [44, 30, 17, 6.9, 2.02, 0.08]
-  values = values.map(v => Math.round((v / 100) * num))
-  let out = []
-  values.forEach((v, r) => {
-    const arr = Array(v).fill(rarities[r])
-    out = [...out, ...arr]
-  })
-  const roll = out[Math.floor(Math.random() * out.length)]
-  logger.log('[roll]', roll, out.length)
-  return roll
+function _rollRarity() {
+  const rarities = itemRarities
+  const totalChance = rarities.reduce((sum, rarity) => sum + rarity.chance, 0)
+  let roll = Math.random() * totalChance
+
+  for (let i = 0; i < rarities.length; i++) {
+    roll -= rarities[i].chance
+    if (roll < 0) {
+      logger.log('[roll]', rarities[i].name)
+      return rarities[i].name
+    }
+  }
 }

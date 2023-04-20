@@ -3,7 +3,7 @@ import { Mod } from "./Mod.js"
 
 
 export class Account {
-  constructor({ email, name, picture, credits, totalCredits, components, currentGuesses, shipmentsFound, shipmentsAbandoned, totalPagesPrinted, currentPagesPrinted, totalRequestsMade, averageRequestsMade, currentRequestsMade, pagesHistory, requestsHistory, leaderScore, employeeGrade, topGrade, gradingPeriod, minDifficulty, maxDifficulty, scolded, praised, needsTour, unlocks, inventory, installedMods }) {
+  constructor({ email, name, picture, credits, totalCredits, components, currentGuesses, shipmentsFound, shipmentsAbandoned, totalPagesPrinted, currentPagesPrinted, totalRequestsMade, averageRequestsMade, currentRequestsMade, pagesHistory, requestsHistory, leaderScore, employeeGrade, topGrade, gradingPeriod, minDifficulty, maxDifficulty, scolded, praised, needsTour, unlocks, inventory, installedMods, favoriteCollectable }) {
     this.email = email
     this.name = name
     this.picture = picture
@@ -31,6 +31,17 @@ export class Account {
     this.needsTour = needsTour
     this.unlocks = unlocks
     this.inventory = inventory
+    this.favoriteCollectable = favoriteCollectable
     this.installedMods = installedMods.map(m => new Mod(m))
+  }
+}
+
+export class writableAccount {
+  constructor({ id, name, picture, favoriteCollectable }) {
+    this.name = name
+    this.id = id
+    this._id = id
+    this.picture = picture
+    this.favoriteCollectable = favoriteCollectable
   }
 }

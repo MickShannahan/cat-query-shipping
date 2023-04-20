@@ -118,6 +118,27 @@ export const gameService = new GameService()
 
 function _payOut(account, shipment) {
   // TODO add mods to increase payout
+  const bonuses = account.installedMods.filter(m => m.action === 'bonus_credits')
+  const multiplies = account.installedMods.filter(m => m.action === 'multiply_credits')
+  let bonus = 0
+  bonuses.forEach(b => {
+    if (!b.data.condition) {
+      bonus += b.data.bonus
+    } else {
+      const meetsReq = Object.keys(b.data.condition).every((key) => shipment[key] === b.data.condition[key])
+      if (meetsReq) bonus *= b.data.bonus
+    }
+  })
+  let multiples = 0
+  multiplies.forEach(m => {
+    if (!m.data.condition) {
+      multiples += m.data.bonus * shipment.creditsWorth
+    } else {
+      const meetsReq = Object.keys(m.data.condition).every((key) => shipment[key] === m.data.condition[key])
+      if (meetsReq) multiples *= m.data.bonus * shipment.creditsWorth
+    }
+  })
+
   const firstGuessBonus = account.currentGuesses.length ? 0 : Math.round(shipment.difficultyRating * 4.5)
-  return shipment.creditsWorth + firstGuessBonus
+  return shipment.creditsWorth + bonus + multiples + firstGuessBonus
 }

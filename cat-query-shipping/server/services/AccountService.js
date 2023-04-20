@@ -6,6 +6,7 @@ import { socketProvider } from '../SocketProvider'
 import { Forbidden } from '../utils/Errors'
 import { logger } from '../utils/Logger'
 import { chatsService } from './ChatsService'
+import { itemsService } from './ItemsService.js'
 import { shipmentsService } from './ShipmentsService'
 // Private Methods
 
@@ -48,7 +49,8 @@ function sanitizeBody(body) {
   const writable = {
     name: body.name,
     picture: body.picture,
-    needsTour: body.needsTour
+    needsTour: body.needsTour,
+    favoriteCollectable: body.favoriteCollectable
   }
   if (process.env.NODE_ENV === 'dev' && body.lostShipmentId) {
     writable.lostShipmentId = body.lostShipmentId
@@ -77,7 +79,7 @@ class AccountService {
   async getPrivateAccount(user) {
     let account = await dbContext.Account.findOne({
       _id: user.id
-    }).populate('inventory')
+    }).populate('inventory favoriteCollectable')
     if (!account) {
       account = await createAccountIfNeeded(account, user)
       await mergeSubsIfNeeded(account, user)
@@ -107,11 +109,15 @@ class AccountService {
       socketProvider.messageUser(user.id, 'boz:notification', { data: accountToUpdate, chat: { 'Edit Denied': { text: `Hey, sorry about that.  Under normal circumstances I wouldn't mind letting you change your employee record details but considering our little *issue* with that LAST employee.  I can't let you do that.  Remember ${accountToUpdate.name} it's for both our benefit at this point.` } } })
       throw new Forbidden('Boz says: "Can\'t let you edit your account now kid, gotta keep you undercover"')
     }
+    if (update.favoriteCollectable) {
+      if (!await itemsService.accountHasItem(accountToUpdate, update.favoriteCollectable)) throw new Error('you do not posses that item.')
+    }
     const account = await dbContext.Account.findOneAndUpdate(
       { _id: user.id },
       { $set: update },
       { runValidators: true, setDefaultsOnInsert: true, new: true }
     )
+    await account.populate('favoriteCollectable inventory')
     return account
   }
 

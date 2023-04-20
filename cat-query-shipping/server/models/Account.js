@@ -52,7 +52,8 @@ export const AccountSchema = new Schema(
     unlocks: [{ type: String }],
     // STUB If you wish to add additional properties do so here
     inventory: [{ type: Schema.Types.ObjectId, ref: 'Item' }],
-    installedMods: [InstalledMod]
+    installedMods: [InstalledMod],
+    favoriteCollectable: { type: Schema.Types.ObjectId, ref: 'Item' }
   },
   { timestamps: true, toJSON: { virtuals: true } }
 )
@@ -67,8 +68,9 @@ AccountSchema.virtual('lostShipment', {
 export const ProfileSchema = new Schema(
   {
     name: { type: String, required: true },
-    picture: { type: String }
+    picture: { type: String },
     // NOTE if you want to make properties from the account public put them here
+    favoriteCollectable: { type: Schema.Types.ObjectId, ref: 'Item' }
   },
   { timestamps: true, toJSON: { virtuals: true } }
 )
