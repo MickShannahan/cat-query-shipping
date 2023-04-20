@@ -12,6 +12,14 @@ export const InstalledMod = new Schema({
   data: { type: Object }
 }, { toJSON: { virtuals: true } })
 
+export const InstalledCollectable = new Schema({
+  itemId: { type: Schema.Types.ObjectId, ref: 'Item' },
+  name: { type: String },
+  img: { type: String },
+  position: { type: Number, default: 0 },
+  facing: { type: String, default: 'left', enum: ['left', 'right'] }
+})
+
 export const employeeGrades = ['S++', 'S+', 'S', 'A+', 'A', 'B', 'C', 'D', 'Bob Cat', 'Tabby', 'Kitten', 'Trainee', '']
 
 export const AccountSchema = new Schema(
@@ -53,7 +61,8 @@ export const AccountSchema = new Schema(
     // STUB If you wish to add additional properties do so here
     inventory: [{ type: Schema.Types.ObjectId, ref: 'Item' }],
     installedMods: [InstalledMod],
-    favoriteCollectable: { type: Schema.Types.ObjectId, ref: 'Item' }
+    favoriteCollectable: { type: Schema.Types.ObjectId, ref: 'Item' },
+    installedCollectables: [InstalledCollectable]
   },
   { timestamps: true, toJSON: { virtuals: true } }
 )

@@ -123,6 +123,39 @@ class ItemsService {
     await account.save()
     return 'removed a mod'
   }
+
+  async equipCollectable(rawId, userId) {
+    const account = await dbContext.Account.findById(userId)
+    if (!this.accountHasItem(account, rawId)) throw new BadRequest("You don't own that item")
+    const item = await dbContext.Items.findById(rawId)
+    if (item.type !== 'collectable') throw new BadRequest('That is not a collectable')
+    const trinket = {
+      itemId: item.id,
+      name: item.name,
+      img: item.img,
+      position: account.installedCollectables.length || 0
+    }
+    account.installedCollectables.push(trinket)
+    await account.save()
+    return account.installedCollectables[account.installedCollectables.length - 1]
+  }
+
+  async saveCollectables(trinkets, account, save = true) {
+    const allThere = trinkets.every(t => account.inventory.find(i => t.itemId === i.id))
+    if (!allThere) throw new BadRequest('Some items are missing from your inventory')
+    account.installedCollectables = trinkets
+    account.markModified('installedCollectables')
+    if (save) await account.save()
+    return trinkets
+  }
+
+  async removeCollectable(id, userId) {
+    const account = await dbContext.Account.findById(userId)
+    const index = await account.installedCollectables.findIndex(c => c.id.toString() === id)
+    account.installedCollectables.splice(index, 1)
+    await account.save()
+    return 'removed a collectable'
+  }
 }
 
 export const itemsService = new ItemsService()

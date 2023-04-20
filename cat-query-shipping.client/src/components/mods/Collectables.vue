@@ -2,7 +2,7 @@
   <div class="container-fluid flex-row">
     <div class="collectable-grid">
 
-      <div v-for="item in displayed" class="collect">
+      <div v-for="item in displayed" :key="item.id" class="collect">
         <img class="img-fluid " :src="item.img" alt="">
       </div>
 
