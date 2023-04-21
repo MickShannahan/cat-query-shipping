@@ -7,10 +7,7 @@
 
 
 <script setup>
-import { computed, ref, watch, watchEffect } from 'vue';
-import { logger } from '../../utils/Logger.js';
-import Pop from '../../utils/Pop.js';
-import { collectablesService } from '../../services/CollectablesService.js';
+import { ref, watchEffect } from 'vue';
 import { AppState } from '../../AppState.js';
 const collectableArea = ref(0)
 const startPosition = ref(0)
@@ -62,8 +59,6 @@ function drop(ev) {
   emit('moved')
 }
 
-
-
 </script>
 
 
@@ -71,7 +66,7 @@ function drop(ev) {
 .collectable {
   position: absolute;
   width: 100px;
-  left: v-bind(position);
+  margin-left: v-bind(position);
   // grid-column: v-bind(position);
   // grid-row: 1 / span 1;
   cursor: grab;
