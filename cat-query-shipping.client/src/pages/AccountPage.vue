@@ -7,7 +7,8 @@
           <div class="col-4">
             <div v-if="!editMode" class="position-relative">
               <img class="img-fluid border-2 border-warningS rounded-1" :src="account.picture" alt="" />
-              <img class="account-collectable" :src="account?.favoriteCollectable?.img" alt="">
+              <img v-if="account?.favoriteCollectable?.img" class="account-collectable"
+                :src="account?.favoriteCollectable?.img" alt="">
             </div>
             <UploadButton v-else @uploadComplete="u => editable.picture = u.url" :options="{
               class: 'w-100 btn btn-white form-control px-3 py-5', spinner: '🐱'
@@ -16,27 +17,27 @@
           <div class=" col-8 text-start position-relative">
             <i v-show="editMode"
               class="
-                                                                                                                                                                                                                                                              mdi mdi-cancel
-                                                                                                                                                                                                                                                              me-5
-                                                                                                                                                                                                                                                              icon
-                                                                                                                                                                                                                                                              selectable
-                                                                                                                                                                                                                                                              text-danger
-                                                                                                                                                                                                                                                              darken-10
-                                                                                                                                                                                                                                                              p-1
-                                                                                                                                                                                                                                                              px-2
-                                                                                                                                                                                                                                                              rounded
-                                                                                                                                                                                                                                                              "
+                                                                                                                                                                                                                                                                  mdi mdi-cancel
+                                                                                                                                                                                                                                                                  me-5
+                                                                                                                                                                                                                                                                  icon
+                                                                                                                                                                                                                                                                  selectable
+                                                                                                                                                                                                                                                                  text-danger
+                                                                                                                                                                                                                                                                  darken-10
+                                                                                                                                                                                                                                                                  p-1
+                                                                                                                                                                                                                                                                  px-2
+                                                                                                                                                                                                                                                                  rounded
+                                                                                                                                                                                                                                                                  "
               @click="editMode = !editMode" v-tooltip:auto="'cancel'"></i>
             <i class="
-                                                                                                                                                                                                                                                                mdi mdi-pencil
-                                                                                                                                                                                                                                                                icon
-                                                                                                                                                                                                                                                                selectable
-                                                                                                                                                                                                                                                                text-warning
-                                                                                                                                                                                                                                                                darken-40
-                                                                                                                                                                                                                                                                p-1
-                                                                                                                                                                                                                                                                px-2
-                                                                                                                                                                                                                                                                rounded
-                                                                                                                                                                                                                                                                "
+                                                                                                                                                                                                                                                                    mdi mdi-pencil
+                                                                                                                                                                                                                                                                    icon
+                                                                                                                                                                                                                                                                    selectable
+                                                                                                                                                                                                                                                                    text-warning
+                                                                                                                                                                                                                                                                    darken-40
+                                                                                                                                                                                                                                                                    p-1
+                                                                                                                                                                                                                                                                    px-2
+                                                                                                                                                                                                                                                                    rounded
+                                                                                                                                                                                                                                                                    "
               @click="editAccount" v-tooltip:auto="'edit account'"></i>
             <h5 v-if="!editMode" class="text-primary">{{ account.name }}</h5>
             <input v-else class="form-control w-75" type="text" placeholder="Enter Name.." v-model="editable.name"
@@ -195,7 +196,7 @@ export default {
             editTip.value = 'save record'
           }
         } catch (error) {
-          Pop.toast(error?.error)
+          Pop.toast(error)
           logger.error(error)
         }
       },
