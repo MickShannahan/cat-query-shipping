@@ -7,7 +7,10 @@
 
 
 <script setup>
-import { ref, watchEffect } from 'vue';
+import { computed, ref, watch, watchEffect } from 'vue';
+import { logger } from '../../utils/Logger.js';
+import Pop from '../../utils/Pop.js';
+import { collectablesService } from '../../services/CollectablesService.js';
 import { AppState } from '../../AppState.js';
 const collectableArea = ref(0)
 const startPosition = ref(0)
@@ -58,6 +61,8 @@ function drop(ev) {
   AppState.collectables.splice(index, 1, collectable.value)
   emit('moved')
 }
+
+
 
 </script>
 

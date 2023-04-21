@@ -53,49 +53,61 @@ async function saveCollectables() {
 
 
 <style lang="scss" scoped>
-// .collectable-grid {
-//   position: relative;
-// }
+.collectable-grid {
+  position: relative;
+  // margin: .25em 7em;
+  // display: grid;
+  // grid-template-columns: repeat(auto-fill, 50px);
+  // grid-template-rows: 25px;
+  // justify-items: end;
+  // grid-auto-flow: row reverse;
+}
 
-// .collect {
-//   place-self: center;
-//   height: 100%;
-//   filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.4));
-//   transform: translateY(0px) scale(1.1);
-//   opacity: 0;
-//   animation: drop-in .3s cubic-bezier(.74, .71, .68, 1.19) forwards;
+.collect {
+  place-self: center;
+  height: 100%;
+  filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.4));
+  transform: translateY(0px) scale(1.1);
+  opacity: 0;
+  animation: drop-in .3s cubic-bezier(.74, .71, .68, 1.19) forwards;
 
-//   &:hover {
-//     transform: translateY(0px) scale(1.5);
-//     transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-//   }
-// }
+  &:hover {
+    transform: translateY(0px) scale(1.5);
+    transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+}
 
-// button {
-//   position: absolute;
-//   top: 2px;
-//   right: -1em;
-//   opacity: .6;
+&:hover {
+  transform: translateY(0px) scale(1.5);
+  transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+}
 
-//   &:hover {
-//     background-color: rgba(255, 255, 255, 0.2);
-//   }
-// }
+button {
+  position: absolute;
+  top: 2px;
+  right: -1em;
+  opacity: .6;
 
-// @keyframes drop-in {
-//   0% {
-//     transform: translateY(-50px) scale(0);
-//     opacity: 0;
-//   }
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+}
 
-//   50% {
-//     transform: translateY(-50px) scale(.8);
-//     opacity: 1;
-//   }
+@keyframes drop-in {
+  0% {
+    transform: translateY(-50px) scale(0);
+    opacity: 0;
+  }
 
-//   100% {
-//     transform: translateY(0px) scale(1.1);
-//     opacity: 1;
-//   }
-// }
+  50% {
+    transform: translateY(-50px) scale(.8);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(0px) scale(1.1);
+    opacity: 1;
+  }
+}
 </style>
