@@ -16,6 +16,9 @@ export class ItemsController extends BaseController {
       .post('/mods/equip', this.equipMod)
       .put('/mods/save', this.updateMods)
       .delete('/mods/remove/:id', this.removeMod)
+      .post('/collectables/equip', this.equipCollectable)
+      .put('/collectables/save', this.saveCollectables)
+      .delete('/collectables/remove/:id', this.removeCollectable)
       .use(_checkAdmin)
       .get('', this.find)
       .post('', this.create)
@@ -84,6 +87,31 @@ export class ItemsController extends BaseController {
     }
   }
 
+  // Collectables  -------------------------------------------
+
+  async equipCollectable(req, res, next) {
+    try {
+      return res.send(await itemsService.equipCollectable(req.body.id, req.userInfo.id))
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async saveCollectables(req, res, next) {
+    try {
+      return res.send(await itemsService.saveCollectables(req.body, req.userInfo.id))
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async removeCollectable(req, res, next) {
+    try {
+      return res.send(await itemsService.removeCollectable(req.params.id, req.userInfo.id))
+    } catch (error) {
+      next(error)
+    }
+  }
   // Shop find -------------------------------------------
 
   async find(req, res, next) {

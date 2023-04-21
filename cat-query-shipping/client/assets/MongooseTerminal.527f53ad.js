@@ -1,1 +1,0 @@
-import{_ as e}from"./index.8e36d9e3.js";import{r as o,b as r,o as s}from"./editor.worker.001edd06.js";const t={class:"mongoose"};var a=e({setup:()=>({state:o({})})},[["render",function(e,o,a,n,d,i){return s(),r("div",t,"Mongoose terminal")}]]);export default a;

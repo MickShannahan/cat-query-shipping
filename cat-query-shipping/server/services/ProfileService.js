@@ -19,7 +19,7 @@ class ProfileService {
    */
   async findProfiles(name = '', offset = 0) {
     const regx = new RegExp(name, 'ig')
-    const profiles = await dbContext.Profiles.find({ name: { $regex: regx } }).sort({ leaderScore: -1, totalCredits: -1 }).limit(100)
+    const profiles = await dbContext.Profiles.find({ name: { $regex: regx } }).sort({ leaderScore: -1, totalCredits: -1 }).limit(100).populate('favoriteCollectable')
     return profiles
   }
 

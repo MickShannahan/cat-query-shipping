@@ -3,15 +3,16 @@
     <div class="offcanvas offcanvas-end bg-transparent border-0 rounded-lg square-start" data-bs-backdrop="false"
       tabindex="-1" id="collectable-drawer" aria-labelledby="staticBackdropLabel">
       <div class="offcanvas-header console-console2 square-bottom square-left outset plastic">
-        <h5 class="offcanvas-title" id="staticBackdropLabel">Set up Collectables</h5>
-        <button type="button" class="col-2 btn-close text-reset" data-bs-dismiss="offcanvas"
-          aria-label="Close"></button>
+        <h5 class="offcanvas-title" id="staticBackdropLabel">Set up Collectables <i class="mdi mdi-information"
+            v-tooltip:top="information"></i>
+        </h5>
+        <button type="button" class="col-2 btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body bg-dark-glass container-fluid px-3 py-0">
         <div class="row h-100 w-100">
           <div class=" col-12 collects-tray p-1">
-            <section class="collect installed" v-for="(collect, i) in installed" :key="collect.type + i"
-              @click="removeCollect(i)">
+            <section class="collect installed" v-for="(collect, i) in installed" :key="collect.name + i"
+              @click="removeCollect(collect.id)">
               <div>{{ collect.name }}</div>
               <img :src="collect.img" alt="">
             </section>
@@ -30,8 +31,14 @@
 
 
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch, watchEffect } from 'vue';
 import { AppState } from '../../AppState.js';
+import { collectablesService } from '../../services/CollectablesService.js';
+import { Account } from '../../models/Account.js';
+import { logger } from '../../utils/Logger.js';
+const information = `
+Show off you swag with collectables! If one is your favorite, then perhaps you should head over to your account in the break room and set that using the edit account feature.
+`
 const collectCounts = ref({})
 const addingCollect = ref(false)
 const installed = computed(() => AppState.collectables)
@@ -52,15 +59,21 @@ watch(installedLength, () => {
     collect[m.name] = collect[m.name] ? collect[m.name] + 1 : 1
   })
 })
+watchEffect(() => {
+  logger.log('collectable watch', AppState.account.installedCollectables)
+  AppState.collectables = AppState.account.installedCollectables || []
+})
 async function addCollect(collect) {
   if (!addingCollect.value) {
     addingCollect.value = true
-    AppState.collectables.push(collect)
+    // AppState.collectables.push(collect)
+    collectablesService.addCollectable(collect)
   }
   addingCollect.value = false
 }
-function removeCollect(index) {
-  AppState.collectables.splice(index, 1)
+function removeCollect(id) {
+  collectablesService.removeCollectable(id)
+  // AppState.collectables.splice(index, 1)
 }
 </script>
 
