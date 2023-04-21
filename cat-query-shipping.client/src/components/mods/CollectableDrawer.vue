@@ -3,7 +3,9 @@
     <div class="offcanvas offcanvas-end bg-transparent border-0 rounded-lg square-start" data-bs-backdrop="false"
       tabindex="-1" id="collectable-drawer" aria-labelledby="staticBackdropLabel">
       <div class="offcanvas-header console-console2 square-bottom square-left outset plastic">
-        <h5 class="offcanvas-title" id="staticBackdropLabel">Set up Collectables</h5>
+        <h5 class="offcanvas-title" id="staticBackdropLabel">Set up Collectables <i class="mdi mdi-information"
+            v-tooltip:top="information"></i>
+        </h5>
         <button type="button" class="col-2 btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body bg-dark-glass container-fluid px-3 py-0">
@@ -34,6 +36,9 @@ import { AppState } from '../../AppState.js';
 import { collectablesService } from '../../services/CollectablesService.js';
 import { Account } from '../../models/Account.js';
 import { logger } from '../../utils/Logger.js';
+const information = `
+Show off you swag with collectables! If one is your favorite, then perhaps you should head over to your account in the break room and set that using the edit account feature.
+`
 const collectCounts = ref({})
 const addingCollect = ref(false)
 const installed = computed(() => AppState.collectables)
