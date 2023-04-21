@@ -17,27 +17,27 @@
           <div class=" col-8 text-start position-relative">
             <i v-show="editMode"
               class="
-                                                                                                                                                                                                                                                                        mdi mdi-cancel
-                                                                                                                                                                                                                                                                        me-5
-                                                                                                                                                                                                                                                                        icon
-                                                                                                                                                                                                                                                                        selectable
-                                                                                                                                                                                                                                                                        text-danger
-                                                                                                                                                                                                                                                                        darken-10
-                                                                                                                                                                                                                                                                        p-1
-                                                                                                                                                                                                                                                                        px-2
-                                                                                                                                                                                                                                                                        rounded
-                                                                                                                                                                                                                                                                        "
+                                                                                                                                                                                                                                                                            mdi mdi-cancel
+                                                                                                                                                                                                                                                                            me-5
+                                                                                                                                                                                                                                                                            icon
+                                                                                                                                                                                                                                                                            selectable
+                                                                                                                                                                                                                                                                            text-danger
+                                                                                                                                                                                                                                                                            darken-10
+                                                                                                                                                                                                                                                                            p-1
+                                                                                                                                                                                                                                                                            px-2
+                                                                                                                                                                                                                                                                            rounded
+                                                                                                                                                                                                                                                                            "
               @click="editMode = !editMode" v-tooltip:auto="'cancel'"></i>
             <i class="
-                                                                                                                                                                                                                                                                          mdi mdi-pencil
-                                                                                                                                                                                                                                                                          icon
-                                                                                                                                                                                                                                                                          selectable
-                                                                                                                                                                                                                                                                          text-warning
-                                                                                                                                                                                                                                                                          darken-40
-                                                                                                                                                                                                                                                                          p-1
-                                                                                                                                                                                                                                                                          px-2
-                                                                                                                                                                                                                                                                          rounded
-                                                                                                                                                                                                                                                                          "
+                                                                                                                                                                                                                                                                              mdi mdi-pencil
+                                                                                                                                                                                                                                                                              icon
+                                                                                                                                                                                                                                                                              selectable
+                                                                                                                                                                                                                                                                              text-warning
+                                                                                                                                                                                                                                                                              darken-40
+                                                                                                                                                                                                                                                                              p-1
+                                                                                                                                                                                                                                                                              px-2
+                                                                                                                                                                                                                                                                              rounded
+                                                                                                                                                                                                                                                                              "
               @click="editAccount" v-tooltip:auto="'edit account'"></i>
             <h5 v-if="!editMode" class="text-primary">{{ account.name }}</h5>
             <input v-else class="form-control w-75" type="text" placeholder="Enter Name.." v-model="editable.name"
@@ -52,8 +52,8 @@
               <b class="text-primary"> {{ account?.employeeGrade }}</b>
             </h4>
             <div v-if="editMode && collectables.length">
-              <small>favorite collectable: {{ selectedCollectable.name }}<img class="item-thumbnail"
-                  :src="selectedCollectable.img" alt=""></small>
+              <small>favorite collectable: {{ selectedCollectable?.name }}<img class="item-thumbnail"
+                  :src="selectedCollectable?.img" alt=""></small>
               <input value="0" @input="swapCollectable" type="range" class="w-100" :min="0"
                 :max="collectables.length - 1">
             </div>
@@ -156,7 +156,6 @@ export default {
       sortCollectables()
     })
     function sortCollectables() {
-      selectedCollectable.value = editable.value.favoriteCollectable
       const all = AppState.account.inventory?.filter(i => i.type == 'collectable')
       if (!all) return []
       const uniqueSet = {}
@@ -167,6 +166,7 @@ export default {
         }
         return 0
       })
+      selectedCollectable.value = collectables.value[0]
     }
     async function getAccountAwards() {
       try {
