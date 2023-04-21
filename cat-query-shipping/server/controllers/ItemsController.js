@@ -17,6 +17,7 @@ export class ItemsController extends BaseController {
       .put('/mods/save', this.updateMods)
       .delete('/mods/remove/:id', this.removeMod)
       .post('/collectables/equip', this.equipCollectable)
+      .put('/collectables/save', this.saveCollectables)
       .delete('/collectables/remove/:id', this.removeCollectable)
       .use(_checkAdmin)
       .get('', this.find)
@@ -91,6 +92,14 @@ export class ItemsController extends BaseController {
   async equipCollectable(req, res, next) {
     try {
       return res.send(await itemsService.equipCollectable(req.body.id, req.userInfo.id))
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async saveCollectables(req, res, next) {
+    try {
+      return res.send(await itemsService.saveCollectables(req.body, req.userInfo.id))
     } catch (error) {
       next(error)
     }

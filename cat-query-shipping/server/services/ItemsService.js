@@ -133,15 +133,16 @@ class ItemsService {
       itemId: item.id,
       name: item.name,
       img: item.img,
-      position: account.installedCollectables.length || 0
+      position: account.installedCollectables.length * 50 || 0
     }
     account.installedCollectables.push(trinket)
     await account.save()
     return account.installedCollectables[account.installedCollectables.length - 1]
   }
 
-  async saveCollectables(trinkets, account, save = true) {
-    const allThere = trinkets.every(t => account.inventory.find(i => t.itemId === i.id))
+  async saveCollectables(trinkets, userId, save = true) {
+    const account = await dbContext.Account.findById(userId)
+    const allThere = trinkets.every(t => account.inventory.find(i => t.itemId === i.toString()))
     if (!allThere) throw new BadRequest('Some items are missing from your inventory')
     account.installedCollectables = trinkets
     account.markModified('installedCollectables')
