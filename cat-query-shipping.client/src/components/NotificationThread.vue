@@ -44,6 +44,7 @@ export default {
   max-width: max(15vw, 22ch);
   overflow-x: hidden;
   padding-inline: .5em;
+  z-index: 1039;
 }
 
 .toast {

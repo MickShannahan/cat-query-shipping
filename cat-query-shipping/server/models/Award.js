@@ -5,7 +5,7 @@ export const AwardSchema = new Schema({
   name: { type: String, required: true },
   subscriber: { type: String, required: true },
   description: { type: String, required: true },
-  img: { type: String, default: 'https://catsupssources.blob.core.windows.net/items/DefaultAward.png' },
+  img: { type: String, required: true, default: 'https://catsupssources.blob.core.windows.net/items/DefaultAward.png' },
   progress: { type: Number },
   limit: { type: Number },
   count: { type: Number, required: true, default: 0 },

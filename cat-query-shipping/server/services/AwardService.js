@@ -7,6 +7,7 @@ class AwardsService {
     try {
       const changes = await account.getChanges().$set
       logger.log('checking for awards', account.name, changes, shipment, data)
+      const updated = []
       for (const change in changes) {
         const checks = awardBases.filter(a => {
           if (a.subscriber === change) return true
@@ -15,7 +16,12 @@ class AwardsService {
           if (a.subscriber.includes('shipmentDifficulty') && shipment && shipment.difficultyRating >= parseInt(a.subscriber.split(':')[1])) return true
           return false
         })
-        const proms = checks.map(award => award.check(account, shipment, data))
+        checks.forEach(award => {
+          if (!updated.includes(award.name)) {
+            award.check(account, shipment, data)
+            updated.push(award.name)
+          }
+        })
         // await Promise.all(proms)
         await account.save()
       }
@@ -74,7 +80,7 @@ const awardBases = [
     subscriber: 'shipmentDifficulty:15',
     description: 'Recover a shipment with a difficulty rating of 15 or higher',
     repeatable: false,
-    creditsAward: 1000,
+    creditsAward: 1500,
     hint: 'Recovery Expert',
     async check(account, shipment, data) {
       if (shipment.difficultyRating >= 15) {
@@ -89,7 +95,7 @@ const awardBases = [
     subscriber: 'shipmentDifficulty:18',
     description: 'Recover a shipment with a difficulty rating of 18 or higher',
     repeatable: false,
-    creditsAward: 2000,
+    itemAward: '63861e3a91eb61c0348fd991',
     hint: 'Recovery Master',
     async check(account, shipment, data) {
       if (shipment.difficultyRating >= 18) {
@@ -105,6 +111,7 @@ const awardBases = [
     description: 'Recover a shipment with a difficulty rating of 20 or higher',
     repeatable: false,
     creditsAward: 5000,
+    itemAward: '63861de291eb61c0348fd989',
     async check(account, shipment, data) {
       if (shipment.difficultyRating >= 20) {
         const award = await findOrCreateAward(account, this)
@@ -141,6 +148,8 @@ const awardBases = [
     description: 'Reach the S+ employee grade',
     img: 'https://catsupssources.blob.core.windows.net/items/S+Medal.png',
     repeatable: false,
+    creditsAward: 3000,
+    itemAward: '63861e3a91eb61c0348fd991',
     async check(account, shipment, data) {
       const award = await findOrCreateAward(account, this)
       if (award.count === 1) return null
@@ -252,11 +261,11 @@ const awardBases = [
 
   }
 ]
-
+const defaultImg = 'https://catsupssources.blob.core.windows.net/items/DefaultAward.png'
 async function findOrCreateAward(account, awardBase) {
   let award = await dbContext.Awards.findOne({ accountId: account.id, name: awardBase.name })
   if (!award) {
-    award = await dbContext.Awards.create({ accountId: account.id, ...awardBase })
+    award = await dbContext.Awards.create({ accountId: account.id, img: defaultImg, ...awardBase })
     socketProvider.messageUser(account.id, 'new:award', award)
   }
   if (award.description !== awardBase.description || award.limit !== awardBase.limit || award.creditsAward !== awardBase.creditsAward || award.itemAward !== awardBase.itemAward || award.img !== awardBase.img || award.repeatable !== awardBase.repeatable || award.hint !== awardBase.hint) {
@@ -266,7 +275,7 @@ async function findOrCreateAward(account, awardBase) {
 }
 
 async function earnAward(account, award, save = true) {
-  if (award.count < 0 || award.repeatable) {
+  if (award.count === 0 || award.repeatable) {
     award.count++
     if (award.creditsAward) {
       account.credits += award.creditsAward
@@ -279,19 +288,20 @@ async function earnAward(account, award, save = true) {
     if (save) await award.save()
     if (award.hint) {
       const base = awardBases.find(a => a.name === award.hint)
-      findOrCreateAward(account, base)
+      await findOrCreateAward(account, base)
     }
   }
 }
 
 async function awardBalance(award) {
   const base = awardBases.find(a => a.name === award.name)
-  award.limit = award.limit ? base.limit : undefined
-  award.repeatable = award.repeatable ? base.repeatable : undefined
-  award.creditsAward = award.creditsAward ? base.creditsAward : undefined
-  award.itemAward = award.itemAward ? base.itemAward : undefined
-  award.hint = award.hint ? base.hint : undefined
-  award.img = award.img ? base.img : undefined
-  award.description = award.description ? base.description : undefined
+  logger.log('balancing award', award, base)
+  award.limit = base.limit != null ? base.limit : award.limit
+  award.repeatable = base.repeatable != null ? base.repeatable : award.repeatable
+  award.creditsAward = base.creditsAward != null ? base.creditsAward : award.creditsAward
+  award.itemAward = base.itemAward != null ? base.itemAward : award.itemAward
+  award.hint = base.hint != null ? base.hint : award.hint
+  award.img = base.img != null ? base.img : award.img
+  award.description = award.description != null ? base.description : award.description
   await award.save()
 }
