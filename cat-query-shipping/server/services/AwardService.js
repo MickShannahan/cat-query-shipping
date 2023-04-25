@@ -64,6 +64,7 @@ const awardBases = [
     name: 'Recovery Savant',
     subscriber: 'shipmentDifficulty:10',
     description: 'Recover a shipment with a difficulty rating of 10 or higher',
+    img: 'https://catsupssources.blob.core.windows.net/items/Recover1.png',
     repeatable: false,
     creditsAward: 500,
     hint: 'Recovery Professional',
@@ -79,6 +80,7 @@ const awardBases = [
     name: 'Recovery Professional',
     subscriber: 'shipmentDifficulty:15',
     description: 'Recover a shipment with a difficulty rating of 15 or higher',
+    img: 'https://catsupssources.blob.core.windows.net/items/Recover2.png',
     repeatable: false,
     creditsAward: 1500,
     hint: 'Recovery Expert',
@@ -94,6 +96,7 @@ const awardBases = [
     name: 'Recovery Expert',
     subscriber: 'shipmentDifficulty:18',
     description: 'Recover a shipment with a difficulty rating of 18 or higher',
+    img: 'https://catsupssources.blob.core.windows.net/items/Recover3.png',
     repeatable: false,
     itemAward: '63861e3a91eb61c0348fd991',
     hint: 'Recovery Master',
@@ -109,6 +112,7 @@ const awardBases = [
     name: 'Recovery Master',
     subscriber: 'shipmentDifficulty:20',
     description: 'Recover a shipment with a difficulty rating of 20 or higher',
+    img: 'https://catsupssources.blob.core.windows.net/items/Recover4.png',
     repeatable: false,
     creditsAward: 5000,
     itemAward: '63861de291eb61c0348fd989',
@@ -124,6 +128,7 @@ const awardBases = [
     name: 'Reduce Reuse Recover',
     subscriber: 'currentPagesPrinted',
     description: 'For 15 shipments in a row, print less than 11 pages per shipment.',
+    img: 'https://catsupssources.blob.core.windows.net/items/ReduceReuseRecover.png',
     progress: 0,
     limit: 15,
     repeatable: false,
@@ -245,9 +250,71 @@ const awardBases = [
     }
   },
   {
+    name: 'Super Shopper',
+    subscriber: 'credits',
+    description: "Purchase 30 Items from Kiwi's shop.",
+    img: 'https://catsupssources.blob.core.windows.net/items/SuperShopper.png',
+    repeatable: false,
+    progress: 0,
+    limit: 30,
+    itemAward: '64444bd4702037f046790a7b', // credits amplifier
+    async check(account, shipment, data) {
+      if (data && data.cost > 0) {
+        const award = await findOrCreateAward(account, this)
+        award.progress++
+        if (award.count === 0 && award.progress >= award.limit) {
+          earnAward(account, award, false)
+        }
+        await award.save()
+      }
+    }
+  },
+  {
+    name: 'Rare Roller',
+    subscriber: 'credits',
+    description: 'Purchase 21 Liquidated shipments from Kiwi that contain rare items.',
+    img: 'https://catsupssources.blob.core.windows.net/items/RareRoller.png',
+    repeatable: false,
+    progress: 0,
+    limit: 21,
+    itemAward: '64444f5d7554255714330012', // credits amplifier v2
+    async check(account, shipment, data) {
+      if (data && data.rolled && data.rarity && data.rarity.match(/rare/ig)) {
+        const award = await findOrCreateAward(account, this)
+        award.progress++
+        if (award.count === 0 && award.progress >= award.limit) {
+          earnAward(account, award, false)
+        }
+        await award.save()
+      }
+    }
+  },
+  {
+    name: 'Trash Man',
+    subscriber: 'credits',
+    description: 'Purchase 15 Liquidated shipments from Kiwi that contain junk.',
+    img: 'https://catsupssources.blob.core.windows.net/items/TrashMan.png',
+    repeatable: false,
+    progress: 0,
+    limit: 15,
+    itemAward: '6444619edab91f19682ae02f', // toxic theme chip
+    creditsAward: 4500,
+    async check(account, shipment, data) {
+      if (data && data.rolled && data.type === 'junk') {
+        const award = await findOrCreateAward(account, this)
+        award.progress++
+        if (award.count === 0 && award.progress >= award.limit) {
+          earnAward(account, award, false)
+        }
+        await award.save()
+      }
+    }
+  },
+  {
     name: 'Employee of the Cycle',
     subscriber: 'leaderScore',
     description: 'Become employee of the cycle',
+    img: 'https://catsupssources.blob.core.windows.net/items/EmployeeOfCycle.png',
     repeatable: false,
     itemAward: process.env.NODE_ENV === 'dev' ? '6431f6b86f03c106635988a5' : '6431f6d9580d6bbffc93b0d7',
     async check(account, shipment, data) {

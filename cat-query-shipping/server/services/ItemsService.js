@@ -1,3 +1,4 @@
+import { DbConnection, connectToProduction } from '../db/DbConfig.js'
 import { dbContext } from '../db/DbContext.js'
 import { itemRarities } from '../models/Item.js'
 import { BadRequest } from '../utils/Errors.js'
@@ -25,6 +26,8 @@ class ItemsService {
 
     account.credits -= item.cost
     account.inventory.push(item.id)
+    account.markModified('inventory')
+    await awardsService.checkAwards(account, null, item)
     await account.save()
     return item
   }
@@ -45,7 +48,7 @@ class ItemsService {
     const [item] = await dbContext.Items.find({ rarity }).skip(rand)
     account.inventory.push(item._id)
     account.markModified('inventory')
-    await awardsService.checkAwards(account, null, item)
+    await awardsService.checkAwards(account, null, { ...item._doc, rolled: true })
     await account.save()
     return item
   }
@@ -156,6 +159,25 @@ class ItemsService {
     account.installedCollectables.splice(index, 1)
     await account.save()
     return 'removed a collectable'
+  }
+
+  async mergeDatabases() {
+    const adds = []
+    const devItems = await dbContext.Items.find()
+    const prod = await connectToProduction()
+    const prodItems = await prod.model('Item').find()
+    const needToAdd = []
+    devItems.forEach(di => {
+      const existing = prodItems.find(pi => pi._id === di._id || pi.name === di.name)
+      if (!existing) {
+        adds.push(di.name)
+        logger.log('inserting', di.name, di)
+        logger.log('confirmed')
+        needToAdd.push(di)
+      }
+    })
+    await prod.model('Item').insertMany(needToAdd)
+    return adds
   }
 }
 

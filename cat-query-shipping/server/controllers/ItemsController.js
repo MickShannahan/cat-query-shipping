@@ -24,6 +24,16 @@ export class ItemsController extends BaseController {
       .post('', this.create)
       .put('/:id', this.update)
       .delete('/:id', this.remove)
+      .get('/merge/databases', this.mergeItems)
+  }
+
+  async mergeItems(req, res, next) {
+    try {
+      // @ts-ignore
+      return res.send(await itemsService.mergeDatabases())
+    } catch (error) {
+      next(error)
+    }
   }
 
   async buy(req, res, next) {

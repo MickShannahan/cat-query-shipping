@@ -131,7 +131,17 @@ $themes: (
     screenBackground: '/src/assets/img/Textures/shattered-dark.png',
     console: #202f49,
     accent: #c6f1e4,
-    console2: #eaec4c)
+    console2: #eaec4c),
+  trash: (primary: #d2e900,
+    secondary: #78ff1e,
+    success: #2ee0ff,
+    warning: #fc941e,
+    danger: #ff0000,
+    screenColor: #242c07,
+    screenBackground: '/src/assets/img/Textures/broken-glass.png',
+    console: #b7b88b,
+    accent: #817d62,
+    console2: #617385)
 );
 
 @mixin themed() {
