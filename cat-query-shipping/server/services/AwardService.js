@@ -111,7 +111,7 @@ const awardBases = [
   {
     name: 'Recovery Master',
     subscriber: 'shipmentDifficulty:20',
-    description: 'Recover a shipment with a difficulty rating of 20 or higher',
+    description: 'Recover a shipment with a difficulty rating of 20',
     img: 'https://catsupssources.blob.core.windows.net/items/Recovery4.png',
     repeatable: false,
     creditsAward: 5000,
