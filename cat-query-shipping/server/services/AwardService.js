@@ -13,6 +13,7 @@ class AwardsService {
           if (a.subscriber === change) return true
           if (a.subscriber.includes(change)) return true
           if (a.subscriber.includes(data.type)) return true
+          if (a.subscriber.includes(data.trigger)) return true
           if (a.subscriber.includes('shipmentDifficulty') && shipment && shipment.difficultyRating >= parseInt(a.subscriber.split(':')[1])) return true
           return false
         })
@@ -87,7 +88,7 @@ const awardBases = [
     async check(account, shipment, data) {
       if (shipment.difficultyRating >= 15) {
         const award = await findOrCreateAward(account, this)
-        if (award.count !== 0) return
+        if (award.count > 0) return
         await earnAward(account, award)
       }
     }
@@ -103,7 +104,7 @@ const awardBases = [
     async check(account, shipment, data) {
       if (shipment.difficultyRating >= 18) {
         const award = await findOrCreateAward(account, this)
-        if (award.count !== 0) return
+        if (award.count > 0) return
         await earnAward(account, award)
       }
     }
@@ -119,7 +120,7 @@ const awardBases = [
     async check(account, shipment, data) {
       if (shipment.difficultyRating >= 20) {
         const award = await findOrCreateAward(account, this)
-        if (award.count !== 0) return
+        if (award.count > 0) return
         await earnAward(account, award)
       }
     }
@@ -311,6 +312,65 @@ const awardBases = [
     }
   },
   {
+    name: 'Fight the Power',
+    subscriber: 'shipmentsFound:abandoned',
+    description: 'Recover 10 glitched shipments, without failing one.',
+    img: 'https://catsupssources.blob.core.windows.net/items/Believe.png',
+    repeatable: false,
+    progress: 0,
+    limit: 10,
+    secret: true,
+    secretShown: false,
+    hint: 'Pierce The Heavens',
+    creditsAward: 5500,
+    async check(account, shipment, data) {
+      if (shipment.glitch && data.trigger !== 'abandoned') {
+        const award = await findOrCreateAward(account, this, false)
+        award.progress++
+        if (award.count === 0 && award.progress >= award.limit) {
+          earnAward(account, award, false)
+        }
+        if (award.progress === 2 && !award.secretShown) {
+          award.secretShown = true
+          socketProvider.messageUser(account.id, 'new:award', award)
+        }
+        await award.save()
+      }
+      if (shipment.glitch && data.trigger === 'abandoned') {
+        const award = await findOrCreateAward(account, this, false)
+        award.progress = 0
+        await award.save()
+      }
+    }
+  },
+  {
+    name: 'Pierce The Heavens',
+    subscriber: 'shipmentsFound:abandoned',
+    description: 'Recover 15 glitched shipments, without failing one.',
+    img: 'https://catsupssources.blob.core.windows.net/items/BelieveInYourself.png',
+    repeatable: false,
+    progress: 0,
+    limit: 15,
+    secret: true,
+    secretShown: false,
+    itemAward: '644754ac3cc6af610542b24b', // spiral drive theme
+    async check(account, shipment, data) {
+      let award = null
+      if (shipment.glitch && data.trigger !== 'abandoned') {
+        award = await findOrCreateAward(account, this, false)
+        award.progress++
+        if (award.count === 0 && award.progress >= award.limit) {
+          earnAward(account, award, false)
+        }
+      }
+      if (shipment.glitch && data.trigger === 'abandoned') {
+        award = await findOrCreateAward(account, this, false)
+        award.progress = 0
+      }
+      if (award) { await award.save() }
+    }
+  },
+  {
     name: 'Employee of the Cycle',
     subscriber: 'leaderScore',
     description: 'Become employee of the cycle',
@@ -329,11 +389,11 @@ const awardBases = [
   }
 ]
 const defaultImg = 'https://catsupssources.blob.core.windows.net/items/DefaultAward.png'
-async function findOrCreateAward(account, awardBase) {
+async function findOrCreateAward(account, awardBase, notify = true) {
   let award = await dbContext.Awards.findOne({ accountId: account.id, name: awardBase.name })
   if (!award) {
     award = await dbContext.Awards.create({ accountId: account.id, img: defaultImg, ...awardBase })
-    socketProvider.messageUser(account.id, 'new:award', award)
+    if (notify && !award.secret) socketProvider.messageUser(account.id, 'new:award', award)
   }
   if (award.description !== awardBase.description || award.limit !== awardBase.limit || award.creditsAward !== awardBase.creditsAward || award.itemAward !== awardBase.itemAward || award.img !== awardBase.img || award.repeatable !== awardBase.repeatable || award.hint !== awardBase.hint) {
     await awardBalance(award)

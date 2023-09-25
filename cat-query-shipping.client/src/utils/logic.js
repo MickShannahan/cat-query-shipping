@@ -33,3 +33,8 @@ export function debounce(func, timeout = 300) {
     timer = setTimeout(() => { func.apply(this, args); }, timeout);
   };
 }
+
+export const seconds = 1000;
+export const minutes = 60 * seconds
+export const hours = 60 * minutes
+export const days = 24 * hours

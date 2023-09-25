@@ -40,6 +40,7 @@ class GameService {
       if (account.credits <= abandonCost) throw new BadRequest('Not enough credits to abandon this shipment.')
       account.credits -= abandonCost
       shipment.creditsWorth += Math.round(abandonCost / 2)
+      await awardsService.checkAwards(account, shipment, { trigger: 'abandoned' })
       await account.save()
       await shipment.save()
     }

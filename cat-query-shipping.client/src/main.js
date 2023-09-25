@@ -147,16 +147,17 @@ root
     },
     beforeUnmount: (el, binding) => {
       Tooltip.getOrCreateInstance(el).dispose()
-    }
+    },
     // FIXME gets stuck on clicked elements
-    // updated: (el, binding) => {
-    //   el.title = binding.value
-    //   let tip = new Tooltip(el, {
-    //     trigger: 'hover',
-    //     placement: binding.arg
-    //   })
-    //   el.addEventListener('onmouseleave', tip.hide())
-    // }
+    updated: (el, binding) => {
+      Tooltip.getOrCreateInstance(el).dispose()
+      el.title = binding.value
+      let tip = new Tooltip(el, {
+        trigger: 'hover',
+        placement: binding.arg
+      })
+      el.addEventListener('onmouseleave', tip.hide())
+    }
   })
   .use(Vue3Tour)
   .use(router)

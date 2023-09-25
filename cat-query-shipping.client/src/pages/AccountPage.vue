@@ -64,22 +64,32 @@
       </div>
 
       <!-- STUB Leaderboard -->
-      <div class="col-lg-6 shadow bg-primary lighten-20 rounded p-3 mb-5">
-        <section class="row justif-content-center leader-border p-2 mx-3">
-          <h4 class="col-12 text-center">
-            <i class="mdi mdi-cat mx-1"></i>Employee of the Cycle<i class="mdi mdi-cat mx-1"></i>
-          </h4>
-          <div class="col-6">
-            <h5 class="text-dark">{{ leaderboard[0]?.name }}</h5>
+      <div class="col-lg-6 shadow bg-primary lighten-20 rounded p-3 mb-5 position-relative">
+        <section class="row justify-content-center leader-border p-2 mx-3">
+          <button @click="showAllTimeLeader = !showAllTimeLeader" class="leaderboard-button" v-tooltip:left="`${showAllTimeLeader ? 'show cycle': 'show all time'}`">
+            <i v-if="!showAllTimeLeader" class="text-primary darken-30 fs-3 mdi mdi-calendar-star"></i>
+            <i v-else class="text-primary darken-30 fs-3 mdi mdi-calendar"></i>
+          </button>
+          <div v-if="showAllTimeLeader" class="col-12 text-center mb-1 fs-4">
+            <i class="mdi mdi-cat mx-1"></i>All Time Top Employee<i class="mdi mdi-cat mx-1"></i>
+          </div>
+          <div v-else class="col-12 text-center mb-1">
+            <div class="fs-4">
+              <i class="mdi mdi-cat mx-1"></i>Employee of the Cycle<i class="mdi mdi-cat mx-1"></i>
+            </div>
+            <div class="text-primary darken-10"><small>(60 days)</small></div>
+          </div>
+          <div class="col-6" v-if="employeeOfCycle">
+            <h5 class="text-dark">{{ employeeOfCycle?.name }}</h5>
             <div>
-              <i class="mdi mdi-google-podcast mx-1"></i>{{ leaderboard[0]?.credits }}
+              <i class="mdi mdi-google-podcast mx-1"></i>{{ employeeOfCycle?.credits }}
             </div>
             <div>
               <b>Recovered Shipments:</b>
-              {{ leaderboard[0]?.shipmentsFound?.length }}
+              {{ employeeOfCycle?.shipmentsFound?.length }}
             </div>
             <h4>
-              <b class="text-primary"> {{ leaderboard[0]?.topGrade || leaderboard[0]?.employeeGrade }}</b>
+              <b class="text-primary"> {{ employeeOfCycle?.topGrade || employeeOfCycle?.employeeGrade }}</b>
             </h4>
             <div class="d-flex flex-wrap">
               <div v-for="a in leaderAwards" class="award-icon m-1"
@@ -88,11 +98,12 @@
               </div>
             </div>
           </div>
+          <div v-else class="col-6">No employee</div>
           <div class="col-6 mb-5">
             <div class="position-relative">
-              <img class="img-fluid border border-primary rounded-1" :src="leaderboard[0]?.picture" alt="" />
-              <img v-if="leaderboard[0]?.favoriteCollectable" class="leader-collectable"
-                :src="leaderboard[0]?.favoriteCollectable?.img" alt="">
+              <img class="img-fluid border border-primary rounded-1" :src="employeeOfCycle?.picture" alt="" />
+              <img v-if="employeeOfCycle?.favoriteCollectable" class="leader-collectable"
+                :src="employeeOfCycle?.favoriteCollectable?.img" alt="">
             </div>
           </div>
         </section>
@@ -145,6 +156,7 @@ import { accountService } from "../services/AccountService"
 import Pop from "../utils/Pop"
 import { logger } from "../utils/Logger"
 import { Popover } from 'bootstrap'
+import {days} from '../utils/logic.js'
 export default {
   name: 'Account',
   setup() {
@@ -153,15 +165,24 @@ export default {
     const editTip = ref('edit employee record')
     const collectables = ref([])
     const selectedCollectable = ref({})
-    const leaderboard = computed(() => AppState.profiles.filter(a => a.credits > 0).sort((a, b) => b.totalCredits - a.totalCredits))
+
+    const leaderboard = computed(() => showAllTimeLeader.value ?
+    AppState.profiles.filter(a => a.credits > 0).sort((a, b) => b.totalCredits - a.totalCredits) :
+    AppState.profiles.filter(a => a.credits > 0 && new Date( a.updatedAt).getTime() > (Date.now - 60* days) ).sort((a, b) => b.totalCredits - a.totalCredits))
+
+    const employeeOfCycle = computed(()=> leaderboard.value[0] != undefined ? leaderboard.value[0] : AppState.profiles.sort((a,b) => b.totalCredits - a.totalCredits)[0])
+    const showAllTimeLeader = ref(false)
     onMounted(() => {
       document.body.style.backgroundImage = "radial-gradient(rgba(2, 0, 36, 0), rgba(34, 65, 60, 0.7)), url('/assets/img/bg/Cups-room-cup.png')"
       getAccountAwards()
     })
     watch(leaderboard, () => {
       logger.log("leaderboard change")
-      const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-      const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new Popover(popoverTriggerEl))
+      setTimeout(() => {
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new Popover(popoverTriggerEl))
+      }, 500);
+
     })
     watchEffect(() => {
       profilesService.getProfiles()
@@ -196,8 +217,10 @@ export default {
       collectables,
       selectedCollectable,
       leaderboard,
+      employeeOfCycle,
+      showAllTimeLeader,
       account: computed(() => AppState.account),
-      leaderAwards: computed(() => AppState.leaderAwards.filter(l => l.count > 0)),
+      leaderAwards: computed(() => employeeOfCycle.value?.awards.filter(a => a.count > 0)),
       async editAccount() {
         try {
           if (editMode.value) {
@@ -297,6 +320,23 @@ export default {
   &:hover {
     transform: scale(2.2);
     transition: all .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+}
+
+.leaderboard-button{
+  position: absolute;
+  right: -25px;
+  top: -25px;
+  height: 55px;
+  width: 55px;
+  border-radius: 50em;
+  border: 0;
+  background-color: var(--bs-primary);
+  filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.466));
+  transition: all .2s ease;
+  &:hover{
+    transform: rotate(15deg) scale(1.1);
+    color: var(--bs-info)!important;
   }
 }
 
