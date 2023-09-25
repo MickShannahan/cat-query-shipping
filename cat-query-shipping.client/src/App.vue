@@ -67,6 +67,40 @@ body {
   transition: background-image linear .5s;
 }
 
+.popover.custom-pop {
+  background-color: lighten($color: #498d96, $amount: 30);
+  filter: drop-shadow(0px 4px 2px rgba(0, 0, 0, 0.2));
+  border: dashed 2px var(--bs-primary);
+
+  .popover-header {
+    background-color: lighten($color: #498d96, $amount: 15);
+
+  }
+
+  .popover-arrow::after {
+    border-right-color: lighten($color: #498d96, $amount: 15);
+  }
+
+  .pop-img {
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .pop-trinket {
+    width: 75px;
+    height: 75px;
+    position: absolute;
+    bottom: -35px;
+    right: -35px;
+  }
+
+  .pop-badge {
+    width: 25px;
+    height: 25px;
+  }
+}
 
 .route-enter-active,
 .route-leave-active {

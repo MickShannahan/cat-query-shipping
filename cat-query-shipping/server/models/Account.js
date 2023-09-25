@@ -83,3 +83,9 @@ export const ProfileSchema = new Schema(
   },
   { timestamps: true, toJSON: { virtuals: true } }
 )
+
+ProfileSchema.virtual('awards', {
+  localField: '_id',
+  foreignField: 'accountId',
+  ref: 'Award'
+})

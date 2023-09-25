@@ -38,11 +38,12 @@ export class Account {
 }
 
 export class writableAccount {
-  constructor({ id, name, picture, favoriteCollectable }) {
+  constructor({ id, name, picture, favoriteCollectable, needsTour }) {
     this.name = name
     this.id = id
     this._id = id
     this.picture = picture
     this.favoriteCollectable = favoriteCollectable
+    this.needsTour = needsTour
   }
 }
