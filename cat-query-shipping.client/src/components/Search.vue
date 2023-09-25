@@ -1,16 +1,16 @@
 <template>
   <div class="
-      computer
-      row
-      justify-content-around
-     console-console
-     plastic
-     outset
-      shadow
-      outset-console
-      p-3
-      pb-1
-    ">
+                computer
+                row
+                justify-content-around
+               console-console
+               plastic
+               outset
+                shadow
+                outset-console
+                p-3
+                pb-1
+              ">
     <div class="col-12 search mb-3">
       <div class="d-flex">
         <label for="basic-url" class="form-label console-console2 rounded py-1 px-3">make a query to find the lost
@@ -23,7 +23,7 @@
       <div id="tour-search" class="input-group text-theme-primary">
         <span class="input-group-text screen-theme-variant border border-theme-primary input text-theme-secondary"
           id="basic-addon3">{{
-              baseUrl
+            baseUrl
           }}</span>
         <!-- STUB search input -->
         <input spellcheck="false" autocomplete="off" v-model="query" type="text"
@@ -33,16 +33,16 @@
     </div>
 
     <div class="
-        col-8
-        screen-theme
-        inset
-        rounded
-        glow
-        p-2
-        text-theme-success
-        no-click
-        clip-text
-      " v-html="httpQuery"></div>
+                  col-8
+                  screen-theme
+                  inset
+                  rounded
+                  glow
+                  p-2
+                  text-theme-success
+                  no-click
+                  clip-text
+                " v-html="httpQuery"></div>
     <button class="col-1 comp-button comp-yellow" @click="clearInput">
       clear
     </button>
@@ -50,8 +50,7 @@
       :disabled="unsafeUrl || !modsOk" @click="searchShipmentDatabase">
       search
     </button>
-    <div class="col-12 p-3 font-yellowtail text-chrome">
-      hindsight transprot tracking puter 2
+    <div class="col-12 p-2 px-3 font-yellowtail text-chrome comp-badge">
     </div>
   </div>
 </template>

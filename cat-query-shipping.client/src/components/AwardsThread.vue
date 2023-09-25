@@ -18,11 +18,13 @@
       </div>
       <div class="d-flex justify-content-between">
         <small class="ps-3">{{ award.description }}</small>
-        <small v-if="award.itemAward" v-tooltip:right="`reward: ${award.itemAward.name}`">📦</small>
-        <small v-if="award.creditsAward" v-tooltip:right="award.creditsAward"><i
-            class="mdi mdi-google-podcast"></i></small>
+        <div>
+          <small v-if="award.itemAward" v-tooltip:right="`reward: ${award.itemAward.name}`">📦</small>
+          <small v-if="award.creditsAward" v-tooltip:right="`${award.creditsAward} credits`"><i
+              class="mdi mdi-google-podcast"></i></small>
+        </div>
       </div>
-      <div class="progress bg-info " v-if="award.progress">
+      <div class="progress bg-info " v-if="award.progress !== undefined">
         <div class="progress-bar bg-info darken-10" role="progressbar"
           :style="`width: ${progressBar(award.progress, award.limit)}%;`" aria-valuenow="25" aria-valuemin="0"
           aria-valuemax="100">{{ award.progress }} / {{ award.limit }}</div>
@@ -38,11 +40,12 @@ import { computed, reactive, onMounted } from 'vue';
 export default {
   setup() {
     return {
-      awards: computed(() => AppState.awards.sort((a, b) => {
+      awards: computed(() => AppState.awards.filter(a => a.secretShown !== false).sort((a, b) => {
         if (a.count == 0) return -1
         return a.progress - b.progress
       })),
       progressBar(progress, limit) {
+        if (progress == 0) return 0
         if (progress % limit == 0) return 100
         if (progress > limit) return ((progress % limit) / limit) * 100
         return (progress / limit) * 100

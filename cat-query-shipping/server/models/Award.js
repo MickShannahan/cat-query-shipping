@@ -11,6 +11,7 @@ export const AwardSchema = new Schema({
   count: { type: Number, required: true, default: 0 },
   repeatable: { type: Boolean, default: false },
   secret: { type: Boolean, required: true, default: false },
+  secretShown: { type: Boolean },
   creditsAward: { type: Number },
   itemAward: { type: Schema.Types.ObjectId, ref: 'Item' },
   hint: { type: String }

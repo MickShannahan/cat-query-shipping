@@ -71,7 +71,8 @@ $themes: (
     screenBackground: '/src/assets/img/Textures/black-orchid.png',
     console: #498d96,
     accent: #6de9f9,
-    console2: #A4D5A5),
+    console2: #A4D5A5,
+    badge: ' hindsight transport tracking puter 1 '),
   retro: (primary: #1bff98,
     secondary: #73ffc0,
     success: #21ac6d,
@@ -80,8 +81,10 @@ $themes: (
     screenColor: #425e51,
     screenBackground: '/src/assets/img/Textures/black-orchid.png',
     console: #98a09d,
+    console-bezel: 12px,
     accent: #7d8582,
-    console2: #eb9deb),
+    console2: #eb9deb,
+    badge: 'protocol boy'),
   sphinx: (primary: #44423f,
     secondary: #2c2a28,
     success: #665741,
@@ -90,8 +93,11 @@ $themes: (
     screenColor: #aaa894,
     screenBackground: '/src/assets/img/Textures/subtle-dots.png',
     console: #dfd3bb,
+    console-inset: #868071,
+    console-bezel: 6px,
     accent: #726965,
-    console2: #4b4948),
+    console2: #4b4948,
+    badge: 'Sphinx model x78'),
   boz: (primary: #eceaea,
     secondary: #f5b01c,
     success: #c8e61b,
@@ -100,8 +106,10 @@ $themes: (
     screenColor: #06312e,
     screenBackground: '/src/assets/img/Textures/graphy-dark.png',
     console: #d1d1d1,
+    console-bezel: 10px,
     accent: #f5911e,
-    console2: #393a3b),
+    console2: #393a3b,
+    badge: 'if found, please return to bozko grumpybottom'),
   burner: (primary: #e44848,
     secondary: #9e1b26,
     success: #e61b70,
@@ -131,7 +139,34 @@ $themes: (
     screenBackground: '/src/assets/img/Textures/shattered-dark.png',
     console: #202f49,
     accent: #c6f1e4,
-    console2: #eaec4c)
+    console2: #eaec4c),
+  trash: (primary: #d2e900,
+    secondary: #78ff1e,
+    success: #2ee0ff,
+    warning: #fc941e,
+    danger: #ff0000,
+    screenColor: #242c07,
+    screenBackground: '/src/assets/img/Textures/broken-glass.png',
+    console: #b7b88b,
+    accent: #817d62,
+    console2: #617385,
+    badge: 'early bird special'),
+  spiral: (primary: #00f0a8,
+    secondary: #05b69e,
+    success: #4aac36,
+    warning: #ecce20,
+    danger: #ffa125,
+    screenColor: #242f45,
+    screenBackground: '/src/assets/img/Textures/simonWalk.gif',
+    screenPosition: bottom left,
+    console: #d83c43,
+    console-inset:#43cdd4,
+    console-outset: #a12e33,
+    console-bezel: 4px,
+    accent: #386466,
+    console2: #272626,
+    printerFilter: hue-rotate(291deg) brightness(.5),
+    badge: 'row row fight the power!')
 );
 
 @mixin themed() {
@@ -191,6 +226,12 @@ $val in $themeProperties {
 $val in $themeProperties {
   .console-#{$val} {
     @include themed() {
+      $bezel: 6px;
+
+      @if _('#{$val}-bezel') {
+        $bezel: _('#{$val}-bezel')
+      }
+
       // -------
       background-color: _($val);
       $lighter: lighten(adjust-hue(_($val), -7), 6);
@@ -219,18 +260,37 @@ $val in $themeProperties {
 
 
       &.outset {
-        border-top: 6px solid $lighter;
-        border-left: 6px solid $lighter;
-        border-bottom: 6px solid $darker;
-        border-right: 6px solid $darker;
         border-radius: 10px;
+
+        @if _('#{$val}-outset') {
+          border-top: 6px solid lighten(adjust-hue(_('#{$val}-outset'), -7), 6);
+          border-left: 6px solid lighten(adjust-hue(_('#{$val}-outset'), -7), 6);
+          border-bottom: 6px solid darken(adjust-hue(_('#{$val}-outset'), 10), 10);
+          border-right: 6px solid darken(adjust-hue(_('#{$val}-outset'), 10), 10);
+        }
+
+        @else {
+          border-top: 6px solid $lighter;
+          border-left: 6px solid $lighter;
+          border-bottom: 6px solid $darker;
+          border-right: 6px solid $darker;
+        }
       }
 
       .inset {
-        border-top: 5px solid $darker;
-        border-left: 5px solid $darker;
-        border-bottom: 5px solid $lighter;
-        border-right: 5px solid $lighter;
+        @if _('#{$val}-inset') {
+          border-bottom: $bezel solid lighten(adjust-hue(_('#{$val}-inset'), -7), 6);
+          border-right: $bezel solid lighten(adjust-hue(_('#{$val}-inset'), -7), 6);
+          border-top: $bezel solid darken(adjust-hue(_('#{$val}-inset'), 10), 10);
+          border-left: $bezel solid darken(adjust-hue(_('#{$val}-inset'), 10), 10);
+        }
+
+        @else {
+          border-top: $bezel solid $darker;
+          border-left: $bezel solid $darker;
+          border-bottom: $bezel solid $lighter;
+          border-right: $bezel solid $lighter;
+        }
       }
 
       .comp-button::before {
@@ -254,6 +314,24 @@ $val in $themeProperties {
         transform: translate3d(0, 0, -0.75em);
       }
 
+      .comp-badge {
+        position: relative;
+        font-size: 18px;
+        color: darken(adjust-hue(_('console'), 4), 10);
+        text-shadow: 0px -1px 0px darken(_('console'), 10), 0px 1px 0px lighten(_('console'), 3);
+
+
+        &::after {
+          @if _('badge') {
+            content: _('badge');
+          }
+
+          @else {
+            content: ' hindsight transport tracking puter 2 ';
+          }
+        }
+      }
+
       // -------
     }
   }
@@ -262,8 +340,16 @@ $val in $themeProperties {
 .screen-theme {
   @include themed() {
     background-color: _('screenColor');
-    background-image: url(_('screenBackground'));
+
+    &.shipment-panel {
+      background-image: url(_('screenBackground'));
+    }
+
     box-shadow: inset 0px 0px 10px transparentize(_('primary'), .5);
+
+    @if _('screenPosition') {
+      background-position: _('screenPosition');
+    }
 
     &-variant {
       background-color: lighten(_('screenColor'), 5%);
@@ -282,13 +368,13 @@ $val in $themeProperties {
       box-shadow: inset 0px 0px 3px transparentize(_('primary'), .5);
 
       &:focus {
-        background-color: _('screenColor') !important;
-        background-image: url(_('screenBackground')) !important;
+        background-color: lighten(adjust-hue(_('screenColor'), 5), 3) !important;
+        // background-image: url(_('screenBackground')) !important;
       }
 
       &:active {
-        background-color: _('screenColor') !important;
-        background-image: url(_('screenBackground')) !important;
+        background-color: lighten(adjust-hue(_('screenColor'), 5), 3) !important;
+        // background-image: url(_('screenBackground')) !important;
       }
     }
 

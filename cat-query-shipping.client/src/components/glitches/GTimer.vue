@@ -45,7 +45,7 @@ export default {
             if (timer.value == glitchData.value.timeLimit) {
               logger.log('out of time', timer.value, glitchData.value.timeLimit)
               Pop.toast(glitchData.value.lossFace + ' - ' + arrRandom(glitchData.value.lossPhrases), 'error', 'center')
-              shipmentService.getLostShipment()
+              shipmentService.abandonShipment()
               AppState.searchResults = []
             }
           }
