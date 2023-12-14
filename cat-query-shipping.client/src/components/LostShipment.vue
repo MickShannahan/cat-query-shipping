@@ -52,7 +52,8 @@
             <div v-else class="row justify-content-center border border-theme-primary">
               <div class="col-6 text-center">
                 <img class="img-correction" src="../assets/img/CUPS-loadingLow.gif" />
-                <p>loading...</p>
+                <p v-if="account.id">loading...</p>
+                <p v-else>please clock in...</p>
               </div>
             </div>
           </transition>
