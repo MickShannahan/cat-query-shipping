@@ -165,13 +165,13 @@ export default {
     const editTip = ref('edit employee record')
     const collectables = ref([])
     const selectedCollectable = ref({})
+    const showAllTimeLeader = ref(false)
 
     const leaderboard = computed(() => showAllTimeLeader.value ?
     AppState.profiles.filter(a => a.credits > 0).sort((a, b) => b.totalCredits - a.totalCredits) :
-    AppState.profiles.filter(a => a.credits > 0 && new Date( a.updatedAt).getTime() > (Date.now - 60* days) ).sort((a, b) => b.totalCredits - a.totalCredits))
+    AppState.profiles.filter(a => a.credits > 0 && new Date( a.updatedAt).getTime() > (Date.now() - 60* days) ).sort((a, b) => b.totalCredits - a.totalCredits))
 
     const employeeOfCycle = computed(()=> leaderboard.value[0] != undefined ? leaderboard.value[0] : AppState.profiles.sort((a,b) => b.totalCredits - a.totalCredits)[0])
-    const showAllTimeLeader = ref(false)
     onMounted(() => {
       document.body.style.backgroundImage = "radial-gradient(rgba(2, 0, 36, 0), rgba(34, 65, 60, 0.7)), url('/assets/img/bg/Cups-room-cup.png')"
       getAccountAwards()
